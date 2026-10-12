@@ -225,26 +225,30 @@ fun RoomScreen(
         }
     }
 
-    LaunchedEffect(
-        listState,
-        state.hasTimelineSnapshot,
-        state.events.size,
-        state.hitStart,
-        state.isPaginatingBack,
-        settings.autoBackPagination,
-    ) {
-        snapshotFlow { listState.firstVisibleItemIndex }
+    val autoPaginateRef = rememberUpdatedState(settings.autoBackPagination)
+    val hasSnapshotRef = rememberUpdatedState(state.hasTimelineSnapshot)
+    val eventsSizeRef = rememberUpdatedState(state.events.size)
+    val hitStartRef = rememberUpdatedState(state.hitStart)
+    val isPaginatingRef = rememberUpdatedState(state.isPaginatingBack)
+    LaunchedEffect(listState) {
+        snapshotFlow {
+            val visible = listState.layoutInfo.visibleItemsInfo
+            val topmost = visible.maxOfOrNull { it.index } ?: 0
+            val total = listState.layoutInfo.totalItemsCount
+            topmost to total
+        }
             .distinctUntilChanged()
-            .collect { firstIndex ->
-                val size = state.events.size
+            .collect { (topmostIndex, total) ->
+                val size = eventsSizeRef.value
 
                 if (
-                    settings.autoBackPagination &&
-                    state.hasTimelineSnapshot &&
+                    autoPaginateRef.value &&
+                    hasSnapshotRef.value &&
                     size > 0 &&
-                    !state.hitStart &&
-                    !state.isPaginatingBack &&
-                    firstIndex >= size - 5
+                    total > 0 &&
+                    !hitStartRef.value &&
+                    !isPaginatingRef.value &&
+                    topmostIndex >= total - 1 - 5
                 ) {
                     viewModel.paginateBack()
                 }
