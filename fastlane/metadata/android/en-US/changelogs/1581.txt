@@ -1,0 +1,1 @@
+- don't depend on layout size for pagination (#156)

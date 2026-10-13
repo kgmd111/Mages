@@ -1,3 +1,8 @@
+## v5.1.3
+
+- don't depend on layout size for pagination (#156)
+
+
 ## v5.1.2
 
 - space sections (#155)
