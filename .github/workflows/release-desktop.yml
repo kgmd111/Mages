@@ -3,9 +3,15 @@ name: Desktop Releases
 on:
   workflow_dispatch:
     inputs:
+      upload_releases:
+        description: 'Upload GitHub release'
+        required: true
+        default: true
+        type: boolean
       version_tag:
         description: 'Version tag (e.g., 3.4.5)'
-        required: true
+        required: false
+        default: '0.0.0-dev'
         type: string
       mark_prerelease:
         description: "Mark as prerelease"
@@ -129,6 +135,7 @@ jobs:
 
   release:
     needs: build-linux
+    if: ${{ inputs.upload_releases }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
