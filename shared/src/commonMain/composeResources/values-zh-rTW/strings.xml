@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">訊息字型大小</string>
     <string name="setting_show_message_avatars_description">在訊息旁顯示使用者大頭貼</string>
     <string name="setting_show_reaction_avatars_description">在反應標籤上顯示使用者大頭貼</string>
+    <string name="setting_show_switch_account_button">顯示切換帳戶按鈕</string>
+    <string name="setting_show_switch_account_button_description">在聊天室列表的頂部列顯示帳戶切換器</string>
     <string name="setting_show_username_in_dms_description">在私訊中顯示使用者名稱</string>
     <string name="setting_bubble_animations_description">訊息出現時播放動畫</string>
     <string name="setting_hide_membership_events_description">聊天室中的加入、離開和邀請事件</string>

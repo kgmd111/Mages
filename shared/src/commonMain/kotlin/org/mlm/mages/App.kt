@@ -1132,7 +1132,6 @@ private fun AppContent(
                     )
                 }
             }
-        }
 
             if (showAccountSwitcher) {
                 AccountSwitcherSheet(
@@ -1166,6 +1165,7 @@ private fun AppContent(
                     onDismiss = { showAccountSwitcher = false }
                 )
             }
+        }
     }
 }
 

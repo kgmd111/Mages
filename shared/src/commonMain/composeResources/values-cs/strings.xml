@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">Velikost písma zprávy</string>
     <string name="setting_show_message_avatars_description">Zobrazit uživatelské avatary vedle zpráv</string>
     <string name="setting_show_reaction_avatars_description">Zobrazit uživatelské avatary na reakčních čipech</string>
+    <string name="setting_show_switch_account_button">Zobrazit tlačítko přepínání účtů</string>
+    <string name="setting_show_switch_account_button_description">Zobrazí přepínač účtů v horním panelu seznamu míst</string>
     <string name="setting_show_username_in_dms_description">Zobrazit uživatelská jména v přímých zprávách</string>
     <string name="setting_bubble_animations_description">Animovat zprávy tak, jak se zobrazují</string>
     <string name="setting_hide_membership_events_description">Připojit/opustit/pozvat události v místnostech</string>

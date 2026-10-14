@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">اندازه قلم پیام‌ها</string>
     <string name="setting_show_message_avatars_description">نمایش آواتار کاربران کنار پیام‌ها</string>
     <string name="setting_show_reaction_avatars_description">نمایش آواتار کاربران روی واکنش‌ها</string>
+    <string name="setting_show_switch_account_button">نمایش دکمه تعویض حساب</string>
+    <string name="setting_show_switch_account_button_description">تعویض‌کننده حساب را در نوار بالای فهرست اتاق‌ها نمایش می‌دهد</string>
     <string name="setting_show_username_in_dms_description">نمایش نام کاربری در پیام‌های مستقیم</string>
     <string name="setting_bubble_animations_description">انیمیشن دادن به پیام‌ها هنگام ظاهر شدن</string>
     <string name="setting_hide_membership_events_description">رویدادهای پیوستن، خروج و دعوت در اتاق‌ها</string>

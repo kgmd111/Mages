@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">_メッセージのフォント サイズ_</string>
     <string name="setting_show_message_avatars_description">_メッセージの横にユーザー アバターを表示</string>
     <string name="setting_show_reaction_avatars_description">_リアクション チップにユーザー アバターを表示</string>
+    <string name="setting_show_switch_account_button">アカウント切り替えボタンを表示</string>
+    <string name="setting_show_switch_account_button_description">ルーム一覧の上部バーにアカウントスイッチャーを表示します</string>
     <string name="setting_show_username_in_dms_description">_ユーザー名を直接表示メッセージ</string>
     <string name="setting_bubble_animations_description">_表示どおりにメッセージをアニメーション化</string>
     <string name="setting_hide_membership_events_description">ルームでのイベントへの参加/退出/招待_</string>

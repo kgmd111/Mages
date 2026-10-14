@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">حجم خط الرسالة</string>
     <string name="setting_show_message_avatars_description">عرض الصور الرمزية للمستخدم بجوار الرسائل</string>
     <string name="setting_show_reaction_avatars_description">عرض الصور الرمزية للمستخدم على رقائق التفاعل</string>
+    <string name="setting_show_switch_account_button">إظهار زر تبديل الحساب</string>
+    <string name="setting_show_switch_account_button_description">إظهار أداة تبديل الحساب في الشريط العلوي لقائمة الغرف</string>
     <string name="setting_show_username_in_dms_description">إظهار أسماء المستخدمين في الرسائل المباشرة</string>
     <string name="setting_bubble_animations_description">تحريك الرسائل عند ظهورها</string>
     <string name="setting_hide_membership_events_description">الانضمام/المغادرة/دعوة الفعاليات في الغرف</string>

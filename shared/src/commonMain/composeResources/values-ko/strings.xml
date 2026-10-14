@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">메시지 글꼴 크기</string>
     <string name="setting_show_message_avatars_description">메시지 옆에 사용자 아바타 표시</string>
     <string name="setting_show_reaction_avatars_description">반응 칩에 사용자 아바타 표시</string>
+    <string name="setting_show_switch_account_button">계정 전환 버튼 표시</string>
+    <string name="setting_show_switch_account_button_description">방 목록의 상단 표시줄에 계정 전환기를 표시합니다</string>
     <string name="setting_show_username_in_dms_description">직접 메시지에 사용자 이름 표시</string>
     <string name="setting_bubble_animations_description">메시지에 애니메이션을 적용 나타남</string>
     <string name="setting_hide_membership_events_description">방의 이벤트 참여/나가기/초대</string>

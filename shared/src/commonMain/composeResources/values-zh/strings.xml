@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">消息字体大小</string>
     <string name="setting_show_message_avatars_description">在消息旁显示用户头像</string>
     <string name="setting_show_reaction_avatars_description">在反应标签上显示用户头像</string>
+    <string name="setting_show_switch_account_button">显示切换账户按钮</string>
+    <string name="setting_show_switch_account_button_description">在聊天室列表的顶部栏显示账户切换器</string>
     <string name="setting_show_username_in_dms_description">在私聊中显示用户名</string>
     <string name="setting_bubble_animations_description">消息出现时播放动画</string>
     <string name="setting_hide_membership_events_description">房间中的加入、离开和邀请事件</string>

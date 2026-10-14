@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">Viestin fonttikoko</string>
     <string name="setting_show_message_avatars_description">Näytä käyttäjän avatarit viestien vieressä</string>
     <string name="setting_show_reaction_avatars_description">Näytä käyttäjän avatarit reaktiomerkeillä</string>
+    <string name="setting_show_switch_account_button">Näytä tilin vaihtopainike</string>
+    <string name="setting_show_switch_account_button_description">Näyttää tilinvaihtimen huoneluettelon yläpalkissa</string>
     <string name="setting_show_username_in_dms_description">Näytä käyttäjänimet suorissa viesteissä</string>
     <string name="setting_bubble_animations_description">Animoi viestit sellaisina kuin ne näkyvät</string>
     <string name="setting_hide_membership_events_description">Liity/poistu/kutsu tapahtumiin huoneissa</string>

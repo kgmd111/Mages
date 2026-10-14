@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">Schriftgröße der Nachrichten</string>
     <string name="setting_show_message_avatars_description">Benutzeravatare neben Nachrichten anzeigen</string>
     <string name="setting_show_reaction_avatars_description">Benutzeravatare auf Reaktionschips anzeigen</string>
+    <string name="setting_show_switch_account_button">Konto-Wechsel-Schaltfläche anzeigen</string>
+    <string name="setting_show_switch_account_button_description">Konto-Wechsler in der oberen Leiste der Raumliste anzeigen</string>
     <string name="setting_show_username_in_dms_description">Benutzernamen in Direktnachrichten anzeigen</string>
     <string name="setting_bubble_animations_description">Nachrichten beim Erscheinen animieren</string>
     <string name="setting_hide_membership_events_description">Beitritts-, Verlassens- und Einladungsereignisse in Räumen</string>

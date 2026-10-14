@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">גודל גופן ההודעות</string>
     <string name="setting_show_message_avatars_description">הצגת תמונות משתמש לצד הודעות</string>
     <string name="setting_show_reaction_avatars_description">הצגת תמונות משתמש על תגובות</string>
+    <string name="setting_show_switch_account_button">הצגת כפתור החלפת חשבון</string>
+    <string name="setting_show_switch_account_button_description">מציג את מחליף החשבונות בסרגל העליון של רשימת החדרים</string>
     <string name="setting_show_username_in_dms_description">הצגת שמות משתמש בהודעות ישירות</string>
     <string name="setting_bubble_animations_description">הנפשת הודעות בעת הופעתן</string>
     <string name="setting_hide_membership_events_description">אירועי הצטרפות, עזיבה והזמנה בחדרים</string>

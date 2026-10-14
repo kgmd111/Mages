@@ -73,6 +73,8 @@
     <string name="setting_font_size_description">Розмір шрифту повідомлень</string>
     <string name="setting_show_message_avatars_description">Показувати аватари користувачів поруч із повідомленнями</string>
     <string name="setting_show_reaction_avatars_description">Показувати аватари користувачів на реакціях</string>
+    <string name="setting_show_switch_account_button">Показувати кнопку зміни облікового запису</string>
+    <string name="setting_show_switch_account_button_description">Показує перемикач облікових записів у верхній панелі списку кімнат</string>
     <string name="setting_show_username_in_dms_description">Показувати імена користувачів у приватних повідомленнях</string>
     <string name="setting_bubble_animations_description">Анімувати появу повідомлень</string>
     <string name="setting_hide_membership_events_description">Події входу, виходу та запрошень у кімнатах</string>
