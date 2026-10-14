@@ -42,19 +42,30 @@ impl GlobalAccountDataEventContent for WebSettings {
 pub fn sections(settings: &WebSettings) -> Vec<SpaceSection> {
     let mut defined: BTreeMap<&str, SpaceSection> = BTreeMap::new();
 
-    if let Some(data) = settings.0.get(CUSTOM_SECTION_DATA).and_then(Value::as_object) {
+    if let Some(data) = settings
+        .0
+        .get(CUSTOM_SECTION_DATA)
+        .and_then(Value::as_object)
+    {
         for (tag, value) in data {
-            let Some(entry) = value.as_object() else { continue };
+            let Some(entry) = value.as_object() else {
+                continue;
+            };
             if !is_section_tag(tag) || entry.get("tag").and_then(Value::as_str) != Some(tag) {
                 continue;
             }
-            let Some(name) = entry.get("name").and_then(Value::as_str) else { continue };
+            let Some(name) = entry.get("name").and_then(Value::as_str) else {
+                continue;
+            };
             defined.insert(
                 tag.as_str(),
                 SpaceSection {
                     tag: tag.to_owned(),
                     name: name.to_owned(),
-                    space_id: entry.get("spaceId").and_then(Value::as_str).map(str::to_owned),
+                    space_id: entry
+                        .get("spaceId")
+                        .and_then(Value::as_str)
+                        .map(str::to_owned),
                 },
             );
         }
@@ -109,11 +120,18 @@ pub fn remove(settings: &mut WebSettings, tag: &str) -> Result<(), String> {
     let removed = data_mut(settings)?.remove(tag).is_some();
     let order = order_mut(settings)?;
     order.retain(|entry| entry.as_str() != Some(tag));
-    if removed { Ok(()) } else { Err(format!("unknown section: {tag}")) }
+    if removed {
+        Ok(())
+    } else {
+        Err(format!("unknown section: {tag}"))
+    }
 }
 
 pub fn move_section(settings: &mut WebSettings, tag: &str, index: usize) -> Result<(), String> {
-    let current = sections(settings).into_iter().map(|section| section.tag).collect::<Vec<_>>();
+    let current = sections(settings)
+        .into_iter()
+        .map(|section| section.tag)
+        .collect::<Vec<_>>();
     let from = current
         .iter()
         .position(|existing| existing == tag)
@@ -169,7 +187,11 @@ mod tests {
     }
 
     fn section(tag: &str, name: &str) -> SpaceSection {
-        SpaceSection { tag: tag.into(), name: name.into(), space_id: Some("!space".into()) }
+        SpaceSection {
+            tag: tag.into(),
+            name: name.into(),
+            space_id: Some("!space".into()),
+        }
     }
 
     #[test]
@@ -222,9 +244,17 @@ mod tests {
         insert(&mut settings, &section("element.io.section.a", "Work")).unwrap();
         insert(&mut settings, &section("element.io.section.b", "New")).unwrap();
 
-        let order = settings.0.get(ORDERED_SECTIONS).unwrap().as_array().unwrap();
+        let order = settings
+            .0
+            .get(ORDERED_SECTIONS)
+            .unwrap()
+            .as_array()
+            .unwrap();
         let tags: Vec<_> = order.iter().filter_map(|v| v.as_str()).collect();
-        assert_eq!(tags, ["element.io.section.a", "element.io.section.b", "chats"]);
+        assert_eq!(
+            tags,
+            ["element.io.section.a", "element.io.section.b", "chats"]
+        );
     }
 
     #[test]
@@ -247,7 +277,10 @@ mod tests {
         }));
         rename(&mut settings, "element.io.section.a", "Job").unwrap();
         remove(&mut settings, "element.io.section.a").unwrap();
-        assert_eq!(settings.0.get("RoomList.preferredSorting"), Some(&json!("activity")));
+        assert_eq!(
+            settings.0.get("RoomList.preferredSorting"),
+            Some(&json!("activity"))
+        );
     }
 
     #[test]

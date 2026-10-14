@@ -45,7 +45,11 @@ use tokio::runtime::Runtime;
 use tracing::{info, warn};
 use uniffi::{Object, export, setup_scaffolding};
 
+#[cfg(target_os = "android")]
+mod android_tls;
 mod core;
+#[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+mod desktop_location;
 mod errors;
 mod image_packs;
 mod macros;
@@ -54,12 +58,8 @@ mod platform;
 mod sections;
 mod types;
 mod verification_flow;
-#[cfg(target_os = "android")]
-mod android_tls;
 #[cfg(target_family = "wasm")]
 mod wasm_bridge;
-#[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
-mod desktop_location;
 
 pub use core::{CoreClient, TimelineManager};
 pub use types::*;
@@ -67,6 +67,8 @@ pub use types::*;
 use errors::{IntoFfi, OptionFfi, ffi_err};
 use macros::*;
 
+#[cfg(not(target_family = "wasm"))]
+use matrix_sdk::ruma::OwnedUserId;
 use matrix_sdk::{
     Client as SdkClient, Room, SessionMeta, SessionTokens,
     authentication::matrix::MatrixSession,
@@ -82,12 +84,7 @@ use matrix_sdk::{
     encryption::BackupDownloadStrategy,
     ruma::{OwnedEventId, OwnedRoomId},
 };
-#[cfg(not(target_family = "wasm"))]
-use matrix_sdk::ruma::OwnedUserId;
-use matrix_sdk::{
-    encryption::EncryptionSettings,
-    ruma,
-};
+use matrix_sdk::{encryption::EncryptionSettings, ruma};
 use matrix_sdk_ui::{
     eyeball_im::VectorDiff,
     notification_client::{
@@ -531,6 +528,49 @@ pub(crate) fn check_not_on_runtime(caller: &'static str) -> Result<(), FfiError>
     Ok(())
 }
 
+/// Account id prefix the login screen probes homeservers under.
+pub(crate) const PROBE_ACCOUNT_PREFIX: &str = "probe_";
+
+pub(crate) const HOMESERVER_DISCOVERY_TIMEOUT: Duration = Duration::from_secs(20);
+
+/// [`matrix_sdk::timeout::timeout`], re-exported for the wasm bridge.
+pub(crate) use matrix_sdk::timeout::timeout;
+
+pub(crate) fn request_config(is_probe: bool) -> RequestConfig {
+    let config = RequestConfig::new().timeout(if is_probe {
+        Duration::from_secs(10)
+    } else {
+        Duration::from_secs(30)
+    });
+
+    if is_probe {
+        config.disable_retry()
+    } else {
+        config
+    }
+}
+
+async fn build_client(
+    builder: matrix_sdk::ClientBuilder,
+    is_probe: bool,
+) -> Result<SdkClient, FfiError> {
+    let build = builder.build();
+
+    if !is_probe {
+        return build
+            .await
+            .map_err(|e| FfiError::Msg(format!("failed to build client: {e}")));
+    }
+
+    match timeout(build, HOMESERVER_DISCOVERY_TIMEOUT).await {
+        Ok(result) => result.map_err(|e| FfiError::Msg(format!("failed to build client: {e}"))),
+        Err(_) => Err(FfiError::Msg(format!(
+            "homeserver lookup timed out after {}s",
+            HOMESERVER_DISCOVERY_TIMEOUT.as_secs()
+        ))),
+    }
+}
+
 #[export]
 impl Client {
     #[uniffi::constructor]
@@ -563,16 +603,24 @@ impl Client {
             std::path::PathBuf::from(&base_store_dir)
         };
 
-        let use_direct_homeserver_url = platform::has_session_file(&store_dir_path);
+        let is_probe = account_id
+            .as_deref()
+            .is_some_and(|id| id.starts_with(PROBE_ACCOUNT_PREFIX));
+
+        let use_direct_homeserver_url = !is_probe && platform::has_session_file(&store_dir_path);
 
         #[cfg(not(target_family = "wasm"))]
-        let _ = std::fs::create_dir_all(&store_dir_path);
+        if !is_probe {
+            let _ = std::fs::create_dir_all(&store_dir_path);
+        }
 
-        platform::sweep_probe_dirs(&store_dir_path);
+        if !is_probe {
+            platform::sweep_probe_dirs(&store_dir_path);
+        }
 
         // NOTE: for previous unsafe wipes
         #[cfg(not(target_family = "wasm"))]
-        if let Some(parent) = store_dir_path.parent() {
+        if !is_probe && let Some(parent) = store_dir_path.parent() {
             let prefix = store_dir_path
                 .file_name()
                 .map(|n| format!("{}.trash.", n.to_string_lossy()))
@@ -590,74 +638,84 @@ impl Client {
         }
 
         #[cfg(not(target_arch = "wasm32"))]
-        let search_idx = platform::search_index_config(&store_dir_path)
-            .ok_or_else(|| FfiError::Msg("failed to configure search index store".into()))?;
+        let search_idx = if is_probe {
+            None
+        } else {
+            Some(
+                platform::search_index_config(&store_dir_path).ok_or_else(|| {
+                    FfiError::Msg("failed to configure search index store".into())
+                })?,
+            )
+        };
 
-        let inner = RT
-            .block_on(async {
-                #[cfg(target_arch = "wasm32")]
-                let client = {
-                    let mut builder = if use_direct_homeserver_url {
-                        SdkClient::builder().homeserver_url(server_name_or_url.clone())
-                    } else {
-                        SdkClient::builder()
-                            .server_name_or_homeserver_url(server_name_or_url.clone())
-                    }
-                    .request_config(RequestConfig::new().timeout(Duration::from_secs(30)))
-                    .indexeddb_store("mages_store", None)
-                    .with_encryption_settings(EncryptionSettings {
-                        auto_enable_cross_signing: true,
-                        auto_enable_backups: true,
-                        backup_download_strategy: BackupDownloadStrategy::OneShot,
-                        ..Default::default()
-                    })
-                    .dm_room_definition(matrix_sdk_base::DmRoomDefinition::TwoMembers)
-                    .handle_refresh_tokens();
-                    if enable_share_history_on_invite.unwrap_or(true) {
-                        builder = builder.with_enable_share_history_on_invite(true);
-                    } else {
-                        builder = builder.with_enable_share_history_on_invite(false);
-                    }
-                    builder.build().await
-                };
+        let inner = RT.block_on(async {
+            #[cfg(target_arch = "wasm32")]
+            let client = {
+                let mut builder = if use_direct_homeserver_url {
+                    SdkClient::builder().homeserver_url(server_name_or_url.clone())
+                } else {
+                    SdkClient::builder().server_name_or_homeserver_url(server_name_or_url.clone())
+                }
+                .request_config(request_config(is_probe))
+                .with_encryption_settings(EncryptionSettings {
+                    auto_enable_cross_signing: true,
+                    auto_enable_backups: true,
+                    backup_download_strategy: BackupDownloadStrategy::OneShot,
+                    ..Default::default()
+                })
+                .dm_room_definition(matrix_sdk_base::DmRoomDefinition::TwoMembers)
+                .handle_refresh_tokens();
+                if !is_probe {
+                    builder = builder.indexeddb_store("mages_store", None);
+                }
+                if enable_share_history_on_invite.unwrap_or(true) {
+                    builder = builder.with_enable_share_history_on_invite(true);
+                } else {
+                    builder = builder.with_enable_share_history_on_invite(false);
+                }
+                build_client(builder, is_probe).await
+            };
 
-                #[cfg(not(target_arch = "wasm32"))]
-                let client = {
-                    let idx = search_idx;
-                    let mut builder = if use_direct_homeserver_url {
-                        SdkClient::builder().homeserver_url(server_name_or_url.clone())
-                    } else {
-                        SdkClient::builder()
-                            .server_name_or_homeserver_url(server_name_or_url.clone())
-                    }
-                    .request_config(RequestConfig::new().timeout(Duration::from_secs(30)))
-                    .sqlite_store(&store_dir_path, None)
-                    .search_index_store(SearchIndexStoreKind::EncryptedDirectory(idx.dir, idx.key))
-                    .with_encryption_settings(EncryptionSettings {
-                        auto_enable_cross_signing: true,
-                        auto_enable_backups: true,
-                        backup_download_strategy: BackupDownloadStrategy::OneShot,
-                        ..Default::default()
-                    })
-                    .dm_room_definition(matrix_sdk_base::DmRoomDefinition::TwoMembers)
-                    .handle_refresh_tokens();
+            #[cfg(not(target_arch = "wasm32"))]
+            let client = {
+                let mut builder = if use_direct_homeserver_url {
+                    SdkClient::builder().homeserver_url(server_name_or_url.clone())
+                } else {
+                    SdkClient::builder().server_name_or_homeserver_url(server_name_or_url.clone())
+                }
+                .request_config(request_config(is_probe))
+                .with_encryption_settings(EncryptionSettings {
+                    auto_enable_cross_signing: true,
+                    auto_enable_backups: true,
+                    backup_download_strategy: BackupDownloadStrategy::OneShot,
+                    ..Default::default()
+                })
+                .dm_room_definition(matrix_sdk_base::DmRoomDefinition::TwoMembers)
+                .handle_refresh_tokens();
 
-                    if let Some(ref proxy_url) = proxy {
-                        builder = builder.proxy(proxy_url);
-                    }
+                if let Some(idx) = search_idx {
+                    builder = builder
+                        .sqlite_store(&store_dir_path, None)
+                        .search_index_store(SearchIndexStoreKind::EncryptedDirectory(
+                            idx.dir, idx.key,
+                        ));
+                }
 
-                    if enable_share_history_on_invite.unwrap_or(true) {
-                        builder = builder.with_enable_share_history_on_invite(true);
-                    } else {
-                        builder = builder.with_enable_share_history_on_invite(false);
-                    }
+                if let Some(ref proxy_url) = proxy {
+                    builder = builder.proxy(proxy_url);
+                }
 
-                    builder.build().await
-                };
+                if enable_share_history_on_invite.unwrap_or(true) {
+                    builder = builder.with_enable_share_history_on_invite(true);
+                } else {
+                    builder = builder.with_enable_share_history_on_invite(false);
+                }
 
-                client
-            })
-            .map_err(|e| FfiError::Msg(format!("failed to build client: {e}")))?;
+                build_client(builder, is_probe).await
+            };
+
+            client
+        })?;
 
         let core = Arc::new(RT.block_on(CoreClient::new(inner.clone())));
         let (send_tx, mut send_rx) = tokio::sync::mpsc::unbounded_channel::<SendUpdate>();
@@ -713,7 +771,7 @@ impl Client {
         }
 
         // Session persistence - listen for token refreshes via subscribe_to_session_changes
-        {
+        if !is_probe {
             let session_path = this.store_dir.clone();
             let sdk = this.core.sdk.clone();
             let h = spawn_task!(async move {
@@ -754,100 +812,102 @@ impl Client {
 
         // Restore session
         #[cfg(not(target_family = "wasm"))]
-        RT.block_on(async {
-            if let Some(info) = platform::load_session(&this.store_dir).await {
-                info!("Loading session for {} (auth: {})", info.user_id, info.auth_api);
-                if let Ok(user_id) = info.user_id.parse::<OwnedUserId>() {
-                    let meta = SessionMeta {
-                        user_id,
-                        device_id: info.device_id.into(),
-                    };
-                    let tokens = SessionTokens {
-                        access_token: info.access_token,
-                        refresh_token: info.refresh_token,
-                    };
-                    let result = if info.auth_api == "oauth" {
-                        if info.client_id.is_none() {
-                            warn!(
-                                "Stored OAuth session for {} is missing client_id; removing invalid session file and requiring re-login",
-                                info.user_id
-                            );
-                            platform::remove_session_file(&this.store_dir);
-                            None
-                        } else if let Some(cid) = &info.client_id {
+        if !is_probe {
+            RT.block_on(async {
+                if let Some(info) = platform::load_session(&this.store_dir).await {
+                    info!("Loading session for {} (auth: {})", info.user_id, info.auth_api);
+                    if let Ok(user_id) = info.user_id.parse::<OwnedUserId>() {
+                        let meta = SessionMeta {
+                            user_id,
+                            device_id: info.device_id.into(),
+                        };
+                        let tokens = SessionTokens {
+                            access_token: info.access_token,
+                            refresh_token: info.refresh_token,
+                        };
+                        let result = if info.auth_api == "oauth" {
+                            if info.client_id.is_none() {
+                                warn!(
+                                    "Stored OAuth session for {} is missing client_id; removing invalid session file and requiring re-login",
+                                    info.user_id
+                                );
+                                platform::remove_session_file(&this.store_dir);
+                                None
+                            } else if let Some(cid) = &info.client_id {
+                                Some(
+                                    this.core
+                                        .sdk
+                                        .restore_session(OAuthSession {
+                                            client_id: ClientId::new(cid.clone()),
+                                            user: UserSession { meta, tokens },
+                                        })
+                                        .await,
+                                )
+                            } else {
+                                None
+                            }
+                        } else {
                             Some(
                                 this.core
                                     .sdk
-                                    .restore_session(OAuthSession {
-                                        client_id: ClientId::new(cid.clone()),
-                                        user: UserSession { meta, tokens },
-                                    })
+                                    .restore_session(MatrixSession { meta, tokens })
                                     .await,
                             )
-                        } else {
-                            None
-                        }
-                    } else {
-                        Some(
-                            this.core
-                                .sdk
-                                .restore_session(MatrixSession { meta, tokens })
-                                .await,
-                        )
-                    };
+                        };
 
-                    match result {
-                        Some(Ok(())) => {
-                            info!("restore_session succeeded");
-                            this.core
-                                .sdk
-                                .encryption()
-                                .wait_for_e2ee_initialization_tasks()
-                                .await;
+                        match result {
+                            Some(Ok(())) => {
+                                info!("restore_session succeeded");
+                                this.core
+                                    .sdk
+                                    .encryption()
+                                    .wait_for_e2ee_initialization_tasks()
+                                    .await;
 
-                            this.core.ensure_sync_service().await;
+                                this.core.ensure_sync_service().await;
 
-                            if let Err(e) = this.core.sdk.event_cache().subscribe() {
-                                warn!("event_cache.subscribe() failed after login: {e:?}");
+                                if let Err(e) = this.core.sdk.event_cache().subscribe() {
+                                    warn!("event_cache.subscribe() failed after login: {e:?}");
+                                }
+
+                                this.ensure_send_queue_supervision();
+
+                                this.core
+                                    .sdk
+                                    .send_queue()
+                                    .respawn_tasks_for_rooms_with_unsent_requests()
+                                    .await;
                             }
-
-                            this.ensure_send_queue_supervision();
-
-                            this.core
-                                .sdk
-                                .send_queue()
-                                .respawn_tasks_for_rooms_with_unsent_requests()
-                                .await;
-                        }
-                        Some(Err(e)) => {
-                            warn!("restore_session failed: {e:?}");
-                            let is_auth_error = crate::is_hard_auth_error(&e);
-                            if let Some(mut session_info) = platform::load_session(&this.store_dir).await {
-                                if is_auth_error {
-                                    session_info.is_token_valid = false;
-                                    let _ = platform::persist_session(&this.store_dir, &session_info).await;
-                                    // Don't reset_store_dir here - the just-built SdkClient has open
-                                    // SQLite handles on this directory. Wiping under a live client
-                                    // races with those connections and can cause data loss.
-                                    // The host (Kotlin) will detect is_token_valid=false and do a
-                                    // clean teardown (close + drop the client, then delete the dir).
-                                } else {
-                                    // Network error - keep token valid for offline use
-                                    session_info.is_token_valid = true;
-                                    let _ = platform::persist_session(&this.store_dir, &session_info).await;
+                            Some(Err(e)) => {
+                                warn!("restore_session failed: {e:?}");
+                                let is_auth_error = crate::is_hard_auth_error(&e);
+                                if let Some(mut session_info) = platform::load_session(&this.store_dir).await {
+                                    if is_auth_error {
+                                        session_info.is_token_valid = false;
+                                        let _ = platform::persist_session(&this.store_dir, &session_info).await;
+                                        // Don't reset_store_dir here - the just-built SdkClient has open
+                                        // SQLite handles on this directory. Wiping under a live client
+                                        // races with those connections and can cause data loss.
+                                        // The host (Kotlin) will detect is_token_valid=false and do a
+                                        // clean teardown (close + drop the client, then delete the dir).
+                                    } else {
+                                        // Network error - keep token valid for offline use
+                                        session_info.is_token_valid = true;
+                                        let _ = platform::persist_session(&this.store_dir, &session_info).await;
+                                    }
                                 }
                             }
+                            None => {}
                         }
-                        None => {}
                     }
+                } else {
+                    info!("No usable session found, starting fresh");
                 }
-            } else {
-                info!("No usable session found, starting fresh");
-            }
-        });
+            });
+        }
 
         // Room key decryption retry task
-        {
+        if !is_probe {
             let sdk = this.core.sdk.clone();
             let mgr = this.core.timeline_mgr.clone();
             let h = spawn_task!(async move {
@@ -947,7 +1007,9 @@ impl Client {
 
         let dir = cache_dir(&self.store_dir);
         platform::ensure_dir(&dir);
-        let path = dir.join(sanitize_filename(&format!("pack-{width}x{height}-{media_id}")));
+        let path = dir.join(sanitize_filename(&format!(
+            "pack-{width}x{height}-{media_id}"
+        )));
         std::fs::write(&path, &data)
             .map_err(|e| FfiError::Msg(format!("cache write failed: {e}")))?;
         Ok(path.to_string_lossy().into_owned())
@@ -1061,7 +1123,7 @@ impl Client {
         });
         self.timeline_sub_rooms
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(id, sub_room_id);
         id
     }
@@ -1200,11 +1262,16 @@ impl Client {
         threshold: u32,
     ) -> Result<(), FfiError> {
         let tx = {
-            let guard = self.room_list_cmds.lock().unwrap_or_else(|e| e.into_inner());
+            let guard = self
+                .room_list_cmds
+                .lock()
+                .unwrap_or_else(|e| e.into_inner());
             guard.get(&token).cloned()
         };
         let Some(tx) = tx else {
-            return Err(FfiError::Msg("room list subscription is no longer active".into()));
+            return Err(FfiError::Msg(
+                "room list subscription is no longer active".into(),
+            ));
         };
         tx.send(RoomListCmd::UpdateVisibleRange((range, threshold as usize)))
             .map_err(|_| FfiError::Msg("room list subscription is no longer active".into()))
@@ -1392,7 +1459,7 @@ impl Client {
             .wrapping_add(1);
         self.send_observers
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(id, Arc::from(observer));
         id
     }
@@ -1475,7 +1542,7 @@ impl Client {
                 let rooms: Vec<OwnedRoomId> = self
                     .timeline_rooms
                     .lock()
-                    .unwrap()
+                    .unwrap_or_else(|e| e.into_inner())
                     .keys()
                     .cloned()
                     .collect();
@@ -2028,7 +2095,10 @@ impl Client {
                 UInt::try_from(width).unwrap_or(UInt::MIN),
                 UInt::try_from(height).unwrap_or(UInt::MIN),
             );
-            let settings = matrix_sdk::media::MediaThumbnailSettings { animated: true, ..settings };
+            let settings = matrix_sdk::media::MediaThumbnailSettings {
+                animated: true,
+                ..settings
+            };
             let request = MediaRequestParameters {
                 source: MediaSource::Plain(uri),
                 format: MediaFormat::Thumbnail(settings),
@@ -2294,7 +2364,7 @@ impl Client {
         let handle = Arc::new(handle);
         self.widget_handles
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(session_id, handle.clone());
         let recv_task = {
             let obs = obs.clone();
@@ -2306,7 +2376,7 @@ impl Client {
         };
         self.widget_recv_tasks
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(session_id, recv_task);
         let inner2 = self.core.sdk.clone();
         let room_str = room_id.clone();
@@ -2319,7 +2389,7 @@ impl Client {
         });
         self.widget_driver_tasks
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(session_id, driver_task);
         Ok(CallSessionInfo {
             session_id,
@@ -2333,7 +2403,7 @@ impl Client {
         if let Some(handle) = self
             .widget_handles
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .get(&session_id)
             .cloned()
         {
@@ -2835,7 +2905,10 @@ impl Client {
             } else {
                 MediaThumbnailSettings::new(width.into(), height.into())
             };
-            let settings = MediaThumbnailSettings { animated, ..settings };
+            let settings = MediaThumbnailSettings {
+                animated,
+                ..settings
+            };
             let mxc = att.mxc_uri.clone();
             (
                 MediaSource::Plain(mxc.clone().into()),
@@ -2848,9 +2921,14 @@ impl Client {
 
         let dir = cache_dir(&self.store_dir);
         platform::ensure_dir(&dir);
-        let key =
-            blake3::hash(format!("{}-{}x{}-{}-{}", name_key, width, height, use_crop, animated).as_bytes())
-                .to_hex();
+        let key = blake3::hash(
+            format!(
+                "{}-{}x{}-{}-{}",
+                name_key, width, height, use_crop, animated
+            )
+            .as_bytes(),
+        )
+        .to_hex();
         let ext = att
             .mime
             .as_deref()
@@ -2932,13 +3010,7 @@ impl Client {
                 source: MediaSource::Plain(mxc_uri.clone().into()),
                 format: MediaFormat::Thumbnail(settings),
             };
-            let bytes = match self
-                .core
-                .sdk
-                .media()
-                .get_media_content(&req, true)
-                .await
-            {
+            let bytes = match self.core.sdk.media().get_media_content(&req, true).await {
                 Ok(b) => b,
                 Err(thumb_err) => {
                     // Federated or thumbnail-hostile media frequently has no
@@ -3180,19 +3252,14 @@ fn extract_reactions(content: &TimelineItemContent, me: &str) -> Vec<ReactionSum
             let live_senders: Vec<_> = senders
                 .iter()
                 .filter(|(_, info)| {
-                    !matches!(
-                        info.send_state,
-                        Some(EventSendState::SendingFailed { .. })
-                    )
+                    !matches!(info.send_state, Some(EventSendState::SendingFailed { .. }))
                 })
                 .collect();
             if live_senders.is_empty() {
                 continue;
             }
             let count = live_senders.len() as u32;
-            let me_reacted = live_senders
-                .iter()
-                .any(|(sender, _)| sender.as_str() == me);
+            let me_reacted = live_senders.iter().any(|(sender, _)| sender.as_str() == me);
             let user_ids: Vec<String> = live_senders
                 .iter()
                 .take(3)
@@ -4062,9 +4129,7 @@ fn render_message_text(msg: &matrix_sdk_ui::timeline::Message) -> String {
     }
 }
 
-fn is_verification_request(
-    msgtype: &matrix_sdk::ruma::events::room::message::MessageType,
-) -> bool {
+fn is_verification_request(msgtype: &matrix_sdk::ruma::events::room::message::MessageType) -> bool {
     matches!(
         msgtype,
         matrix_sdk::ruma::events::room::message::MessageType::VerificationRequest(_)
@@ -5016,12 +5081,10 @@ fn classify_notification_content(
 ) -> NotificationContent {
     let content = raw_notification_content(item);
 
-    fn text_at(
-        content: &Option<serde_json::Value>,
-        keys: &[&str],
-    ) -> Option<String> {
+    fn text_at(content: &Option<serde_json::Value>, keys: &[&str]) -> Option<String> {
         let c = content.as_ref()?;
-        keys.iter().find_map(|k| c.get(*k).and_then(notification_text))
+        keys.iter()
+            .find_map(|k| c.get(*k).and_then(notification_text))
     }
 
     let AnySyncTimelineEvent::MessageLike(m) = ev else {
@@ -5087,7 +5150,12 @@ fn classify_notification_content(
             NotificationContent::poll(
                 text_at(
                     &content,
-                    &["m.poll", "m.poll.start", "org.matrix.msc3381.poll.start", "question"],
+                    &[
+                        "m.poll",
+                        "m.poll.start",
+                        "org.matrix.msc3381.poll.start",
+                        "question",
+                    ],
                 )
                 .unwrap_or_default(),
                 false,
@@ -5097,7 +5165,12 @@ fn classify_notification_content(
             NotificationContent::poll(
                 text_at(
                     &content,
-                    &["m.poll", "m.poll.end", "org.matrix.msc3381.poll.end", "question"],
+                    &[
+                        "m.poll",
+                        "m.poll.end",
+                        "org.matrix.msc3381.poll.end",
+                        "question",
+                    ],
                 )
                 .unwrap_or_default(),
                 true,

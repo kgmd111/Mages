@@ -24,17 +24,24 @@ class SingleInstance(lockDir: Path) {
     private val lockChannel: FileChannel?
 
     init {
-        Files.createDirectories(lockDir)
-        val channel = FileChannel.open(
-            lockDir.resolve(LOCK_FILE_NAME),
-            StandardOpenOption.CREATE, StandardOpenOption.WRITE
-        )
-        val acquired = try {
-            channel.tryLock() != null
+        val channel: FileChannel? = try {
+            Files.createDirectories(lockDir)
+            FileChannel.open(
+                lockDir.resolve(LOCK_FILE_NAME),
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE
+            )
         } catch (_: Throwable) {
-            // Locking is not verifiable here; don't block startup.
-            true
+            null
         }
+        val acquired = channel?.let {
+            try {
+                it.tryLock() != null
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                // don't block startup.
+                true
+            }
+        } ?: true
         if (acquired) {
             isFirstInstance = true
             lockChannel = channel
@@ -42,7 +49,7 @@ class SingleInstance(lockDir: Path) {
                 ServerSocket(FORWARD_PORT, 50, InetAddress.getLoopbackAddress())
             }.getOrNull()
         } else {
-            channel.close()
+            runCatching { channel?.close() }
             isFirstInstance = false
             lockChannel = null
             serverSocket = null

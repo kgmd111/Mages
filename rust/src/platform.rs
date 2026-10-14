@@ -2,10 +2,10 @@ use crate::{RoomListEntry, SessionInfo};
 use std::path::{Path, PathBuf};
 use tracing::{info, warn};
 
-#[cfg(all(not(target_family = "wasm"), not(target_os = "android")))]
-use tracing_subscriber::{EnvFilter, fmt};
 #[cfg(all(not(target_family = "wasm"), target_os = "android"))]
 use tracing_subscriber::EnvFilter;
+#[cfg(all(not(target_family = "wasm"), not(target_os = "android")))]
+use tracing_subscriber::{EnvFilter, fmt};
 
 pub(crate) fn ensure_dir(path: &Path) {
     #[cfg(not(target_family = "wasm"))]
@@ -24,10 +24,7 @@ static TRACING_INIT: std::sync::OnceLock<()> = std::sync::OnceLock::new();
 
 #[cfg(not(target_family = "wasm"))]
 static FILTER_HANDLE: std::sync::OnceLock<
-    tracing_subscriber::reload::Handle<
-        tracing_subscriber::EnvFilter,
-        tracing_subscriber::Registry,
-    >,
+    tracing_subscriber::reload::Handle<tracing_subscriber::EnvFilter, tracing_subscriber::Registry>,
 > = std::sync::OnceLock::new();
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, uniffi::Enum)]
@@ -138,12 +135,15 @@ fn init_logging_once(config: &TracingConfiguration) {
         #[cfg(target_os = "android")]
         {
             use tracing_subscriber::layer::SubscriberExt as _;
-            use tracing_subscriber::util::SubscriberInitExt as _;
             use tracing_subscriber::reload;
+            use tracing_subscriber::util::SubscriberInitExt as _;
             let (filter_layer, handle) = reload::Layer::new(filter);
             let _ = FILTER_HANDLE.set(handle);
             let android_layer = paranoid_android::layer(env!("CARGO_PKG_NAME"));
-            tracing_subscriber::registry().with(filter_layer).with(android_layer).init();
+            tracing_subscriber::registry()
+                .with(filter_layer)
+                .with(android_layer)
+                .init();
         }
 
         #[cfg(not(target_os = "android"))]
@@ -422,11 +422,12 @@ pub(crate) fn has_session_file(store_dir: &Path) -> bool {
     }
 }
 
-/// Best-effort cleanup of stale `probe_*` store dirs left behind by server
-/// checks (each probe builds a real SQLite store). Only runs inside an
-/// `accounts/` dir, keeps the caller's own dir, and only removes
-/// directories. Real accounts and `<id>.session.json` siblings are never
-/// touched.
+/// Best-effort cleanup of stale `probe_*` store dirs written by older versions
+/// (each probe used to build a real SQLite store before it had to be thrown
+/// away). Only runs inside an `accounts/` dir, keeps the caller's own dir, and
+/// only removes directories. Real accounts and `<id>.session.json` siblings are
+/// never touched. Probes no longer create any of this, so the sweep only ever
+/// has to catch leftovers.
 pub(crate) fn sweep_probe_dirs(store_dir: &Path) {
     #[cfg(not(target_family = "wasm"))]
     {

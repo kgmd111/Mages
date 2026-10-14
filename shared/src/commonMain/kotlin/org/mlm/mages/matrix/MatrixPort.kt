@@ -1145,6 +1145,16 @@ interface MatrixPort {
 
     suspend fun homeserverLoginDetails(): HomeserverLoginDetails
 
+    /**
+     * Asks a homeserver which login methods it offers without keeping a client
+     * or writing a store, so an unreachable server can never tie up the pool
+     * the rest of the app uses. The port must not be in use elsewhere.
+     */
+    suspend fun probeHomeserver(hs: String, proxyUrl: String?): HomeserverLoginDetails
+
+    /** [close], but waits for the underlying client to actually be freed. */
+    suspend fun release() = close()
+
     suspend fun searchUsers(term: String, limit: Int = 20): List<DirectoryUser>
     suspend fun getUserProfile(userId: String): DirectoryUser?
     suspend fun mutualRooms(userId: String): MutualRooms?

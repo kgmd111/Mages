@@ -83,7 +83,11 @@ macro_rules! sub_manager {
     ($self:expr, $subs:ident, $spawn:expr) => {{
         let id = $self.next_sub_id();
         let h = spawn_task!($spawn);
-        $self.$subs.lock().unwrap_or_else(|e| e.into_inner()).insert(id, h);
+        $self
+            .$subs
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .insert(id, h);
         id
     }};
 }
@@ -91,7 +95,12 @@ pub(crate) use sub_manager;
 
 macro_rules! unsub {
     ($self:expr, $subs:ident, $id:expr) => {{
-        if let Some(h) = $self.$subs.lock().unwrap_or_else(|e| e.into_inner()).remove(&$id) {
+        if let Some(h) = $self
+            .$subs
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .remove(&$id)
+        {
             h.abort();
             true
         } else {

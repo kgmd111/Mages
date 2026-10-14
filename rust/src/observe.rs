@@ -241,7 +241,9 @@ impl CoreClient {
         let mut stream = self.sdk.encryption().recovery().state_stream();
         while let Some(state) = stream.next().await {
             let mapped = match state {
-                matrix_sdk::encryption::recovery::RecoveryState::Disabled => RecoveryState::Disabled,
+                matrix_sdk::encryption::recovery::RecoveryState::Disabled => {
+                    RecoveryState::Disabled
+                }
                 matrix_sdk::encryption::recovery::RecoveryState::Enabled => RecoveryState::Enabled,
                 matrix_sdk::encryption::recovery::RecoveryState::Incomplete => {
                     RecoveryState::Incomplete
@@ -345,18 +347,14 @@ pub(crate) async fn drive_timeline(
                     if *index < item_ids.len() {
                         let removed = item_ids.remove(*index);
                         safe_call(|| {
-                            obs.on_diff(TimelineDiffKind::RemoveByItemId {
-                                item_id: removed,
-                            })
+                            obs.on_diff(TimelineDiffKind::RemoveByItemId { item_id: removed })
                         });
                     }
                 }
                 VectorDiff::PopBack => {
                     if let Some(removed) = item_ids.pop() {
                         safe_call(|| {
-                            obs.on_diff(TimelineDiffKind::RemoveByItemId {
-                                item_id: removed,
-                            })
+                            obs.on_diff(TimelineDiffKind::RemoveByItemId { item_id: removed })
                         });
                     }
                 }
@@ -364,9 +362,7 @@ pub(crate) async fn drive_timeline(
                     if !item_ids.is_empty() {
                         let removed = item_ids.remove(0);
                         safe_call(|| {
-                            obs.on_diff(TimelineDiffKind::RemoveByItemId {
-                                item_id: removed,
-                            })
+                            obs.on_diff(TimelineDiffKind::RemoveByItemId { item_id: removed })
                         });
                     }
                 }
@@ -374,9 +370,7 @@ pub(crate) async fn drive_timeline(
                     let keep = (*length).min(item_ids.len());
                     let removed: Vec<String> = item_ids.drain(keep..).collect();
                     for item_id in removed {
-                        safe_call(|| {
-                            obs.on_diff(TimelineDiffKind::RemoveByItemId { item_id })
-                        });
+                        safe_call(|| obs.on_diff(TimelineDiffKind::RemoveByItemId { item_id }));
                     }
                 }
                 VectorDiff::Clear => {
@@ -395,9 +389,7 @@ pub(crate) async fn drive_timeline(
                 VectorDiff::Clear => {
                     // Keep shadow lockstep: empty UI + empty shadow; later stream
                     // ops rebuild. Never rewrite item_ids from tl.items() here.
-                    safe_call(|| {
-                        obs.on_diff(TimelineDiffKind::Reset { values: Vec::new() })
-                    });
+                    safe_call(|| obs.on_diff(TimelineDiffKind::Reset { values: Vec::new() }));
                 }
 
                 VectorDiff::Reset { values } => {

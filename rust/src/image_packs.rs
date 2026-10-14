@@ -65,7 +65,9 @@ static PACK_SCAN_LOCK: Lazy<futures_util::lock::Mutex<()>> =
 fn valid_shortcode(shortcode: &str) -> bool {
     !shortcode.is_empty()
         && shortcode.len() <= 100
-        && shortcode.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+        && shortcode
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
 }
 
 /// Collapse an arbitrary label down to something inside the shortcode grammar,
@@ -87,7 +89,11 @@ fn slugify_shortcode(base: &str) -> String {
     while out.ends_with('_') {
         out.pop();
     }
-    if out.is_empty() { "sticker".to_owned() } else { out }
+    if out.is_empty() {
+        "sticker".to_owned()
+    } else {
+        out
+    }
 }
 
 fn suffixed(base: &str, taken: impl Fn(&str) -> bool) -> String {
@@ -104,7 +110,11 @@ fn suffixed(base: &str, taken: impl Fn(&str) -> bool) -> String {
 /// for "a unique identifier for the pack itself", so the display name is
 /// reused when free and suffixed otherwise.
 pub(crate) fn assign_state_key(existing: &BTreeSet<String>, display_name: &str) -> String {
-    let base = if display_name.trim().is_empty() { "pack" } else { display_name.trim() };
+    let base = if display_name.trim().is_empty() {
+        "pack"
+    } else {
+        display_name.trim()
+    };
     if !existing.contains(base) {
         return base.to_owned();
     }
@@ -127,7 +137,11 @@ pub(crate) fn suggest_image_shortcodes(bases: &[String], taken: &[String]) -> Ve
             base.clone()
         } else {
             let slug = slugify_shortcode(base);
-            if valid_shortcode(&slug) { slug } else { continue }
+            if valid_shortcode(&slug) {
+                slug
+            } else {
+                continue;
+            }
         };
         let mut candidate = cleaned.clone();
         if used.contains(&candidate) {
@@ -160,8 +174,12 @@ fn parse_info(info_json: Option<&str>) -> Option<ImageInfo> {
 /// applies: the type has no `events` entry unless the room grants one, which
 /// leaves `state_default` (50) as the bar. False on any uncertainty.
 pub(crate) async fn can_edit_room_packs(client: &Client, room: &Room) -> bool {
-    let Some(user_id) = client.user_id() else { return false };
-    let Ok(levels) = room.power_levels().await else { return false };
+    let Some(user_id) = client.user_id() else {
+        return false;
+    };
+    let Ok(levels) = room.power_levels().await else {
+        return false;
+    };
     let required: i64 = levels.for_state(ROOM_IMAGE_PACK.clone()).into();
     crate::core::effective_user_level(room, &levels, &user_id) >= required
 }
@@ -215,7 +233,10 @@ impl PackWrite {
                 )));
             }
             if images.contains_key(&draft.shortcode) {
-                return Err(FfiError::Msg(format!("duplicate shortcode {:?}", draft.shortcode)));
+                return Err(FfiError::Msg(format!(
+                    "duplicate shortcode {:?}",
+                    draft.shortcode
+                )));
             }
             let mut image = ImagePackImage::new(url);
             image.body = draft.body.filter(|b| !b.is_empty());
@@ -240,10 +261,7 @@ impl PackWrite {
 /// room already holds, which is what makes a removed image actually disappear.
 /// An empty `images` is the spec's signal for removing state, so callers that
 /// mean to delete a pack go through [`remove_image_pack`].
-pub(crate) async fn save_image_pack(
-    room: &Room,
-    write: PackWrite,
-) -> Result<String, FfiError> {
+pub(crate) async fn save_image_pack(room: &Room, write: PackWrite) -> Result<String, FfiError> {
     let (requested_key, content) = write.into_content()?;
 
     let state_key = if requested_key.is_empty() {
@@ -253,7 +271,9 @@ pub(crate) async fn save_image_pack(
         requested_key
     };
 
-    room.send_state_event_for_key(&state_key, content).await.ffi()?;
+    room.send_state_event_for_key(&state_key, content)
+        .await
+        .ffi()?;
     Ok(state_key)
 }
 
@@ -261,15 +281,25 @@ pub(crate) async fn save_image_pack(
 /// given a free one.
 async fn existing_state_keys(room: &Room) -> BTreeSet<String> {
     let request = state_events::Request::new(room.room_id().to_owned());
-    let Ok(resp) = room.client().send(request).await else { return BTreeSet::new() };
+    let Ok(resp) = room.client().send(request).await else {
+        return BTreeSet::new();
+    };
     let wanted = ROOM_IMAGE_PACK.clone();
     resp.room_state
         .iter()
         .filter_map(|raw| serde_json::from_str::<serde_json::Value>(raw.json().get()).ok())
         .filter(|event| {
-            event.get("type").and_then(|t| t.as_str()).is_some_and(|t| StateEventType::from(t) == wanted)
+            event
+                .get("type")
+                .and_then(|t| t.as_str())
+                .is_some_and(|t| StateEventType::from(t) == wanted)
         })
-        .filter_map(|event| event.get("state_key").and_then(|k| k.as_str()).map(str::to_owned))
+        .filter_map(|event| {
+            event
+                .get("state_key")
+                .and_then(|k| k.as_str())
+                .map(str::to_owned)
+        })
         .collect()
 }
 
@@ -356,12 +386,18 @@ struct StateCache<'a> {
 
 impl<'a> StateCache<'a> {
     fn new(client: &'a Client) -> Self {
-        Self { client, dumps: HashMap::new() }
+        Self {
+            client,
+            dumps: HashMap::new(),
+        }
     }
 
     async fn dump(&mut self, room: &OwnedRoomId) -> &[serde_json::Value] {
         if !self.dumps.contains_key(room) {
-            let fetched = match self.client.send(state_events::Request::new(room.clone())).await
+            let fetched = match self
+                .client
+                .send(state_events::Request::new(room.clone()))
+                .await
             {
                 Ok(resp) => resp
                     .room_state
@@ -455,7 +491,11 @@ pub(crate) async fn list_image_packs(
 
     // Account data is user-writable, so a malformed blob must not take the
     // whole picker down; the other tiers still resolve.
-    let subscribed = match client.account().account_data::<ImagePackRoomsEventContent>().await {
+    let subscribed = match client
+        .account()
+        .account_data::<ImagePackRoomsEventContent>()
+        .await
+    {
         Ok(Some(raw)) => raw.deserialize().ok().map(|c| c.rooms),
         Ok(None) => None,
         Err(e) => {
@@ -519,7 +559,9 @@ pub(crate) async fn list_image_packs(
             }
             Some(keys) => {
                 let all = cache.of_type(&source_room, &ROOM_IMAGE_PACK).await;
-                all.into_iter().filter(|(k, _)| keys.iter().any(|w| w == k)).collect()
+                all.into_iter()
+                    .filter(|(k, _)| keys.iter().any(|w| w == k))
+                    .collect()
             }
             None => cache.of_type(&source_room, &ROOM_IMAGE_PACK).await,
         };
@@ -600,16 +642,22 @@ fn entry_from(shortcode: String, image: ImagePackImage) -> ImagePackImageEntry {
     // `ImageInfo::thumbnail_source` is a `MediaSource`, so it is either a plain
     // mxc or an encrypted file. Pack media is never encrypted, so only the plain
     // form can be fetched as a preview.
-    let thumbnail_mxc_uri = image.info.as_ref().and_then(|info| match &info.thumbnail_source {
-        Some(MediaSource::Plain(mxc)) => Some(mxc.to_string()),
-        _ => None,
-    });
+    let thumbnail_mxc_uri = image
+        .info
+        .as_ref()
+        .and_then(|info| match &info.thumbnail_source {
+            Some(MediaSource::Plain(mxc)) => Some(mxc.to_string()),
+            _ => None,
+        });
 
     ImagePackImageEntry {
         shortcode,
         mxc_url: image.url.to_string(),
         body: image.body,
-        info_json: image.info.as_ref().map(|info| serde_json::to_string(info).unwrap_or_default()),
+        info_json: image
+            .info
+            .as_ref()
+            .map(|info| serde_json::to_string(info).unwrap_or_default()),
         thumbnail_mxc_uri,
         is_animated: image.info.as_ref().and_then(|info| info.is_animated),
     }
@@ -625,7 +673,11 @@ pub(crate) async fn set_image_pack_enabled(
 ) -> Result<(), FfiError> {
     let account = client.account();
 
-    let mut rooms = match account.account_data::<ImagePackRoomsEventContent>().await.ffi()? {
+    let mut rooms = match account
+        .account_data::<ImagePackRoomsEventContent>()
+        .await
+        .ffi()?
+    {
         Some(raw) => match raw.deserialize() {
             Ok(content) => content.rooms,
             Err(e) => {
@@ -683,7 +735,9 @@ async fn canonical_space_ancestors(
             if !content.canonical || content.via.is_empty() {
                 continue;
             }
-            let Ok(space) = OwnedRoomId::try_from(state_key.as_str()) else { continue };
+            let Ok(space) = OwnedRoomId::try_from(state_key.as_str()) else {
+                continue;
+            };
             if !visited.insert(space.clone()) {
                 continue;
             }
@@ -805,7 +859,11 @@ async fn run_pack_scan(sync: &SlidingSync) -> ScanOutcome {
 /// sorted so a browse list does not reshuffle between loads.
 pub(crate) async fn list_all_image_packs(client: &Client) -> Vec<ImagePackSummary> {
     let mut global: HashMap<OwnedRoomId, BTreeSet<String>> = HashMap::new();
-    match client.account().account_data::<ImagePackRoomsEventContent>().await {
+    match client
+        .account()
+        .account_data::<ImagePackRoomsEventContent>()
+        .await
+    {
         Ok(Some(raw)) => {
             if let Ok(content) = raw.deserialize() {
                 for (room, packs) in content.rooms {
@@ -823,7 +881,10 @@ pub(crate) async fn list_all_image_packs(client: &Client) -> Vec<ImagePackSummar
             Ok(events) if !events.is_empty() => events,
             Ok(_) => continue,
             Err(error) => {
-                warn!("image pack: store read for {} failed: {error}", room.room_id());
+                warn!(
+                    "image pack: store read for {} failed: {error}",
+                    room.room_id()
+                );
                 continue;
             }
         };
@@ -832,7 +893,9 @@ pub(crate) async fn list_all_image_packs(client: &Client) -> Vec<ImagePackSummar
         let global_keys = global.get(&source_room);
 
         for event in events {
-            let RawAnySyncOrStrippedState::Sync(raw) = event else { continue };
+            let RawAnySyncOrStrippedState::Sync(raw) = event else {
+                continue;
+            };
             let Ok(value) = serde_json::from_str::<serde_json::Value>(raw.json().get()) else {
                 continue;
             };
@@ -861,8 +924,16 @@ pub(crate) async fn list_all_image_packs(client: &Client) -> Vec<ImagePackSummar
     }
 
     out.sort_by(|a, b| {
-        let left = a.source_room_name.as_deref().unwrap_or(&a.source_room).to_lowercase();
-        let right = b.source_room_name.as_deref().unwrap_or(&b.source_room).to_lowercase();
+        let left = a
+            .source_room_name
+            .as_deref()
+            .unwrap_or(&a.source_room)
+            .to_lowercase();
+        let right = b
+            .source_room_name
+            .as_deref()
+            .unwrap_or(&b.source_room)
+            .to_lowercase();
         left.cmp(&right)
             .then_with(|| a.source_room.cmp(&b.source_room))
             .then_with(|| a.state_key.cmp(&b.state_key))
@@ -931,8 +1002,10 @@ mod tests {
 
     #[test]
     fn batch_avoids_shortcodes_already_in_the_pack() {
-        let out =
-            suggest_image_shortcodes(&["cat".into(), "cat".into()], &["cat".into(), "cat_2".into()]);
+        let out = suggest_image_shortcodes(
+            &["cat".into(), "cat".into()],
+            &["cat".into(), "cat_2".into()],
+        );
         assert_eq!(out, vec!["cat_3", "cat_4"]);
     }
 
@@ -1001,7 +1074,11 @@ mod tests {
     fn write_rejects_a_non_mxc_source() {
         // Pack URLs come from arbitrary homeservers, so a `javascript:` or
         // remote URL must never reach the media layer.
-        for hostile in ["https://evil.example/x.png", "javascript:alert(1)", "not-a-uri"] {
+        for hostile in [
+            "https://evil.example/x.png",
+            "javascript:alert(1)",
+            "not-a-uri",
+        ] {
             let write = PackWrite {
                 state_key: String::new(),
                 display_name: "Cats".into(),

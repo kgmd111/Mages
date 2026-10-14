@@ -115,16 +115,15 @@ impl CoreClient {
         }
     }
 
-    pub async fn cancel_verification(&self, flow_id: String, other_user_id: Option<String>) -> bool {
+    pub async fn cancel_verification(
+        &self,
+        flow_id: String,
+        other_user_id: Option<String>,
+    ) -> bool {
         let Some(uid) = self.verif_uid(other_user_id.as_deref()) else {
             return false;
         };
-        if let Some(v) = self
-            .sdk
-            .encryption()
-            .get_verification(&uid, &flow_id)
-            .await
-        {
+        if let Some(v) = self.sdk.encryption().get_verification(&uid, &flow_id).await {
             match v {
                 Verification::SasV1(sas) => sas.cancel().await.is_ok(),
                 _ => false,
@@ -145,11 +144,8 @@ impl CoreClient {
         let Some(uid) = self.verif_uid(other_user_id.as_deref()) else {
             return false;
         };
-        if let Some(Verification::SasV1(sas)) = self
-            .sdk
-            .encryption()
-            .get_verification(&uid, &flow_id)
-            .await
+        if let Some(Verification::SasV1(sas)) =
+            self.sdk.encryption().get_verification(&uid, &flow_id).await
         {
             sas.confirm().await.is_ok()
         } else {
@@ -184,11 +180,7 @@ impl CoreClient {
             return false;
         };
         for _ in 0..30 {
-            if let Some(verification) = self
-                .sdk
-                .encryption()
-                .get_verification(&uid, &flow_id)
-                .await
+            if let Some(verification) = self.sdk.encryption().get_verification(&uid, &flow_id).await
             {
                 if let Some(sas) = verification.sas() {
                     return sas.accept().await.is_ok();

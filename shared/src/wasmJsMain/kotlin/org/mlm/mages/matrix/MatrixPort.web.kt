@@ -16,6 +16,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import org.mlm.mages.AttachmentInfo
 import org.mlm.mages.LinkPreview
 import org.mlm.mages.MessageEvent
@@ -1111,6 +1113,17 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
                 .toJsonElement()
         )
 
+    @OptIn(ExperimentalTime::class)
+    override suspend fun probeHomeserver(hs: String, proxyUrl: String?): HomeserverLoginDetails {
+        val port = WebStubMatrixPort()
+        try {
+            port.init(hs, "$PROBE_ACCOUNT_PREFIX${Clock.System.now().toEpochMilliseconds()}", proxyUrl)
+            return port.homeserverLoginDetails()
+        } finally {
+            runCatching { port.release() }
+        }
+    }
+
     override suspend fun searchUsers(term: String, limit: Int): List<DirectoryUser> =
         decodeValueOrNull(requireClient().searchUsers(term, limit.toDouble()).await<JsAny?>(), "searchUsers") ?: emptyList()
 
@@ -1908,5 +1921,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         if (otherUserId.isNullOrEmpty()) requireClient().cancelVerification(flowId).awaitPlainBool()
         else requireClient().cancelVerificationWithUser(flowId, otherUserId).awaitPlainBool()
 }
+
+private const val PROBE_ACCOUNT_PREFIX = "probe_"
 
 actual fun createMatrixPort(): MatrixPort = WebStubMatrixPort()

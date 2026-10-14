@@ -256,8 +256,7 @@ mod windows_worker {
                                 manager_slot = None;
                             }
                             if manager.is_none() {
-                                match Manager::new(DesktopLocationHandler { slot: slot.clone() })
-                                {
+                                match Manager::new(DesktopLocationHandler { slot: slot.clone() }) {
                                     Ok(created) => {
                                         manager = Some(created);
                                         manager_slot = Some(slot);
@@ -269,11 +268,10 @@ mod windows_worker {
                                 }
                             }
                             let result = (|| {
-                                let inner = manager.as_mut().ok_or(Error::PermanentlyUnavailable)?;
-                                inner.request_authorization(
-                                    Access::Background,
-                                    Accuracy::Precise,
-                                )?;
+                                let inner =
+                                    manager.as_mut().ok_or(Error::PermanentlyUnavailable)?;
+                                inner
+                                    .request_authorization(Access::Background, Accuracy::Precise)?;
                                 inner.start_updates()
                             })();
                             let _ = reply.send(result);
@@ -329,8 +327,7 @@ impl Backend {
     fn start(&self, slot: Arc<ObserverSlot>) -> Result<(), FfiError> {
         let mut manager = lock(&self.manager);
         if manager.is_none() {
-            let created =
-                Manager::new(DesktopLocationHandler { slot }).map_err(location_error)?;
+            let created = Manager::new(DesktopLocationHandler { slot }).map_err(location_error)?;
             *manager = Some(created);
         }
         let inner = manager

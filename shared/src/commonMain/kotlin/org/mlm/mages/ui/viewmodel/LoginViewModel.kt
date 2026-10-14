@@ -12,7 +12,6 @@ import org.mlm.mages.accounts.MatrixAccount
 import org.mlm.mages.accounts.MatrixClients
 import org.mlm.mages.matrix.MatrixPort
 import org.mlm.mages.matrix.PasswordLoginKind
-import org.mlm.mages.matrix.HomeserverLoginDetails
 import org.mlm.mages.matrix.createMatrixPort
 import org.mlm.mages.platform.getDeviceDisplayName
 import org.mlm.mages.platform.shouldRequestLocalNetworkPermission
@@ -74,7 +73,6 @@ class LoginViewModel(
     }
 
     /** Probe the homeserver for supported login methods. */
-    @OptIn(ExperimentalTime::class)
     private suspend fun probeServer() {
         val hs = normalizeHomeserver(currentState.homeserver)
         if (hs.isBlank()) {
@@ -95,14 +93,11 @@ class LoginViewModel(
 
         updateState { copy(isCheckingServer = true, error = null, needsLocalNetworkPermission = false) }
 
+        val settings = settingsRepository.flow.first()
+        val proxyUrl = if (settings.proxyEnabled) settings.proxyUrl.takeIf { it.isNotBlank() } else null
+
         try {
-            val port = createMatrixPort()
-            val tempId = "probe_${Clock.System.now().toEpochMilliseconds()}"
-            port.init(hs, tempId)
-
-            val details = port.homeserverLoginDetails()
-
-            port.close()
+            val details = createMatrixPort().probeHomeserver(hs, proxyUrl)
 
             updateState {
                 copy(
@@ -114,17 +109,15 @@ class LoginViewModel(
             }
         } catch (e: CancellationException) {
             throw e
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
+            val unreachable = getString(Res.string.couldnt_reach_server, hs)
+            val detail = e.message?.takeIf { it.isNotBlank() }
             updateState {
                 copy(
-                    loginDetails = HomeserverLoginDetails(
-                        homeserverUrl = hs,
-                        supportsOauth = false,
-                        supportsSso = false,
-                        supportsPassword = false
-                    ),
+                    loginDetails = null,
                     isCheckingServer = false,
-                    showPasswordLogin = false
+                    showPasswordLogin = false,
+                    error = if (detail == null) unreachable else "$unreachable\n$detail",
                 )
             }
         }
@@ -457,7 +450,7 @@ class LoginViewModel(
     fun onLocalNetworkPermissionGranted() {
         updateState { copy(needsLocalNetworkPermission = false) }
         serverCheckJob?.cancel()
-        launch {
+        serverCheckJob = launch {
             probeServer()
         }
     }

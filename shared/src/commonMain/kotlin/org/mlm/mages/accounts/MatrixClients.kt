@@ -112,7 +112,8 @@ class MatrixClients(
 
         _activePort?.let {
             runCatching { it.logout() }
-            runCatching { it.close() }
+            // Waits for the store handles, the directory below is theirs.
+            runCatching { it.release() }
         }
         _activePort = null
         _activeAccount.value = null
@@ -135,7 +136,7 @@ class MatrixClients(
         if (wasActive) {
             _activePort?.let { port ->
                 runCatching { port.logout() }
-                runCatching { port.close() }
+                runCatching { port.release() }
             }
             _activePort = null
             _activeAccount.value = null

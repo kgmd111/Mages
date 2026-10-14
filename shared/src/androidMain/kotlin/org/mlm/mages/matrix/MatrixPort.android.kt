@@ -24,6 +24,9 @@ import mages.MessageActionState as FfiMessageActionState
 import org.mlm.mages.*
 import org.mlm.mages.platform.AndroidBrowserAuthCoordinator
 import org.mlm.mages.platform.MagesPaths
+import java.util.concurrent.Executors
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import org.mlm.mages.platform.platformNeedsControlledAudioDevices
 
 private inline fun <T> runWithFfiResult(block: () -> T): Result<T> =
@@ -46,12 +49,25 @@ private inline fun <T> runWithFfiResult(block: () -> T): Result<T> =
 class TlsUnavailableException(message: String) : IllegalStateException(message)
 
 private val matrixDispatcher = Dispatchers.IO.limitedParallelism(4)
+
+/** Building a probe client blocks for as long as discovery takes, so it gets its own thread. */
+private val probeDispatcher = Dispatchers.IO.limitedParallelism(1)
+
+private val closeExecutor = Executors.newCachedThreadPool { r ->
+    Thread(r, "mages-ffi-free").apply { isDaemon = true }
+}
+
+private const val PROBE_ACCOUNT_PREFIX = "probe_"
+
 private val mediaDispatcher = Dispatchers.IO.limitedParallelism(2)
 
 /** Structured payloads cross the uniffi boundary as JSON, snake_cased to match Rust. */
 private val packJson = Json { ignoreUnknownKeys = true; namingStrategy = JsonNamingStrategy.SnakeCase }
 
-class RustMatrixPort : MatrixPort, VerificationService {
+class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, VerificationService {
+    /** A probe blocks for as long as discovery takes, so it never shares the app's pool. */
+    private val callDispatcher = if (isProbe) probeDispatcher else matrixDispatcher
+
     @Volatile
     private var client: FfiClient? = null
     private val clientLock = Any()
@@ -60,7 +76,7 @@ class RustMatrixPort : MatrixPort, VerificationService {
     private var currentProxyUrl: String? = null
 
     override suspend fun init(hs: String, accountId: String?, proxyUrl: String?, enableShareHistoryOnInvite: Boolean) =
-        withContext(matrixDispatcher) {
+        withContext(callDispatcher) {
             synchronized(clientLock) {
                 if (currentHs == hs && currentAccountId == accountId && currentProxyUrl == proxyUrl && client != null) return@synchronized
 
@@ -82,12 +98,37 @@ class RustMatrixPort : MatrixPort, VerificationService {
     }
 
     override fun close() {
-        synchronized(clientLock) {
-            withClient {
-                it.let { c ->
-                    runCatching { c.shutdown() }
-                }
-            }
+        val c = takeClient() ?: return
+        runCatching { c.shutdown() }
+        // The free runs on a background thread: drop code touches the store and
+        // the crypto machine, and this may be called from the main thread.
+        closeExecutor.execute { runCatching { c.close() } }
+    }
+
+    override suspend fun release() = withContext(callDispatcher) {
+        val c = takeClient() ?: return@withContext
+        runCatching { c.shutdown() }
+        runCatching { c.close() }
+    }
+
+    /** Detaches the client so no later call can reach a freed one. */
+    private fun takeClient(): FfiClient? = synchronized(clientLock) {
+        client.also {
+            client = null
+            currentHs = null
+            currentAccountId = null
+            currentProxyUrl = null
+        }
+    }
+
+    @OptIn(ExperimentalTime::class)
+    override suspend fun probeHomeserver(hs: String, proxyUrl: String?): HomeserverLoginDetails {
+        val port = RustMatrixPort(isProbe = true)
+        try {
+            port.init(hs, "${PROBE_ACCOUNT_PREFIX}${Clock.System.now().toEpochMilliseconds()}", proxyUrl)
+            return port.homeserverLoginDetails()
+        } finally {
+            runCatching { port.release() }
         }
     }
 
@@ -1131,7 +1172,7 @@ class RustMatrixPort : MatrixPort, VerificationService {
         }
     }
 
-    override suspend fun homeserverLoginDetails(): HomeserverLoginDetails = withContext(matrixDispatcher) {
+    override suspend fun homeserverLoginDetails(): HomeserverLoginDetails = withContext(callDispatcher) {
         val details = withClient { it.homeserverLoginDetails() }
         HomeserverLoginDetails(
             homeserverUrl = details.homeserverUrl,

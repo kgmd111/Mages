@@ -27,8 +27,10 @@ pub(crate) fn init() {
         Err(e) => {
             let msg = format!("Failed to initialize Android platform support: {e}");
             error!("{msg}");
-            TLS_INIT_ERROR.get_or_init(|| msg.clone());
-            panic!("{msg}");
+            TLS_INIT_ERROR.get_or_init(|| msg);
+            // Leaves the cell empty so a later call can still succeed, and makes
+            // `check_tls` report the error instead of unwinding.
+            return;
         }
     });
 }
@@ -48,13 +50,14 @@ fn get_java_vm() -> Result<jni::JavaVM, Box<dyn Error>> {
     debug!("Getting a JVM pointer");
     #[allow(non_snake_case)]
     let JNI_GetCreatedJavaVMs = unsafe {
-        jvm_getter::find_jni_get_created_java_vms().expect("Failed to find JNI_GetCreatedJavaVMs")
+        jvm_getter::find_jni_get_created_java_vms()
+            .map_err(|e| -> Box<dyn Error> { Box::new(std::io::Error::other(e.to_string())) })?
     };
 
     let mut vm: MaybeUninit<*mut jni::sys::JavaVM> = MaybeUninit::uninit();
     let status = unsafe { JNI_GetCreatedJavaVMs(vm.as_mut_ptr() as *mut _, 1, &mut 0) };
     if status != 0 {
-        panic!("no JavaVM was found by JNI_GetCreatedJavaVMs");
+        return Err(format!("no JavaVM was found by JNI_GetCreatedJavaVMs ({status})").into());
     }
 
     Ok(unsafe { jni::JavaVM::from_raw(vm.assume_init()) })

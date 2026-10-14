@@ -395,27 +395,51 @@ impl NotificationContent {
     }
 
     pub fn poll(question: String, is_end: bool) -> Self {
-        Self { kind: NotificationContentKind::Poll, question: Some(question), is_end: Some(is_end), ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Poll,
+            question: Some(question),
+            is_end: Some(is_end),
+            ..Self::text(String::new(), None)
+        }
     }
 
     pub fn location(geo_uri: String, is_live: bool) -> Self {
-        Self { kind: NotificationContentKind::Location, geo_uri: Some(geo_uri), is_live: Some(is_live), ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Location,
+            geo_uri: Some(geo_uri),
+            is_live: Some(is_live),
+            ..Self::text(String::new(), None)
+        }
     }
 
     pub fn reaction(key: String) -> Self {
-        Self { kind: NotificationContentKind::Reaction, reaction_key: Some(key), ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Reaction,
+            reaction_key: Some(key),
+            ..Self::text(String::new(), None)
+        }
     }
 
     pub fn call(invite: bool) -> Self {
-        Self { kind: NotificationContentKind::Call, is_invite: Some(invite), ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Call,
+            is_invite: Some(invite),
+            ..Self::text(String::new(), None)
+        }
     }
 
     pub fn invite() -> Self {
-        Self { kind: NotificationContentKind::Invite, ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Invite,
+            ..Self::text(String::new(), None)
+        }
     }
 
     pub fn unknown() -> Self {
-        Self { kind: NotificationContentKind::Unknown, ..Self::text(String::new(), None) }
+        Self {
+            kind: NotificationContentKind::Unknown,
+            ..Self::text(String::new(), None)
+        }
     }
 }
 

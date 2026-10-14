@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import co.touchlab.kermit.Logger
 import mages.shared.generated.resources.*
 import org.jetbrains.compose.resources.getString
@@ -103,6 +104,8 @@ import org.mlm.mages.ui.viewmodel.*
 import org.mlm.mages.verification.VerificationCoordinator
 import org.mlm.mages.matrix.CallIntent
 
+private const val SESSION_INIT_TIMEOUT_MS = 20_000L
+
 val LocalMessageFontSize = staticCompositionLocalOf { 16f }
 
 @Composable
@@ -150,7 +153,7 @@ private fun AppContent(
     var initDone by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         val proxyUrl = if (settings.proxyEnabled) settings.proxyUrl.takeIf { it.isNotBlank() } else null
-        runCatching { service.initFromDisk(proxyUrl) }
+        withTimeoutOrNull(SESSION_INIT_TIMEOUT_MS) { service.initFromDisk(proxyUrl) }
         val oauthCompleted = runCatching { service.port.maybeFinishOauthRedirect() }.getOrDefault(false)
         if (oauthCompleted) {
             runCatching { service.initFromDisk(proxyUrl) }
@@ -189,9 +192,10 @@ private fun AppContent(
         ThemeMode.Light -> false
     }
     val widgetTheme = if (isDark) "dark" else "light"
-    val elementCallUrl =
-        settings.elementCallUrl.trim().ifBlank { platformEmbeddedElementCallUrlOrNull() }
-    val parentCallUrl = platformEmbeddedElementCallParentUrlOrNull()
+    val elementCallUrl = settings.elementCallUrl.trim().ifBlank {
+        runCatching { platformEmbeddedElementCallUrlOrNull() }.getOrNull()
+    }
+    val parentCallUrl = runCatching { platformEmbeddedElementCallParentUrlOrNull() }.getOrNull()
 
     // Must live outside ProvideAppLocale: its key(languageTag) disposes the subtree.
     val navEntryViewModelStore = rememberViewModelStoreProvider()

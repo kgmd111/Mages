@@ -3,20 +3,14 @@ use crate::js_observer_json;
 use crate::js_observer_noargs;
 use crate::types::*;
 use crate::verification_flow::{
-    VerifEvent, drive_and_emit, drive_incoming_verification, drive_verification_request,
-    error_json,
+    VerifEvent, drive_and_emit, drive_incoming_verification, drive_verification_request, error_json,
 };
 use crate::wasm_delegate;
 use crate::wasm_subscribe;
 use crate::wasm_unobserve;
 use crate::webffi_bool;
-use crate::{
-    latest_room_event_for, mages_client_metadata,
-    strip_matrix_path,
-};
-use crate::{
-    webffi_err, webffi_not_init, webffi_option, webffi_unit, webffi_value,
-};
+use crate::{latest_room_event_for, mages_client_metadata, strip_matrix_path};
+use crate::{webffi_err, webffi_not_init, webffi_option, webffi_unit, webffi_value};
 
 use futures_util::StreamExt;
 use futures_util::future::{AbortHandle, Abortable};
@@ -688,16 +682,28 @@ impl WasmClient {
         } else {
             raw.to_owned()
         };
-        let store_name = account_id
-            .as_ref()
-            .map(|id| format!("mages_store_{id}"))
-            .unwrap_or_else(|| "mages_store".to_owned());
-        let use_direct_homeserver_url = load_wasm_session(&store_name).is_some();
+        let is_probe = account_id
+            .as_deref()
+            .is_some_and(|id| id.starts_with(crate::PROBE_ACCOUNT_PREFIX));
+        let store_name = if is_probe {
+            "mages_store".to_owned()
+        } else {
+            account_id
+                .as_ref()
+                .map(|id| format!("mages_store_{id}"))
+                .unwrap_or_else(|| "mages_store".to_owned())
+        };
+        let use_direct_homeserver_url = !is_probe && load_wasm_session(&store_name).is_some();
         let mut builder = if use_direct_homeserver_url {
             SdkClient::builder().homeserver_url(server_name_or_url)
         } else {
             SdkClient::builder().server_name_or_homeserver_url(server_name_or_url)
-        };
+        }
+        .request_config(crate::request_config(is_probe));
+
+        if !is_probe {
+            builder = builder.indexeddb_store(&store_name, None);
+        }
 
         if enable_share_history_on_invite.unwrap_or(true) {
             builder = builder.with_enable_share_history_on_invite(true);
@@ -705,57 +711,68 @@ impl WasmClient {
             builder = builder.with_enable_share_history_on_invite(false);
         }
 
-        let client = builder
-            .indexeddb_store(&store_name, None)
-            .with_encryption_settings(EncryptionSettings {
-                auto_enable_cross_signing: true,
-                auto_enable_backups: true,
-                backup_download_strategy: BackupDownloadStrategy::OneShot,
-                ..Default::default()
-            })
-            .handle_refresh_tokens()
-            .build()
-            .await
-            .map_err(|e| JsValue::from_str(&format!("build failed: {e}")))?;
-        if let Some(mut info) = load_wasm_session(&store_name) {
-            if let Ok(user_id) = info.user_id.parse() {
-                let meta = SessionMeta {
-                    user_id,
-                    device_id: info.device_id.clone().into(),
-                };
-                let tokens = SessionTokens {
-                    access_token: info.access_token.clone(),
-                    refresh_token: info.refresh_token.clone(),
-                };
-                if info.auth_api == "oauth" {
-                    if info.client_id.is_none() {
-                        web_sys::console::warn_1(&JsValue::from_str(&format!(
-                            "Stored OAuth session for {} is missing client_id. Removing invalid session and requiring re-login",
-                            info.user_id
-                        )));
-                        clear_wasm_session(&store_name);
-                    } else if let Some(cid) = info.client_id.clone() {
-                        let result = client
-                            .restore_session(OAuthSession {
-                                client_id: ClientId::new(cid),
-                                user: UserSession { meta, tokens },
-                            })
-                            .await;
-                        if let Err(e) = result {
-                            // Mirror native classification: hard auth failures drop
-                            // the session instead of retrying a dead token forever.
-                            if crate::is_hard_auth_error(&e) {
-                                clear_wasm_session(&store_name);
-                            }
-                        }
-                    }
-                } else {
-                    let result = client.restore_session(MatrixSession { meta, tokens }).await;
+        let client = if is_probe {
+            match crate::timeout(builder.build(), crate::HOMESERVER_DISCOVERY_TIMEOUT).await {
+                Ok(result) => {
+                    result.map_err(|e| JsValue::from_str(&format!("build failed: {e}")))?
+                }
+                Err(_) => {
+                    return Err(JsValue::from_str(
+                        "homeserver lookup timed out; check the address and your connection",
+                    ));
+                }
+            }
+        } else {
+            builder
+                .with_encryption_settings(EncryptionSettings {
+                    auto_enable_cross_signing: true,
+                    auto_enable_backups: true,
+                    backup_download_strategy: BackupDownloadStrategy::OneShot,
+                    ..Default::default()
+                })
+                .handle_refresh_tokens()
+                .build()
+                .await
+                .map_err(|e| JsValue::from_str(&format!("build failed: {e}")))?
+        };
+        if !is_probe
+            && let Some(mut info) = load_wasm_session(&store_name)
+            && let Ok(user_id) = info.user_id.parse()
+        {
+            let meta = SessionMeta {
+                user_id,
+                device_id: info.device_id.clone().into(),
+            };
+            let tokens = SessionTokens {
+                access_token: info.access_token.clone(),
+                refresh_token: info.refresh_token.clone(),
+            };
+            if info.auth_api == "oauth" {
+                if info.client_id.is_none() {
+                    web_sys::console::warn_1(&JsValue::from_str(&format!(
+                        "Stored OAuth session for {} is missing client_id. Removing invalid session and requiring re-login",
+                        info.user_id
+                    )));
+                    clear_wasm_session(&store_name);
+                } else if let Some(cid) = info.client_id.clone() {
+                    let result = client
+                        .restore_session(OAuthSession {
+                            client_id: ClientId::new(cid),
+                            user: UserSession { meta, tokens },
+                        })
+                        .await;
                     if let Err(e) = result {
                         if crate::is_hard_auth_error(&e) {
-                            info.is_token_valid = false;
-                            save_wasm_session(&store_name, &info);
+                            clear_wasm_session(&store_name);
                         }
+                    }
+                }
+            } else {
+                let result = client.restore_session(MatrixSession { meta, tokens }).await;
+                if let Err(e) = result {
+                    if crate::is_hard_auth_error(&e) {
+                        info.is_token_valid = false;
+                        save_wasm_session(&store_name, &info);
                     }
                 }
             }
@@ -928,21 +945,37 @@ impl WasmClient {
                 "{\"supportsOauth\":false,\"supportsSso\":false,\"supportsPassword\":true}",
             );
         };
-        let supports_oauth = state.client().oauth().server_metadata().await.is_ok();
-        let (supports_sso, supports_password) =
-            match state.client().matrix_auth().get_login_types().await {
-                Ok(r) => {
-                    use matrix_sdk::ruma::api::client::session::get_login_types::v3::LoginType;
-                    (
-                        r.flows.iter().any(|f| matches!(f, LoginType::Sso(_))),
-                        r.flows.iter().any(|f| matches!(f, LoginType::Password(_))),
-                    )
-                }
-                Err(e) => {
-                    tracing::warn!("get_login_types failed, assuming no SSO/password flows: {e:?}");
-                    (false, false)
-                },
-            };
+        let supports_oauth = match crate::timeout(
+            state.client().oauth().server_metadata(),
+            crate::HOMESERVER_DISCOVERY_TIMEOUT,
+        )
+        .await
+        {
+            Ok(Ok(_)) => true,
+            Ok(Err(_)) | Err(_) => false,
+        };
+        let (supports_sso, supports_password) = match crate::timeout(
+            state.client().matrix_auth().get_login_types(),
+            crate::HOMESERVER_DISCOVERY_TIMEOUT,
+        )
+        .await
+        {
+            Ok(Ok(r)) => {
+                use matrix_sdk::ruma::api::client::session::get_login_types::v3::LoginType;
+                (
+                    r.flows.iter().any(|f| matches!(f, LoginType::Sso(_))),
+                    r.flows.iter().any(|f| matches!(f, LoginType::Password(_))),
+                )
+            }
+            Ok(Err(e)) => {
+                tracing::warn!("get_login_types failed, assuming no SSO/password flows: {e:?}");
+                (false, false)
+            }
+            Err(_) => {
+                tracing::warn!("get_login_types timed out, assuming no SSO/password flows");
+                (false, false)
+            }
+        };
         let homeserver_url = state.client().homeserver().to_string();
         to_json(&HomeserverLoginDetails {
             homeserver_url,
@@ -1993,7 +2026,10 @@ impl WasmClient {
         let Some(tx) = tx else {
             return webffi_err("room list subscription is no longer active");
         };
-        match tx.send(RoomListCmd::UpdateVisibleRange((range_vec, threshold as usize))) {
+        match tx.send(RoomListCmd::UpdateVisibleRange((
+            range_vec,
+            threshold as usize,
+        ))) {
             Ok(()) => to_json(&serde_json::json!({"ok":true})),
             Err(_) => webffi_err("room list subscription is no longer active"),
         }
@@ -2188,11 +2224,9 @@ impl WasmClient {
                     .map(|w| w.into_iter().map(|v| v.clamp(0.0, 1.0)).collect()),
             };
             if is_voice == Some(true) {
-                config =
-                    config.info(matrix_sdk::attachment::AttachmentInfo::Voice(base));
+                config = config.info(matrix_sdk::attachment::AttachmentInfo::Voice(base));
             } else {
-                config =
-                    config.info(matrix_sdk::attachment::AttachmentInfo::Audio(base));
+                config = config.info(matrix_sdk::attachment::AttachmentInfo::Audio(base));
             }
         }
         if let Some(c) = caption {
@@ -2248,7 +2282,10 @@ impl WasmClient {
         match media_data_url(
             state.client(),
             &req,
-            |_| att.mime.unwrap_or_else(|| "application/octet-stream".to_string()),
+            |_| {
+                att.mime
+                    .unwrap_or_else(|| "application/octet-stream".to_string())
+            },
             "media download",
         )
         .await
@@ -2331,7 +2368,10 @@ impl WasmClient {
         } else {
             MediaSource::Plain(mxc_uri.into())
         };
-        let settings = MediaThumbnailSettings { animated, ..MediaThumbnailSettings::new(width.into(), height.into()) };
+        let settings = MediaThumbnailSettings {
+            animated,
+            ..MediaThumbnailSettings::new(width.into(), height.into())
+        };
         let req = MediaRequestParameters {
             source,
             format: MediaFormat::Thumbnail(settings),
@@ -2354,7 +2394,10 @@ impl WasmClient {
             return webffi_err("not initialized");
         };
         let uri = matrix_sdk::ruma::OwnedMxcUri::from(mxc_uri);
-        let settings = MediaThumbnailSettings { animated: true, ..MediaThumbnailSettings::new(width.into(), height.into()) };
+        let settings = MediaThumbnailSettings {
+            animated: true,
+            ..MediaThumbnailSettings::new(width.into(), height.into())
+        };
         let req = MediaRequestParameters {
             source: MediaSource::Plain(uri),
             format: MediaFormat::Thumbnail(settings),
@@ -2676,10 +2719,7 @@ impl WasmClient {
             return String::new();
         };
 
-        let (flow_id, request) = match state
-            .core
-            .start_device_verification(target_device_id)
-            .await
+        let (flow_id, request) = match state.core.start_device_verification(target_device_id).await
         {
             Ok(v) => v,
             Err(e) => {
@@ -2791,11 +2831,7 @@ impl WasmClient {
             return false;
         };
 
-        let request = match state
-            .core
-            .observation_request(flow_id, other_user_id)
-            .await
-        {
+        let request = match state.core.observation_request(flow_id, other_user_id).await {
             Ok(req) => req,
             Err(e) => {
                 emit_verif_err(&on_event, e.to_string());

@@ -63,19 +63,16 @@ use tracing::{info, warn};
 
 use crate::{
     ActionAvailability, ActionPresentation, AttachmentInfo, AttachmentKind, DirectoryUser,
-    FfiError, FfiPushRuleKind, FfiRoomNotificationMode, ImagePackSummary, KnockRequestSummary,
-    LinkPreview, MemberActionState, MemberSummary, MessageActionState, MessageEvent, MutualRooms,
-    OwnProfile,
-    OwnReceipt,
-    PasswordLoginKind, PollDefinition, ProfileField,
-    PredecessorRoomInfo, Presence, PresenceInfo, PublicRoom, PublicRoomsPage, ReactionSummary,
-    RecentEmojiEntry, RoomActionState, RoomCallState, RoomDirectoryVisibility, RoomHistoryVisibility,
-    RoomInfoSnapshot, RoomJoinRule, RoomListEntry, RoomListMembership, RoomPowerLevelChanges,
-    RoomPowerLevels, RoomPreview, RoomPreviewMembership, RoomSummary, RoomTags, RoomUpgradeLinks,
-    SearchHit, SearchPage, SeenByEntry, SendState, SendUpdate, SpaceChildInfo, SpaceHierarchyPage,
-    SpaceInfo, SpaceParentInfo, SpaceSection, SpaceUnread, SuccessorRoomInfo, ThreadPage, ThreadSummary,
-    UnreadStats,
-    ForwardResult, MediaPreviewMode,
+    FfiError, FfiPushRuleKind, FfiRoomNotificationMode, ForwardResult, ImagePackSummary,
+    KnockRequestSummary, LinkPreview, MediaPreviewMode, MemberActionState, MemberSummary,
+    MessageActionState, MessageEvent, MutualRooms, OwnProfile, OwnReceipt, PasswordLoginKind,
+    PollDefinition, PredecessorRoomInfo, Presence, PresenceInfo, ProfileField, PublicRoom,
+    PublicRoomsPage, ReactionSummary, RecentEmojiEntry, RoomActionState, RoomCallState,
+    RoomDirectoryVisibility, RoomHistoryVisibility, RoomInfoSnapshot, RoomJoinRule, RoomListEntry,
+    RoomListMembership, RoomPowerLevelChanges, RoomPowerLevels, RoomPreview, RoomPreviewMembership,
+    RoomSummary, RoomTags, RoomUpgradeLinks, SearchHit, SearchPage, SeenByEntry, SendState,
+    SendUpdate, SpaceChildInfo, SpaceHierarchyPage, SpaceInfo, SpaceParentInfo, SpaceSection,
+    SpaceUnread, SuccessorRoomInfo, ThreadPage, ThreadSummary, UnreadStats,
     VerificationInboxObserver, build_unstable_poll_content, latest_room_event_for,
     map_event_id_via_timeline, map_timeline_event, paginate_backwards_visible,
     timeline_event_filter,
@@ -489,7 +486,7 @@ impl TimelineManager {
 
         self.timelines
             .lock()
-            .unwrap()
+            .unwrap_or_else(|e| e.into_inner())
             .insert(room_id.clone(), tl.clone());
 
         {
@@ -859,9 +856,8 @@ impl CoreClient {
                     if local.transaction_id.as_str() != txn_id {
                         continue;
                     }
-                    if let matrix_sdk::send_queue::LocalEchoContent::Event {
-                        send_handle, ..
-                    } = &local.content
+                    if let matrix_sdk::send_queue::LocalEchoContent::Event { send_handle, .. } =
+                        &local.content
                     {
                         if send_handle.unwedge().await.is_ok() {
                             return true;
@@ -1020,8 +1016,8 @@ impl CoreClient {
             .timeline(&room_id)
             .await
             .ok_or_else(|| FfiError::Msg("timeline not found".into()))?;
-        let eid = EventId::parse(&poll_event_id)
-            .map_err(|_| FfiError::Msg("invalid event id".into()))?;
+        let eid =
+            EventId::parse(&poll_event_id).map_err(|_| FfiError::Msg("invalid event id".into()))?;
         let item = tl
             .item_by_event_id(&eid)
             .await
@@ -1090,7 +1086,11 @@ impl CoreClient {
                 .await
                 .ffi()
                 .map(|_| ()),
-            None => tl.toggle_reaction(&item.identifier(), &emoji).await.ffi().map(|_| ()),
+            None => tl
+                .toggle_reaction(&item.identifier(), &emoji)
+                .await
+                .ffi()
+                .map(|_| ()),
         }
     }
 
@@ -1340,8 +1340,8 @@ impl CoreClient {
         room_id: String,
         event_id: String,
     ) -> Result<Option<MessageEvent>, FfiError> {
-        let rid = OwnedRoomId::try_from(room_id)
-            .map_err(|_| FfiError::Msg("invalid room id".into()))?;
+        let rid =
+            OwnedRoomId::try_from(room_id).map_err(|_| FfiError::Msg("invalid room id".into()))?;
         let eid = OwnedEventId::try_from(event_id)
             .map_err(|_| FfiError::Msg("invalid event id".into()))?;
         let room = self
@@ -1699,8 +1699,7 @@ impl CoreClient {
 
         let target_user_id = matrix_sdk::ruma::OwnedUserId::try_from(&*user_id)
             .map_err(|_| FfiError::Msg("invalid target user id".into()))?;
-        let target_level: i64 =
-            effective_user_level(room, &power_levels, target_user_id.as_ref());
+        let target_level: i64 = effective_user_level(room, &power_levels, target_user_id.as_ref());
 
         let direct_message = if me.as_str() == user_id {
             ActionAvailability::disabled("You cannot start a direct message with yourself.")
@@ -1991,10 +1990,7 @@ impl CoreClient {
 
     pub async fn room_inviter(&self, room_id: String) -> Result<Option<String>, FfiError> {
         let rid = Self::parse_rid(&room_id)?;
-        let room = self
-            .sdk
-            .get_room(&rid)
-            .or_ffi("room not found")?;
+        let room = self.sdk.get_room(&rid).or_ffi("room not found")?;
         match room.invite_details().await {
             Ok(invite) => Ok(Some(invite.inviter_id.to_string())),
             Err(_) => Ok(None),
@@ -2099,11 +2095,9 @@ impl CoreClient {
         let levels = room.power_levels().await.ffi()?;
         let power_levels = map_room_power_levels(room, &levels);
         let action_state = self.resolve_room_action_state_impl(room).await?;
-        let pinned_event_ids = room.pinned_event_ids().map(|ids| {
-            ids.iter()
-                .map(|id| id.to_string())
-                .collect::<Vec<String>>()
-        });
+        let pinned_event_ids = room
+            .pinned_event_ids()
+            .map(|ids| ids.iter().map(|id| id.to_string()).collect::<Vec<String>>());
         Ok(RoomInfoSnapshot {
             room_id: room.room_id().to_string(),
             profile,
@@ -2122,10 +2116,13 @@ impl CoreClient {
         room_id: String,
     ) -> Result<Option<RoomInfoSnapshot>, FfiError> {
         let room = self.require_room(&room_id)?;
-        self.build_room_info_snapshot(&room).await.map(Some).map_err(|error| {
-            warn!(room_id = %room_id, "room_info_snapshot failed: {error}");
-            error
-        })
+        self.build_room_info_snapshot(&room)
+            .await
+            .map(Some)
+            .map_err(|error| {
+                warn!(room_id = %room_id, "room_info_snapshot failed: {error}");
+                error
+            })
     }
 
     pub async fn room_tags(&self, room_id: String) -> Result<Option<RoomTags>, FfiError> {
@@ -2471,8 +2468,8 @@ impl CoreClient {
         let room = self
             .room(room_id)
             .ok_or_else(|| FfiError::Msg("room not found".into()))?;
-        let uid = OwnedUserId::try_from(user_id)
-            .map_err(|_| FfiError::Msg("invalid user id".into()))?;
+        let uid =
+            OwnedUserId::try_from(user_id).map_err(|_| FfiError::Msg("invalid user id".into()))?;
         Ok((room, uid))
     }
 
@@ -2931,9 +2928,7 @@ impl CoreClient {
                     .filter(|(_, info)| {
                         !matches!(
                             info.send_state,
-                            Some(
-                                matrix_sdk_ui::timeline::EventSendState::SendingFailed { .. }
-                            )
+                            Some(matrix_sdk_ui::timeline::EventSendState::SendingFailed { .. })
                         )
                     })
                     .collect();
@@ -2986,9 +2981,7 @@ impl CoreClient {
                         .filter(|(_, info)| {
                             !matches!(
                                 info.send_state,
-                                Some(
-                                    matrix_sdk_ui::timeline::EventSendState::SendingFailed { .. }
-                                )
+                                Some(matrix_sdk_ui::timeline::EventSendState::SendingFailed { .. })
                             )
                         })
                         .collect();
@@ -3026,7 +3019,10 @@ impl CoreClient {
         self.sdk.account().unignore_user(&uid).await.ffi()
     }
 
-    pub async fn list_image_packs(&self, room_id: String) -> Result<Vec<ImagePackSummary>, FfiError> {
+    pub async fn list_image_packs(
+        &self,
+        room_id: String,
+    ) -> Result<Vec<ImagePackSummary>, FfiError> {
         let rid = Self::parse_rid(&room_id)?;
         Ok(crate::image_packs::list_image_packs(&self.sdk, rid).await)
     }
@@ -3148,14 +3144,16 @@ impl CoreClient {
         height: u32,
     ) -> Result<(String, Vec<u8>), FfiError> {
         use matrix_sdk::media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings};
-        use matrix_sdk::ruma::events::room::MediaSource;
         use matrix_sdk::ruma::OwnedMxcUri;
+        use matrix_sdk::ruma::events::room::MediaSource;
 
         let uri = OwnedMxcUri::try_from(mxc_url.as_str())
             .map_err(|_| FfiError::Msg("invalid mxc uri".into()))?;
 
-        let settings =
-            MediaThumbnailSettings { animated: true, ..MediaThumbnailSettings::new(width.into(), height.into()) };
+        let settings = MediaThumbnailSettings {
+            animated: true,
+            ..MediaThumbnailSettings::new(width.into(), height.into())
+        };
         let request = MediaRequestParameters {
             source: MediaSource::Plain(uri.clone()),
             format: MediaFormat::Thumbnail(settings),
@@ -3693,7 +3691,10 @@ impl CoreClient {
         room.privacy_settings().update_join_rule(jr).await.ffi()
     }
 
-    pub async fn room_join_rule_allow_list(&self, room_id: String) -> Result<Vec<String>, FfiError> {
+    pub async fn room_join_rule_allow_list(
+        &self,
+        room_id: String,
+    ) -> Result<Vec<String>, FfiError> {
         use matrix_sdk::ruma::events::room::join_rules::JoinRule;
         let room = self.require_room(&room_id)?;
         let allow = match room.join_rule() {
@@ -3873,11 +3874,10 @@ impl CoreClient {
 
     /// `None` means the account never set one, which is not the same as `On`.
     pub async fn media_preview_config(&self) -> Result<Option<MediaPreviewMode>, FfiError> {
-        Ok(self.read_media_preview_config().await?.map(|content| {
-            media_preview_mode(
-                content.media_previews.as_ref(),
-            )
-        }))
+        Ok(self
+            .read_media_preview_config()
+            .await?
+            .map(|content| media_preview_mode(content.media_previews.as_ref())))
     }
 
     async fn read_media_preview_config(
@@ -3926,9 +3926,8 @@ impl CoreClient {
         };
 
         let existing = self.read_media_preview_config().await?.unwrap_or_default();
-        let content: UnstableMediaPreviewConfigEventContent = existing
-            .media_previews(Some(previews))
-            .into();
+        let content: UnstableMediaPreviewConfigEventContent =
+            existing.media_previews(Some(previews)).into();
 
         self.sdk.account().set_account_data(content).await.ffi()?;
         Ok(())
@@ -4041,7 +4040,7 @@ impl CoreClient {
         order: Option<String>,
         suggested: Option<bool>,
     ) -> Result<(), FfiError> {
-        use matrix_sdk::ruma::events::{space::parent::SpaceParentEventContent, StateEventType};
+        use matrix_sdk::ruma::events::{StateEventType, space::parent::SpaceParentEventContent};
 
         let rid_space = Self::parse_rid(&space_id)?;
         let rid_child = Self::parse_rid(&child_room_id)?;
@@ -4092,17 +4091,27 @@ impl CoreClient {
     // edges across joined spaces and strips cycles. The graph is otherwise only refreshed by a
     // background task on syncs that carry room updates, so it is still empty right after login;
     // top_level_joined_spaces() recomputes it on demand before the lookup.
-    pub async fn room_parent_spaces(&self, room_id: String) -> Result<Vec<SpaceParentInfo>, FfiError> {
+    pub async fn room_parent_spaces(
+        &self,
+        room_id: String,
+    ) -> Result<Vec<SpaceParentInfo>, FfiError> {
         let rid = Self::parse_rid(&room_id)?;
         self.space_service.top_level_joined_spaces().await;
 
         let mut out = Vec::new();
-        for space in self.space_service.joined_parents_of_child(rid.as_ref()).await {
+        for space in self
+            .space_service
+            .joined_parents_of_child(rid.as_ref())
+            .await
+        {
             let room = self.sdk.get_room(&space.room_id);
             out.push(SpaceParentInfo {
                 space_id: space.room_id.to_string(),
                 name: space.name.map(|n| n.to_string()),
-                avatar_url: room.as_ref().and_then(|room| room.avatar_url()).map(|m| m.to_string()),
+                avatar_url: room
+                    .as_ref()
+                    .and_then(|room| room.avatar_url())
+                    .map(|m| m.to_string()),
             });
         }
         Ok(out)
@@ -4299,7 +4308,9 @@ impl CoreClient {
         match raw {
             None => Ok(crate::sections::WebSettings::default()),
             Some(raw) => raw.deserialize().map_err(|e| {
-                FfiError::Msg(format!("room list settings are malformed, refusing to overwrite: {e}"))
+                FfiError::Msg(format!(
+                    "room list settings are malformed, refusing to overwrite: {e}"
+                ))
             }),
         }
     }
@@ -4308,7 +4319,11 @@ impl CoreClient {
         &self,
         settings: &crate::sections::WebSettings,
     ) -> Result<(), FfiError> {
-        self.sdk.account().set_account_data(settings.clone()).await.ffi()?;
+        self.sdk
+            .account()
+            .set_account_data(settings.clone())
+            .await
+            .ffi()?;
         Ok(())
     }
 
@@ -4529,7 +4544,11 @@ impl CoreClient {
 
     pub async fn set_display_name(&self, name: Option<String>) -> Result<(), FfiError> {
         let name = name.map(|n| n.trim().to_owned()).filter(|n| !n.is_empty());
-        self.sdk.account().set_display_name(name.as_deref()).await.ffi()
+        self.sdk
+            .account()
+            .set_display_name(name.as_deref())
+            .await
+            .ffi()
     }
 
     pub async fn set_avatar(&self, bytes: Vec<u8>, mime: String) -> Result<String, FfiError> {

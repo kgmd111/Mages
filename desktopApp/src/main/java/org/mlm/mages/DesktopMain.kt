@@ -97,18 +97,22 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
 
     LaunchedEffect(Unit) {
         val computedTray = withContext(Dispatchers.IO) {
-            SystemTray.DEBUG = false
+            runCatching {
+                SystemTray.DEBUG = false
 
-            val osName = System.getProperty("os.name").lowercase()
-            if (osName.contains("mac")) {
-                SystemTray.FORCE_TRAY_TYPE = SystemTray.TrayType.Swing
-            }
+                val osName = System.getProperty("os.name").lowercase()
+                if (osName.contains("mac")) {
+                    SystemTray.FORCE_TRAY_TYPE = SystemTray.TrayType.Swing
+                }
 
-            val t = SystemTray.get()
-            if (t == null) {
-                println("SystemTray.get() returned null - no tray available on this platform/configuration.")
-            }
-            t
+                val t = SystemTray.get()
+                if (t == null) {
+                    println("SystemTray.get() returned null - no tray available on this platform/configuration.")
+                }
+                t
+            }.onFailure {
+                println("System tray unavailable: ${it.message}")
+            }.getOrNull()
         }
         tray = computedTray
     }
@@ -116,7 +120,9 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
     DisposableEffect(tray) {
         val t = tray ?: return@DisposableEffect onDispose { }
 
-        trayIcons = TrayIcons(runBlocking { Res.readBytes("files/tray.png") })
+        trayIcons = runCatching { TrayIcons(runBlocking { Res.readBytes("files/tray.png") }) }
+            .onFailure { println("Tray icons unavailable: ${it.message}") }
+            .getOrNull()
 
         t.menu.add(MenuItem("Show").apply {
             setCallback {
@@ -161,9 +167,14 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
 
     LaunchedEffect(tray, trayIcons, unreadRooms) {
         val t = tray ?: return@LaunchedEffect
-        t.setTooltip(if (unreadRooms > 0) "Mages ($unreadRooms unread)" else "Mages")
-        val icons = trayIcons ?: return@LaunchedEffect
-        t.setImage(icons.forUnread(unreadRooms) ?: return@LaunchedEffect)
+        runCatching {
+            t.setTooltip(if (unreadRooms > 0) "Mages ($unreadRooms unread)" else "Mages")
+            val icons = trayIcons ?: return@runCatching
+            t.setImage(icons.forUnread(unreadRooms) ?: return@runCatching)
+        }.onFailure {
+            // Some tray backends reject these updates
+            println("Tray update failed: ${it.message}")
+        }
     }
 
     LaunchedEffect(Unit) {
