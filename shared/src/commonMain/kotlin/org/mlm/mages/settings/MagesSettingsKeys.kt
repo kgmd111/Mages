@@ -147,6 +147,9 @@ object MagesSettingsKeys {
     const val PROXY_URL_DESCRIPTION = "mages.settings.proxy_url.description"
     const val LIVE_LOCATION_UPDATE_INTERVAL_DESCRIPTION = "mages.settings.live_location_update_interval.description"
 
+    const val SHOW_SWITCH_ACCOUNT_BUTTON = "mages.settings.show_switch_account_button"
+    const val SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION = "mages.settings.show_switch_account_button.description"
+
     const val THEME_OPTIONS = "mages.settings.theme_mode.options"
     const val LANGUAGE_OPTIONS = "mages.settings.language.options"
     const val HIDE_IN_ROOMS_OPTIONS = "mages.settings.hide_in_rooms.options"

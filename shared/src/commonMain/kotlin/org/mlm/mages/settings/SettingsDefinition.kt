@@ -77,6 +77,14 @@ data class AppSettings(
     val activeAccountId: String? = null,
 
     @Setting(
+        title = "Show switch account in Home",
+        titleKey = MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON,
+        category = Appearance::class,
+        type = Toggle::class,
+    )
+    val showSwitchAccountButton: Boolean = false,
+
+    @Setting(
         title = "Theme",
         titleKey = MagesSettingsKeys.THEME_MODE,
         description = "System / Light / Dark",

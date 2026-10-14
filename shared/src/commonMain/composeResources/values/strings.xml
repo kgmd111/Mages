@@ -552,6 +552,8 @@
     <string name="setting_show_message_avatars_description">Display user avatars next to messages</string>
     <string name="setting_show_reaction_avatars">Show reaction avatars</string>
     <string name="setting_show_reaction_avatars_description">Display user avatars on reaction chips</string>
+    <string name="setting_show_switch_account_button">Show switch account button</string>
+    <string name="setting_show_switch_account_button_description">Show the account switcher in the top bar of the room list</string>
     <string name="setting_show_username_in_dms">Show username in DMs</string>
     <string name="setting_show_username_in_dms_description">Show usernames in direct messages</string>
     <string name="setting_bubble_animations">Message bubble animations</string>

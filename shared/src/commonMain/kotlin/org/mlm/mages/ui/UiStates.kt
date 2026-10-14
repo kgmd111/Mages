@@ -74,6 +74,7 @@ data class RoomsUiState(
     val typeFilter: RoomTypeFilter = RoomTypeFilter.All,
     val swipeRightAction: RoomSwipeAction = RoomSwipeAction.Nothing,
     val swipeLeftAction: RoomSwipeAction = RoomSwipeAction.Nothing,
+    val showSwitchAccountButton: Boolean = true,
     val isLoading: Boolean = false,
     val error: String? = null,
     val favourites: Set<String> = emptySet(),

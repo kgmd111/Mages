@@ -47,6 +47,8 @@ fun RoomsScreen(
     onOpenStartChat: () -> Unit,
     onOpenSpaces: () -> Unit,
     onOpenSearch: () -> Unit,
+    onOpenAccountSwitcher: () -> Unit,
+    canSwitchAccount: Boolean,
 ) {
     val state by viewModel.state.collectAsState()
     val listState = rememberLazyListState()
@@ -102,11 +104,14 @@ fun RoomsScreen(
                 unreadGroupsCount = state.unreadGroupsCount,
                 unreadDmsCount = state.unreadDmsCount,
                 spacesUnreadCount = state.spacesUnreadCount,
+                showSwitchAccountButton = state.showSwitchAccountButton,
+                canSwitchAccount = canSwitchAccount,
                 onOpenSpaces = onOpenSpaces,
                 onOpenSecurity = onOpenSecurity,
                 onOpenStartChat = onOpenStartChat,
                 inviteCount = state.inviteItems.size,
-                onOpenSearch = onOpenSearch
+                onOpenSearch = onOpenSearch,
+                onOpenAccountSwitcher = onOpenAccountSwitcher
             )
         },
         floatingActionButton = {
@@ -365,13 +370,16 @@ private fun RoomsTopBar(
     unreadGroupsCount: Int,
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
+    showSwitchAccountButton: Boolean,
+    canSwitchAccount: Boolean,
     onSearchChange: (String) -> Unit,
     onToggleUnreadOnly: () -> Unit,
     onSetTypeFilter: (RoomTypeFilter) -> Unit,
     onOpenSpaces: () -> Unit,
     onOpenSecurity: () -> Unit,
     onOpenStartChat: () -> Unit,
-    onOpenSearch: () -> Unit
+    onOpenSearch: () -> Unit,
+    onOpenAccountSwitcher: () -> Unit
 ) {
     Column {
         TopAppBar(
@@ -402,6 +410,11 @@ private fun RoomsTopBar(
                 }
                 IconButton(onClick = onOpenSearch) {
                     Icon(Icons.Default.Search, stringResource(Res.string.search_messages))
+                }
+                if (showSwitchAccountButton && canSwitchAccount) {
+                    IconButton(onClick = onOpenAccountSwitcher) {
+                        Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
+                    }
                 }
             }
         )

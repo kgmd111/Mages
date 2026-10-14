@@ -117,6 +117,7 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.LIVE_LOCATION_UPDATE_INTERVAL to Res.string.setting_live_location_update_interval,
     MagesSettingsKeys.ROOM_LIST_SWIPE_RIGHT to Res.string.setting_room_list_swipe_right,
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT to Res.string.setting_room_list_swipe_left,
+    MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON to Res.string.setting_show_switch_account_button,
 )
 
 private val descriptionResources: Map<String, StringResource> = mapOf(
@@ -187,6 +188,7 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.LIVE_LOCATION_UPDATE_INTERVAL_DESCRIPTION to Res.string.setting_live_location_update_interval_description,
     MagesSettingsKeys.ROOM_LIST_SWIPE_RIGHT_DESCRIPTION to Res.string.setting_room_list_swipe_right_description,
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT_DESCRIPTION to Res.string.setting_room_list_swipe_left_description,
+    MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION to Res.string.setting_show_switch_account_button_description,
 )
 
 private val arrayResources: Map<String, StringArrayResource> = mapOf(

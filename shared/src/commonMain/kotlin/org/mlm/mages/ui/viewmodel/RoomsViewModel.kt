@@ -59,7 +59,8 @@ class RoomsViewModel(
                 updateState {
                     copy(
                         swipeRightAction = it.swipeRightAction,
-                        swipeLeftAction = it.swipeLeftAction
+                        swipeLeftAction = it.swipeLeftAction,
+                        showSwitchAccountButton = it.showSwitchAccountButton
                     )
                 }
             }

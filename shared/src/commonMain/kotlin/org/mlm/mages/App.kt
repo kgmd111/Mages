@@ -502,6 +502,8 @@ private fun AppContent(
                                 onOpenStartChat = { showStartChat = true },
                                 onOpenSpaces = { backStack.add(Route.Spaces) },
                                 onOpenSearch = { backStack.add(Route.Search) },
+                                onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                canSwitchAccount = accounts.size > 1,
                             )
 
                             LocalNetworkPermissionDialogHost(roomsGate)
@@ -634,39 +636,6 @@ private fun AppContent(
                                 onOpenAccountSwitcher = { showAccountSwitcher = true },
                                 remoteStates = remoteStates,
                             )
-
-                            if (showAccountSwitcher) {
-                                AccountSwitcherSheet(
-                                    accounts = accounts,
-                                    activeAccountId = activeAccountId,
-                                    onSelectAccount = { account ->
-                                        scope.launch {
-                                            val result = service.switchAccount(account)
-                                            if (result.isSuccess) {
-                                                sessionEpoch++
-                                                snackbarManager.show(getString(Res.string.switched_to_account, account.userId))
-                                            } else {
-                                                snackbarManager.showError(result.exceptionOrNull()?.message ?: getString(Res.string.failed_to_switch_account))
-                                            }
-                                        }
-                                    },
-                                    onAddAccount = {
-                                        showAccountSwitcher = false
-                                        backStack.add(Route.Login)
-                                    },
-                                    onRemoveAccount = { account ->
-                                        scope.launch {
-                                            service.removeAccount(account.id)
-                                            if (!service.isLoggedInSuspend()) {
-                                                backStack.replaceTop(Route.Login)
-                                            } else {
-                                                sessionEpoch++
-                                            }
-                                        }
-                                    },
-                                    onDismiss = { showAccountSwitcher = false }
-                                )
-                            }
                         }
 
                         entry<Route.Discover> {
@@ -1164,6 +1133,39 @@ private fun AppContent(
                 }
             }
         }
+
+            if (showAccountSwitcher) {
+                AccountSwitcherSheet(
+                    accounts = accounts,
+                    activeAccountId = activeAccountId,
+                    onSelectAccount = { account ->
+                        scope.launch {
+                            val result = service.switchAccount(account)
+                            if (result.isSuccess) {
+                                sessionEpoch++
+                                snackbarManager.show(getString(Res.string.switched_to_account, account.userId))
+                            } else {
+                                snackbarManager.showError(result.exceptionOrNull()?.message ?: getString(Res.string.failed_to_switch_account))
+                            }
+                        }
+                    },
+                    onAddAccount = {
+                        showAccountSwitcher = false
+                        backStack.add(Route.Login)
+                    },
+                    onRemoveAccount = { account ->
+                        scope.launch {
+                            service.removeAccount(account.id)
+                            if (!service.isLoggedInSuspend()) {
+                                backStack.replaceTop(Route.Login)
+                            } else {
+                                sessionEpoch++
+                            }
+                        }
+                    },
+                    onDismiss = { showAccountSwitcher = false }
+                )
+            }
     }
 }
 
