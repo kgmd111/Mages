@@ -1,3 +1,16 @@
+## v5.1.4
+
+- Add opt-in option for split panes
+- Timeline, composer and desktop window options
+- Unread sorting and silent count badge options
+- Favourites room list filter
+- Content max width settings
+- Configurable message swipe actions
+- Linux mobile specific options (ui scale and drag to scroll)
+- A way to override media preview setting in Images menu (#158)
+- Don't crash on probe failures
+
+
 ## v5.1.3
 
 - don't depend on layout size for pagination (#156)

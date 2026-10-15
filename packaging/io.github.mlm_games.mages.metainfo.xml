@@ -46,6 +46,21 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.1.4" date="2026-10-15" type="stable">
+      <description>
+        <ul>
+          <li>Add opt-in option for split panes</li>
+          <li>Timeline, composer and desktop window options</li>
+          <li>Unread sorting and silent count badge options</li>
+          <li>Favourites room list filter</li>
+          <li>Content max width settings</li>
+          <li>Configurable message swipe actions</li>
+          <li>Linux mobile specific options (ui scale and drag to scroll)</li>
+          <li>A way to override media preview setting in Images menu (#158)</li>
+          <li>Don't crash on probe failures</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.1.3" date="2026-10-13" type="stable">
       <description>
         <ul>
