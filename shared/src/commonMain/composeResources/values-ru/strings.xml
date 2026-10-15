@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Размер шрифта сообщений</string>
     <string name="setting_show_message_avatars_description">Показывать аватары пользователей рядом с сообщениями</string>
     <string name="setting_show_reaction_avatars_description">Показывать аватары пользователей на реакциях</string>
-    <string name="setting_show_switch_account_button">Показывать кнопку смены аккаунта</string>
-    <string name="setting_show_switch_account_button_description">Показывает переключатель аккаунтов в верхней панели списка комнат</string>
+    <string name="setting_show_switch_account_button">Показывать кнопку аккаунта на главном экране</string>
+    <string name="setting_show_switch_account_button_description">Показывает кнопку аккаунта на главном экране вместо настроек</string>
     <string name="setting_show_username_in_dms_description">Показывать имена пользователей в личных сообщениях</string>
     <string name="setting_bubble_animations_description">Анимировать появление сообщений</string>
     <string name="setting_hide_membership_events_description">События входа, выхода и приглашений в комнатах</string>

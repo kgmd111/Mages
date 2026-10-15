@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Tamanho da fonte da mensagem</string>
     <string name="setting_show_message_avatars_description">Exibir avatares de usuários ao lado de mensagens</string>
     <string name="setting_show_reaction_avatars_description">Exibir avatares de usuários em chips de reação</string>
-    <string name="setting_show_switch_account_button">Mostrar botão de troca de conta</string>
-    <string name="setting_show_switch_account_button_description">Mostra o seletor de contas na barra superior da lista de salas</string>
+    <string name="setting_show_switch_account_button">Mostrar o botão de conta na tela inicial</string>
+    <string name="setting_show_switch_account_button_description">Mostra o botão de conta na tela inicial em vez das configurações</string>
     <string name="setting_show_username_in_dms_description">Mostrar nomes de usuários em direto mensagens</string>
     <string name="setting_bubble_animations_description">Animar mensagens conforme elas aparecem</string>
     <string name="setting_hide_membership_events_description">Participar/sair/convidar eventos nas salas</string>

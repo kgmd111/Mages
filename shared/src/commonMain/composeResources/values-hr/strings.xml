@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Veličina fonta poruke</string>
     <string name="setting_show_message_avatars_description">Prikažite korisničke avatare pored poruka</string>
     <string name="setting_show_reaction_avatars_description">Prikažite korisničke avatare na reakcijskim čipovima</string>
-    <string name="setting_show_switch_account_button">Prikaži gumb za promjenu računa</string>
-    <string name="setting_show_switch_account_button_description">Prikazuje birač računa na gornjoj traci popisa soba</string>
+    <string name="setting_show_switch_account_button">Prikaži gumb računa na početnom zaslonu</string>
+    <string name="setting_show_switch_account_button_description">Prikazuje gumb računa na početnom zaslonu umjesto u postavkama</string>
     <string name="setting_show_username_in_dms_description">Prikaži korisnička imena u izravnim porukama</string>
     <string name="setting_bubble_animations_description">Animiraj poruke kako se pojavljuju</string>
     <string name="setting_hide_membership_events_description">Pridruži se/napusti/pozovi događaje u sobama</string>

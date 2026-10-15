@@ -137,8 +137,10 @@ fun SecurityScreen(
                         }
                     },
                     actions = {
-                        IconButton(onClick = onOpenAccountSwitcher) {
-                            Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
+                        if (!settings.showSwitchAccountButton) {
+                            IconButton(onClick = onOpenAccountSwitcher) {
+                                Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
+                            }
                         }
                     }
                 )

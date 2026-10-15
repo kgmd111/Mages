@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Ukuran font pesan</string>
     <string name="setting_show_message_avatars_description">Tampilkan avatar pengguna di samping pesan</string>
     <string name="setting_show_reaction_avatars_description">Tampilkan avatar pengguna pada chip reaksi</string>
-    <string name="setting_show_switch_account_button">Tampilkan tombol ganti akun</string>
-    <string name="setting_show_switch_account_button_description">Menampilkan pemilih akun di bilah atas daftar kamar</string>
+    <string name="setting_show_switch_account_button">Tampilkan tombol akun di layar beranda</string>
+    <string name="setting_show_switch_account_button_description">Menampilkan tombol akun di layar beranda alih-alih di pengaturan</string>
     <string name="setting_show_username_in_dms_description">Tampilkan nama pengguna secara langsung pesan</string>
     <string name="setting_bubble_animations_description">Menganimasikan pesan saat muncul</string>
     <string name="setting_hide_membership_events_description">Bergabung/keluar/mengundang acara di ruangan</string>

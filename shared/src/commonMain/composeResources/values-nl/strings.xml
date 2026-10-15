@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Lettergrootte van bericht</string>
     <string name="setting_show_message_avatars_description">Toon gebruikersavatars naast berichten</string>
     <string name="setting_show_reaction_avatars_description">Geef gebruikersavatars weer op reactiechips</string>
-    <string name="setting_show_switch_account_button">Knop voor accountwissel tonen</string>
-    <string name="setting_show_switch_account_button_description">Toont de accountkiezer in de bovenbalk van de kamerlijst</string>
+    <string name="setting_show_switch_account_button">Accountknop op het startscherm tonen</string>
+    <string name="setting_show_switch_account_button_description">Toont de accountknop op het startscherm in plaats van in de instellingen</string>
     <string name="setting_show_username_in_dms_description">Toon gebruikersnamen in directe berichten</string>
     <string name="setting_bubble_animations_description">Animeer berichten zodra ze verschijnen</string>
     <string name="setting_hide_membership_events_description">Deelnemen aan/verlaten/uitnodigen van evenementen in kamers</string>

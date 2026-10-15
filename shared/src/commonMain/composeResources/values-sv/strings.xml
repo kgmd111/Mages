@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Meddelande teckenstorlek</string>
     <string name="setting_show_message_avatars_description">Visa användaravatarer bredvid meddelanden</string>
     <string name="setting_show_reaction_avatars_description">Visa användaravatarer på reaktionschips</string>
-    <string name="setting_show_switch_account_button">Visa knapp för kontow byte</string>
-    <string name="setting_show_switch_account_button_description">Visar kontväxlaren i den övre listen i rumslistan</string>
+    <string name="setting_show_switch_account_button">Visa kontoknapp på startsidan</string>
+    <string name="setting_show_switch_account_button_description">Visar kontoknappen på startsidan i stället för i inställningarna</string>
     <string name="setting_show_username_in_dms_description">Visa användarnamn i direktmeddelanden</string>
     <string name="setting_bubble_animations_description">Animera meddelanden när de visas</string>
     <string name="setting_hide_membership_events_description">Gå med/lämna/bjud in evenemang i rum</string>

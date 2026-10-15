@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">_Mesaj yazı tipi boyutu_</string>
     <string name="setting_show_message_avatars_description">_Mesajların yanında kullanıcı avatarlarını görüntüleyin_</string>
     <string name="setting_show_reaction_avatars_description">_Reaksiyon çiplerinde kullanıcı avatarlarını görüntüleyin_</string>
-    <string name="setting_show_switch_account_button">Hesap değiştirme düğmesini göster</string>
-    <string name="setting_show_switch_account_button_description">Hesap değiştiriciyi oda listesinin üst çubuğunda gösterir</string>
+    <string name="setting_show_switch_account_button">Hesap düğmesini ana ekranda göster</string>
+    <string name="setting_show_switch_account_button_description">Hesap düğmesini ayarlar yerine ana ekranda gösterir</string>
     <string name="setting_show_username_in_dms_description">_Kullanıcı adlarını doğrudan gösterin mesajlar_</string>
     <string name="setting_bubble_animations_description">_Mesajları göründükleri gibi canlandırın_</string>
     <string name="setting_hide_membership_events_description">_Odalardaki etkinliklere katılma/ayrılma/davet etme_</string>

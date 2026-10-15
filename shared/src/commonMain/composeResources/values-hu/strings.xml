@@ -73,8 +73,8 @@
     <string name="setting_font_size_description">Üzenet betűmérete</string>
     <string name="setting_show_message_avatars_description">Felhasználói avatarok megjelenítése az üzenetek mellett</string>
     <string name="setting_show_reaction_avatars_description">Felhasználói avatarok megjelenítése reakcióchipeken</string>
-    <string name="setting_show_switch_account_button">Fiókváltó gomb megjelenítése</string>
-    <string name="setting_show_switch_account_button_description">A fiókváltó megjelenítése a szobák listájának felső sávján</string>
+    <string name="setting_show_switch_account_button">Fiókgomb megjelenítése a kezdőképernyőn</string>
+    <string name="setting_show_switch_account_button_description">A fiókgombot a kezdőképernyőn jeleníti meg a beállítások helyett</string>
     <string name="setting_show_username_in_dms_description">Felhasználónevek megjelenítése a közvetlen üzenetekben</string>
     <string name="setting_bubble_animations_description">Animálja az üzeneteket, ahogy megjelennek</string>
     <string name="setting_hide_membership_events_description">Csatlakozás/kilépés/meghívás események a szobákban</string>

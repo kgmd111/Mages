@@ -77,8 +77,10 @@ data class AppSettings(
     val activeAccountId: String? = null,
 
     @Setting(
-        title = "Show switch account in Home",
+        title = "Show account button on home screen",
+        description = "Show the account button on the home screen instead of in settings",
         titleKey = MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON,
+        descriptionKey = MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION,
         category = Appearance::class,
         type = Toggle::class,
     )
