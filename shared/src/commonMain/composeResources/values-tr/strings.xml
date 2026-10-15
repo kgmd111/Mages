@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Yeni mesaj</string>
     <string name="notif_open">Aç</string>
     <string name="notif_reply_action">Yanıtla…</string>
+    <string name="setting_ui_scale">Arayüz ölçeği</string>
+    <string name="setting_ui_scale_description">Yalnızca tam sayılar. Telefonlarda ekran ölçeği bildirilmediği için 2 veya 3 kullanın</string>
+    <string name="setting_drag_to_scroll">Kaydırmak için sürükleyin</string>
+    <string name="setting_drag_to_scroll_description">Fare tekerleği yerine sürükleyerek listelerde kaydırın</string>
 </resources>

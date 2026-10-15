@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Pesan baru</string>
     <string name="notif_open">Buka</string>
     <string name="notif_reply_action">Balas…</string>
+    <string name="setting_ui_scale">Skala UI</string>
+    <string name="setting_ui_scale_description">Hanya bilangan bulat. Gunakan 2 atau 3 di ponsel, tempat skala tampilan tidak dilaporkan</string>
+    <string name="setting_drag_to_scroll">Geser untuk menggulir</string>
+    <string name="setting_drag_to_scroll_description">Gulir daftar dengan menyeret, bukan menggunakan roda tetikus</string>
 </resources>

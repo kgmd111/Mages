@@ -1311,4 +1311,8 @@
     <string name="notif_new_message">Nová zpráva</string>
     <string name="notif_open">Otevřít</string>
     <string name="notif_reply_action">Odpovědět…</string>
+    <string name="setting_ui_scale">Měřítko rozhraní</string>
+    <string name="setting_ui_scale_description">Pouze celá čísla. Na telefonech použijte 2 nebo 3, kde se nehlásí měřítko obrazovky</string>
+    <string name="setting_drag_to_scroll">Tažením posouvat</string>
+    <string name="setting_drag_to_scroll_description">Posouvejte seznamy tažením místo použití kolečka myši</string>
 </resources>

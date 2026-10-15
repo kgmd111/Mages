@@ -1311,4 +1311,8 @@
     <string name="notif_new_message">הודעה חדשה</string>
     <string name="notif_open">פתח</string>
     <string name="notif_reply_action">תשובה…</string>
+    <string name="setting_ui_scale">קנה מידה של ממשק</string>
+    <string name="setting_ui_scale_description">מספרים שלמים בלבד. השתמש ב-2 או ב-3 בטלפונים, שבהם לא מדווח על קנה מידה של תצוגה</string>
+    <string name="setting_drag_to_scroll">גרירה כדי לגלול</string>
+    <string name="setting_drag_to_scroll_description">גלול ברשימות באמצעות גרירה במקום גלגלת העכבר</string>
 </resources>

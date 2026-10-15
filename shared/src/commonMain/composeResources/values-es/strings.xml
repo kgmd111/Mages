@@ -1425,4 +1425,8 @@
     <string name="notif_new_message">Nuevo mensaje</string>
     <string name="notif_open">Abrir</string>
     <string name="notif_reply_action">Responder…</string>
+    <string name="setting_ui_scale">Escala de la interfaz</string>
+    <string name="setting_ui_scale_description">Solo números enteros. Usa 2 o 3 en teléfonos, donde no se informa la escala de pantalla</string>
+    <string name="setting_drag_to_scroll">Arrastrar para desplazarse</string>
+    <string name="setting_drag_to_scroll_description">Desplaza las listas arrastrando en lugar de usar la rueda del ratón</string>
 </resources>

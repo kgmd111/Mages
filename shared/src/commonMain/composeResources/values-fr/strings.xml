@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Nouveau message</string>
     <string name="notif_open">Ouvrir</string>
     <string name="notif_reply_action">Répondre…</string>
+    <string name="setting_ui_scale">Échelle de l\'interface</string>
+    <string name="setting_ui_scale_description">Nombre entier uniquement. Utilisez 2 ou 3 sur les téléphones, où aucune échelle d\'affichage n\'est signalée</string>
+    <string name="setting_drag_to_scroll">Faire glisser pour faire défiler</string>
+    <string name="setting_drag_to_scroll_description">Faites défiler les listes en faisant glisser au lieu d\'utiliser la molette</string>
 </resources>

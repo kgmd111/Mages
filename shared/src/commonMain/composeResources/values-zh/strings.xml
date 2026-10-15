@@ -1308,4 +1308,8 @@
     <string name="notif_new_message">新消息</string>
     <string name="notif_open">打开</string>
     <string name="notif_reply_action">回复...</string>
+    <string name="setting_ui_scale">界面缩放</string>
+    <string name="setting_ui_scale_description">仅限整数。在未报告显示缩放的设备上使用 2 或 3</string>
+    <string name="setting_drag_to_scroll">拖动以滚动</string>
+    <string name="setting_drag_to_scroll_description">通过拖动而非鼠标滚轮滚动列表</string>
 </resources>

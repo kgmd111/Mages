@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Uusi viesti</string>
     <string name="notif_open">Avaa</string>
     <string name="notif_reply_action">Vastaa…</string>
+    <string name="setting_ui_scale">Rajapinnan skaalaus</string>
+    <string name="setting_ui_scale_description">Vain kokonaisluvut. Käytä arvoja 2 tai 3 puhelimissa, joissa näytön skaalausta ei ilmoiteta</string>
+    <string name="setting_drag_to_scroll">Vedä vierittääksesi</string>
+    <string name="setting_drag_to_scroll_description">Vieritä luetteloita vetämällä hiiren sijaan</string>
 </resources>

@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Neue Nachricht</string>
     <string name="notif_open">Öffnen</string>
     <string name="notif_reply_action">Antworten…</string>
+    <string name="setting_ui_scale">UI-Skalierung</string>
+    <string name="setting_ui_scale_description">Nur ganze Zahlen. Auf Smartphones 2 oder 3 verwenden, da dort keine Anzeigeskalierung gemeldet wird</string>
+    <string name="setting_drag_to_scroll">Zum Scrollen ziehen</string>
+    <string name="setting_drag_to_scroll_description">Listen durch Ziehen statt mit dem Mausrad scrollen</string>
 </resources>

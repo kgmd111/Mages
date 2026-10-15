@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">پیام جدید</string>
     <string name="notif_open">باز کردن</string>
     <string name="notif_reply_action">پاسخ…</string>
+    <string name="setting_ui_scale">مقیاس رابط کاربری</string>
+    <string name="setting_ui_scale_description">فقط اعداد صحیح. در گوشی‌ها از ۲ یا ۳ استفاده کنید، جایی که مقیاس صفحه گزارش نمی‌شود</string>
+    <string name="setting_drag_to_scroll">برای پیمایش بکشید</string>
+    <string name="setting_drag_to_scroll_description">با کشیدن به‌جای چرخ ماوس، فهرست‌ها را پیمایش کنید</string>
 </resources>

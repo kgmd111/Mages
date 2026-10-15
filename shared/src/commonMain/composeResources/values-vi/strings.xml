@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Tin nhắn mới</string>
     <string name="notif_open">Mở</string>
     <string name="notif_reply_action">Trả lời…</string>
+    <string name="setting_ui_scale">Tỉ lệ giao diện</string>
+    <string name="setting_ui_scale_description">Chỉ số nguyên. Dùng 2 hoặc 3 trên điện thoại, nơi không có tỉ lệ hiển thị nào được báo cáo</string>
+    <string name="setting_drag_to_scroll">Kéo để cuộn</string>
+    <string name="setting_drag_to_scroll_description">Cuộn danh sách bằng cách kéo thay vì dùng con lăn chuột</string>
 </resources>

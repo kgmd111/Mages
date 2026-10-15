@@ -1313,4 +1313,8 @@
     <string name="notif_new_message">رسالة جديدة</string>
     <string name="notif_open">فتح</string>
     <string name="notif_reply_action">رد…</string>
+    <string name="setting_ui_scale">مقياس واجهة المستخدم</string>
+    <string name="setting_ui_scale_description">أعداد صحيحة فقط. استخدم 2 أو 3 على الهواتف، حيث لا يتم الإبلاغ عن مقياس العرض</string>
+    <string name="setting_drag_to_scroll">اسحب للتمرير</string>
+    <string name="setting_drag_to_scroll_description">مرّر القوائم بالسحب بدلاً من استخدام عجلة الفأرة</string>
 </resources>

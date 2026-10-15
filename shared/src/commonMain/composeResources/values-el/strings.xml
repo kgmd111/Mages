@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Νέο μήνυμα</string>
     <string name="notif_open">Άνοιγμα</string>
     <string name="notif_reply_action">Απάντηση…</string>
+    <string name="setting_ui_scale">Κλίμακα διεπαφής</string>
+    <string name="setting_ui_scale_description">Μόνο ακέραιοι αριθμοί. Χρησιμοποιήστε 2 ή 3 σε τηλέφωνα, όπου δεν αναφέρεται κλίμακα οθόνης</string>
+    <string name="setting_drag_to_scroll">Σύρετε για κύλιση</string>
+    <string name="setting_drag_to_scroll_description">Κυλίστε τις λίστες με σύρεση αντί για τον κύλινο του ποντικιού</string>
 </resources>

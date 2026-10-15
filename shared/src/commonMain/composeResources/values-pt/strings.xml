@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Nova mensagem</string>
     <string name="notif_open">Abrir</string>
     <string name="notif_reply_action">Responder…</string>
+    <string name="setting_ui_scale">Escala da interface</string>
+    <string name="setting_ui_scale_description">Apenas números inteiros. Use 2 ou 3 em telemóveis, onde não é indicada a escala do ecrã</string>
+    <string name="setting_drag_to_scroll">Arrastar para deslocar</string>
+    <string name="setting_drag_to_scroll_description">Desloque as listas arrastando em vez de usar a roda do rato</string>
 </resources>

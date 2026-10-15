@@ -1311,4 +1311,8 @@
     <string name="notif_new_message">Новое сообщение</string>
     <string name="notif_open">Открыть</string>
     <string name="notif_reply_action">Ответить…</string>
+    <string name="setting_ui_scale">Масштаб интерфейса</string>
+    <string name="setting_ui_scale_description">Только целые числа. Используйте 2 или 3 на телефонах, где масштаб экрана не определяется</string>
+    <string name="setting_drag_to_scroll">Перетаскивание для прокрутки</string>
+    <string name="setting_drag_to_scroll_description">Прокручивайте списки перетаскиванием вместо колеса мыши</string>
 </resources>

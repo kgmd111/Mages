@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Új üzenet</string>
     <string name="notif_open">Megnyitás</string>
     <string name="notif_reply_action">Válasz…</string>
+    <string name="setting_ui_scale">Felhasználói felület méretezése</string>
+    <string name="setting_ui_scale_description">Csak egész számok. Telefonokon 2 vagy 3 értéket használj, ahol a kijelző skálázása nincs jelentve</string>
+    <string name="setting_drag_to_scroll">Húzd a görgetéshez</string>
+    <string name="setting_drag_to_scroll_description">A listák görgetése húzással az egérgomb helyett</string>
 </resources>

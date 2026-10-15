@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Nytt meddelande</string>
     <string name="notif_open">Öppna</string>
     <string name="notif_reply_action">Svara…</string>
+    <string name="setting_ui_scale">UI-skala</string>
+    <string name="setting_ui_scale_description">Endast heltal. Använd 2 eller 3 på telefoner, där ingen skärmskala rapporteras</string>
+    <string name="setting_drag_to_scroll">Dra för att rulla</string>
+    <string name="setting_drag_to_scroll_description">Rulla listor genom att dra i stället för att använda mushjulet</string>
 </resources>

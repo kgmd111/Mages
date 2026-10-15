@@ -1310,4 +1310,8 @@
     <string name="notif_new_message">Nova poruka</string>
     <string name="notif_open">Otvori</string>
     <string name="notif_reply_action">Odgovori…</string>
+    <string name="setting_ui_scale">Skala sučelja</string>
+    <string name="setting_ui_scale_description">Samo cijeli brojevi. Na telefonima koristi 2 ili 3, gdje se ne prijavljuje skaliranje zaslona</string>
+    <string name="setting_drag_to_scroll">Povucite za pomicanje</string>
+    <string name="setting_drag_to_scroll_description">Pomaknite popise povlačenjem umjesto korištenja miševa</string>
 </resources>

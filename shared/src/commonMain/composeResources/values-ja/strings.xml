@@ -1308,4 +1308,8 @@
     <string name="notif_new_message">新しいメッセージ</string>
     <string name="notif_open">開く</string>
     <string name="notif_reply_action">返信…</string>
+    <string name="setting_ui_scale">UIスケール</string>
+    <string name="setting_ui_scale_description">整数値のみ。画面スケールが検出されないスマートフォンでは 2 または 3 を使用してください</string>
+    <string name="setting_drag_to_scroll">ドラッグでスクロール</string>
+    <string name="setting_drag_to_scroll_description">マウスホイールではなくドラッグでリストをスクロールします</string>
 </resources>

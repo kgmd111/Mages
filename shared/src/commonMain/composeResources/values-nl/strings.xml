@@ -1309,4 +1309,8 @@
     <string name="notif_new_message">Nieuw bericht</string>
     <string name="notif_open">Openen</string>
     <string name="notif_reply_action">Antwoorden…</string>
+    <string name="setting_ui_scale">UI-schaal</string>
+    <string name="setting_ui_scale_description">Alleen gehele getallen. Gebruik 2 of 3 op telefoons, waar geen schermschaal wordt gemeld</string>
+    <string name="setting_drag_to_scroll">Sleep om te scrollen</string>
+    <string name="setting_drag_to_scroll_description">Scroll door lijsten te slepen in plaats van het muiswiel te gebruiken</string>
 </resources>
