@@ -944,6 +944,9 @@
     <string name="no_files_found">Файлы не найдены</string>
     <string name="no_links_found">Ссылки не найдены</string>
     <string name="no_media_found">Медиа не найдены</string>
+    <string name="media_previews_blocked">Предпросмотр медиа отключён</string>
+    <string name="media_previews_blocked_description">Отображаются заглушки. Загрузка предпросмотра скачивает миниатюры этой комнаты.</string>
+    <string name="load_previews">Загрузить предпросмотр</string>
     <string name="no_messages_available_to_forward">Нет сообщений для пересылки</string>
     <string name="no_notifications_from_this_room">Нет уведомлений от этой комнаты</string>
     <string name="no_pending_knock_requests">Нет ожидающих запросов на вход</string>

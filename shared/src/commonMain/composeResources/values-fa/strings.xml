@@ -944,6 +944,9 @@
     <string name="no_files_found">فایلی یافت نشد</string>
     <string name="no_links_found">پیوندی یافت نشد</string>
     <string name="no_media_found">رسانه‌ای یافت نشد</string>
+    <string name="media_previews_blocked">پیش‌نمایش‌های رسانه غیرفعال است</string>
+    <string name="media_previews_blocked_description">شما جای‌نگهدارها را می‌بینید. بارگذاری پیش‌نمایش‌ها تصاویر بندانگشتی این اتاق را دانلود می‌کند.</string>
+    <string name="load_previews">بارگذاری پیش‌نمایش‌ها</string>
     <string name="no_messages_available_to_forward">پیامی برای بازارسال موجود نیست</string>
     <string name="no_notifications_from_this_room">اعلانی از این اتاق وجود ندارد</string>
     <string name="no_pending_knock_requests">درخواست پیوستن معلقی وجود ندارد</string>

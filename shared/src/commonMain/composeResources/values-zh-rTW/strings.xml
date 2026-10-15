@@ -944,6 +944,9 @@
     <string name="no_files_found">找不到檔案</string>
     <string name="no_links_found">找不到連結</string>
     <string name="no_media_found">找不到媒體</string>
+    <string name="media_previews_blocked">媒體預覽已關閉</string>
+    <string name="media_previews_blocked_description">你看到的是預留位置。載入預覽會下載此房間的縮圖。</string>
+    <string name="load_previews">載入預覽</string>
     <string name="no_messages_available_to_forward">沒有可轉發的訊息</string>
     <string name="no_notifications_from_this_room">此房間沒有通知</string>
     <string name="no_pending_knock_requests">沒有待處理的敲門請求</string>

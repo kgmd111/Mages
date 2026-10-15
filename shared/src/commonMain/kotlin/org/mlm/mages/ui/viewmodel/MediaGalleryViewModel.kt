@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import mages.shared.generated.resources.*
 import org.koin.core.component.inject
 import org.mlm.mages.AttachmentKind
@@ -30,8 +32,11 @@ data class MediaGalleryUiState(
     val thumbnails: Map<String, String> = emptyMap(),
     val error: String? = null,
     val isSelectionMode: Boolean = false,
-    val selectedIds: Set<String> = emptySet()
+    val selectedIds: Set<String> = emptySet(),
+    val settingBlocksPreviews: Boolean = false,
+    val previewsEnabledForSession: Boolean = false
 ) {
+    val previewsBlocked: Boolean get() = settingBlocksPreviews && !previewsEnabledForSession
     val isPaginating: Boolean
         get() = paginationStatus is BackPaginationStatus.Paginating
 
@@ -78,12 +83,15 @@ class MediaGalleryViewModel(
     private companion object {
         const val PAGE_SIZE = 50
         const val MAX_SCAN_PAGES = 24
+        const val THUMBNAIL_CONCURRENCY = 6
     }
 
     private val settingsRepo: SettingsRepository<AppSettings> by inject()
 
     private val settings = settingsRepo.flow
         .stateIn(viewModelScope, SharingStarted.Eagerly, AppSettings())
+
+    private val thumbnailPermits = Semaphore(THUMBNAIL_CONCURRENCY)
 
     sealed class Event {
         data class ShowError(val message: String) : Event()
@@ -134,6 +142,29 @@ class MediaGalleryViewModel(
     init {
         observeTimeline()
         observePaginationStatus()
+        observePreviewPolicy()
+    }
+
+    private fun observePreviewPolicy() {
+        launch {
+            settings.collect { current ->
+                updateState {
+                    copy(
+                        settingBlocksPreviews = !current.mediaPreviews.allowsMediaPreviews(isPrivateRoom = null)
+                    )
+                }
+            }
+        }
+    }
+
+    /**
+     * Lifts the media preview block for this screen only. The setting itself is untouched, so
+     * previews stay off in the timeline, notifications and every other screen.
+     */
+    fun loadBlockedPreviews() {
+        if (!currentState.previewsBlocked) return
+        updateState { copy(previewsEnabledForSession = true) }
+        loadThumbnailsFor(currentState.allEvents)
     }
 
     private fun observePaginationStatus() {
@@ -332,8 +363,11 @@ class MediaGalleryViewModel(
     }
 
     private fun prefetchThumbnails(events: List<MessageEvent>) {
-        if (!settings.value.mediaPreviews.allowsMediaPreviews(isPrivateRoom = null)) return
+        if (currentState.previewsBlocked) return
+        loadThumbnailsFor(events)
+    }
 
+    private fun loadThumbnailsFor(events: List<MessageEvent>) {
         events.filter {
             val kind = it.attachment?.kind
             kind == AttachmentKind.Image || kind == AttachmentKind.Video
@@ -343,10 +377,12 @@ class MediaGalleryViewModel(
 
             launch {
                 val attachment = event.attachment ?: return@launch
-                service.thumbnailToCache(attachment, 200, 200, true)
-                    .onSuccess { path ->
-                        updateState { copy(thumbnails = thumbnails + (event.eventId to path)) }
-                    }
+                thumbnailPermits.withPermit {
+                    service.thumbnailToCache(attachment, 200, 200, true)
+                        .onSuccess { path ->
+                            updateState { copy(thumbnails = thumbnails + (event.eventId to path)) }
+                        }
+                }
             }
         }
     }

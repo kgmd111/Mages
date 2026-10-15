@@ -177,6 +177,12 @@ fun MediaGalleryScreen(
                     }
                 }
                 else -> {
+                    AnimatedVisibility(
+                        visible = state.previewsBlocked && selectedTab.showsThumbnails()
+                    ) {
+                        BlockedPreviewsBanner(onLoad = viewModel::loadBlockedPreviews)
+                    }
+
                     when (selectedTab) {
                         MediaTab.Images -> MediaGrid(
                             items = state.images,
@@ -919,6 +925,41 @@ private fun LinkListItem(
     }
 }
 
+
+private fun MediaTab.showsThumbnails(): Boolean =
+    this == MediaTab.Images || this == MediaTab.Videos
+
+@Composable
+private fun BlockedPreviewsBanner(onLoad: () -> Unit) {
+    Surface(
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.md, vertical = Spacing.sm),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Spacing.md)
+        ) {
+            Icon(Icons.Default.VisibilityOff, contentDescription = null)
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(Res.string.media_previews_blocked),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = stringResource(Res.string.media_previews_blocked_description),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+            TextButton(onClick = onLoad) {
+                Text(stringResource(Res.string.load_previews))
+            }
+        }
+    }
+}
 
 @Composable
 private fun EmptyTabContent(

@@ -944,6 +944,9 @@
     <string name="no_files_found">لم يتم العثور على ملفات</string>
     <string name="no_links_found">لم يتم العثور على روابط</string>
     <string name="no_media_found">لم يتم العثور على وسائط</string>
+    <string name="media_previews_blocked">معاينات الوسائط معطّلة</string>
+    <string name="media_previews_blocked_description">أنت ترى العناصر النائبة. تحميل المعاينات ينزّل الصور المصغرة لهذه الغرفة.</string>
+    <string name="load_previews">تحميل المعاينات</string>
     <string name="no_messages_available_to_forward">لا توجد رسائل متاحة لإعادة التوجيه</string>
     <string name="no_notifications_from_this_room">لا توجد إشعارات من هذه الغرفة</string>
     <string name="no_pending_knock_requests">لا توجد طلبات طرق معلقة</string>

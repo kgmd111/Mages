@@ -944,6 +944,9 @@
     <string name="no_files_found">파일을 찾을 수 없습니다</string>
     <string name="no_links_found">링크를 찾을 수 없습니다</string>
     <string name="no_media_found">미디어를 찾을 수 없습니다</string>
+    <string name="media_previews_blocked">미디어 미리보기가 꺼져 있습니다</string>
+    <string name="media_previews_blocked_description">자리 표시자가 표시되고 있습니다. 미리보기를 불러오면 이 방의 썸네일을 다운로드합니다.</string>
+    <string name="load_previews">미리보기 불러오기</string>
     <string name="no_messages_available_to_forward">전달할 메시지가 없습니다</string>
     <string name="no_notifications_from_this_room">이 방의 알림 없음</string>
     <string name="no_pending_knock_requests">대기 중인 노크 요청 없음</string>

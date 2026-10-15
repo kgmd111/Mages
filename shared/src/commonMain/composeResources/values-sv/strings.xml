@@ -944,6 +944,9 @@
     <string name="no_files_found">Inga filer hittades</string>
     <string name="no_links_found">Inga länkar hittades</string>
     <string name="no_media_found">Inga mediafiler hittades</string>
+    <string name="media_previews_blocked">Förhandsvisningar av media är avstängda</string>
+    <string name="media_previews_blocked_description">Du ser platshållare. Att ladda förhandsvisningar laddar ner miniatyrer för det här rummet.</string>
+    <string name="load_previews">Ladda förhandsvisningar</string>
     <string name="no_messages_available_to_forward">Inga meddelanden att vidarebefordra</string>
     <string name="no_notifications_from_this_room">Inga aviseringar från det här rummet</string>
     <string name="no_pending_knock_requests">Inga väntande knockförfrågningar</string>
