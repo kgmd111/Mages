@@ -108,6 +108,7 @@ fun RoomsScreen(
                 onToggleUnreadOnly = viewModel::toggleUnreadOnly,
                 onSetTypeFilter = viewModel::setTypeFilter,
                 unreadChatCount = state.unreadChatCount,
+                unreadFavouritesCount = state.unreadFavouritesCount,
                 unreadGroupsCount = state.unreadGroupsCount,
                 unreadDmsCount = state.unreadDmsCount,
                 spacesUnreadCount = state.spacesUnreadCount,
@@ -376,6 +377,7 @@ private fun RoomsTopBar(
     typeFilter: RoomTypeFilter,
     inviteCount: Int,
     unreadChatCount: Int,
+    unreadFavouritesCount: Int,
     unreadGroupsCount: Int,
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
@@ -485,6 +487,14 @@ private fun RoomsTopBar(
                     )
                 },
                 leadingIcon = if (unreadOnly) {
+                    { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
+                } else null
+            )
+            FilterChip(
+                selected = typeFilter == RoomTypeFilter.Favourites,
+                onClick = { onSetTypeFilter(RoomTypeFilter.Favourites) },
+                label = { Text(withCount(stringResource(Res.string.favourites), unreadFavouritesCount, unreadOnly)) },
+                leadingIcon = if (typeFilter == RoomTypeFilter.Favourites) {
                     { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
                 } else null
             )

@@ -97,6 +97,7 @@ data class RoomsUiState(
     val parentSpacesResolvedKey: String = "",
 
     val unreadChatCount: Int = 0,
+    val unreadFavouritesCount: Int = 0,
     val unreadGroupsCount: Int = 0,
     val unreadDmsCount: Int = 0,
     val spacesUnreadCount: Int = 0,
@@ -104,6 +105,7 @@ data class RoomsUiState(
 
 enum class RoomTypeFilter {
     All,
+    Favourites,
     Groups,
     Dms,
     Invites

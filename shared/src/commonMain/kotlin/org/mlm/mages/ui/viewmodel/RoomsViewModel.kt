@@ -593,6 +593,7 @@ class RoomsViewModel(
 
         list = when (s.typeFilter) {
             RoomTypeFilter.All -> list
+            RoomTypeFilter.Favourites -> list.filter { it.isFavourite }
             RoomTypeFilter.Groups -> list.filter { !it.isDm }
             RoomTypeFilter.Dms -> list.filter { it.isDm }
             RoomTypeFilter.Invites -> list.filter { it.isInvited }
@@ -605,6 +606,7 @@ class RoomsViewModel(
 
         val allFiltered = visibleRooms.filter { !it.isInvited }
         val unreadChatCount = allFiltered.count { it.hasUnread() }
+        val unreadFavouritesCount = allFiltered.count { it.isFavourite && it.hasUnread() }
         val unreadGroupsCount = allFiltered.count { !it.isDm && it.hasUnread() }
         val unreadDmsCount = allFiltered.count { it.isDm && it.hasUnread() }
         val spacesUnreadCount = s.allItems.count { item ->
@@ -627,6 +629,7 @@ class RoomsViewModel(
                 lowPriorityItems = lowPriority,
                 inviteItems = invites,
                 unreadChatCount = unreadChatCount,
+                unreadFavouritesCount = unreadFavouritesCount,
                 unreadGroupsCount = unreadGroupsCount,
                 unreadDmsCount = unreadDmsCount,
                 spacesUnreadCount = spacesUnreadCount,
