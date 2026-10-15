@@ -628,6 +628,10 @@
     <string name="setting_max_width_conversation_description">Maximum width of a conversation. Set to 0 for no limit</string>
     <string name="setting_max_width_inbox">Max width for room list</string>
     <string name="setting_max_width_inbox_description">Maximum width of the room list. Set to 0 for no limit</string>
+    <string name="setting_sort_by_unread">Sort unread first</string>
+    <string name="setting_sort_by_unread_description">Keep rooms with unread activity at the top of each section</string>
+    <string name="setting_show_silent_unread_count">Show silent unread count</string>
+    <string name="setting_show_silent_unread_count_description">Count every unread message in the badge instead of only highlighted ones</string>
     <string name="setting_chat_bubbles">Chat bubbles</string>
     <string name="setting_chat_bubbles_description">Open system settings to enable (or disable) conversation bubbles</string>
     <string name="setting_notification_rules">Notification rules</string>

@@ -40,6 +40,7 @@ fun RoomListItem(
     item: RoomListItemUi,
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
+    showSilentUnreadCount: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     val clickModifier = if (onLongClick != null) {
@@ -71,7 +72,7 @@ fun RoomListItem(
                     shape = CircleShape
                 )
 
-                if (item.unreadCount > 0) {
+                if (showSilentUnreadCount && item.unreadCount > 0) {
                     Badge(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -82,7 +83,7 @@ fun RoomListItem(
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
-                } else if (item.hasUnreadMessages) {
+                } else if (item.hasUnreadMessages || item.unreadCount > 0) {
                     Badge(
                         modifier = Modifier
                             .align(Alignment.TopEnd)

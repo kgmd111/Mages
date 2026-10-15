@@ -600,7 +600,8 @@ class RoomsViewModel(
         }
 
         fun sortUnread(items: List<RoomListItemUi>): List<RoomListItemUi> {
-            if (!s.unreadOnly || !includeSilent) return items
+            val sortByUnread = settings.value.sortByUnread
+            if (!sortByUnread && (!s.unreadOnly || !includeSilent)) return items
             return items.sortedByDescending { it.unreadCount > 0 || it.isMarkedUnread }
         }
 

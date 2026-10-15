@@ -171,4 +171,8 @@ object MagesSettingsKeys {
     const val MAX_WIDTH_CONVERSATION_DESCRIPTION = "mages.settings.max_width_conversation.description"
     const val MAX_WIDTH_INBOX = "mages.settings.max_width_inbox"
     const val MAX_WIDTH_INBOX_DESCRIPTION = "mages.settings.max_width_inbox.description"
+    const val SORT_BY_UNREAD = "mages.settings.sort_by_unread"
+    const val SORT_BY_UNREAD_DESCRIPTION = "mages.settings.sort_by_unread.description"
+    const val SHOW_SILENT_UNREAD_COUNT = "mages.settings.show_silent_unread_count"
+    const val SHOW_SILENT_UNREAD_COUNT_DESCRIPTION = "mages.settings.show_silent_unread_count.description"
 }

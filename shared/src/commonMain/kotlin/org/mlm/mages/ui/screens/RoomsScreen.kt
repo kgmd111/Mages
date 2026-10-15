@@ -238,7 +238,8 @@ fun RoomsScreen(
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId }
+                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    showSilentUnreadCount = settings.showSilentUnreadCount
                                 )
                             }
                         }
@@ -273,7 +274,8 @@ fun RoomsScreen(
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId }
+                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    showSilentUnreadCount = settings.showSilentUnreadCount
                                 )
                             }
                         }
@@ -307,7 +309,8 @@ fun RoomsScreen(
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId }
+                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    showSilentUnreadCount = settings.showSilentUnreadCount
                                 )
                             }
                         }

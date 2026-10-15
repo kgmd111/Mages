@@ -123,6 +123,8 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT to Res.string.setting_message_swipe_left,
     MagesSettingsKeys.MAX_WIDTH_CONVERSATION to Res.string.setting_max_width_conversation,
     MagesSettingsKeys.MAX_WIDTH_INBOX to Res.string.setting_max_width_inbox,
+    MagesSettingsKeys.SORT_BY_UNREAD to Res.string.setting_sort_by_unread,
+    MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT to Res.string.setting_show_silent_unread_count,
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON to Res.string.setting_show_switch_account_button,
 )
 
@@ -200,6 +202,8 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT_DESCRIPTION to Res.string.setting_message_swipe_left_description,
     MagesSettingsKeys.MAX_WIDTH_CONVERSATION_DESCRIPTION to Res.string.setting_max_width_conversation_description,
     MagesSettingsKeys.MAX_WIDTH_INBOX_DESCRIPTION to Res.string.setting_max_width_inbox_description,
+    MagesSettingsKeys.SORT_BY_UNREAD_DESCRIPTION to Res.string.setting_sort_by_unread_description,
+    MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT_DESCRIPTION to Res.string.setting_show_silent_unread_count_description,
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION to Res.string.setting_show_switch_account_button_description,
 )
 

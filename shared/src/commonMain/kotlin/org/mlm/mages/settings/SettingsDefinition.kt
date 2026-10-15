@@ -536,6 +536,26 @@ data class AppSettings(
     val maxWidthInbox: Int = 0,
 
     @Setting(
+        title = "Sort unread first",
+        titleKey = MagesSettingsKeys.SORT_BY_UNREAD,
+        description = "Keep rooms with unread activity at the top of each section",
+        descriptionKey = MagesSettingsKeys.SORT_BY_UNREAD_DESCRIPTION,
+        category = Timeline::class,
+        type = Toggle::class,
+    )
+    val sortByUnread: Boolean = false,
+
+    @Setting(
+        title = "Show silent unread count",
+        titleKey = MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT,
+        description = "Count every unread message in the badge instead of only highlighted ones",
+        descriptionKey = MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT_DESCRIPTION,
+        category = Timeline::class,
+        type = Toggle::class,
+    )
+    val showSilentUnreadCount: Boolean = true,
+
+    @Setting(
         title = "Chat bubbles",
         titleKey = MagesSettingsKeys.CHAT_BUBBLES,
         description = "Open system settings to enable (or disable) conversation bubbles",
