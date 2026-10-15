@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -27,6 +28,7 @@ import org.mlm.mages.matrix.SpaceInfo
 import org.mlm.mages.ui.components.core.EmptyState
 import org.mlm.mages.ui.components.core.ShimmerList
 import org.koin.compose.koinInject
+import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.viewmodel.SpacesViewModel
@@ -41,6 +43,7 @@ fun SpacesScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarManager: SnackbarManager = koinInject()
+    val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) { viewModel.refreshUnread() }
 
@@ -117,7 +120,10 @@ fun SpacesScreen(
 
                 else -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                        state = listState,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .dragToScrollIfEnabled(listState),
                         contentPadding = PaddingValues(Spacing.lg),
                         verticalArrangement = Arrangement.spacedBy(Spacing.md)
                     ) {

@@ -151,6 +151,29 @@ data class AppSettings(
     val fontSize: Float = 16f,
 
     @Setting(
+        title = "UI scale",
+        titleKey = MagesSettingsKeys.UI_SCALE,
+        description = "Integer only. Use 2 or 3 on phones, where no display scale is reported",
+        descriptionKey = MagesSettingsKeys.UI_SCALE_DESCRIPTION,
+        category = Appearance::class,
+        type = Dropdown::class,
+        options = ["1", "2", "3", "4"],
+        platforms = [SettingPlatform.JVM],
+    )
+    val uiScaleIndex: Int = 0,
+
+    @Setting(
+        title = "Drag to scroll",
+        titleKey = MagesSettingsKeys.DRAG_TO_SCROLL,
+        description = "Scroll lists by dragging instead of the mouse wheel",
+        descriptionKey = MagesSettingsKeys.DRAG_TO_SCROLL_DESCRIPTION,
+        category = Appearance::class,
+        type = Toggle::class,
+        platforms = [SettingPlatform.JVM],
+    )
+    val dragToScroll: Boolean = false,
+
+    @Setting(
         title = "Show message avatars",
         titleKey = MagesSettingsKeys.SHOW_MESSAGE_AVATARS,
         description = "Display user avatars next to messages",

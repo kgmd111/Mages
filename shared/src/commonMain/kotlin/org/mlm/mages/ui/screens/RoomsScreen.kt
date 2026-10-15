@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.RoomSummary
 import org.mlm.mages.ui.RoomTypeFilter
 import org.mlm.mages.ui.components.common.RoomListItem
@@ -198,7 +199,8 @@ fun RoomsScreen(
                     state = listState,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(innerPadding),
+                        .padding(innerPadding)
+                        .dragToScrollIfEnabled(listState),
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
                     if (state.favouriteItems.isNotEmpty()) {

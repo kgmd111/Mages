@@ -75,6 +75,7 @@ import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.components.sheets.*
 import org.mlm.mages.ui.components.voice.VoicePreviewDialog
 import org.mlm.mages.ui.theme.Spacing
+import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.ui.util.formatDate
 import org.mlm.mages.ui.util.formatTime
 import org.mlm.mages.ui.util.formatTimelineDate
@@ -736,7 +737,9 @@ fun RoomScreen(
                     } else {
                         LazyColumn(
                             state = listState,
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .dragToScrollIfEnabled(listState, reverse = true),
                             contentPadding = PaddingValues(vertical = 8.dp),
                             reverseLayout = true
                         ) {

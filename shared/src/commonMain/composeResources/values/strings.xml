@@ -548,6 +548,10 @@
     <string name="setting_language_description">Application language</string>
     <string name="setting_font_size">Font size</string>
     <string name="setting_font_size_description">Message font size</string>
+    <string name="setting_ui_scale">UI scale</string>
+    <string name="setting_ui_scale_description">Integer only. Use 2 or 3 on phones, where no display scale is reported. Requires a restart.</string>
+    <string name="setting_drag_to_scroll">Drag to scroll</string>
+    <string name="setting_drag_to_scroll_description">Scroll lists by dragging instead of the mouse wheel</string>
     <string name="setting_show_message_avatars">Show message avatars</string>
     <string name="setting_show_message_avatars_description">Display user avatars next to messages</string>
     <string name="setting_show_reaction_avatars">Show reaction avatars</string>

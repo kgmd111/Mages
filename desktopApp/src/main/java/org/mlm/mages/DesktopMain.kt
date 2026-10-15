@@ -25,6 +25,9 @@ import org.mlm.mages.nav.PendingDeepLinks
 import org.mlm.mages.platform.MagesPaths
 import org.mlm.mages.platform.Notifier
 import org.mlm.mages.platform.SettingsProvider
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import java.awt.Toolkit
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 import java.nio.file.Paths
@@ -36,7 +39,19 @@ private fun isDeepLinkArg(arg: String): Boolean =
         arg.startsWith("https://", ignoreCase = true) ||
         arg.startsWith("mages://room", ignoreCase = true)
 
+private const val DEFAULT_WINDOW_WIDTH_DP = 800
+private const val DEFAULT_WINDOW_HEIGHT_DP = 600
+
+private var uiScale = 1
+
 fun main(args: Array<String>) {
+    uiScale = runBlocking { SettingsProvider.get().flow.first().uiScaleIndex + 1 }
+    if (uiScale > 1) {
+        System.setProperty("skiko.linux.autodpi", "false")
+        System.setProperty("sun.java2d.uiScale.enabled", "true")
+        System.setProperty("sun.java2d.uiScale", uiScale.toString())
+    }
+
     MagesPaths.init()
 
     val initialDeepLink = args.firstOrNull { isDeepLinkArg(it) }
@@ -89,7 +104,16 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
 
     val scope = rememberCoroutineScope()
 
-    val windowState = rememberWindowState()
+    val windowState = rememberWindowState(
+        size = remember(uiScale) {
+            val screen = Toolkit.getDefaultToolkit().screenSize
+            if (screen.width < DEFAULT_WINDOW_WIDTH_DP || screen.height < DEFAULT_WINDOW_HEIGHT_DP) {
+                DpSize(screen.width.dp, screen.height.dp)
+            } else {
+                DpSize(DEFAULT_WINDOW_WIDTH_DP.dp, DEFAULT_WINDOW_HEIGHT_DP.dp)
+            }
+        }
+    )
 
     var tray by remember { mutableStateOf<SystemTray?>(null) }
     var trayIcons by remember { mutableStateOf<TrayIcons?>(null) }

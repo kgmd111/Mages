@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.LinkPreview
 import org.mlm.mages.MatrixService
 import org.mlm.mages.MessageEvent
@@ -80,11 +81,11 @@ fun ThreadRoute(
     val scope = rememberCoroutineScope()
     val snackbarManager: SnackbarManager = koinInject()
     val postError = rememberErrorPoster(snackbarManager)
-    val settingsRepository: SettingsRepository<AppSettings> = koinInject()
-    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
     val openExternal = rememberFileOpener()
     val shareHandler = rememberShareHandler()
     val service: MatrixService = koinInject()
+    val settingsRepository: SettingsRepository<AppSettings> = koinInject()
+    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
 
     val copiedLabel = stringResource(Res.string.copied_to_clipboard)
     val shareFailedLabel = stringResource(Res.string.share_failed)
@@ -365,7 +366,9 @@ fun ThreadScreen(
                 else -> {
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .dragToScrollIfEnabled(listState, reverse = true),
                         contentPadding = PaddingValues(bottom = Spacing.sm),
                         reverseLayout = true
                     ) {
