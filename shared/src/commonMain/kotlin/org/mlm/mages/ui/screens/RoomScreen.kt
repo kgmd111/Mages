@@ -30,6 +30,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
@@ -95,6 +98,7 @@ import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import kotlinx.coroutines.flow.distinctUntilChanged
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.AutoMarkReadTrigger
 import org.mlm.mages.settings.MessageSwipeAction
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.isEditableBy
@@ -373,6 +377,8 @@ fun RoomScreen(
         }
     }
 
+    val openAtUnread = settings.openAtUnread
+
     val needsUnreadSeek by remember(events, state.lastReadTs, state.hitStart) {
         derivedStateOf {
             val lastRead = state.lastReadTs ?: return@derivedStateOf false
@@ -381,10 +387,14 @@ fun RoomScreen(
         }
     }
 
-    LaunchedEffect(state.hasTimelineSnapshot, state.events.size, pendingJumpEventId, state.hasLoadedLastRead) {
+    LaunchedEffect(state.hasTimelineSnapshot, state.events.size, pendingJumpEventId, state.hasLoadedLastRead, openAtUnread) {
         if (!state.hasTimelineSnapshot || state.events.isEmpty()) return@LaunchedEffect
         if (pendingJumpEventId != null) return@LaunchedEffect
         if (!state.hasLoadedLastRead) return@LaunchedEffect
+        if (!openAtUnread) {
+            didInitialScroll = true
+            return@LaunchedEffect
+        }
         if (didInitialScroll || seekingUnread) return@LaunchedEffect
 
         if (needsUnreadSeek) {
@@ -511,8 +521,22 @@ fun RoomScreen(
     }
 
     val seekingJump = state.seekingEventId != null
+    val markReadTrigger = settings.autoMarkReadTrigger
     LaunchedEffect(events.lastOrNull()?.itemId, isNearBottom, seekingUnread, seekingJump, didInitialScroll) {
+        if (markReadTrigger != AutoMarkReadTrigger.WhileOpen) return@LaunchedEffect
         if (didInitialScroll && isNearBottom && !seekingUnread && !seekingJump) viewModel.markRoomSeen()
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, markReadTrigger) {
+        if (markReadTrigger != AutoMarkReadTrigger.OnRoomClose) {
+            return@DisposableEffect onDispose {}
+        }
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) viewModel.markRoomSeen()
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     LaunchedEffect(events.size, seekingJump) {
@@ -598,6 +622,8 @@ fun RoomScreen(
                         clipboardHandler = clipboardHandler,
                         onAttachmentPasted = { viewModel.attachFile(it) },
                         enterSendsMessage = settings.enterSendsMessage,
+                        composerMaxLines = settings.composerMaxLines,
+                        composerMaxLinesUnfocused = settings.composerMaxLinesUnfocused,
                         canEditLatest = settings.editLatestWithUpArrow && state.editing == null && hasEditableLatest,
                         onEditLatest = viewModel::startEditLatestEditable,
                         onStartVoiceRecording = viewModel::startVoiceRecording,
@@ -925,7 +951,7 @@ fun RoomScreen(
 
                         FloatingTimelineDateChip(
                             text = scrollDateLabel.orEmpty(),
-                            visible = showScrollDateChip && scrollDateLabel != null,
+                            visible = settings.floatingDate && showScrollDateChip && scrollDateLabel != null,
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .padding(top = 12.dp),
@@ -1484,6 +1510,8 @@ private fun RoomBottomBar(
     enterSendsMessage: Boolean = false,
     canEditLatest: Boolean = false,
     onEditLatest: () -> Unit = {},
+    composerMaxLines: Int = 5,
+    composerMaxLinesUnfocused: Int = 5,
     onStartVoiceRecording: () -> Unit = {},
     onCancelVoiceRecording: () -> Unit = {},
     onVoiceRecordingComplete: (filePath: String, durationMs: Long, waveform: List<Float>) -> Unit = { _, _, _ -> },
@@ -1509,6 +1537,8 @@ private fun RoomBottomBar(
         }
 
         MessageComposer(
+            maxLines = composerMaxLines,
+            maxLinesUnfocused = composerMaxLinesUnfocused,
             value = state.input,
             enabled = state.sendMessageAction.isEnabled,
             isOffline = state.isOffline,

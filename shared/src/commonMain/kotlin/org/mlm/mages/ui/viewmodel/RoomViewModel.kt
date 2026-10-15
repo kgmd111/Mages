@@ -30,6 +30,7 @@ import org.mlm.mages.platform.platformEmbeddedElementCallUrlOrNull
 import org.mlm.mages.platform.voiceMessageMimeType
 import org.mlm.mages.platform.voiceMessageExtension
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.AutoMarkReadTrigger
 import org.mlm.mages.storage.UserProfile
 import org.mlm.mages.ui.ActionAvailabilityUi
 import org.mlm.mages.ui.ActionPresentationUi
@@ -659,6 +660,8 @@ class RoomViewModel(
         val hasText = s.input.isNotBlank()
 
         if (!hasText && pending.isEmpty()) return
+
+        if (settings.value.autoMarkReadTrigger == AutoMarkReadTrigger.OnSend) markRoomSeen()
 
         // If there are attachments, send them all, then send text
         if (pending.isNotEmpty() && !s.isUploadingAttachment) {

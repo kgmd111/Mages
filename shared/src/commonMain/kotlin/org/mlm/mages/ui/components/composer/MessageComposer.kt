@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -70,6 +71,8 @@ fun MessageComposer(
     emoteSuggestions: List<EmoteSuggestion> = emptyList(),
     resolveEmotePreview: suspend (thumbnailMxcUri: String?, mxcUrl: String) -> String? = { _, _ -> null },
     isEncryptedRoom: Boolean = false,
+    maxLines: Int = 5,
+    maxLinesUnfocused: Int = 5,
 ) {
     val scope = rememberCoroutineScope()
     var fieldValue by remember { mutableStateOf(TextFieldValue(value)) }
@@ -191,6 +194,8 @@ fun MessageComposer(
                 replyingTo = replyingTo,
                 onStartVoiceRecording = onStartVoiceRecording,
                 visualTransformation = visualTransformation,
+                maxLines = maxLines,
+                maxLinesUnfocused = maxLinesUnfocused,
             )
         }
     }
@@ -216,7 +221,10 @@ private fun ComposerInputRow(
     replyingTo: MessageEvent?,
     onStartVoiceRecording: (() -> Unit)?,
     visualTransformation: VisualTransformation,
+    maxLines: Int,
+    maxLinesUnfocused: Int,
 ) {
+    var fieldFocused by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -267,6 +275,7 @@ private fun ComposerInputRow(
                 enabled = editLatestShortcutEnabled,
                 onEditLatest = onEditLatest
             )
+            .onFocusChanged { fieldFocused = it.isFocused }
 
         OutlinedTextField(
             value = fieldValue,
@@ -284,7 +293,7 @@ private fun ComposerInputRow(
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface
             ),
             shape = RoundedCornerShape(24.dp),
-            maxLines = 5,
+            maxLines = if (fieldFocused) maxLines else maxLinesUnfocused,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
                 imeAction = if (enterSendsMessage) ImeAction.Send else ImeAction.Default

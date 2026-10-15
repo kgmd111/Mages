@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
 @file:Suppress("AssignedValueIsNeverRead")
 
 package org.mlm.mages
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowDecoration
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import dorkbox.systemTray.MenuItem
@@ -45,11 +48,15 @@ private const val DEFAULT_WINDOW_HEIGHT_DP = 600
 private var uiScale = 1
 
 fun main(args: Array<String>) {
-    uiScale = runBlocking { SettingsProvider.get().flow.first().uiScaleIndex + 1 }
+    val initialSettings = runBlocking { SettingsProvider.get().flow.first() }
+    uiScale = initialSettings.uiScaleIndex + 1
     if (uiScale > 1) {
         System.setProperty("skiko.linux.autodpi", "false")
         System.setProperty("sun.java2d.uiScale.enabled", "true")
         System.setProperty("sun.java2d.uiScale", uiScale.toString())
+    }
+    if (!initialSettings.skikoVsync) {
+        System.setProperty("skiko.vsync.enabled", "false")
     }
 
     MagesPaths.init()
@@ -72,6 +79,12 @@ fun main(args: Array<String>) {
     val settingsRepo = remember { SettingsProvider.get() }
     val initialStartInTray = remember {
         runBlocking { settingsRepo.flow.first().startInTray }
+    }
+    val desktopSettings by settingsRepo.flow.collectAsState(
+        initial = runBlocking { settingsRepo.flow.first() }
+    )
+    val undecorated = remember {
+        runBlocking { settingsRepo.flow.first().hideWindowDecoration }
     }
 
     var startInTray by remember { mutableStateOf(initialStartInTray) }
@@ -227,10 +240,21 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
             },
             state = windowState,
             visible = showWindow,
-            title = "Mages"
+            title = "Mages",
+            transparent = undecorated,
+            decoration = if (undecorated) {
+                WindowDecoration.Undecorated()
+            } else {
+                WindowDecoration.SystemDefault
+            }
         ) {
             val window = this.window
             val matrixService: MatrixService = koinInject()
+
+            val windowAlpha = desktopSettings.windowBackgroundAlpha
+            LaunchedEffect(window, windowAlpha) {
+                runCatching { window.opacity = windowAlpha }
+            }
 
             DisposableEffect(window, matrixService) {
                 val listener = object : WindowFocusListener {

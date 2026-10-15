@@ -118,7 +118,9 @@ fun App(
 ) {
     val settings by settingsRepository.flow.collectAsState(AppSettings())
 
-    CompositionLocalProvider(LocalMessageFontSize provides settings.fontSize) {
+    CompositionLocalProvider(
+        LocalMessageFontSize provides settings.fontSize,
+    ) {
         AppContent(
             deepLinks = deepLinks,
             onRequestLocationPermissions = onRequestLocationPermissions,

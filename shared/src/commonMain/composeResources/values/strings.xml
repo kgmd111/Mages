@@ -632,6 +632,28 @@
     <string name="setting_sort_by_unread_description">Keep rooms with unread activity at the top of each section</string>
     <string name="setting_show_silent_unread_count">Show silent unread count</string>
     <string name="setting_show_silent_unread_count_description">Count every unread message in the badge instead of only highlighted ones</string>
+    <string name="setting_open_at_unread">Open rooms at first unread</string>
+    <string name="setting_open_at_unread_description">Jump back to the first unread message when opening a room</string>
+    <string name="setting_floating_date">Floating date separator</string>
+    <string name="setting_floating_date_description">Show a date chip while scrolling through the timeline</string>
+    <string name="setting_auto_mark_read_trigger">Mark as read</string>
+    <string name="setting_auto_mark_read_trigger_description">When to mark a room as read</string>
+    <string name="setting_composer_max_lines">Composer lines</string>
+    <string name="setting_composer_max_lines_description">Maximum height of the message composer</string>
+    <string name="setting_composer_max_lines_unfocused">Composer lines when unfocused</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximum height of the message composer while it is not focused</string>
+    <string name="setting_skiko_vsync">Sync vsync</string>
+    <string name="setting_skiko_vsync_description">Synchronise drawing with the display refresh rate. Turn off to save battery</string>
+    <string name="setting_hide_window_decoration">Hide window decoration</string>
+    <string name="setting_hide_window_decoration_description">Draw the window without a title bar. Requires a restart</string>
+    <string name="setting_window_background_alpha">Window opacity</string>
+    <string name="setting_window_background_alpha_description">Transparency of the whole window</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>On send</item>
+        <item>While open</item>
+        <item>On room close</item>
+        <item>Never</item>
+    </string-array>
     <string name="setting_chat_bubbles">Chat bubbles</string>
     <string name="setting_chat_bubbles_description">Open system settings to enable (or disable) conversation bubbles</string>
     <string name="setting_notification_rules">Notification rules</string>

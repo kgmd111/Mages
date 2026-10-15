@@ -125,6 +125,15 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MAX_WIDTH_INBOX to Res.string.setting_max_width_inbox,
     MagesSettingsKeys.SORT_BY_UNREAD to Res.string.setting_sort_by_unread,
     MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT to Res.string.setting_show_silent_unread_count,
+    MagesSettingsKeys.OPEN_AT_UNREAD to Res.string.setting_open_at_unread,
+    MagesSettingsKeys.FLOATING_DATE to Res.string.setting_floating_date,
+    MagesSettingsKeys.AUTO_MARK_READ_TRIGGER to Res.string.setting_auto_mark_read_trigger,
+    MagesSettingsKeys.COMPOSER_MAX_LINES to Res.string.setting_composer_max_lines,
+    MagesSettingsKeys.COMPOSER_MAX_LINES_UNFOCUSED to Res.string.setting_composer_max_lines_unfocused,
+    MagesSettingsKeys.SKIKO_VSYNC to Res.string.setting_skiko_vsync,
+    MagesSettingsKeys.HIDE_WINDOW_DECORATION to Res.string.setting_hide_window_decoration,
+    MagesSettingsKeys.WINDOW_BACKGROUND_ALPHA to Res.string.setting_window_background_alpha,
+
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON to Res.string.setting_show_switch_account_button,
 )
 
@@ -204,6 +213,15 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MAX_WIDTH_INBOX_DESCRIPTION to Res.string.setting_max_width_inbox_description,
     MagesSettingsKeys.SORT_BY_UNREAD_DESCRIPTION to Res.string.setting_sort_by_unread_description,
     MagesSettingsKeys.SHOW_SILENT_UNREAD_COUNT_DESCRIPTION to Res.string.setting_show_silent_unread_count_description,
+    MagesSettingsKeys.OPEN_AT_UNREAD_DESCRIPTION to Res.string.setting_open_at_unread_description,
+    MagesSettingsKeys.FLOATING_DATE_DESCRIPTION to Res.string.setting_floating_date_description,
+    MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_DESCRIPTION to Res.string.setting_auto_mark_read_trigger_description,
+    MagesSettingsKeys.COMPOSER_MAX_LINES_DESCRIPTION to Res.string.setting_composer_max_lines_description,
+    MagesSettingsKeys.COMPOSER_MAX_LINES_UNFOCUSED_DESCRIPTION to Res.string.setting_composer_max_lines_unfocused_description,
+    MagesSettingsKeys.SKIKO_VSYNC_DESCRIPTION to Res.string.setting_skiko_vsync_description,
+    MagesSettingsKeys.HIDE_WINDOW_DECORATION_DESCRIPTION to Res.string.setting_hide_window_decoration_description,
+    MagesSettingsKeys.WINDOW_BACKGROUND_ALPHA_DESCRIPTION to Res.string.setting_window_background_alpha_description,
+
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION to Res.string.setting_show_switch_account_button_description,
 )
 
@@ -217,6 +235,7 @@ private val arrayResources: Map<String, StringArrayResource> = mapOf(
     MagesSettingsKeys.LINK_PREVIEWS_OPTIONS to Res.array.setting_link_previews_options,
     MagesSettingsKeys.ROOM_LIST_SWIPE_OPTIONS to Res.array.setting_room_list_swipe_options,
     MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS to Res.array.setting_message_swipe_options,
+    MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_OPTIONS to Res.array.setting_auto_mark_read_trigger_options,
 )
 
 @Composable

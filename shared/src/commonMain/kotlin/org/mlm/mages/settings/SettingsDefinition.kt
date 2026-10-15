@@ -69,6 +69,9 @@ enum class RoomSwipeAction { MarkRead, MarkUnread, Nothing, ToggleUnread }
 enum class MessageSwipeAction { Reply, React, Pin, Copy, Nothing }
 
 @Serializable
+enum class AutoMarkReadTrigger { OnSend, WhileOpen, OnRoomClose, Never }
+
+@Serializable
 data class AppSettings(
     @Persisted
     val homeserver: String = "https://matrix.org",
@@ -554,6 +557,100 @@ data class AppSettings(
         type = Toggle::class,
     )
     val showSilentUnreadCount: Boolean = true,
+
+    @Setting(
+        title = "Open rooms at first unread",
+        titleKey = MagesSettingsKeys.OPEN_AT_UNREAD,
+        description = "Jump back to the first unread message when opening a room",
+        descriptionKey = MagesSettingsKeys.OPEN_AT_UNREAD_DESCRIPTION,
+        category = Timeline::class,
+        type = Toggle::class,
+    )
+    val openAtUnread: Boolean = true,
+
+    @Setting(
+        title = "Floating date separator",
+        titleKey = MagesSettingsKeys.FLOATING_DATE,
+        description = "Show a date chip while scrolling through the timeline",
+        descriptionKey = MagesSettingsKeys.FLOATING_DATE_DESCRIPTION,
+        category = Timeline::class,
+        type = Toggle::class,
+    )
+    val floatingDate: Boolean = true,
+
+    @Setting(
+        title = "Mark as read",
+        titleKey = MagesSettingsKeys.AUTO_MARK_READ_TRIGGER,
+        description = "When to mark a room as read",
+        descriptionKey = MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_DESCRIPTION,
+        category = Timeline::class,
+        type = Dropdown::class,
+        options = ["On send", "While open", "On room close", "Never"],
+        optionsKey = MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_OPTIONS,
+    )
+    val autoMarkReadTrigger: AutoMarkReadTrigger = AutoMarkReadTrigger.WhileOpen,
+
+    @Setting(
+        title = "Composer lines",
+        titleKey = MagesSettingsKeys.COMPOSER_MAX_LINES,
+        description = "Maximum height of the message composer",
+        descriptionKey = MagesSettingsKeys.COMPOSER_MAX_LINES_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 1f,
+        max = 20f,
+        step = 1f,
+    )
+    val composerMaxLines: Int = 6,
+
+    @Setting(
+        title = "Composer lines when unfocused",
+        titleKey = MagesSettingsKeys.COMPOSER_MAX_LINES_UNFOCUSED,
+        description = "Maximum height of the message composer while it is not focused",
+        descriptionKey = MagesSettingsKeys.COMPOSER_MAX_LINES_UNFOCUSED_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 1f,
+        max = 20f,
+        step = 1f,
+    )
+    val composerMaxLinesUnfocused: Int = 2,
+
+    @Setting(
+        title = "Sync vsync",
+        titleKey = MagesSettingsKeys.SKIKO_VSYNC,
+        description = "Synchronise drawing with the display refresh rate. Turn off to save battery",
+        descriptionKey = MagesSettingsKeys.SKIKO_VSYNC_DESCRIPTION,
+        category = Advanced::class,
+        type = Toggle::class,
+        platforms = [SettingPlatform.JVM],
+    )
+    val skikoVsync: Boolean = true,
+
+    @Setting(
+        title = "Hide window decoration",
+        titleKey = MagesSettingsKeys.HIDE_WINDOW_DECORATION,
+        description = "Draw the window without a title bar. Requires a restart",
+        descriptionKey = MagesSettingsKeys.HIDE_WINDOW_DECORATION_DESCRIPTION,
+        category = Appearance::class,
+        type = Toggle::class,
+        platforms = [SettingPlatform.JVM],
+    )
+    val hideWindowDecoration: Boolean = false,
+
+    @Setting(
+        title = "Window opacity",
+        titleKey = MagesSettingsKeys.WINDOW_BACKGROUND_ALPHA,
+        description = "Transparency of the whole window",
+        descriptionKey = MagesSettingsKeys.WINDOW_BACKGROUND_ALPHA_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 0.3f,
+        max = 1f,
+        step = 0.05f,
+        platforms = [SettingPlatform.JVM],
+    )
+    val windowBackgroundAlpha: Float = 1f,
 
     @Setting(
         title = "Chat bubbles",
