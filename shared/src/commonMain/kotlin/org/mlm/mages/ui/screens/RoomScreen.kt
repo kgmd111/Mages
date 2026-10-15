@@ -28,10 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -92,6 +94,7 @@ import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import kotlinx.coroutines.flow.distinctUntilChanged
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.MessageSwipeAction
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.isEditableBy
 import org.mlm.mages.ui.PinnedMessageUi
@@ -107,6 +110,7 @@ import org.mlm.mages.ui.components.viewer.imageViewerItems
 import org.mlm.mages.ui.components.viewer.isViewableImage
 import org.mlm.mages.ui.components.viewer.loadImageForViewing
 import org.jetbrains.compose.resources.getString
+import kotlin.math.abs
 
 @Suppress("NewApi")
 @Composable
@@ -780,6 +784,10 @@ fun RoomScreen(
                                                     viewModel.showMessageActions(bubbleItem.event)
                                                 },
                                                 onReply = { viewModel.startReply(bubbleItem.event) },
+                                                onOpenActions = {
+                                                    sheetEvent = bubbleItem.event
+                                                    viewModel.showMessageActions(bubbleItem.event)
+                                                },
                                                 onReact = { emoji ->
                                                     if (state.sendReactionAction.isEnabled) {
                                                         viewModel.react(bubbleItem.event, emoji)
@@ -807,7 +815,9 @@ fun RoomScreen(
                                                 showMessageAvatars = listSettings.showMessageAvatars,
                                                 showUsernameInDms = listSettings.showUsernameInDms,
                                                 enableBubbleAnimations = listSettings.bubbleAnimations,
-                                                showReactionAvatars = listSettings.showReactionAvatars
+                                                showReactionAvatars = listSettings.showReactionAvatars,
+                                                swipeRightAction = listSettings.messageSwipeRightAction,
+                                                swipeLeftAction = listSettings.messageSwipeLeftAction
                                             )
                                         },
                                         staticLocation = { locItem ->
@@ -1587,6 +1597,7 @@ private fun MessageItem(
     isLastOutgoing: Boolean,
     onLongPress: () -> Unit,
     onReply: () -> Unit,
+    onOpenActions: () -> Unit,
     onReact: (String) -> Unit,
     onOpenAttachment: () -> Unit,
     onOpenThread: () -> Unit,
@@ -1597,6 +1608,8 @@ private fun MessageItem(
     showUsernameInDms: Boolean,
     enableBubbleAnimations: Boolean = true,
     showReactionAvatars: Boolean = true,
+    swipeRightAction: MessageSwipeAction = MessageSwipeAction.Reply,
+    swipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
 ) {
     Column {
         val timestamp = event.timestampMs
@@ -1672,7 +1685,8 @@ private fun MessageItem(
             viewModel.ensureLinkPreview(event)
         }
 
-        // Swipe-to-reply state
+        val swipeEnabled = swipeRightAction != MessageSwipeAction.Nothing ||
+                swipeLeftAction != MessageSwipeAction.Nothing
         var swipeOffsetPx by remember { mutableFloatStateOf(0f) }
         val animatedSwipeOffsetPx by animateFloatAsState(
             targetValue = swipeOffsetPx,
@@ -1681,9 +1695,9 @@ private fun MessageItem(
         )
         val density = LocalDensity.current
         val swipeThresholdPx = remember(density) { with(density) { 72.dp.toPx() } }
-        var replyTriggered by remember { mutableStateOf(false) }
         var hapticTriggered by remember { mutableStateOf(false) }
         val haptics = LocalHapticFeedback.current
+        val clipboardManager = LocalClipboardManager.current
 
         val onRowLongPress: () -> Unit = {
             if (state.isSelectionMode) viewModel.toggleSelected(event.eventId)
@@ -1707,52 +1721,70 @@ private fun MessageItem(
                     if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f))
                     else Modifier
                 )
-                .pointerInput(state.isSelectionMode) {
-                    if (state.isSelectionMode) return@pointerInput
+                .pointerInput(state.isSelectionMode, swipeRightAction, swipeLeftAction, isMine) {
+                    if (state.isSelectionMode || !swipeEnabled) return@pointerInput
+                    val rightAction = if (isMine) swipeLeftAction else swipeRightAction
+                    val leftAction = if (isMine) swipeRightAction else swipeLeftAction
                     detectHorizontalDragGestures(
                         onDragEnd = {
-                            if (swipeOffsetPx >= swipeThresholdPx && !replyTriggered) {
-                                replyTriggered = true
-                                onReply()
-                            }
+                            val committed = swipeOffsetPx
                             swipeOffsetPx = 0f
-                            replyTriggered = false
                             hapticTriggered = false
+                            if (abs(committed) >= swipeThresholdPx) {
+                                val action = if (committed > 0f) rightAction else leftAction
+                                when (action) {
+                                    MessageSwipeAction.Reply -> onReply()
+                                    MessageSwipeAction.React -> onOpenActions()
+                                    MessageSwipeAction.Pin ->
+                                        if (event.eventId in pinnedEventIdSet) viewModel.unpinEvent(event.eventId)
+                                        else viewModel.pinEvent(event)
+                                    MessageSwipeAction.Copy ->
+                                        clipboardManager.setText(AnnotatedString(event.body))
+                                    MessageSwipeAction.Nothing -> Unit
+                                }
+                            }
                         },
                         onDragCancel = {
                             swipeOffsetPx = 0f
-                            replyTriggered = false
                             hapticTriggered = false
                         },
                         onHorizontalDrag = { _, dragAmount ->
-                            val newOffset = if (isMine) {
-                                (swipeOffsetPx - dragAmount).coerceAtLeast(0f)
-                            } else {
-                                (swipeOffsetPx + dragAmount).coerceAtLeast(0f)
-                            }
-                            swipeOffsetPx = newOffset.coerceAtMost(swipeThresholdPx * 1.2f)
+                            val allowsRight = rightAction != MessageSwipeAction.Nothing
+                            val allowsLeft = leftAction != MessageSwipeAction.Nothing
+                            val minOffset = if (allowsLeft) -swipeThresholdPx * 1.2f else 0f
+                            val maxOffset = if (allowsRight) swipeThresholdPx * 1.2f else 0f
+                            swipeOffsetPx = (swipeOffsetPx + dragAmount).coerceIn(minOffset, maxOffset)
 
-                            if (swipeOffsetPx >= swipeThresholdPx && !hapticTriggered) {
+                            if (abs(swipeOffsetPx) >= swipeThresholdPx && !hapticTriggered) {
                                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                                 hapticTriggered = true
-                            } else if (swipeOffsetPx < swipeThresholdPx && hapticTriggered) {
+                            } else if (abs(swipeOffsetPx) < swipeThresholdPx && hapticTriggered) {
                                 hapticTriggered = false
                             }
                         }
                     )
                 }
         ) {
-            val iconAlpha = (animatedSwipeOffsetPx / swipeThresholdPx).coerceIn(0f, 1f)
+            val revealedAction = when {
+                animatedSwipeOffsetPx > 0f -> if (isMine) swipeLeftAction else swipeRightAction
+                animatedSwipeOffsetPx < 0f -> if (isMine) swipeRightAction else swipeLeftAction
+                else -> MessageSwipeAction.Nothing
+            }
+            val revealedIcon = messageSwipeIcon(revealedAction)
+            val iconAlpha = (abs(animatedSwipeOffsetPx) / swipeThresholdPx).coerceIn(0f, 1f)
 
-            if (iconAlpha > 0.05f) {
+            if (revealedIcon != null && iconAlpha > 0.05f) {
                 Box(
                     modifier = Modifier
-                        .align(if (isMine) Alignment.CenterEnd else Alignment.CenterStart)
+                        .align(
+                            if (animatedSwipeOffsetPx > 0f) Alignment.CenterStart
+                            else Alignment.CenterEnd
+                        )
                         .padding(horizontal = Spacing.lg),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.Reply,
+                        imageVector = revealedIcon,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary.copy(alpha = iconAlpha),
                         modifier = Modifier.size(24.dp)
@@ -1760,7 +1792,7 @@ private fun MessageItem(
                 }
             }
 
-            val bubbleOffset = if (isMine) -animatedSwipeOffsetPx else animatedSwipeOffsetPx
+            val bubbleOffset = animatedSwipeOffsetPx
 
             Box(
                 modifier = Modifier
@@ -1887,6 +1919,15 @@ private fun MessageItem(
         }
     }
 }
+
+private fun messageSwipeIcon(action: MessageSwipeAction): androidx.compose.ui.graphics.vector.ImageVector? =
+    when (action) {
+        MessageSwipeAction.Reply -> Icons.AutoMirrored.Filled.Reply
+        MessageSwipeAction.React -> Icons.Default.AddReaction
+        MessageSwipeAction.Pin -> Icons.Default.PushPin
+        MessageSwipeAction.Copy -> Icons.Default.ContentCopy
+        MessageSwipeAction.Nothing -> null
+    }
 
 @Composable
 private fun DateHeader(date: String) {

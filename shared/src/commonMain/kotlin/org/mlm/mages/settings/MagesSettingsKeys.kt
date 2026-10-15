@@ -46,6 +46,10 @@ object MagesSettingsKeys {
     const val ROOM_LIST_SWIPE_RIGHT_DESCRIPTION = "mages.settings.room_list_swipe_right.description"
     const val ROOM_LIST_SWIPE_LEFT = "mages.settings.room_list_swipe_left"
     const val ROOM_LIST_SWIPE_LEFT_DESCRIPTION = "mages.settings.room_list_swipe_left.description"
+    const val MESSAGE_SWIPE_RIGHT = "mages.settings.message_swipe_right"
+    const val MESSAGE_SWIPE_RIGHT_DESCRIPTION = "mages.settings.message_swipe_right.description"
+    const val MESSAGE_SWIPE_LEFT = "mages.settings.message_swipe_left"
+    const val MESSAGE_SWIPE_LEFT_DESCRIPTION = "mages.settings.message_swipe_left.description"
     const val HIDE_SPACE_ROOMS_IN_ROOM_LIST = "mages.settings.hide_space_rooms_in_room_list"
     const val CHAT_BUBBLES = "mages.settings.chat_bubbles"
     const val NOTIFICATION_RULES = "mages.settings.notification_rules"
@@ -162,4 +166,5 @@ object MagesSettingsKeys {
     const val BLOCK_MEDIA_PREVIEWS_OPTIONS = "mages.settings.media_previews.options"
     const val LINK_PREVIEWS_OPTIONS = "mages.settings.link_previews.options"
     const val ROOM_LIST_SWIPE_OPTIONS = "mages.settings.room_list_swipe.options"
+    const val MESSAGE_SWIPE_OPTIONS = "mages.settings.message_swipe.options"
 }

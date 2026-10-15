@@ -66,6 +66,9 @@ enum class HideInRoomsMode { Never, PublicRooms, NonDMs, Always }
 enum class RoomSwipeAction { MarkRead, MarkUnread, Nothing, ToggleUnread }
 
 @Serializable
+enum class MessageSwipeAction { Reply, React, Pin, Copy, Nothing }
+
+@Serializable
 data class AppSettings(
     @Persisted
     val homeserver: String = "https://matrix.org",
@@ -479,6 +482,30 @@ data class AppSettings(
         optionsKey = MagesSettingsKeys.ROOM_LIST_SWIPE_OPTIONS,
     )
     val swipeLeftAction: RoomSwipeAction = RoomSwipeAction.Nothing,
+
+    @Setting(
+        title = "Message swipe right action",
+        titleKey = MagesSettingsKeys.MESSAGE_SWIPE_RIGHT,
+        description = "Action performed when swiping a message to the right",
+        descriptionKey = MagesSettingsKeys.MESSAGE_SWIPE_RIGHT_DESCRIPTION,
+        category = Timeline::class,
+        type = Dropdown::class,
+        options = ["Reply", "React", "Pin", "Copy", "Nothing"],
+        optionsKey = MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS,
+    )
+    val messageSwipeRightAction: MessageSwipeAction = MessageSwipeAction.Reply,
+
+    @Setting(
+        title = "Message swipe left action",
+        titleKey = MagesSettingsKeys.MESSAGE_SWIPE_LEFT,
+        description = "Action performed when swiping a message to the left",
+        descriptionKey = MagesSettingsKeys.MESSAGE_SWIPE_LEFT_DESCRIPTION,
+        category = Timeline::class,
+        type = Dropdown::class,
+        options = ["Reply", "React", "Pin", "Copy", "Nothing"],
+        optionsKey = MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS,
+    )
+    val messageSwipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
 
     @Setting(
         title = "Chat bubbles",

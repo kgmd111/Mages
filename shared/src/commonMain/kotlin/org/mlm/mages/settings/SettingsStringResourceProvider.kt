@@ -119,6 +119,8 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.LIVE_LOCATION_UPDATE_INTERVAL to Res.string.setting_live_location_update_interval,
     MagesSettingsKeys.ROOM_LIST_SWIPE_RIGHT to Res.string.setting_room_list_swipe_right,
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT to Res.string.setting_room_list_swipe_left,
+    MagesSettingsKeys.MESSAGE_SWIPE_RIGHT to Res.string.setting_message_swipe_right,
+    MagesSettingsKeys.MESSAGE_SWIPE_LEFT to Res.string.setting_message_swipe_left,
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON to Res.string.setting_show_switch_account_button,
 )
 
@@ -192,6 +194,8 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.LIVE_LOCATION_UPDATE_INTERVAL_DESCRIPTION to Res.string.setting_live_location_update_interval_description,
     MagesSettingsKeys.ROOM_LIST_SWIPE_RIGHT_DESCRIPTION to Res.string.setting_room_list_swipe_right_description,
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT_DESCRIPTION to Res.string.setting_room_list_swipe_left_description,
+    MagesSettingsKeys.MESSAGE_SWIPE_RIGHT_DESCRIPTION to Res.string.setting_message_swipe_right_description,
+    MagesSettingsKeys.MESSAGE_SWIPE_LEFT_DESCRIPTION to Res.string.setting_message_swipe_left_description,
     MagesSettingsKeys.SHOW_SWITCH_ACCOUNT_BUTTON_DESCRIPTION to Res.string.setting_show_switch_account_button_description,
 )
 
@@ -204,6 +208,7 @@ private val arrayResources: Map<String, StringArrayResource> = mapOf(
     MagesSettingsKeys.BLOCK_MEDIA_PREVIEWS_OPTIONS to Res.array.setting_media_previews_options,
     MagesSettingsKeys.LINK_PREVIEWS_OPTIONS to Res.array.setting_link_previews_options,
     MagesSettingsKeys.ROOM_LIST_SWIPE_OPTIONS to Res.array.setting_room_list_swipe_options,
+    MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS to Res.array.setting_message_swipe_options,
 )
 
 @Composable

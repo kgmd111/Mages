@@ -613,6 +613,17 @@
         <item>Nothing</item>
         <item>Toggle read/unread</item>
     </string-array>
+    <string name="setting_message_swipe_right">Message swipe right action</string>
+    <string name="setting_message_swipe_right_description">Action performed when swiping a message to the right</string>
+    <string name="setting_message_swipe_left">Message swipe left action</string>
+    <string name="setting_message_swipe_left_description">Action performed when swiping a message to the left</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Reply</item>
+        <item>React</item>
+        <item>Pin</item>
+        <item>Copy</item>
+        <item>Nothing</item>
+    </string-array>
     <string name="setting_chat_bubbles">Chat bubbles</string>
     <string name="setting_chat_bubbles_description">Open system settings to enable (or disable) conversation bubbles</string>
     <string name="setting_notification_rules">Notification rules</string>
