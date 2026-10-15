@@ -105,10 +105,12 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         closeExecutor.execute { runCatching { c.close() } }
     }
 
-    override suspend fun release() = withContext(callDispatcher) {
-        val c = takeClient() ?: return@withContext
-        runCatching { c.shutdown() }
-        runCatching { c.close() }
+    override suspend fun release() {
+        withContext(callDispatcher) {
+            val c = takeClient() ?: return@withContext
+            runCatching { c.shutdown() }
+            runCatching { c.close() }
+        }
     }
 
     /** Detaches the client so no later call can reach a freed one. */
