@@ -2,6 +2,7 @@ package org.mlm.mages.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
@@ -51,6 +52,7 @@ import io.github.mlmgames.settings.core.annotations.SettingPlatform
 import io.github.mlmgames.settings.core.platform.currentPlatform
 import org.mlm.mages.platform.RoomPlatformShortcuts
 import org.mlm.mages.platform.rememberFileOpener
+import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import mages.shared.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import mages.shared.generated.resources.Res
@@ -233,8 +235,9 @@ fun RoomInfoScreen(
                 LoadingIndicator()
             }
         } else {
+            val listState = rememberLazyListState()
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(padding),
+                modifier = Modifier.fillMaxSize().padding(padding).dragToScrollIfEnabled(listState),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
