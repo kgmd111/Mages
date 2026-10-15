@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Alleen gehele getallen. Gebruik 2 of 3 op telefoons, waar geen schermschaal wordt gemeld</string>
     <string name="setting_drag_to_scroll">Sleep om te scrollen</string>
     <string name="setting_drag_to_scroll_description">Scroll door lijsten te slepen in plaats van het muiswiel te gebruiken</string>
+    <string name="setting_message_swipe_right">Veegactie bericht rechts</string>
+    <string name="setting_message_swipe_right_description">Actie bij het vegen van een bericht naar rechts</string>
+    <string name="setting_message_swipe_left">Veegactie bericht links</string>
+    <string name="setting_message_swipe_left_description">Actie bij het vegen van een bericht naar links</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Beantwoorden</item>
+        <item>Reageren</item>
+        <item>Vastzetten</item>
+        <item>Kopiëren</item>
+        <item>Niets</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Max. breedte voor chats</string>
+    <string name="setting_max_width_conversation_description">Maximale breedte van een gesprek. 0 voor geen limiet</string>
+    <string name="setting_max_width_inbox">Max. breedte voor kamerlijst</string>
+    <string name="setting_max_width_inbox_description">Maximale breedte van de kamerlijst. 0 voor geen limiet</string>
+    <string name="setting_sort_by_unread">Ongelezen eerst</string>
+    <string name="setting_sort_by_unread_description">Kamers met ongelezen activiteit bovenaan elke sectie houden</string>
+    <string name="setting_show_silent_unread_count">Stille ongelezen-teller tonen</string>
+    <string name="setting_show_silent_unread_count_description">Elk ongelezen bericht in de badge tellen in plaats van alleen gemarkeerde</string>
+    <string name="setting_open_at_unread">Kamers openen bij eerste ongelezene</string>
+    <string name="setting_open_at_unread_description">Bij het openen naar het eerste ongelezen bericht springen</string>
+    <string name="setting_floating_date">Zwevende datumscheider</string>
+    <string name="setting_floating_date_description">Datumlabel tonen tijdens het scrollen door de tijdlijn</string>
+    <string name="setting_auto_mark_read_trigger">Markeren als gelezen</string>
+    <string name="setting_auto_mark_read_trigger_description">Wanneer een kamer als gelezen markeren</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Bij verzenden</item>
+        <item>Als open</item>
+        <item>Bij sluiten van kamer</item>
+        <item>Nooit</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Editorregels</string>
+    <string name="setting_composer_max_lines_description">Maximale hoogte van de berichteditor</string>
+    <string name="setting_composer_max_lines_unfocused">Regels zonder focus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximale hoogte wanneer niet gefocust</string>
+    <string name="setting_skiko_vsync">Vsync synchroniseren</string>
+    <string name="setting_skiko_vsync_description">Tekenen synchroniseren met de verversingssnelheid. Uitschakelen om batterij te besparen</string>
+    <string name="setting_hide_window_decoration">Vensterdecoratie verbergen</string>
+    <string name="setting_hide_window_decoration_description">Venster zonder titelbalk tekenen. Vereist herstart</string>
+    <string name="setting_window_background_alpha">Vensterdekking</string>
+    <string name="setting_window_background_alpha_description">Transparantie van het hele venster</string>
 </resources>

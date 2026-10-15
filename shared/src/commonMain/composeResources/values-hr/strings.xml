@@ -1314,4 +1314,45 @@
     <string name="setting_ui_scale_description">Samo cijeli brojevi. Na telefonima koristi 2 ili 3, gdje se ne prijavljuje skaliranje zaslona</string>
     <string name="setting_drag_to_scroll">Povucite za pomicanje</string>
     <string name="setting_drag_to_scroll_description">Pomaknite popise povlačenjem umjesto korištenja miševa</string>
+    <string name="setting_message_swipe_right">Radnja prelaska prstom udesno</string>
+    <string name="setting_message_swipe_right_description">Radnja pri prelasku prstom preko poruke udesno</string>
+    <string name="setting_message_swipe_left">Radnja prelaska prstom ulijevo</string>
+    <string name="setting_message_swipe_left_description">Radnja pri prelasku prstom preko poruke ulijevo</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Odgovori</item>
+        <item>Reagiraj</item>
+        <item>Prikvači</item>
+        <item>Kopiraj</item>
+        <item>Ništa</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Maks. širina razgovora</string>
+    <string name="setting_max_width_conversation_description">Maksimalna širina razgovora. 0 za bez ograničenja</string>
+    <string name="setting_max_width_inbox">Maks. širina popisa soba</string>
+    <string name="setting_max_width_inbox_description">Maksimalna širina popisa soba. 0 za bez ograničenja</string>
+    <string name="setting_sort_by_unread">Nepročitane prvo</string>
+    <string name="setting_sort_by_unread_description">Zadrži sobe s nepročitanom aktivnošću na vrhu svake sekcije</string>
+    <string name="setting_show_silent_unread_count">Prikaži tihi broj nepročitanih</string>
+    <string name="setting_show_silent_unread_count_description">Broji svaku nepročitanu poruku u znački umjesto samo istaknutih</string>
+    <string name="setting_open_at_unread">Otvori sobe kod prve nepročitane</string>
+    <string name="setting_open_at_unread_description">Skoči na prvu nepročitanu poruku pri otvaranju sobe</string>
+    <string name="setting_floating_date">Plutajući razdjelnik datuma</string>
+    <string name="setting_floating_date_description">Prikaži oznaku datuma tijekom pomicanja kroz razgovor</string>
+    <string name="setting_auto_mark_read_trigger">Označi kao pročitano</string>
+    <string name="setting_auto_mark_read_trigger_description">Kada označiti sobu kao pročitanu</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Pri slanju</item>
+        <item>Dok je otvorena</item>
+        <item>Pri zatvaranju sobe</item>
+        <item>Nikad</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Retci uređivača</string>
+    <string name="setting_composer_max_lines_description">Maksimalna visina uređivača poruka</string>
+    <string name="setting_composer_max_lines_unfocused">Retci bez fokusa</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maksimalna visina kad nije fokusiran</string>
+    <string name="setting_skiko_vsync">Sinkroniziraj vsync</string>
+    <string name="setting_skiko_vsync_description">Sinkroniziraj crtanje s brzinom osvježavanja. Isključi za uštedu baterije</string>
+    <string name="setting_hide_window_decoration">Sakrij ukras prozora</string>
+    <string name="setting_hide_window_decoration_description">Crtaj prozor bez naslovne trake. Zahtijeva ponovno pokretanje</string>
+    <string name="setting_window_background_alpha">Neprozirnost prozora</string>
+    <string name="setting_window_background_alpha_description">Prozirnost cijelog prozora</string>
 </resources>

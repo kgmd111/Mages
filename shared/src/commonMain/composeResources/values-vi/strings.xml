@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Chỉ số nguyên. Dùng 2 hoặc 3 trên điện thoại, nơi không có tỉ lệ hiển thị nào được báo cáo</string>
     <string name="setting_drag_to_scroll">Kéo để cuộn</string>
     <string name="setting_drag_to_scroll_description">Cuộn danh sách bằng cách kéo thay vì dùng con lăn chuột</string>
+    <string name="setting_message_swipe_right">Hành động vuốt tin nhắn sang phải</string>
+    <string name="setting_message_swipe_right_description">Hành động khi vuốt tin nhắn sang phải</string>
+    <string name="setting_message_swipe_left">Hành động vuốt tin nhắn sang trái</string>
+    <string name="setting_message_swipe_left_description">Hành động khi vuốt tin nhắn sang trái</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Trả lời</item>
+        <item>Bày tỏ</item>
+        <item>Ghim</item>
+        <item>Sao chép</item>
+        <item>Không có</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Chiều rộng tối đa cho trò chuyện</string>
+    <string name="setting_max_width_conversation_description">Chiều rộng tối đa của cuộc trò chuyện. Đặt 0 để không giới hạn</string>
+    <string name="setting_max_width_inbox">Chiều rộng tối đa danh sách phòng</string>
+    <string name="setting_max_width_inbox_description">Chiều rộng tối đa của danh sách phòng. Đặt 0 để không giới hạn</string>
+    <string name="setting_sort_by_unread">Chưa đọc lên trước</string>
+    <string name="setting_sort_by_unread_description">Giữ các phòng có hoạt động chưa đọc ở đầu mỗi mục</string>
+    <string name="setting_show_silent_unread_count">Hiện số chưa đọc lặng</string>
+    <string name="setting_show_silent_unread_count_description">Đếm mọi tin nhắn chưa đọc trong huy hiệu thay vì chỉ tin nổi bật</string>
+    <string name="setting_open_at_unread">Mở phòng từ tin chưa đọc đầu tiên</string>
+    <string name="setting_open_at_unread_description">Nhảy về tin nhắn chưa đọc đầu tiên khi mở phòng</string>
+    <string name="setting_floating_date">Dải phân cách ngày nổi</string>
+    <string name="setting_floating_date_description">Hiện nhãn ngày khi cuộn dòng thời gian</string>
+    <string name="setting_auto_mark_read_trigger">Đánh dấu đã đọc</string>
+    <string name="setting_auto_mark_read_trigger_description">Khi nào đánh dấu phòng là đã đọc</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Khi gửi</item>
+        <item>Khi đang mở</item>
+        <item>Khi đóng phòng</item>
+        <item>Không bao giờ</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Số dòng trình soạn</string>
+    <string name="setting_composer_max_lines_description">Chiều cao tối đa của trình soạn tin nhắn</string>
+    <string name="setting_composer_max_lines_unfocused">Số dòng khi không focus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Chiều cao tối đa khi không được focus</string>
+    <string name="setting_skiko_vsync">Đồng bộ vsync</string>
+    <string name="setting_skiko_vsync_description">Đồng bộ vẽ với tần số quét màn hình. Tắt để tiết kiệm pin</string>
+    <string name="setting_hide_window_decoration">Ẩn trang trí cửa sổ</string>
+    <string name="setting_hide_window_decoration_description">Vẽ cửa sổ không có thanh tiêu đề. Cần khởi động lại</string>
+    <string name="setting_window_background_alpha">Độ mờ cửa sổ</string>
+    <string name="setting_window_background_alpha_description">Độ trong suốt của toàn cửa sổ</string>
 </resources>

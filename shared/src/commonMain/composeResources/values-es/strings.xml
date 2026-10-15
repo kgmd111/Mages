@@ -1429,4 +1429,45 @@
     <string name="setting_ui_scale_description">Solo números enteros. Usa 2 o 3 en teléfonos, donde no se informa la escala de pantalla</string>
     <string name="setting_drag_to_scroll">Arrastrar para desplazarse</string>
     <string name="setting_drag_to_scroll_description">Desplaza las listas arrastrando en lugar de usar la rueda del ratón</string>
+    <string name="setting_message_swipe_right">Acción de deslizar mensaje a la derecha</string>
+    <string name="setting_message_swipe_right_description">Acción realizada al deslizar un mensaje a la derecha</string>
+    <string name="setting_message_swipe_left">Acción de deslizar mensaje a la izquierda</string>
+    <string name="setting_message_swipe_left_description">Acción realizada al deslizar un mensaje a la izquierda</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Responder</item>
+        <item>Reaccionar</item>
+        <item>Fijar</item>
+        <item>Copiar</item>
+        <item>Nada</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Ancho máximo de chats</string>
+    <string name="setting_max_width_conversation_description">Ancho máximo de una conversación. Pon 0 para sin límite</string>
+    <string name="setting_max_width_inbox">Ancho máximo de la lista de salas</string>
+    <string name="setting_max_width_inbox_description">Ancho máximo de la lista de salas. Pon 0 para sin límite</string>
+    <string name="setting_sort_by_unread">Ordenar no leídos primero</string>
+    <string name="setting_sort_by_unread_description">Mantener las salas con actividad no leída al principio de cada sección</string>
+    <string name="setting_show_silent_unread_count">Mostrar conteo silencioso</string>
+    <string name="setting_show_silent_unread_count_description">Contar cada mensaje no leído en la insignia en lugar de solo los destacados</string>
+    <string name="setting_open_at_unread">Abrir salas en el primer no leído</string>
+    <string name="setting_open_at_unread_description">Volver al primer mensaje no leído al abrir una sala</string>
+    <string name="setting_floating_date">Separador de fecha flotante</string>
+    <string name="setting_floating_date_description">Mostrar una etiqueta de fecha al desplazarse por la conversación</string>
+    <string name="setting_auto_mark_read_trigger">Marcar como leído</string>
+    <string name="setting_auto_mark_read_trigger_description">Cuándo marcar una sala como leída</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Al enviar</item>
+        <item>Mientras abierta</item>
+        <item>Al cerrar la sala</item>
+        <item>Nunca</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Líneas del editor</string>
+    <string name="setting_composer_max_lines_description">Altura máxima del editor de mensajes</string>
+    <string name="setting_composer_max_lines_unfocused">Líneas del editor sin foco</string>
+    <string name="setting_composer_max_lines_unfocused_description">Altura máxima del editor de mensajes cuando no tiene el foco</string>
+    <string name="setting_skiko_vsync">Sincronizar vsync</string>
+    <string name="setting_skiko_vsync_description">Sincronizar el dibujo con la tasa de refresco de la pantalla. Desactívalo para ahorrar batería</string>
+    <string name="setting_hide_window_decoration">Ocultar decoración de ventana</string>
+    <string name="setting_hide_window_decoration_description">Dibujar la ventana sin barra de título. Requiere reiniciar</string>
+    <string name="setting_window_background_alpha">Opacidad de la ventana</string>
+    <string name="setting_window_background_alpha_description">Transparencia de toda la ventana</string>
 </resources>

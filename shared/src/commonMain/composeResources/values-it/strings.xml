@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Solo numeri interi. Usa 2 o 3 sui telefoni, dove non viene segnalata alcuna scala dello schermo</string>
     <string name="setting_drag_to_scroll">Trascina per scorrere</string>
     <string name="setting_drag_to_scroll_description">Scorri gli elenchi trascinando invece di usare la rotella del mouse</string>
+    <string name="setting_message_swipe_right">Azione scorrimento messaggio a destra</string>
+    <string name="setting_message_swipe_right_description">Azione eseguita scorrendo un messaggio a destra</string>
+    <string name="setting_message_swipe_left">Azione scorrimento messaggio a sinistra</string>
+    <string name="setting_message_swipe_left_description">Azione eseguita scorrendo un messaggio a sinistra</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Rispondi</item>
+        <item>Reagisci</item>
+        <item>Fissa</item>
+        <item>Copia</item>
+        <item>Niente</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Larghezza max chat</string>
+    <string name="setting_max_width_conversation_description">Larghezza massima di una conversazione. 0 per nessun limite</string>
+    <string name="setting_max_width_inbox">Larghezza max elenco stanze</string>
+    <string name="setting_max_width_inbox_description">Larghezza massima dell'elenco stanze. 0 per nessun limite</string>
+    <string name="setting_sort_by_unread">Non letti prima</string>
+    <string name="setting_sort_by_unread_description">Mantieni le stanze con attività non letta in cima a ogni sezione</string>
+    <string name="setting_show_silent_unread_count">Mostra conteggio silenzioso</string>
+    <string name="setting_show_silent_unread_count_description">Conta ogni messaggio non letto nel badge invece dei soli evidenziati</string>
+    <string name="setting_open_at_unread">Apri stanze dal primo non letto</string>
+    <string name="setting_open_at_unread_description">Torna al primo messaggio non letto aprendo una stanza</string>
+    <string name="setting_floating_date">Separatore data mobile</string>
+    <string name="setting_floating_date_description">Mostra un'etichetta data scorrendo la conversazione</string>
+    <string name="setting_auto_mark_read_trigger">Segna come letto</string>
+    <string name="setting_auto_mark_read_trigger_description">Quando segnare una stanza come letta</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>All'invio</item>
+        <item>Quando aperta</item>
+        <item>Alla chiusura</item>
+        <item>Mai</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Righe editor</string>
+    <string name="setting_composer_max_lines_description">Altezza massima dell'editor dei messaggi</string>
+    <string name="setting_composer_max_lines_unfocused">Righe senza focus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Altezza massima quando non attivo</string>
+    <string name="setting_skiko_vsync">Sincronizza vsync</string>
+    <string name="setting_skiko_vsync_description">Sincronizza il disegno con la frequenza di aggiornamento. Spegni per risparmiare batteria</string>
+    <string name="setting_hide_window_decoration">Nascondi decorazione finestra</string>
+    <string name="setting_hide_window_decoration_description">Disegna la finestra senza barra del titolo. Richiede un riavvio</string>
+    <string name="setting_window_background_alpha">Opacità finestra</string>
+    <string name="setting_window_background_alpha_description">Trasparenza dell'intera finestra</string>
 </resources>

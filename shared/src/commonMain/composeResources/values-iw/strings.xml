@@ -1315,4 +1315,45 @@
     <string name="setting_ui_scale_description">מספרים שלמים בלבד. השתמש ב-2 או ב-3 בטלפונים, שבהם לא מדווח על קנה מידה של תצוגה</string>
     <string name="setting_drag_to_scroll">גרירה כדי לגלול</string>
     <string name="setting_drag_to_scroll_description">גלול ברשימות באמצעות גרירה במקום גלגלת העכבר</string>
+    <string name="setting_message_swipe_right">פעולת החלקת הודעה ימינה</string>
+    <string name="setting_message_swipe_right_description">הפעולה המתבצעת בעת החלקת הודעה ימינה</string>
+    <string name="setting_message_swipe_left">פעולת החלקת הודעה שמאלה</string>
+    <string name="setting_message_swipe_left_description">הפעולה המתבצעת בעת החלקת הודעה שמאלה</string>
+    <string-array name="setting_message_swipe_options">
+        <item>תשובה</item>
+        <item>תגובה</item>
+        <item>נעיצה</item>
+        <item>העתקה</item>
+        <item>כלום</item>
+    </string-array>
+    <string name="setting_max_width_conversation">רוחב מרבי לשיחות</string>
+    <string name="setting_max_width_conversation_description">הרוחב המרבי של שיחה. 0 ללא הגבלה</string>
+    <string name="setting_max_width_inbox">רוחב מרבי לרשימת החדרים</string>
+    <string name="setting_max_width_inbox_description">הרוחב המרבי של רשימת החדרים. 0 ללא הגבלה</string>
+    <string name="setting_sort_by_unread">לא נקראו תחילה</string>
+    <string name="setting_sort_by_unread_description">שמירת חדרים עם פעילות לא נקראת בראש כל קטע</string>
+    <string name="setting_show_silent_unread_count">הצגת מונה שקט</string>
+    <string name="setting_show_silent_unread_count_description">ספירת כל הודעה לא נקראת בתג במקום רק מודגשות</string>
+    <string name="setting_open_at_unread">פתיחת חדרים בהודעה הלא נקראת הראשונה</string>
+    <string name="setting_open_at_unread_description">קפיצה להודעה הלא נקראת הראשונה בפתיחת חדר</string>
+    <string name="setting_floating_date">מפריד תאריך צף</string>
+    <string name="setting_floating_date_description">הצגת תגית תאריך בזמן גלילה בשיחה</string>
+    <string name="setting_auto_mark_read_trigger">סימון כנקרא</string>
+    <string name="setting_auto_mark_read_trigger_description">מתי לסמן חדר כנקרא</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>בעת שליחה</item>
+        <item>כשהוא פתוח</item>
+        <item>בסגירת החדר</item>
+        <item>לעולם לא</item>
+    </string-array>
+    <string name="setting_composer_max_lines">שורות העורך</string>
+    <string name="setting_composer_max_lines_description">הגובה המרבי של עורך ההודעות</string>
+    <string name="setting_composer_max_lines_unfocused">שורות ללא מיקוד</string>
+    <string name="setting_composer_max_lines_unfocused_description">הגובה המרבי כשאין מיקוד</string>
+    <string name="setting_skiko_vsync">סנכרון vsync</string>
+    <string name="setting_skiko_vsync_description">סנכרון הציור עם קצב הרענון. כבה לחיסכון בסוללה</string>
+    <string name="setting_hide_window_decoration">הסתרת עיטור החלון</string>
+    <string name="setting_hide_window_decoration_description">ציור החלון ללא שורת כותרת. דורש הפעלה מחדש</string>
+    <string name="setting_window_background_alpha">אטימות החלון</string>
+    <string name="setting_window_background_alpha_description">שקיפות כל החלון</string>
 </resources>

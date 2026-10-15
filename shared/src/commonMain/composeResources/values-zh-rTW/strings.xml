@@ -1312,4 +1312,45 @@
     <string name="setting_ui_scale_description">僅限整數。在未回報顯示縮放的裝置上使用 2 或 3</string>
     <string name="setting_drag_to_scroll">拖曳以捲動</string>
     <string name="setting_drag_to_scroll_description">透過拖曳而非滑鼠滾輪捲動清單</string>
+    <string name="setting_message_swipe_right">訊息右滑操作</string>
+    <string name="setting_message_swipe_right_description">向右滑動訊息時執行的操作</string>
+    <string name="setting_message_swipe_left">訊息左滑操作</string>
+    <string name="setting_message_swipe_left_description">向左滑動訊息時執行的操作</string>
+    <string-array name="setting_message_swipe_options">
+        <item>回覆</item>
+        <item>表情回應</item>
+        <item>置頂</item>
+        <item>複製</item>
+        <item>無</item>
+    </string-array>
+    <string name="setting_max_width_conversation">聊天最大寬度</string>
+    <string name="setting_max_width_conversation_description">對話的最大寬度。設為0表示不限制</string>
+    <string name="setting_max_width_inbox">房間清單最大寬度</string>
+    <string name="setting_max_width_inbox_description">房間清單的最大寬度。設為0表示不限制</string>
+    <string name="setting_sort_by_unread">未讀優先排序</string>
+    <string name="setting_sort_by_unread_description">將有未讀活動的房間保持在各分區頂部</string>
+    <string name="setting_show_silent_unread_count">顯示靜默未讀數</string>
+    <string name="setting_show_silent_unread_count_description">在角標中計入所有未讀訊息，而不僅是醒目訊息</string>
+    <string name="setting_open_at_unread">從首則未讀處開啟房間</string>
+    <string name="setting_open_at_unread_description">開啟房間時跳至首則未讀訊息</string>
+    <string name="setting_floating_date">懸浮日期分隔條</string>
+    <string name="setting_floating_date_description">捲動時間軸時顯示日期標籤</string>
+    <string name="setting_auto_mark_read_trigger">標記為已讀</string>
+    <string name="setting_auto_mark_read_trigger_description">何時將房間標記為已讀</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>傳送時</item>
+        <item>開啟期間</item>
+        <item>關閉房間時</item>
+        <item>永不</item>
+    </string-array>
+    <string name="setting_composer_max_lines">輸入框行數</string>
+    <string name="setting_composer_max_lines_description">訊息輸入框的最大高度</string>
+    <string name="setting_composer_max_lines_unfocused">未聚焦時行數</string>
+    <string name="setting_composer_max_lines_unfocused_description">未聚焦時的最大高度</string>
+    <string name="setting_skiko_vsync">垂直同步</string>
+    <string name="setting_skiko_vsync_description">將繪製與顯示器更新率同步。關閉以省電</string>
+    <string name="setting_hide_window_decoration">隱藏視窗裝飾</string>
+    <string name="setting_hide_window_decoration_description">無標題列繪製視窗。需要重新啟動</string>
+    <string name="setting_window_background_alpha">視窗不透明度</string>
+    <string name="setting_window_background_alpha_description">整個視窗的透明度</string>
 </resources>

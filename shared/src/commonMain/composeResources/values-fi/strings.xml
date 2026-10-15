@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Vain kokonaisluvut. Käytä arvoja 2 tai 3 puhelimissa, joissa näytön skaalausta ei ilmoiteta</string>
     <string name="setting_drag_to_scroll">Vedä vierittääksesi</string>
     <string name="setting_drag_to_scroll_description">Vieritä luetteloita vetämällä hiiren sijaan</string>
+    <string name="setting_message_swipe_right">Viestin pyyhkäisy oikealle</string>
+    <string name="setting_message_swipe_right_description">Toiminto, kun viestiä pyyhkäistään oikealle</string>
+    <string name="setting_message_swipe_left">Viestin pyyhkäisy vasemmalle</string>
+    <string name="setting_message_swipe_left_description">Toiminto, kun viestiä pyyhkäistään vasemmalle</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Vastaa</item>
+        <item>Reagoi</item>
+        <item>Kiinnitä</item>
+        <item>Kopioi</item>
+        <item>Ei mitään</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Keskustelujen enimmäisleveys</string>
+    <string name="setting_max_width_conversation_description">Keskustelun enimmäisleveys. 0 = ei rajaa</string>
+    <string name="setting_max_width_inbox">Huonelistan enimmäisleveys</string>
+    <string name="setting_max_width_inbox_description">Huonelistan enimmäisleveys. 0 = ei rajaa</string>
+    <string name="setting_sort_by_unread">Lukemattomat ensin</string>
+    <string name="setting_sort_by_unread_description">Pidä lukematonta toimintaa sisältävät huoneet kunkin osion yläosassa</string>
+    <string name="setting_show_silent_unread_count">Näytä hiljainen lukemattomien määrä</string>
+    <string name="setting_show_silent_unread_count_description">Laske jokainen lukematon viesti merkkiin vain korostettujen sijaan</string>
+    <string name="setting_open_at_unread">Avaa huoneet ensimmäisestä lukemattomasta</string>
+    <string name="setting_open_at_unread_description">Siirry ensimmäiseen lukemattomaan viestiin huonetta avattaessa</string>
+    <string name="setting_floating_date">Kelluva päivämääräerotin</string>
+    <string name="setting_floating_date_description">Näytä päivämäärätunniste selatessa keskustelua</string>
+    <string name="setting_auto_mark_read_trigger">Merkitse luetuksi</string>
+    <string name="setting_auto_mark_read_trigger_description">Milloin huone merkitään luetuksi</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Lähetettäessä</item>
+        <item>Kun avoinna</item>
+        <item>Huonetta suljettaessa</item>
+        <item>Ei koskaan</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Editorin rivit</string>
+    <string name="setting_composer_max_lines_description">Viestieditorin enimmäiskorkeus</string>
+    <string name="setting_composer_max_lines_unfocused">Rivit ilman kohdistusta</string>
+    <string name="setting_composer_max_lines_unfocused_description">Enimmäiskorkeus, kun ei kohdistettuna</string>
+    <string name="setting_skiko_vsync">Synkronoi vsync</string>
+    <string name="setting_skiko_vsync_description">Synkronoi piirtäminen näytön virkistystaajuuteen. Poista käytöstä akun säästämiseksi</string>
+    <string name="setting_hide_window_decoration">Piilota ikkunan koristelu</string>
+    <string name="setting_hide_window_decoration_description">Piirrä ikkuna ilman otsikkopalkkia. Vaatii uudelleenkäynnistyksen</string>
+    <string name="setting_window_background_alpha">Ikkunan läpinäkyvyys</string>
+    <string name="setting_window_background_alpha_description">Koko ikkunan läpinäkyvyys</string>
 </resources>

@@ -1315,4 +1315,45 @@
     <string name="setting_ui_scale_description">Лише цілі числа. Використовуйте 2 або 3 на телефонах, де масштаб екрана не визначається</string>
     <string name="setting_drag_to_scroll">Перетягування для прокручування</string>
     <string name="setting_drag_to_scroll_description">Прокручуйте списки перетягуванням замість коліща миші</string>
+    <string name="setting_message_swipe_right">Дія свайпу повідомлення вправо</string>
+    <string name="setting_message_swipe_right_description">Дія при свайпі повідомлення вправо</string>
+    <string name="setting_message_swipe_left">Дія свайпу повідомлення вліво</string>
+    <string name="setting_message_swipe_left_description">Дія при свайпі повідомлення вліво</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Відповісти</item>
+        <item>Реакція</item>
+        <item>Закріпити</item>
+        <item>Копіювати</item>
+        <item>Нічого</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Макс. ширина чатів</string>
+    <string name="setting_max_width_conversation_description">Максимальна ширина бесіди. 0 — без обмеження</string>
+    <string name="setting_max_width_inbox">Макс. ширина списку кімнат</string>
+    <string name="setting_max_width_inbox_description">Максимальна ширина списку кімнат. 0 — без обмеження</string>
+    <string name="setting_sort_by_unread">Непрочитані спочатку</string>
+    <string name="setting_sort_by_unread_description">Тримати кімнати з непрочитаною активністю вгорі кожного розділу</string>
+    <string name="setting_show_silent_unread_count">Показувати тихий лічильник</string>
+    <string name="setting_show_silent_unread_count_description">Рахувати кожне непрочитане повідомлення в бейджі, а не лише виділені</string>
+    <string name="setting_open_at_unread">Відкривати кімнати з першого непрочитаного</string>
+    <string name="setting_open_at_unread_description">Переходити до першого непрочитаного під час відкриття кімнати</string>
+    <string name="setting_floating_date">Плавний розділювач дати</string>
+    <string name="setting_floating_date_description">Показувати мітку дати під час прокручування стрічки</string>
+    <string name="setting_auto_mark_read_trigger">Позначити як прочитане</string>
+    <string name="setting_auto_mark_read_trigger_description">Коли позначати кімнату прочитаною</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Під час надсилання</item>
+        <item>Коли відкрито</item>
+        <item>Під час закриття кімнати</item>
+        <item>Ніколи</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Рядки редактора</string>
+    <string name="setting_composer_max_lines_description">Максимальна висота редактора повідомлень</string>
+    <string name="setting_composer_max_lines_unfocused">Рядки без фокуса</string>
+    <string name="setting_composer_max_lines_unfocused_description">Максимальна висота, коли немає фокуса</string>
+    <string name="setting_skiko_vsync">Синхронізація vsync</string>
+    <string name="setting_skiko_vsync_description">Синхронізувати малювання з частотою оновлення. Вимкни для економії батареї</string>
+    <string name="setting_hide_window_decoration">Приховати оформлення вікна</string>
+    <string name="setting_hide_window_decoration_description">Малювати вікно без заголовка. Потрібен перезапуск</string>
+    <string name="setting_window_background_alpha">Непрозорість вікна</string>
+    <string name="setting_window_background_alpha_description">Прозорість усього вікна</string>
 </resources>

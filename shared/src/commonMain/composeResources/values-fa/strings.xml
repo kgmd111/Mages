@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">فقط اعداد صحیح. در گوشی‌ها از ۲ یا ۳ استفاده کنید، جایی که مقیاس صفحه گزارش نمی‌شود</string>
     <string name="setting_drag_to_scroll">برای پیمایش بکشید</string>
     <string name="setting_drag_to_scroll_description">با کشیدن به‌جای چرخ ماوس، فهرست‌ها را پیمایش کنید</string>
+    <string name="setting_message_swipe_right">عمل کشیدن پیام به راست</string>
+    <string name="setting_message_swipe_right_description">عملی که هنگام کشیدن پیام به راست انجام می‌شود</string>
+    <string name="setting_message_swipe_left">عمل کشیدن پیام به چپ</string>
+    <string name="setting_message_swipe_left_description">عملی که هنگام کشیدن پیام به چپ انجام می‌شود</string>
+    <string-array name="setting_message_swipe_options">
+        <item>پاسخ</item>
+        <item>واکنش</item>
+        <item>سنجاق</item>
+        <item>رونوشت</item>
+        <item>هیچ‌کدام</item>
+    </string-array>
+    <string name="setting_max_width_conversation">حداکثر پهنای گفتگوها</string>
+    <string name="setting_max_width_conversation_description">حداکثر پهنای یک گفتگو. برای بدون حد ۰ بگذار</string>
+    <string name="setting_max_width_inbox">حداکثر پهنای فهرست اتاق‌ها</string>
+    <string name="setting_max_width_inbox_description">حداکثر پهنای فهرست اتاق‌ها. برای بدون حد ۰ بگذار</string>
+    <string name="setting_sort_by_unread">خوانده‌نشده‌ها اول</string>
+    <string name="setting_sort_by_unread_description">نگه داشتن اتاق‌های دارای فعالیت خوانده‌نشده در بالای هر بخش</string>
+    <string name="setting_show_silent_unread_count">نمایش شمار خوانده‌نشده‌های بی‌صدا</string>
+    <string name="setting_show_silent_unread_count_description">شمارش هر پیام خوانده‌نشده در نشان به‌جای فقط برجسته‌ها</string>
+    <string name="setting_open_at_unread">باز کردن اتاق‌ها از اولین خوانده‌نشده</string>
+    <string name="setting_open_at_unread_description">پرش به اولین پیام خوانده‌نشده هنگام باز کردن اتاق</string>
+    <string name="setting_floating_date">جداکننده شناور تاریخ</string>
+    <string name="setting_floating_date_description">نمایش برچسب تاریخ هنگام پیمایش گفتگو</string>
+    <string name="setting_auto_mark_read_trigger">علامت‌گذاری به‌عنوان خوانده‌شده</string>
+    <string name="setting_auto_mark_read_trigger_description">چه زمانی اتاق خوانده‌شده علامت بخورد</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>هنگام ارسال</item>
+        <item>هنگام باز بودن</item>
+        <item>هنگام بستن اتاق</item>
+        <item>هرگز</item>
+    </string-array>
+    <string name="setting_composer_max_lines">خطوط ویرایشگر</string>
+    <string name="setting_composer_max_lines_description">حداکثر ارتفاع ویرایشگر پیام</string>
+    <string name="setting_composer_max_lines_unfocused">خطوط بدون تمرکز</string>
+    <string name="setting_composer_max_lines_unfocused_description">حداکثر ارتفاع وقتی تمرکز ندارد</string>
+    <string name="setting_skiko_vsync">همگام‌سازی vsync</string>
+    <string name="setting_skiko_vsync_description">همگام‌سازی ترسیم با نرخ نوسازی نمایشگر. برای صرفه‌جویی باتری خاموش کن</string>
+    <string name="setting_hide_window_decoration">پنهان کردن تزئین پنجره</string>
+    <string name="setting_hide_window_decoration_description">ترسیم پنجره بدون نوار عنوان. نیازمند راه‌اندازی مجدد</string>
+    <string name="setting_window_background_alpha">شفافیت پنجره</string>
+    <string name="setting_window_background_alpha_description">شفافیت کل پنجره</string>
 </resources>

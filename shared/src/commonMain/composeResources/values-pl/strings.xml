@@ -1315,4 +1315,45 @@
     <string name="setting_ui_scale_description">Tylko liczby całkowite. Użyj 2 lub 3 na telefonach, gdzie nie jest zgłaszana skala ekranu</string>
     <string name="setting_drag_to_scroll">Przeciągnij, aby przewinąć</string>
     <string name="setting_drag_to_scroll_description">Przewijaj listy, przeciągając, zamiast używać kółka myszy</string>
+    <string name="setting_message_swipe_right">Akcja przesunięcia wiadomości w prawo</string>
+    <string name="setting_message_swipe_right_description">Czynność po przesunięciu wiadomości w prawo</string>
+    <string name="setting_message_swipe_left">Akcja przesunięcia wiadomości w lewo</string>
+    <string name="setting_message_swipe_left_description">Czynność po przesunięciu wiadomości w lewo</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Odpowiedz</item>
+        <item>Zareaguj</item>
+        <item>Przypnij</item>
+        <item>Kopiuj</item>
+        <item>Nic</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Maks. szerokość czatów</string>
+    <string name="setting_max_width_conversation_description">Maksymalna szerokość konwersacji. 0 oznacza brak limitu</string>
+    <string name="setting_max_width_inbox">Maks. szerokość listy pokoi</string>
+    <string name="setting_max_width_inbox_description">Maksymalna szerokość listy pokoi. 0 oznacza brak limitu</string>
+    <string name="setting_sort_by_unread">Nieprzeczytane na górze</string>
+    <string name="setting_sort_by_unread_description">Zachowaj pokoje z nieprzeczytaną aktywnością na górze każdej sekcji</string>
+    <string name="setting_show_silent_unread_count">Pokazuj cichy licznik</string>
+    <string name="setting_show_silent_unread_count_description">Licz każdą nieprzeczytaną wiadomość w odznace zamiast tylko wyróżnionych</string>
+    <string name="setting_open_at_unread">Otwieraj pokoje od pierwszej nieprzeczytanej</string>
+    <string name="setting_open_at_unread_description">Przeskocz do pierwszej nieprzeczytanej wiadomości przy otwieraniu pokoju</string>
+    <string name="setting_floating_date">Pływający separator daty</string>
+    <string name="setting_floating_date_description">Pokazuj etykietę daty podczas przewijania osi czasu</string>
+    <string name="setting_auto_mark_read_trigger">Oznacz jako przeczytane</string>
+    <string name="setting_auto_mark_read_trigger_description">Kiedy oznaczać pokój jako przeczytany</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Przy wysyłaniu</item>
+        <item>Gdy otwarty</item>
+        <item>Przy zamykaniu pokoju</item>
+        <item>Nigdy</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Wiersze edytora</string>
+    <string name="setting_composer_max_lines_description">Maksymalna wysokość edytora wiadomości</string>
+    <string name="setting_composer_max_lines_unfocused">Wiersze bez fokusu</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maksymalna wysokość, gdy brak fokusu</string>
+    <string name="setting_skiko_vsync">Synchronizuj vsync</string>
+    <string name="setting_skiko_vsync_description">Synchronizuj rysowanie z częstotliwością odświeżania. Wyłącz, aby oszczędzać baterię</string>
+    <string name="setting_hide_window_decoration">Ukryj dekorację okna</string>
+    <string name="setting_hide_window_decoration_description">Rysuj okno bez paska tytułu. Wymaga restartu</string>
+    <string name="setting_window_background_alpha">Krycie okna</string>
+    <string name="setting_window_background_alpha_description">Przezroczystość całego okna</string>
 </resources>

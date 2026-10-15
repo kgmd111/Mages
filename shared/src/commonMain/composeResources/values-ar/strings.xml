@@ -1317,4 +1317,45 @@
     <string name="setting_ui_scale_description">أعداد صحيحة فقط. استخدم 2 أو 3 على الهواتف، حيث لا يتم الإبلاغ عن مقياس العرض</string>
     <string name="setting_drag_to_scroll">اسحب للتمرير</string>
     <string name="setting_drag_to_scroll_description">مرّر القوائم بالسحب بدلاً من استخدام عجلة الفأرة</string>
+    <string name="setting_message_swipe_right">إجراء السحب يميناً على الرسالة</string>
+    <string name="setting_message_swipe_right_description">الإجراء المنفذ عند سحب رسالة إلى اليمين</string>
+    <string name="setting_message_swipe_left">إجراء السحب يساراً على الرسالة</string>
+    <string name="setting_message_swipe_left_description">الإجراء المنفذ عند سحب رسالة إلى اليسار</string>
+    <string-array name="setting_message_swipe_options">
+        <item>رد</item>
+        <item>تفاعل</item>
+        <item>تثبيت</item>
+        <item>نسخ</item>
+        <item>لا شيء</item>
+    </string-array>
+    <string name="setting_max_width_conversation">أقصى عرض للمحادثات</string>
+    <string name="setting_max_width_conversation_description">أقصى عرض للمحادثة. عيّن 0 لإزالة الحد</string>
+    <string name="setting_max_width_inbox">أقصى عرض لقائمة الغرف</string>
+    <string name="setting_max_width_inbox_description">أقصى عرض لقائمة الغرف. عيّن 0 لإزالة الحد</string>
+    <string name="setting_sort_by_unread">ترتيب غير المقروء أولاً</string>
+    <string name="setting_sort_by_unread_description">إبقاء الغرف ذات النشاط غير المقروء في أعلى كل قسم</string>
+    <string name="setting_show_silent_unread_count">إظهار عدد غير المقروء الصامت</string>
+    <string name="setting_show_silent_unread_count_description">احتساب كل رسالة غير مقروءة في الشارة بدلاً من المميزة فقط</string>
+    <string name="setting_open_at_unread">فتح الغرف عند أول غير مقروء</string>
+    <string name="setting_open_at_unread_description">العودة إلى أول رسالة غير مقروءة عند فتح غرفة</string>
+    <string name="setting_floating_date">فاصل التاريخ العائم</string>
+    <string name="setting_floating_date_description">إظهار شارة التاريخ أثناء التمرير في المحادثة</string>
+    <string name="setting_auto_mark_read_trigger">تعليم كمقروء</string>
+    <string name="setting_auto_mark_read_trigger_description">متى يتم تعليم الغرفة كمقروءة</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>عند الإرسال</item>
+        <item>أثناء الفتح</item>
+        <item>عند إغلاق الغرفة</item>
+        <item>أبداً</item>
+    </string-array>
+    <string name="setting_composer_max_lines">أسطر المحرر</string>
+    <string name="setting_composer_max_lines_description">أقصى ارتفاع لمحرر الرسائل</string>
+    <string name="setting_composer_max_lines_unfocused">أسطر المحرر عند فقدان التركيز</string>
+    <string name="setting_composer_max_lines_unfocused_description">أقصى ارتفاع لمحرر الرسائل عندما لا يكون محدداً</string>
+    <string name="setting_skiko_vsync">مزامنة vsync</string>
+    <string name="setting_skiko_vsync_description">مزامنة الرسم مع معدل تحديث الشاشة. عطّلها لتوفير البطارية</string>
+    <string name="setting_hide_window_decoration">إخفاء زخرفة النافذة</string>
+    <string name="setting_hide_window_decoration_description">رسم النافذة بدون شريط العنوان. يتطلب إعادة التشغيل</string>
+    <string name="setting_window_background_alpha">شفافية النافذة</string>
+    <string name="setting_window_background_alpha_description">شفافية النافذة كاملة</string>
 </resources>

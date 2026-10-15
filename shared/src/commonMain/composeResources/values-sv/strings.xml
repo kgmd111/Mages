@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Endast heltal. Använd 2 eller 3 på telefoner, där ingen skärmskala rapporteras</string>
     <string name="setting_drag_to_scroll">Dra för att rulla</string>
     <string name="setting_drag_to_scroll_description">Rulla listor genom att dra i stället för att använda mushjulet</string>
+    <string name="setting_message_swipe_right">Svepåtgärd meddelande höger</string>
+    <string name="setting_message_swipe_right_description">Åtgärd när ett meddelande sveps åt höger</string>
+    <string name="setting_message_swipe_left">Svepåtgärd meddelande vänster</string>
+    <string name="setting_message_swipe_left_description">Åtgärd när ett meddelande sveps åt vänster</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Svara</item>
+        <item>Reagera</item>
+        <item>Fäst</item>
+        <item>Kopiera</item>
+        <item>Inget</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Maxbredd för chattar</string>
+    <string name="setting_max_width_conversation_description">Maximal bredd för en konversation. 0 för ingen gräns</string>
+    <string name="setting_max_width_inbox">Maxbredd för rumslistan</string>
+    <string name="setting_max_width_inbox_description">Maximal bredd för rumslistan. 0 för ingen gräns</string>
+    <string name="setting_sort_by_unread">Olästa först</string>
+    <string name="setting_sort_by_unread_description">Behåll rum med oläst aktivitet överst i varje avsnitt</string>
+    <string name="setting_show_silent_unread_count">Visa tyst olästräknare</string>
+    <string name="setting_show_silent_unread_count_description">Räkna varje oläst meddelande i brickan istället för endast markerade</string>
+    <string name="setting_open_at_unread">Öppna rum vid första olästa</string>
+    <string name="setting_open_at_unread_description">Hoppa till första olästa meddelandet när ett rum öppnas</string>
+    <string name="setting_floating_date">Flytande datumavdelare</string>
+    <string name="setting_floating_date_description">Visa datumetikett vid rullning genom tidslinjen</string>
+    <string name="setting_auto_mark_read_trigger">Markera som läst</string>
+    <string name="setting_auto_mark_read_trigger_description">När ett rum ska markeras som läst</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Vid sändning</item>
+        <item>När öppet</item>
+        <item>Vid stängning av rum</item>
+        <item>Aldrig</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Redigerarrader</string>
+    <string name="setting_composer_max_lines_description">Maximal höjd för meddelandeditorn</string>
+    <string name="setting_composer_max_lines_unfocused">Rader utan fokus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximal höjd när den inte är fokuserad</string>
+    <string name="setting_skiko_vsync">Synkronisera vsync</string>
+    <string name="setting_skiko_vsync_description">Synkronisera ritning med uppdateringsfrekvensen. Stäng av för att spara batteri</string>
+    <string name="setting_hide_window_decoration">Dölj fönsterdekoration</string>
+    <string name="setting_hide_window_decoration_description">Rita fönstret utan titellist. Kräver omstart</string>
+    <string name="setting_window_background_alpha">Fönsteropacitet</string>
+    <string name="setting_window_background_alpha_description">Hela fönstrets transparens</string>
 </resources>

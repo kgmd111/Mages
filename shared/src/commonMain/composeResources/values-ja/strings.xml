@@ -1312,4 +1312,45 @@
     <string name="setting_ui_scale_description">整数値のみ。画面スケールが検出されないスマートフォンでは 2 または 3 を使用してください</string>
     <string name="setting_drag_to_scroll">ドラッグでスクロール</string>
     <string name="setting_drag_to_scroll_description">マウスホイールではなくドラッグでリストをスクロールします</string>
+    <string name="setting_message_swipe_right">メッセージ右スワイプの動作</string>
+    <string name="setting_message_swipe_right_description">メッセージを右にスワイプしたときの動作</string>
+    <string name="setting_message_swipe_left">メッセージ左スワイプの動作</string>
+    <string name="setting_message_swipe_left_description">メッセージを左にスワイプしたときの動作</string>
+    <string-array name="setting_message_swipe_options">
+        <item>返信</item>
+        <item>リアクション</item>
+        <item>ピン留め</item>
+        <item>コピー</item>
+        <item>なし</item>
+    </string-array>
+    <string name="setting_max_width_conversation">チャットの最大幅</string>
+    <string name="setting_max_width_conversation_description">会話の最大幅。制限なしは0</string>
+    <string name="setting_max_width_inbox">ルーム一覧の最大幅</string>
+    <string name="setting_max_width_inbox_description">ルーム一覧の最大幅。制限なしは0</string>
+    <string name="setting_sort_by_unread">未読を先頭に</string>
+    <string name="setting_sort_by_unread_description">各セクションの先頭に未読アクティビティのあるルームを保持</string>
+    <string name="setting_show_silent_unread_count">サイレント未読数を表示</string>
+    <string name="setting_show_silent_unread_count_description">ハイライトのみでなく全未読メッセージをバッジに数える</string>
+    <string name="setting_open_at_unread">最初の未読から開く</string>
+    <string name="setting_open_at_unread_description">ルームを開くときに最初の未読メッセージにジャンプ</string>
+    <string name="setting_floating_date">フローティング日付区切り</string>
+    <string name="setting_floating_date_description">タイムラインのスクロール中に日付チップを表示</string>
+    <string name="setting_auto_mark_read_trigger">既読にする</string>
+    <string name="setting_auto_mark_read_trigger_description">ルームを既読にするタイミング</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>送信時</item>
+        <item>開いている間</item>
+        <item>ルームを閉じるとき</item>
+        <item>しない</item>
+    </string-array>
+    <string name="setting_composer_max_lines">入力欄の行数</string>
+    <string name="setting_composer_max_lines_description">メッセージ入力欄の最大の高さ</string>
+    <string name="setting_composer_max_lines_unfocused">フォーカスがないときの行数</string>
+    <string name="setting_composer_max_lines_unfocused_description">フォーカスがないときの最大の高さ</string>
+    <string name="setting_skiko_vsync">Vsync同期</string>
+    <string name="setting_skiko_vsync_description">描画をディスプレイのリフレッシュレートに同期。電池節約のためオフに</string>
+    <string name="setting_hide_window_decoration">ウィンドウ装飾を隠す</string>
+    <string name="setting_hide_window_decoration_description">タイトルバーなしでウィンドウを描画。要再起動</string>
+    <string name="setting_window_background_alpha">ウィンドウ不透明度</string>
+    <string name="setting_window_background_alpha_description">ウィンドウ全体の透明度</string>
 </resources>

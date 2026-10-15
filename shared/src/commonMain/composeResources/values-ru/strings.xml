@@ -1315,4 +1315,45 @@
     <string name="setting_ui_scale_description">Только целые числа. Используйте 2 или 3 на телефонах, где масштаб экрана не определяется</string>
     <string name="setting_drag_to_scroll">Перетаскивание для прокрутки</string>
     <string name="setting_drag_to_scroll_description">Прокручивайте списки перетаскиванием вместо колеса мыши</string>
+    <string name="setting_message_swipe_right">Действие свайпа сообщения вправо</string>
+    <string name="setting_message_swipe_right_description">Действие при свайпе сообщения вправо</string>
+    <string name="setting_message_swipe_left">Действие свайпа сообщения влево</string>
+    <string name="setting_message_swipe_left_description">Действие при свайпе сообщения влево</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Ответить</item>
+        <item>Реакция</item>
+        <item>Закрепить</item>
+        <item>Копировать</item>
+        <item>Ничего</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Макс. ширина чатов</string>
+    <string name="setting_max_width_conversation_description">Максимальная ширина беседы. 0 — без ограничения</string>
+    <string name="setting_max_width_inbox">Макс. ширина списка комнат</string>
+    <string name="setting_max_width_inbox_description">Максимальная ширина списка комнат. 0 — без ограничения</string>
+    <string name="setting_sort_by_unread">Непрочитанные сначала</string>
+    <string name="setting_sort_by_unread_description">Держать комнаты с непрочитанной активностью вверху каждого раздела</string>
+    <string name="setting_show_silent_unread_count">Показывать тихий счётчик</string>
+    <string name="setting_show_silent_unread_count_description">Считать каждое непрочитанное сообщение в бейдже, а не только выделенные</string>
+    <string name="setting_open_at_unread">Открывать комнаты с первого непрочитанного</string>
+    <string name="setting_open_at_unread_description">Переходить к первому непрочитанному при открытии комнаты</string>
+    <string name="setting_floating_date">Плавающий разделитель даты</string>
+    <string name="setting_floating_date_description">Показывать метку даты при прокрутке переписки</string>
+    <string name="setting_auto_mark_read_trigger">Отметить как прочитанное</string>
+    <string name="setting_auto_mark_read_trigger_description">Когда отмечать комнату прочитанной</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>При отправке</item>
+        <item>Пока открыта</item>
+        <item>При закрытии комнаты</item>
+        <item>Никогда</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Строки редактора</string>
+    <string name="setting_composer_max_lines_description">Максимальная высота редактора сообщений</string>
+    <string name="setting_composer_max_lines_unfocused">Строки без фокуса</string>
+    <string name="setting_composer_max_lines_unfocused_description">Максимальная высота, когда нет фокуса</string>
+    <string name="setting_skiko_vsync">Синхронизация vsync</string>
+    <string name="setting_skiko_vsync_description">Синхронизировать отрисовку с частотой обновления. Выключи для экономии батареи</string>
+    <string name="setting_hide_window_decoration">Скрыть оформление окна</string>
+    <string name="setting_hide_window_decoration_description">Рисовать окно без заголовка. Требуется перезапуск</string>
+    <string name="setting_window_background_alpha">Непрозрачность окна</string>
+    <string name="setting_window_background_alpha_description">Прозрачность всего окна</string>
 </resources>

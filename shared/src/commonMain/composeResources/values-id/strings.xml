@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Hanya bilangan bulat. Gunakan 2 atau 3 di ponsel, tempat skala tampilan tidak dilaporkan</string>
     <string name="setting_drag_to_scroll">Geser untuk menggulir</string>
     <string name="setting_drag_to_scroll_description">Gulir daftar dengan menyeret, bukan menggunakan roda tetikus</string>
+    <string name="setting_message_swipe_right">Aksi geser pesan ke kanan</string>
+    <string name="setting_message_swipe_right_description">Tindakan saat menggeser pesan ke kanan</string>
+    <string name="setting_message_swipe_left">Aksi geser pesan ke kiri</string>
+    <string name="setting_message_swipe_left_description">Tindakan saat menggeser pesan ke kiri</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Balas</item>
+        <item>Reaksi</item>
+        <item>Pin</item>
+        <item>Salin</item>
+        <item>Tidak ada</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Lebar maks obrolan</string>
+    <string name="setting_max_width_conversation_description">Lebar maksimum percakapan. Isi 0 untuk tanpa batas</string>
+    <string name="setting_max_width_inbox">Lebar maks daftar ruangan</string>
+    <string name="setting_max_width_inbox_description">Lebar maksimum daftar ruangan. Isi 0 untuk tanpa batas</string>
+    <string name="setting_sort_by_unread">Urutkan belum dibaca dulu</string>
+    <string name="setting_sort_by_unread_description">Pertahankan ruangan dengan aktivitas belum dibaca di atas setiap bagian</string>
+    <string name="setting_show_silent_unread_count">Tampilkan jumlah senyap</string>
+    <string name="setting_show_silent_unread_count_description">Hitung setiap pesan belum dibaca di lencana, bukan hanya yang disorot</string>
+    <string name="setting_open_at_unread">Buka ruangan dari belum dibaca pertama</string>
+    <string name="setting_open_at_unread_description">Lompat ke pesan belum dibaca pertama saat membuka ruangan</string>
+    <string name="setting_floating_date">Pemisah tanggal mengambang</string>
+    <string name="setting_floating_date_description">Tampilkan label tanggal saat menggulir percakapan</string>
+    <string name="setting_auto_mark_read_trigger">Tandai sudah dibaca</string>
+    <string name="setting_auto_mark_read_trigger_description">Kapan menandai ruangan sebagai sudah dibaca</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Saat mengirim</item>
+        <item>Saat terbuka</item>
+        <item>Saat menutup ruangan</item>
+        <item>Tidak pernah</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Baris editor</string>
+    <string name="setting_composer_max_lines_description">Tinggi maksimum editor pesan</string>
+    <string name="setting_composer_max_lines_unfocused">Baris saat tak fokus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Tinggi maksimum saat tidak fokus</string>
+    <string name="setting_skiko_vsync">Sinkronkan vsync</string>
+    <string name="setting_skiko_vsync_description">Sinkronkan gambar dengan kecepatan refresh layar. Matikan untuk hemat baterai</string>
+    <string name="setting_hide_window_decoration">Sembunyikan dekorasi jendela</string>
+    <string name="setting_hide_window_decoration_description">Gambar jendela tanpa bilah judul. Perlu mulai ulang</string>
+    <string name="setting_window_background_alpha">Opasitas jendela</string>
+    <string name="setting_window_background_alpha_description">Transparansi seluruh jendela</string>
 </resources>

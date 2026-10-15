@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Nur ganze Zahlen. Auf Smartphones 2 oder 3 verwenden, da dort keine Anzeigeskalierung gemeldet wird</string>
     <string name="setting_drag_to_scroll">Zum Scrollen ziehen</string>
     <string name="setting_drag_to_scroll_description">Listen durch Ziehen statt mit dem Mausrad scrollen</string>
+    <string name="setting_message_swipe_right">Wischaktion Nachricht rechts</string>
+    <string name="setting_message_swipe_right_description">Aktion beim Wischen einer Nachricht nach rechts</string>
+    <string name="setting_message_swipe_left">Wischaktion Nachricht links</string>
+    <string name="setting_message_swipe_left_description">Aktion beim Wischen einer Nachricht nach links</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Antworten</item>
+        <item>Reagieren</item>
+        <item>Anheften</item>
+        <item>Kopieren</item>
+        <item>Nichts</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Max. Breite für Chats</string>
+    <string name="setting_max_width_conversation_description">Maximale Breite einer Unterhaltung. 0 für keine Begrenzung</string>
+    <string name="setting_max_width_inbox">Max. Breite für Raumliste</string>
+    <string name="setting_max_width_inbox_description">Maximale Breite der Raumliste. 0 für keine Begrenzung</string>
+    <string name="setting_sort_by_unread">Ungelesene zuerst sortieren</string>
+    <string name="setting_sort_by_unread_description">Räume mit ungelesener Aktivität oben in jedem Abschnitt behalten</string>
+    <string name="setting_show_silent_unread_count">Stille ungelesene Anzahl anzeigen</string>
+    <string name="setting_show_silent_unread_count_description">Jede ungelesene Nachricht im Badge zählen statt nur hervorgehobener</string>
+    <string name="setting_open_at_unread">Räume bei erster ungelesener öffnen</string>
+    <string name="setting_open_at_unread_description">Beim Öffnen eines Raums zur ersten ungelesenen Nachricht springen</string>
+    <string name="setting_floating_date">Schwebender Datumstrenner</string>
+    <string name="setting_floating_date_description">Datums-Chip beim Scrollen durch den Verlauf anzeigen</string>
+    <string name="setting_auto_mark_read_trigger">Als gelesen markieren</string>
+    <string name="setting_auto_mark_read_trigger_description">Wann ein Raum als gelesen markiert wird</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Beim Senden</item>
+        <item>Wenn geöffnet</item>
+        <item>Beim Schließen des Raums</item>
+        <item>Nie</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Editorzeilen</string>
+    <string name="setting_composer_max_lines_description">Maximale Höhe des Nachrichteneditor</string>
+    <string name="setting_composer_max_lines_unfocused">Editorzeilen ohne Fokus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximale Höhe des Nachrichteneditor ohne Fokus</string>
+    <string name="setting_skiko_vsync">Vsync synchronisieren</string>
+    <string name="setting_skiko_vsync_description">Zeichnen mit der Bildwiederholrate synchronisieren. Zum Akkusparen deaktivieren</string>
+    <string name="setting_hide_window_decoration">Fensterdekoration ausblenden</string>
+    <string name="setting_hide_window_decoration_description">Fenster ohne Titelleiste zeichnen. Erfordert Neustart</string>
+    <string name="setting_window_background_alpha">Fensterdeckkraft</string>
+    <string name="setting_window_background_alpha_description">Transparenz des gesamten Fensters</string>
 </resources>

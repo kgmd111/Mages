@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Nombre entier uniquement. Utilisez 2 ou 3 sur les téléphones, où aucune échelle d\'affichage n\'est signalée</string>
     <string name="setting_drag_to_scroll">Faire glisser pour faire défiler</string>
     <string name="setting_drag_to_scroll_description">Faites défiler les listes en faisant glisser au lieu d\'utiliser la molette</string>
+    <string name="setting_message_swipe_right">Action de balayage du message vers la droite</string>
+    <string name="setting_message_swipe_right_description">Action effectuée en balayant un message vers la droite</string>
+    <string name="setting_message_swipe_left">Action de balayage du message vers la gauche</string>
+    <string name="setting_message_swipe_left_description">Action effectuée en balayant un message vers la gauche</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Répondre</item>
+        <item>Réagir</item>
+        <item>Épingler</item>
+        <item>Copier</item>
+        <item>Rien</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Largeur max des discussions</string>
+    <string name="setting_max_width_conversation_description">Largeur maximale d'une discussion. 0 pour aucune limite</string>
+    <string name="setting_max_width_inbox">Largeur max de la liste des salons</string>
+    <string name="setting_max_width_inbox_description">Largeur maximale de la liste des salons. 0 pour aucune limite</string>
+    <string name="setting_sort_by_unread">Non lus en premier</string>
+    <string name="setting_sort_by_unread_description">Garder les salons avec une activité non lue en haut de chaque section</string>
+    <string name="setting_show_silent_unread_count">Afficher le compteur silencieux</string>
+    <string name="setting_show_silent_unread_count_description">Compter chaque message non lu dans le badge au lieu des seuls surlignés</string>
+    <string name="setting_open_at_unread">Ouvrir les salons au premier non lu</string>
+    <string name="setting_open_at_unread_description">Revenir au premier message non lu en ouvrant un salon</string>
+    <string name="setting_floating_date">Séparateur de date flottant</string>
+    <string name="setting_floating_date_description">Afficher une étiquette de date en faisant défiler la discussion</string>
+    <string name="setting_auto_mark_read_trigger">Marquer comme lu</string>
+    <string name="setting_auto_mark_read_trigger_description">Quand marquer un salon comme lu</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>À l'envoi</item>
+        <item>Quand ouvert</item>
+        <item>À la fermeture du salon</item>
+        <item>Jamais</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Lignes de l'éditeur</string>
+    <string name="setting_composer_max_lines_description">Hauteur maximale de l'éditeur de messages</string>
+    <string name="setting_composer_max_lines_unfocused">Lignes sans focus</string>
+    <string name="setting_composer_max_lines_unfocused_description">Hauteur maximale quand il n'a pas le focus</string>
+    <string name="setting_skiko_vsync">Synchroniser vsync</string>
+    <string name="setting_skiko_vsync_description">Synchroniser le dessin avec le taux de rafraîchissement. Désactiver pour économiser la batterie</string>
+    <string name="setting_hide_window_decoration">Masquer la décoration de fenêtre</string>
+    <string name="setting_hide_window_decoration_description">Dessiner la fenêtre sans barre de titre. Nécessite un redémarrage</string>
+    <string name="setting_window_background_alpha">Opacité de la fenêtre</string>
+    <string name="setting_window_background_alpha_description">Transparence de toute la fenêtre</string>
 </resources>

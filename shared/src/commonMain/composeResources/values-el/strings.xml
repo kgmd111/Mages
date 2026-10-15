@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Μόνο ακέραιοι αριθμοί. Χρησιμοποιήστε 2 ή 3 σε τηλέφωνα, όπου δεν αναφέρεται κλίμακα οθόνης</string>
     <string name="setting_drag_to_scroll">Σύρετε για κύλιση</string>
     <string name="setting_drag_to_scroll_description">Κυλίστε τις λίστες με σύρεση αντί για τον κύλινο του ποντικιού</string>
+    <string name="setting_message_swipe_right">Ενέργεια σάρωσης μηνύματος δεξιά</string>
+    <string name="setting_message_swipe_right_description">Ενέργεια κατά τη σάρωση μηνύματος προς τα δεξιά</string>
+    <string name="setting_message_swipe_left">Ενέργεια σάρωσης μηνύματος αριστερά</string>
+    <string name="setting_message_swipe_left_description">Ενέργεια κατά τη σάρωση μηνύματος προς τα αριστερά</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Απάντηση</item>
+        <item>Αντίδραση</item>
+        <item>Καρφίτσωμα</item>
+        <item>Αντιγραφή</item>
+        <item>Τίποτα</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Μέγιστο πλάτος συνομιλιών</string>
+    <string name="setting_max_width_conversation_description">Μέγιστο πλάτος συνομιλίας. 0 για χωρίς όριο</string>
+    <string name="setting_max_width_inbox">Μέγιστο πλάτος λίστας δωματίων</string>
+    <string name="setting_max_width_inbox_description">Μέγιστο πλάτος λίστας δωματίων. 0 για χωρίς όριο</string>
+    <string name="setting_sort_by_unread">Τα αδιάβαστα πρώτα</string>
+    <string name="setting_sort_by_unread_description">Διατήρηση δωματίων με αδιάβαστη δραστηριότητα στην κορυφή κάθε ενότητας</string>
+    <string name="setting_show_silent_unread_count">Εμφάνιση σιωπηλού μετρητή</string>
+    <string name="setting_show_silent_unread_count_description">Καταμέτρηση κάθε αδιάβαστου μηνύματος στο σήμα αντί μόνο των επισημασμένων</string>
+    <string name="setting_open_at_unread">Άνοιγμα δωματίων στο πρώτο αδιάβαστο</string>
+    <string name="setting_open_at_unread_description">Μετάβαση στο πρώτο αδιάβαστο μήνυμα κατά το άνοιγμα δωματίου</string>
+    <string name="setting_floating_date">Αιωρούμενος διαχωριστής ημερομηνίας</string>
+    <string name="setting_floating_date_description">Εμφάνιση ετικέτας ημερομηνίας κατά την κύλιση</string>
+    <string name="setting_auto_mark_read_trigger">Σήμανση ως διαβασμένου</string>
+    <string name="setting_auto_mark_read_trigger_description">Πότε να σημαίνεται ένα δωμάτιο ως διαβασμένο</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Κατά την αποστολή</item>
+        <item>Όσο είναι ανοιχτό</item>
+        <item>Κατά το κλείσιμο</item>
+        <item>Ποτέ</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Γραμμές επεξεργαστή</string>
+    <string name="setting_composer_max_lines_description">Μέγιστο ύψος του επεξεργαστή μηνυμάτων</string>
+    <string name="setting_composer_max_lines_unfocused">Γραμμές χωρίς εστίαση</string>
+    <string name="setting_composer_max_lines_unfocused_description">Μέγιστο ύψος όταν δεν έχει εστίαση</string>
+    <string name="setting_skiko_vsync">Συγχρονισμός vsync</string>
+    <string name="setting_skiko_vsync_description">Συγχρονισμός σχεδίασης με τον ρυθμό ανανέωσης. Απενεργοποίησε για εξοικονόμηση μπαταρίας</string>
+    <string name="setting_hide_window_decoration">Απόκρυψη διακόσμησης παραθύρου</string>
+    <string name="setting_hide_window_decoration_description">Σχεδίαση χωρίς γραμμή τίτλου. Απαιτεί επανεκκίνηση</string>
+    <string name="setting_window_background_alpha">Αδιαφάνεια παραθύρου</string>
+    <string name="setting_window_background_alpha_description">Διαφάνεια ολόκληρου του παραθύρου</string>
 </resources>

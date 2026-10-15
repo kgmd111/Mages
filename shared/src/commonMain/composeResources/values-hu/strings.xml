@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Csak egész számok. Telefonokon 2 vagy 3 értéket használj, ahol a kijelző skálázása nincs jelentve</string>
     <string name="setting_drag_to_scroll">Húzd a görgetéshez</string>
     <string name="setting_drag_to_scroll_description">A listák görgetése húzással az egérgomb helyett</string>
+    <string name="setting_message_swipe_right">Üzenet jobbra húzása művelet</string>
+    <string name="setting_message_swipe_right_description">Művelet üzenet jobbra húzásakor</string>
+    <string name="setting_message_swipe_left">Üzenet balra húzása művelet</string>
+    <string name="setting_message_swipe_left_description">Művelet üzenet balra húzásakor</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Válasz</item>
+        <item>Reakció</item>
+        <item>Kitűzés</item>
+        <item>Másolás</item>
+        <item>Semmi</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Max. chatszélesség</string>
+    <string name="setting_max_width_conversation_description">Egy beszélgetés maximális szélessége. 0 = nincs korlát</string>
+    <string name="setting_max_width_inbox">Max. szobalista-szélesség</string>
+    <string name="setting_max_width_inbox_description">A szobalista maximális szélessége. 0 = nincs korlát</string>
+    <string name="setting_sort_by_unread">Olvasatlanok elöl</string>
+    <string name="setting_sort_by_unread_description">Az olvasatlan aktivitású szobák maradjanak minden szakasz tetején</string>
+    <string name="setting_show_silent_unread_count">Néma olvasatlan számláló</string>
+    <string name="setting_show_silent_unread_count_description">Minden olvasatlan üzenet számolása a jelvényben, ne csak a kiemelteké</string>
+    <string name="setting_open_at_unread">Szobák megnyitása az első olvasatlannál</string>
+    <string name="setting_open_at_unread_description">Ugrás az első olvasatlan üzenetre szoba megnyitásakor</string>
+    <string name="setting_floating_date">Lebegő dátumelválasztó</string>
+    <string name="setting_floating_date_description">Dátumcímke mutatása a beszélgetés görgetésekor</string>
+    <string name="setting_auto_mark_read_trigger">Megjelölés olvasottként</string>
+    <string name="setting_auto_mark_read_trigger_description">Mikor legyen egy szoba olvasottként megjelölve</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Küldéskor</item>
+        <item>Amíg nyitva</item>
+        <item>Szoba bezárásakor</item>
+        <item>Soha</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Szerkesztősorok</string>
+    <string name="setting_composer_max_lines_description">Az üzenetszerkesztő maximális magassága</string>
+    <string name="setting_composer_max_lines_unfocused">Sorok fókusz nélkül</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximális magasság, ha nincs fókuszban</string>
+    <string name="setting_skiko_vsync">Vsync szinkronizálás</string>
+    <string name="setting_skiko_vsync_description">Rajzolás szinkronizálása a képfrissítéssel. Kikapcsolható az akku kíméléséhez</string>
+    <string name="setting_hide_window_decoration">Ablakdekoráció elrejtése</string>
+    <string name="setting_hide_window_decoration_description">Ablak rajzolása címsor nélkül. Újraindítást igényel</string>
+    <string name="setting_window_background_alpha">Ablak átlátszatlansága</string>
+    <string name="setting_window_background_alpha_description">Az egész ablak átlátszósága</string>
 </resources>

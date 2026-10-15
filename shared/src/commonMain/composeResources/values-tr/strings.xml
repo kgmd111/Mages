@@ -1313,4 +1313,45 @@
     <string name="setting_ui_scale_description">Yalnızca tam sayılar. Telefonlarda ekran ölçeği bildirilmediği için 2 veya 3 kullanın</string>
     <string name="setting_drag_to_scroll">Kaydırmak için sürükleyin</string>
     <string name="setting_drag_to_scroll_description">Fare tekerleği yerine sürükleyerek listelerde kaydırın</string>
+    <string name="setting_message_swipe_right">Mesaj sağa kaydırma eylemi</string>
+    <string name="setting_message_swipe_right_description">Mesaj sağa kaydırıldığında yapılacak işlem</string>
+    <string name="setting_message_swipe_left">Mesaj sola kaydırma eylemi</string>
+    <string name="setting_message_swipe_left_description">Mesaj sola kaydırıldığında yapılacak işlem</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Yanıtla</item>
+        <item>Tepki ver</item>
+        <item>Sabitle</item>
+        <item>Kopyala</item>
+        <item>Hiçbiri</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Sohbetler için maks. genişlik</string>
+    <string name="setting_max_width_conversation_description">Bir sohbetin maksimum genişliği. Sınırsız için 0</string>
+    <string name="setting_max_width_inbox">Oda listesi için maks. genişlik</string>
+    <string name="setting_max_width_inbox_description">Oda listesinin maksimum genişliği. Sınırsız için 0</string>
+    <string name="setting_sort_by_unread">Okunmamışlar önce</string>
+    <string name="setting_sort_by_unread_description">Okunmamış etkinliği olan odaları her bölümün üstünde tut</string>
+    <string name="setting_show_silent_unread_count">Sessiz okunmamış sayacı</string>
+    <string name="setting_show_silent_unread_count_description">Rozette yalnızca vurgulananlar yerine her okunmamış iletiyi say</string>
+    <string name="setting_open_at_unread">Odaları ilk okunmamıştan aç</string>
+    <string name="setting_open_at_unread_description">Oda açılırken ilk okunmamış iletiye atla</string>
+    <string name="setting_floating_date">Yüzen tarih ayırıcı</string>
+    <string name="setting_floating_date_description">Zaman akışında kaydırırken tarih etiketi göster</string>
+    <string name="setting_auto_mark_read_trigger">Okundu olarak işaretle</string>
+    <string name="setting_auto_mark_read_trigger_description">Oda ne zaman okundu sayılsın</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Gönderirken</item>
+        <item>Açıkken</item>
+        <item>Odayı kapatırken</item>
+        <item>Asla</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Düzenleyici satırları</string>
+    <string name="setting_composer_max_lines_description">İleti düzenleyicinin maksimum yüksekliği</string>
+    <string name="setting_composer_max_lines_unfocused">Odak yokken satırlar</string>
+    <string name="setting_composer_max_lines_unfocused_description">Odak yokken maksimum yükseklik</string>
+    <string name="setting_skiko_vsync">Vsync senkronize et</string>
+    <string name="setting_skiko_vsync_description">Çizimi ekran yenileme hızıyla senkronize et. Pil tasarrufu için kapat</string>
+    <string name="setting_hide_window_decoration">Pencere süslemesini gizle</string>
+    <string name="setting_hide_window_decoration_description">Pencereyi başlıksız çiz. Yeniden başlatma gerekir</string>
+    <string name="setting_window_background_alpha">Pencere opaklığı</string>
+    <string name="setting_window_background_alpha_description">Tüm pencerenin saydamlığı</string>
 </resources>

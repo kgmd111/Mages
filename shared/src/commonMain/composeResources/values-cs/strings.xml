@@ -1315,4 +1315,45 @@
     <string name="setting_ui_scale_description">Pouze celá čísla. Na telefonech použijte 2 nebo 3, kde se nehlásí měřítko obrazovky</string>
     <string name="setting_drag_to_scroll">Tažením posouvat</string>
     <string name="setting_drag_to_scroll_description">Posouvejte seznamy tažením místo použití kolečka myši</string>
+    <string name="setting_message_swipe_right">Akce přejetí zprávy doprava</string>
+    <string name="setting_message_swipe_right_description">Akce provedená při přejetí zprávy doprava</string>
+    <string name="setting_message_swipe_left">Akce přejetí zprávy doleva</string>
+    <string name="setting_message_swipe_left_description">Akce provedená při přejetí zprávy doleva</string>
+    <string-array name="setting_message_swipe_options">
+        <item>Odpovědět</item>
+        <item>Reagovat</item>
+        <item>Připnout</item>
+        <item>Kopírovat</item>
+        <item>Nic</item>
+    </string-array>
+    <string name="setting_max_width_conversation">Max. šířka chatů</string>
+    <string name="setting_max_width_conversation_description">Maximální šířka konverzace. 0 znamená bez omezení</string>
+    <string name="setting_max_width_inbox">Max. šířka seznamu místností</string>
+    <string name="setting_max_width_inbox_description">Maximální šířka seznamu místností. 0 znamená bez omezení</string>
+    <string name="setting_sort_by_unread">Řadit nepřečtené nejdřív</string>
+    <string name="setting_sort_by_unread_description">Ponechat místnosti s nepřečtenou aktivitou nahoře v každé sekci</string>
+    <string name="setting_show_silent_unread_count">Zobrazit počet tichých nepřečtených</string>
+    <string name="setting_show_silent_unread_count_description">Počítat každou nepřečtenou zprávu do odznaku místo jen zvýrazněných</string>
+    <string name="setting_open_at_unread">Otevírat místnosti u první nepřečtené</string>
+    <string name="setting_open_at_unread_description">Při otevření místnosti skočit na první nepřečtenou zprávu</string>
+    <string name="setting_floating_date">Plovoucí oddělovač data</string>
+    <string name="setting_floating_date_description">Zobrazit datový štítek při procházení konverzace</string>
+    <string name="setting_auto_mark_read_trigger">Označit jako přečtené</string>
+    <string name="setting_auto_mark_read_trigger_description">Kdy označit místnost jako přečtenou</string>
+    <string-array name="setting_auto_mark_read_trigger_options">
+        <item>Při odeslání</item>
+        <item>Když je otevřená</item>
+        <item>Při zavření místnosti</item>
+        <item>Nikdy</item>
+    </string-array>
+    <string name="setting_composer_max_lines">Řádky editoru</string>
+    <string name="setting_composer_max_lines_description">Maximální výška editoru zpráv</string>
+    <string name="setting_composer_max_lines_unfocused">Řádky editoru bez zaměření</string>
+    <string name="setting_composer_max_lines_unfocused_description">Maximální výška editoru zpráv, když není zaměřen</string>
+    <string name="setting_skiko_vsync">Synchronizace vsync</string>
+    <string name="setting_skiko_vsync_description">Synchronizovat vykreslování s obnovovací frekvencí displeje. Vypni pro úsporu baterie</string>
+    <string name="setting_hide_window_decoration">Skrýt dekoraci okna</string>
+    <string name="setting_hide_window_decoration_description">Vykreslit okno bez titulkového pruhu. Vyžaduje restart</string>
+    <string name="setting_window_background_alpha">Průhlednost okna</string>
+    <string name="setting_window_background_alpha_description">Průhlednost celého okna</string>
 </resources>
