@@ -624,6 +624,10 @@
         <item>Copy</item>
         <item>Nothing</item>
     </string-array>
+    <string name="setting_max_width_conversation">Max width for chats</string>
+    <string name="setting_max_width_conversation_description">Maximum width of a conversation. Set to 0 for no limit</string>
+    <string name="setting_max_width_inbox">Max width for room list</string>
+    <string name="setting_max_width_inbox_description">Maximum width of the room list. Set to 0 for no limit</string>
     <string name="setting_chat_bubbles">Chat bubbles</string>
     <string name="setting_chat_bubbles_description">Open system settings to enable (or disable) conversation bubbles</string>
     <string name="setting_notification_rules">Notification rules</string>

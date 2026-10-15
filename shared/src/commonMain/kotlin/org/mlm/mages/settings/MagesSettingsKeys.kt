@@ -167,4 +167,8 @@ object MagesSettingsKeys {
     const val LINK_PREVIEWS_OPTIONS = "mages.settings.link_previews.options"
     const val ROOM_LIST_SWIPE_OPTIONS = "mages.settings.room_list_swipe.options"
     const val MESSAGE_SWIPE_OPTIONS = "mages.settings.message_swipe.options"
+    const val MAX_WIDTH_CONVERSATION = "mages.settings.max_width_conversation"
+    const val MAX_WIDTH_CONVERSATION_DESCRIPTION = "mages.settings.max_width_conversation.description"
+    const val MAX_WIDTH_INBOX = "mages.settings.max_width_inbox"
+    const val MAX_WIDTH_INBOX_DESCRIPTION = "mages.settings.max_width_inbox.description"
 }

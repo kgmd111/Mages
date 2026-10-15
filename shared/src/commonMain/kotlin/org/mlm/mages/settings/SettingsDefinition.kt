@@ -508,6 +508,34 @@ data class AppSettings(
     val messageSwipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
 
     @Setting(
+        title = "Max width for chats",
+        titleKey = MagesSettingsKeys.MAX_WIDTH_CONVERSATION,
+        description = "Maximum width of a conversation. Set to 0 for no limit",
+        descriptionKey = MagesSettingsKeys.MAX_WIDTH_CONVERSATION_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 0f,
+        max = 2400f,
+        step = 40f,
+        platforms = [SettingPlatform.JVM],
+    )
+    val maxWidthConversation: Int = 0,
+
+    @Setting(
+        title = "Max width for room list",
+        titleKey = MagesSettingsKeys.MAX_WIDTH_INBOX,
+        description = "Maximum width of the room list. Set to 0 for no limit",
+        descriptionKey = MagesSettingsKeys.MAX_WIDTH_INBOX_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 0f,
+        max = 2400f,
+        step = 40f,
+        platforms = [SettingPlatform.JVM],
+    )
+    val maxWidthInbox: Int = 0,
+
+    @Setting(
         title = "Chat bubbles",
         titleKey = MagesSettingsKeys.CHAT_BUBBLES,
         description = "Open system settings to enable (or disable) conversation bubbles",

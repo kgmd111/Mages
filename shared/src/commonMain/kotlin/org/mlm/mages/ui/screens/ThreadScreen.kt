@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.LinkPreview
 import org.mlm.mages.MatrixService
@@ -127,6 +128,7 @@ fun ThreadRoute(
         onOpenImage = { ev -> openedImageKey = ev.itemId },
         enterSendsMessage = settings.enterSendsMessage,
         showReactionAvatars = settings.showReactionAvatars,
+        maxWidthConversation = settings.maxWidthConversation,
         canEditLatest = settings.editLatestWithUpArrow && state.editingEvent == null && viewModel.hasEditableLatest(),
         onEditLatest = viewModel::startEditLatestEditable,
         onMentionClick = viewModel::selectMemberForAction,
@@ -198,6 +200,7 @@ fun ThreadScreen(
     onIgnore: (String) -> Unit = { },
     onOpenAvatar: (MemberSummary) -> Unit = { },
     showReactionAvatars: Boolean = true,
+    maxWidthConversation: Int = 0,
     emoteSuggestions: List<EmoteSuggestion> = emptyList(),
     resolveEmotePreview: suspend (thumbnailMxcUri: String?, mxcUrl: String) -> String? = { _, _ -> null },
     reactionShortcodes: Map<String, String> = emptyMap(),
@@ -367,6 +370,7 @@ fun ThreadScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
+                            .contentWidth(maxWidthConversation)
                             .fillMaxSize()
                             .dragToScrollIfEnabled(listState, reverse = true),
                         contentPadding = PaddingValues(bottom = Spacing.sm),

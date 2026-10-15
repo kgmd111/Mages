@@ -77,6 +77,7 @@ import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.components.sheets.*
 import org.mlm.mages.ui.components.voice.VoicePreviewDialog
 import org.mlm.mages.ui.theme.Spacing
+import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.ui.util.formatDate
 import org.mlm.mages.ui.util.formatTime
@@ -742,6 +743,7 @@ fun RoomScreen(
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
+                                .contentWidth(listSettings.maxWidthConversation)
                                 .fillMaxSize()
                                 .dragToScrollIfEnabled(listState, reverse = true),
                             contentPadding = PaddingValues(vertical = 8.dp),
@@ -1721,7 +1723,7 @@ private fun MessageItem(
                     if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f))
                     else Modifier
                 )
-                .pointerInput(state.isSelectionMode, swipeRightAction, swipeLeftAction, isMine) {
+                .pointerInput(state.isSelectionMode, swipeRightAction, swipeLeftAction, isMine, density) {
                     if (state.isSelectionMode || !swipeEnabled) return@pointerInput
                     val rightAction = if (isMine) swipeLeftAction else swipeRightAction
                     val leftAction = if (isMine) swipeRightAction else swipeLeftAction

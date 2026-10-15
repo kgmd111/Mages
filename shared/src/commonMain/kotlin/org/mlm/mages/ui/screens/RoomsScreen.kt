@@ -18,8 +18,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import io.github.mlmgames.settings.core.SettingsRepository
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.RoomSummary
 import org.mlm.mages.ui.RoomTypeFilter
@@ -52,6 +56,8 @@ fun RoomsScreen(
     canSwitchAccount: Boolean,
 ) {
     val state by viewModel.state.collectAsState()
+    val settingsRepository: SettingsRepository<AppSettings> = koinInject()
+    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -133,9 +139,13 @@ fun RoomsScreen(
             }
         }
     ) { innerPadding ->
+        val listModifier = Modifier
+            .contentWidth(settings.maxWidthInbox)
+            .fillMaxSize()
+            .padding(innerPadding)
         when {
             state.isLoading && state.allItems.isEmpty() -> {
-                ShimmerList(modifier = Modifier.fillMaxSize().padding(innerPadding))
+                ShimmerList(modifier = listModifier)
             }
 
             !hasAnyRooms && state.offlineBanner != null -> {
@@ -197,10 +207,7 @@ fun RoomsScreen(
             else -> {
                 LazyColumn(
                     state = listState,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .dragToScrollIfEnabled(listState),
+                    modifier = listModifier.dragToScrollIfEnabled(listState),
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
                     if (state.favouriteItems.isNotEmpty()) {
