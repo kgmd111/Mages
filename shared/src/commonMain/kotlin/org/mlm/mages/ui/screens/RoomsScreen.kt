@@ -141,7 +141,7 @@ fun RoomsScreen(
         }
     ) { innerPadding ->
         val listModifier = Modifier
-            .contentWidth(settings.maxWidthInbox)
+            .contentWidth(settings.maxWidthInbox, settings.splitPanes)
             .fillMaxSize()
             .padding(innerPadding)
         when {

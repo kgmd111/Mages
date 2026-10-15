@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Vẽ cửa sổ không có thanh tiêu đề. Cần khởi động lại</string>
     <string name="setting_window_background_alpha">Độ mờ cửa sổ</string>
     <string name="setting_window_background_alpha_description">Độ trong suốt của toàn cửa sổ</string>
+    <string name="setting_split_panes">Khung chia đôi</string>
+    <string name="setting_split_panes_description">Hiện danh sách phòng và cuộc trò chuyện cạnh nhau trên màn hình rộng</string>
+    <string name="select_conversation_title">Chọn một cuộc trò chuyện</string>
+    <string name="select_conversation_subtitle">Chọn một phòng từ danh sách để xem tại đây</string>
 </resources>

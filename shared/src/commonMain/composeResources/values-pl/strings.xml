@@ -1356,4 +1356,8 @@
     <string name="setting_hide_window_decoration_description">Rysuj okno bez paska tytułu. Wymaga restartu</string>
     <string name="setting_window_background_alpha">Krycie okna</string>
     <string name="setting_window_background_alpha_description">Przezroczystość całego okna</string>
+    <string name="setting_split_panes">Podzielone panele</string>
+    <string name="setting_split_panes_description">Pokazuj listę pokoi i konwersację obok siebie na szerokich ekranach</string>
+    <string name="select_conversation_title">Wybierz konwersację</string>
+    <string name="select_conversation_subtitle">Wybierz pokój z listy, aby zobaczyć go tutaj</string>
 </resources>

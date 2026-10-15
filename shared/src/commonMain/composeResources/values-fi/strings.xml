@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Piirrä ikkuna ilman otsikkopalkkia. Vaatii uudelleenkäynnistyksen</string>
     <string name="setting_window_background_alpha">Ikkunan läpinäkyvyys</string>
     <string name="setting_window_background_alpha_description">Koko ikkunan läpinäkyvyys</string>
+    <string name="setting_split_panes">Jaettu näkymä</string>
+    <string name="setting_split_panes_description">Näytä huonelista ja keskustelu vierekkäin leveillä näytöillä</string>
+    <string name="select_conversation_title">Valitse keskustelu</string>
+    <string name="select_conversation_subtitle">Valitse huone listasta nähdäksesi sen tässä</string>
 </resources>

@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Dessiner la fenêtre sans barre de titre. Nécessite un redémarrage</string>
     <string name="setting_window_background_alpha">Opacité de la fenêtre</string>
     <string name="setting_window_background_alpha_description">Transparence de toute la fenêtre</string>
+    <string name="setting_split_panes">Panneaux divisés</string>
+    <string name="setting_split_panes_description">Afficher la liste des salons et la discussion côte à côte sur les écrans larges</string>
+    <string name="select_conversation_title">Choisir une discussion</string>
+    <string name="select_conversation_subtitle">Choisis un salon dans la liste pour l'afficher ici</string>
 </resources>

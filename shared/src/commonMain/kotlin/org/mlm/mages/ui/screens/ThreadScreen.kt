@@ -129,6 +129,7 @@ fun ThreadRoute(
         enterSendsMessage = settings.enterSendsMessage,
         showReactionAvatars = settings.showReactionAvatars,
         maxWidthConversation = settings.maxWidthConversation,
+        contentWidthEnabled = settings.splitPanes,
         canEditLatest = settings.editLatestWithUpArrow && state.editingEvent == null && viewModel.hasEditableLatest(),
         onEditLatest = viewModel::startEditLatestEditable,
         onMentionClick = viewModel::selectMemberForAction,
@@ -201,6 +202,7 @@ fun ThreadScreen(
     onOpenAvatar: (MemberSummary) -> Unit = { },
     showReactionAvatars: Boolean = true,
     maxWidthConversation: Int = 0,
+    contentWidthEnabled: Boolean = false,
     emoteSuggestions: List<EmoteSuggestion> = emptyList(),
     resolveEmotePreview: suspend (thumbnailMxcUri: String?, mxcUrl: String) -> String? = { _, _ -> null },
     reactionShortcodes: Map<String, String> = emptyMap(),
@@ -370,7 +372,7 @@ fun ThreadScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
-                            .contentWidth(maxWidthConversation)
+                            .contentWidth(maxWidthConversation, contentWidthEnabled)
                             .fillMaxSize()
                             .dragToScrollIfEnabled(listState, reverse = true),
                         contentPadding = PaddingValues(bottom = Spacing.sm),

@@ -1353,4 +1353,8 @@
     <string name="setting_hide_window_decoration_description">タイトルバーなしでウィンドウを描画。要再起動</string>
     <string name="setting_window_background_alpha">ウィンドウ不透明度</string>
     <string name="setting_window_background_alpha_description">ウィンドウ全体の透明度</string>
+    <string name="setting_split_panes">分割表示</string>
+    <string name="setting_split_panes_description">ワイド画面でルーム一覧と会話を並べて表示</string>
+    <string name="select_conversation_title">会話を選択</string>
+    <string name="select_conversation_subtitle">一覧からルームを選んでここに表示</string>
 </resources>

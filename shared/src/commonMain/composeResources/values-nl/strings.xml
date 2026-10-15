@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Venster zonder titelbalk tekenen. Vereist herstart</string>
     <string name="setting_window_background_alpha">Vensterdekking</string>
     <string name="setting_window_background_alpha_description">Transparantie van het hele venster</string>
+    <string name="setting_split_panes">Gesplitste panelen</string>
+    <string name="setting_split_panes_description">Kamerlijst en gesprek naast elkaar tonen op brede schermen</string>
+    <string name="select_conversation_title">Kies een gesprek</string>
+    <string name="select_conversation_subtitle">Kies een kamer uit de lijst om hier te bekijken</string>
 </resources>

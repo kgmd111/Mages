@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Ablak rajzolása címsor nélkül. Újraindítást igényel</string>
     <string name="setting_window_background_alpha">Ablak átlátszatlansága</string>
     <string name="setting_window_background_alpha_description">Az egész ablak átlátszósága</string>
+    <string name="setting_split_panes">Osztott panelek</string>
+    <string name="setting_split_panes_description">A szobalista és a beszélgetés egymás mellett széles képernyőkön</string>
+    <string name="select_conversation_title">Válassz beszélgetést</string>
+    <string name="select_conversation_subtitle">Válassz szobát a listából a megtekintéshez</string>
 </resources>

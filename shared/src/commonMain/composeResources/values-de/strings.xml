@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Fenster ohne Titelleiste zeichnen. Erfordert Neustart</string>
     <string name="setting_window_background_alpha">Fensterdeckkraft</string>
     <string name="setting_window_background_alpha_description">Transparenz des gesamten Fensters</string>
+    <string name="setting_split_panes">Geteilte Bereiche</string>
+    <string name="setting_split_panes_description">Raumliste und Unterhaltung auf breiten Bildschirmen nebeneinander anzeigen</string>
+    <string name="select_conversation_title">Unterhaltung auswählen</string>
+    <string name="select_conversation_subtitle">Wähle einen Raum aus der Liste, um ihn hier anzuzeigen</string>
 </resources>

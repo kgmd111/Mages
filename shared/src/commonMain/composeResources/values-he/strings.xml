@@ -1356,4 +1356,8 @@
     <string name="setting_hide_window_decoration_description">ציור החלון ללא שורת כותרת. דורש הפעלה מחדש</string>
     <string name="setting_window_background_alpha">אטימות החלון</string>
     <string name="setting_window_background_alpha_description">שקיפות כל החלון</string>
+    <string name="setting_split_panes">חלוניות מפוצלות</string>
+    <string name="setting_split_panes_description">הצגת רשימת החדרים והשיחה זה לצד זה במסכים רחבים</string>
+    <string name="select_conversation_title">בחר שיחה</string>
+    <string name="select_conversation_subtitle">בחר חדר מהרשימה כדי לצפות בו כאן</string>
 </resources>

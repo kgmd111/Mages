@@ -1353,4 +1353,8 @@
     <string name="setting_hide_window_decoration_description">無標題列繪製視窗。需要重新啟動</string>
     <string name="setting_window_background_alpha">視窗不透明度</string>
     <string name="setting_window_background_alpha_description">整個視窗的透明度</string>
+    <string name="setting_split_panes">分割顯示</string>
+    <string name="setting_split_panes_description">在寬螢幕上並排顯示房間清單和對話</string>
+    <string name="select_conversation_title">選擇一個對話</string>
+    <string name="select_conversation_subtitle">從清單中選擇一個房間在此檢視</string>
 </resources>

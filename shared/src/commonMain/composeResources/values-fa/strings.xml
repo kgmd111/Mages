@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">ترسیم پنجره بدون نوار عنوان. نیازمند راه‌اندازی مجدد</string>
     <string name="setting_window_background_alpha">شفافیت پنجره</string>
     <string name="setting_window_background_alpha_description">شفافیت کل پنجره</string>
+    <string name="setting_split_panes">صفحات تقسیم‌شده</string>
+    <string name="setting_split_panes_description">نمایش فهرست اتاق‌ها و گفتگو در کنار هم در صفحه‌های عریض</string>
+    <string name="select_conversation_title">یک گفتگو انتخاب کن</string>
+    <string name="select_conversation_subtitle">یک اتاق از فهرست انتخاب کن تا اینجا نمایش داده شود</string>
 </resources>

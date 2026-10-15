@@ -1358,4 +1358,8 @@
     <string name="setting_hide_window_decoration_description">رسم النافذة بدون شريط العنوان. يتطلب إعادة التشغيل</string>
     <string name="setting_window_background_alpha">شفافية النافذة</string>
     <string name="setting_window_background_alpha_description">شفافية النافذة كاملة</string>
+    <string name="setting_split_panes">أجزاء مقسمة</string>
+    <string name="setting_split_panes_description">إظهار قائمة الغرف والمحادثة جنباً إلى جنب على الشاشات العريضة</string>
+    <string name="select_conversation_title">اختر محادثة</string>
+    <string name="select_conversation_subtitle">اختر غرفة من القائمة لعرضها هنا</string>
 </resources>

@@ -1470,4 +1470,8 @@
     <string name="setting_hide_window_decoration_description">Dibujar la ventana sin barra de título. Requiere reiniciar</string>
     <string name="setting_window_background_alpha">Opacidad de la ventana</string>
     <string name="setting_window_background_alpha_description">Transparencia de toda la ventana</string>
+    <string name="setting_split_panes">Paneles divididos</string>
+    <string name="setting_split_panes_description">Muestra la lista de salas y la conversación lado a lado en pantallas anchas</string>
+    <string name="select_conversation_title">Elige una conversación</string>
+    <string name="select_conversation_subtitle">Elige una sala de la lista para verla aquí</string>
 </resources>

@@ -1356,4 +1356,8 @@
     <string name="setting_hide_window_decoration_description">Рисовать окно без заголовка. Требуется перезапуск</string>
     <string name="setting_window_background_alpha">Непрозрачность окна</string>
     <string name="setting_window_background_alpha_description">Прозрачность всего окна</string>
+    <string name="setting_split_panes">Разделённые панели</string>
+    <string name="setting_split_panes_description">Показывать список комнат и беседу рядом на широких экранах</string>
+    <string name="select_conversation_title">Выбери беседу</string>
+    <string name="select_conversation_subtitle">Выбери комнату из списка, чтобы увидеть её здесь</string>
 </resources>

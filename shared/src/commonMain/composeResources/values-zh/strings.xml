@@ -1353,4 +1353,8 @@
     <string name="setting_hide_window_decoration_description">无标题栏绘制窗口。需要重启</string>
     <string name="setting_window_background_alpha">窗口不透明度</string>
     <string name="setting_window_background_alpha_description">整个窗口的透明度</string>
+    <string name="setting_split_panes">分栏显示</string>
+    <string name="setting_split_panes_description">在宽屏上并排显示房间列表和会话</string>
+    <string name="select_conversation_title">选择一个会话</string>
+    <string name="select_conversation_subtitle">从列表中选择一个房间在此查看</string>
 </resources>

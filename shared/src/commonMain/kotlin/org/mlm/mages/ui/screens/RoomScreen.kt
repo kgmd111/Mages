@@ -769,7 +769,7 @@ fun RoomScreen(
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
-                                .contentWidth(listSettings.maxWidthConversation)
+                                .contentWidth(listSettings.maxWidthConversation, listSettings.splitPanes)
                                 .fillMaxSize()
                                 .dragToScrollIfEnabled(listState, reverse = true),
                             contentPadding = PaddingValues(vertical = 8.dp),

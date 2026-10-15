@@ -628,6 +628,10 @@
     <string name="setting_max_width_conversation_description">Maximum width of a conversation. Set to 0 for no limit</string>
     <string name="setting_max_width_inbox">Max width for room list</string>
     <string name="setting_max_width_inbox_description">Maximum width of the room list. Set to 0 for no limit</string>
+    <string name="setting_split_panes">Split panes</string>
+    <string name="setting_split_panes_description">Show the room list and conversation side by side on wide screens</string>
+    <string name="select_conversation_title">Select a conversation</string>
+    <string name="select_conversation_subtitle">Choose a room from the list to view it here</string>
     <string name="setting_sort_by_unread">Sort unread first</string>
     <string name="setting_sort_by_unread_description">Keep rooms with unread activity at the top of each section</string>
     <string name="setting_show_silent_unread_count">Show silent unread count</string>

@@ -1356,4 +1356,8 @@
     <string name="setting_hide_window_decoration_description">Vykreslit okno bez titulkového pruhu. Vyžaduje restart</string>
     <string name="setting_window_background_alpha">Průhlednost okna</string>
     <string name="setting_window_background_alpha_description">Průhlednost celého okna</string>
+    <string name="setting_split_panes">Rozdělené panely</string>
+    <string name="setting_split_panes_description">Zobrazit seznam místností a konverzaci vedle sebe na širokých obrazovkách</string>
+    <string name="select_conversation_title">Vyber konverzaci</string>
+    <string name="select_conversation_subtitle">Vyber místnost ze seznamu pro zobrazení zde</string>
 </resources>

@@ -1355,4 +1355,8 @@
     <string name="setting_hide_window_decoration_description">Crtaj prozor bez naslovne trake. Zahtijeva ponovno pokretanje</string>
     <string name="setting_window_background_alpha">Neprozirnost prozora</string>
     <string name="setting_window_background_alpha_description">Prozirnost cijelog prozora</string>
+    <string name="setting_split_panes">Podijeljena okna</string>
+    <string name="setting_split_panes_description">Prikaži popis soba i razgovor jedno pored drugog na širokim zaslonima</string>
+    <string name="select_conversation_title">Odaberi razgovor</string>
+    <string name="select_conversation_subtitle">Odaberi sobu s popisa za prikaz ovdje</string>
 </resources>

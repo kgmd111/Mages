@@ -1353,4 +1353,8 @@
     <string name="setting_hide_window_decoration_description">제목 표시줄 없이 창 그리기. 다시 시작 필요</string>
     <string name="setting_window_background_alpha">창 불투명도</string>
     <string name="setting_window_background_alpha_description">전체 창의 투명도</string>
+    <string name="setting_split_panes">분할 창</string>
+    <string name="setting_split_panes_description">와이드 화면에서 방 목록과 대화를 나란히 표시</string>
+    <string name="select_conversation_title">대화 선택</string>
+    <string name="select_conversation_subtitle">목록에서 방을 선택하여 여기에 표시</string>
 </resources>

@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Disegna la finestra senza barra del titolo. Richiede un riavvio</string>
     <string name="setting_window_background_alpha">Opacità finestra</string>
     <string name="setting_window_background_alpha_description">Trasparenza dell'intera finestra</string>
+    <string name="setting_split_panes">Pannelli affiancati</string>
+    <string name="setting_split_panes_description">Mostra l'elenco delle stanze e la conversazione fianco a fianco su schermi larghi</string>
+    <string name="select_conversation_title">Seleziona una conversazione</string>
+    <string name="select_conversation_subtitle">Scegli una stanza dall'elenco per vederla qui</string>
 </resources>

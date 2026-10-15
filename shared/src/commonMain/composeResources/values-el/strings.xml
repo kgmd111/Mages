@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Σχεδίαση χωρίς γραμμή τίτλου. Απαιτεί επανεκκίνηση</string>
     <string name="setting_window_background_alpha">Αδιαφάνεια παραθύρου</string>
     <string name="setting_window_background_alpha_description">Διαφάνεια ολόκληρου του παραθύρου</string>
+    <string name="setting_split_panes">Διαχωρισμένα παράθυρα</string>
+    <string name="setting_split_panes_description">Εμφάνιση της λίστας δωματίων και της συνομιλίας δίπλα-δίπλα σε ευρείες οθόνες</string>
+    <string name="select_conversation_title">Επίλεξε συνομιλία</string>
+    <string name="select_conversation_subtitle">Διάλεξε ένα δωμάτιο από τη λίστα για προβολή εδώ</string>
 </resources>

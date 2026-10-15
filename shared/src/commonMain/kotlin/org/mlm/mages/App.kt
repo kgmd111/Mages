@@ -476,12 +476,16 @@ private fun AppContent(
 
                         entry<Route.Rooms> {
                             val viewModel: RoomsViewModel = koinViewModel()
+                            val chatMode = settings.splitPanes
+                            var chatSelection by remember { mutableStateOf<ChatSelection?>(null) }
+                            val latestChatMode by rememberUpdatedState(chatMode)
 
                             LaunchedEffect(Unit) {
                                 viewModel.events.collect { event ->
                                     when (event) {
                                         is RoomsViewModel.Event.OpenRoom -> {
-                                            backStack.add(Route.Room(event.roomId, event.name))
+                                            if (latestChatMode) chatSelection = ChatSelection(event.roomId, event.name)
+                                            else backStack.add(Route.Room(event.roomId, event.name))
                                         }
 
                                         is RoomsViewModel.Event.ShowError -> {
@@ -498,15 +502,43 @@ private fun AppContent(
                                 roomsGate.runWithPermission(hs) { }
                             }
 
-                            RoomsScreen(
-                                viewModel = viewModel,
-                                onOpenSecurity = { backStack.add(Route.Security) },
-                                onOpenStartChat = { showStartChat = true },
-                                onOpenSpaces = { backStack.add(Route.Spaces) },
-                                onOpenSearch = { backStack.add(Route.Search) },
-                                onOpenAccountSwitcher = { showAccountSwitcher = true },
-                                canSwitchAccount = accounts.size > 1,
-                            )
+                            if (chatMode) {
+                                DesktopChatHost(
+                                    roomsViewModel = viewModel,
+                                    selection = chatSelection,
+                                    onSelectionChange = { chatSelection = it },
+                                    onOpenSecurity = { backStack.add(Route.Security) },
+                                    onOpenStartChat = { showStartChat = true },
+                                    onOpenSpaces = { backStack.add(Route.Spaces) },
+                                    onOpenSearch = { backStack.add(Route.Search) },
+                                    onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                    canSwitchAccount = accounts.size > 1,
+                                ) { sel ->
+                                    RoomEntryContent(
+                                        route = Route.Room(sel.roomId, sel.name),
+                                        backStack = backStack,
+                                        onBack = { chatSelection = null },
+                                        onSelectRoom = { roomId, name ->
+                                            chatSelection = ChatSelection(roomId, name)
+                                        },
+                                        onRequestLocationPermissions = onRequestLocationPermissions,
+                                        onRequestVideoCallPermissions = onRequestVideoCallPermissions,
+                                        onRequestVoiceCallPermissions = onRequestVoiceCallPermissions,
+                                        widgetTheme = widgetTheme,
+                                        languageTag = languageTag,
+                                    )
+                                }
+                            } else {
+                                RoomsScreen(
+                                    viewModel = viewModel,
+                                    onOpenSecurity = { backStack.add(Route.Security) },
+                                    onOpenStartChat = { showStartChat = true },
+                                    onOpenSpaces = { backStack.add(Route.Spaces) },
+                                    onOpenSearch = { backStack.add(Route.Search) },
+                                    onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                    canSwitchAccount = accounts.size > 1,
+                                )
+                            }
 
                             LocalNetworkPermissionDialogHost(roomsGate)
 
@@ -536,7 +568,8 @@ private fun AppContent(
                                                 if (roomId == null) return@onSuccess
                                                 showCreateRoom = false
                                                 showStartChat = false
-                                                backStack.add(Route.Room(roomId, name ?: roomId))
+                                                if (chatMode) chatSelection = ChatSelection(roomId, name ?: roomId)
+                                                else backStack.add(Route.Room(roomId, name ?: roomId))
                                             }.onFailure { e ->
                                                 snackbarManager.showError(
                                                     e.message ?: getString(Res.string.failed_to_create_room)
@@ -550,55 +583,21 @@ private fun AppContent(
                         }
 
                         entry<Route.Room> { key ->
-                            val viewModel: RoomViewModel = koinViewModel(
-                                parameters = { parametersOf(key.roomId, key.name) }
-                            )
-                            RoomScreen(
-                                viewModel = viewModel,
-                                initialScrollToEventId = key.eventId,
+                            RoomEntryContent(
+                                route = key,
+                                backStack = backStack,
                                 onBack = backStack::popBack,
-                                onOpenInfo = { backStack.add(Route.RoomInfo(key.roomId)) },
-                                onNavigateToRoom = { roomId, name ->
-                                    backStack.add(
-                                        Route.Room(
-                                            roomId,
-                                            name
-                                        )
-                                    )
-                                },
-                                onNavigateToThread = { roomId, eventId, roomName, focusedEventId ->
-                                    backStack.add(Route.Thread(roomId, eventId, roomName, focusedEventId))
+                                onSelectRoom = { roomId, name ->
+                                    backStack.add(Route.Room(roomId, name))
                                 },
                                 onRequestLocationPermissions = onRequestLocationPermissions,
-                                onStartCall = {
-                                    onRequestVideoCallPermissions?.invoke {
-                                        viewModel.startCall(
-                                            intent = CallIntent.StartCall,
-                                            theme = widgetTheme,
-                                            languageTag = languageTag,
-                                        )
-                                    } ?: viewModel.startCall(
-                                        intent = CallIntent.StartCall,
-                                        theme = widgetTheme,
-                                        languageTag = languageTag,
-                                    )
-                                },
-                                onStartVoiceCall = {
-                                    onRequestVoiceCallPermissions?.invoke {
-                                        viewModel.startVoiceCall(
-                                            languageTag = languageTag,
-                                            theme = widgetTheme
-                                        )
-                                    } ?: viewModel.startVoiceCall(
-                                        languageTag = languageTag,
-                                        theme = widgetTheme
-                                    )
-                                },
-                                onOpenForwardPicker = { roomId, eventIds ->
-                                    backStack.add(Route.ForwardPicker(roomId, eventIds))
-                                }
+                                onRequestVideoCallPermissions = onRequestVideoCallPermissions,
+                                onRequestVoiceCallPermissions = onRequestVoiceCallPermissions,
+                                widgetTheme = widgetTheme,
+                                languageTag = languageTag,
                             )
                         }
+
 
                         entry<Route.Security> {
                             val quitApp = rememberQuitApp()
@@ -1177,4 +1176,60 @@ internal fun PresenceMode.toPresence(): Presence = when (this) {
     PresenceMode.Online -> Presence.Online
     PresenceMode.Offline -> Presence.Offline
     PresenceMode.Unavailable -> Presence.Unavailable
+}
+
+@Composable
+private fun RoomEntryContent(
+    route: Route.Room,
+    backStack: NavBackStack<NavKey>,
+    onBack: () -> Unit,
+    onSelectRoom: (roomId: String, name: String) -> Unit,
+    onRequestLocationPermissions: ((() -> Unit) -> Unit)?,
+    onRequestVideoCallPermissions: ((() -> Unit) -> Unit)?,
+    onRequestVoiceCallPermissions: ((() -> Unit) -> Unit)?,
+    widgetTheme: String,
+    languageTag: String,
+) {
+    val viewModel: RoomViewModel = koinViewModel(
+        key = route.roomId,
+        parameters = { parametersOf(route.roomId, route.name) }
+    )
+    RoomScreen(
+        viewModel = viewModel,
+        initialScrollToEventId = route.eventId,
+        onBack = onBack,
+        onOpenInfo = { backStack.add(Route.RoomInfo(route.roomId)) },
+        onNavigateToRoom = { roomId, name -> onSelectRoom(roomId, name) },
+        onNavigateToThread = { roomId, eventId, roomName, focusedEventId ->
+            backStack.add(Route.Thread(roomId, eventId, roomName, focusedEventId))
+        },
+        onRequestLocationPermissions = onRequestLocationPermissions,
+        onStartCall = {
+            onRequestVideoCallPermissions?.invoke {
+                viewModel.startCall(
+                    intent = CallIntent.StartCall,
+                    theme = widgetTheme,
+                    languageTag = languageTag,
+                )
+            } ?: viewModel.startCall(
+                intent = CallIntent.StartCall,
+                theme = widgetTheme,
+                languageTag = languageTag,
+            )
+        },
+        onStartVoiceCall = {
+            onRequestVoiceCallPermissions?.invoke {
+                viewModel.startVoiceCall(
+                    languageTag = languageTag,
+                    theme = widgetTheme
+                )
+            } ?: viewModel.startVoiceCall(
+                languageTag = languageTag,
+                theme = widgetTheme
+            )
+        },
+        onOpenForwardPicker = { roomId, eventIds ->
+            backStack.add(Route.ForwardPicker(roomId, eventIds))
+        }
+    )
 }

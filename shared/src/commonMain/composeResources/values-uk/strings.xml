@@ -1356,4 +1356,8 @@
     <string name="setting_hide_window_decoration_description">Малювати вікно без заголовка. Потрібен перезапуск</string>
     <string name="setting_window_background_alpha">Непрозорість вікна</string>
     <string name="setting_window_background_alpha_description">Прозорість усього вікна</string>
+    <string name="setting_split_panes">Розділені панелі</string>
+    <string name="setting_split_panes_description">Показувати список кімнат і бесіду поруч на широких екранах</string>
+    <string name="select_conversation_title">Вибери бесіду</string>
+    <string name="select_conversation_subtitle">Вибери кімнату зі списку, щоб побачити її тут</string>
 </resources>

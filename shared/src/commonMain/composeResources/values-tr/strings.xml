@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Pencereyi başlıksız çiz. Yeniden başlatma gerekir</string>
     <string name="setting_window_background_alpha">Pencere opaklığı</string>
     <string name="setting_window_background_alpha_description">Tüm pencerenin saydamlığı</string>
+    <string name="setting_split_panes">Bölünmüş paneller</string>
+    <string name="setting_split_panes_description">Oda listesini ve sohbeti geniş ekranlarda yan yana göster</string>
+    <string name="select_conversation_title">Bir sohbet seç</string>
+    <string name="select_conversation_subtitle">Burada görmek için listeden bir oda seç</string>
 </resources>

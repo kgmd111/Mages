@@ -520,7 +520,6 @@ data class AppSettings(
         min = 0f,
         max = 2400f,
         step = 40f,
-        platforms = [SettingPlatform.JVM],
     )
     val maxWidthConversation: Int = 0,
 
@@ -534,9 +533,18 @@ data class AppSettings(
         min = 0f,
         max = 2400f,
         step = 40f,
-        platforms = [SettingPlatform.JVM],
     )
     val maxWidthInbox: Int = 0,
+
+    @Setting(
+        title = "Split panes",
+        titleKey = MagesSettingsKeys.SPLIT_PANES,
+        description = "Show the room list and conversation side by side on wide screens",
+        descriptionKey = MagesSettingsKeys.SPLIT_PANES_DESCRIPTION,
+        category = Appearance::class,
+        type = Toggle::class,
+    )
+    val splitPanes: Boolean = false,
 
     @Setting(
         title = "Sort unread first",

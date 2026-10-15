@@ -1354,4 +1354,8 @@
     <string name="setting_hide_window_decoration_description">Gambar jendela tanpa bilah judul. Perlu mulai ulang</string>
     <string name="setting_window_background_alpha">Opasitas jendela</string>
     <string name="setting_window_background_alpha_description">Transparansi seluruh jendela</string>
+    <string name="setting_split_panes">Panel terpisah</string>
+    <string name="setting_split_panes_description">Tampilkan daftar ruangan dan percakapan berdampingan di layar lebar</string>
+    <string name="select_conversation_title">Pilih percakapan</string>
+    <string name="select_conversation_subtitle">Pilih ruangan dari daftar untuk melihatnya di sini</string>
 </resources>
