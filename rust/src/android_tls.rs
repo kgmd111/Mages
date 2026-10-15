@@ -12,27 +12,27 @@ static TLS_INIT_ERROR: once_cell::sync::OnceCell<String> = once_cell::sync::Once
 pub(crate) fn init() {
     debug!("Initializing Android platform support");
 
-    ANDROID_JVM.get_or_init(|| match get_java_vm() {
-        Ok(jvm) => {
-            if let Err(e) = jvm.attach_current_thread(init_rustls_platform_verifier) {
-                let msg = format!("Failed to initialize rustls platform verifier: {e}");
-                error!("{msg}");
-                TLS_INIT_ERROR.get_or_init(|| msg);
-            } else {
-                debug!("Android platform support initialized successfully");
-            }
+    // A failed lookup leaves the cell empty so a later call can still succeed, and makes
+    // `check_tls` report the error instead of unwinding.
+    let attempt: Result<&jni::JavaVM, Box<dyn Error>> = ANDROID_JVM.get_or_try_init(|| {
+        let jvm = get_java_vm()?;
 
-            jvm
-        }
-        Err(e) => {
-            let msg = format!("Failed to initialize Android platform support: {e}");
+        if let Err(e) = jvm.attach_current_thread(init_rustls_platform_verifier) {
+            let msg = format!("Failed to initialize rustls platform verifier: {e}");
             error!("{msg}");
             TLS_INIT_ERROR.get_or_init(|| msg);
-            // Leaves the cell empty so a later call can still succeed, and makes
-            // `check_tls` report the error instead of unwinding.
-            return;
+        } else {
+            debug!("Android platform support initialized successfully");
         }
+
+        Ok(jvm)
     });
+
+    if let Err(e) = attempt {
+        let msg = format!("Failed to initialize Android platform support: {e}");
+        error!("{msg}");
+        TLS_INIT_ERROR.get_or_init(|| msg);
+    }
 }
 
 pub(crate) fn check_tls() -> Result<(), FfiError> {
@@ -50,8 +50,11 @@ fn get_java_vm() -> Result<jni::JavaVM, Box<dyn Error>> {
     debug!("Getting a JVM pointer");
     #[allow(non_snake_case)]
     let JNI_GetCreatedJavaVMs = unsafe {
-        jvm_getter::find_jni_get_created_java_vms()
-            .map_err(|e| -> Box<dyn Error> { Box::new(std::io::Error::other(e.to_string())) })?
+        jvm_getter::find_jni_get_created_java_vms().ok_or_else(|| -> Box<dyn Error> {
+            Box::new(std::io::Error::other(
+                "JNI_GetCreatedJavaVMs was not found in the Android runtime",
+            ))
+        })?
     };
 
     let mut vm: MaybeUninit<*mut jni::sys::JavaVM> = MaybeUninit::uninit();
