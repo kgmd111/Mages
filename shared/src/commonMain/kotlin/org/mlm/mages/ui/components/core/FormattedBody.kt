@@ -121,6 +121,18 @@ private val ITALIC_TAGS = setOf("i", "em")
 private val UNDERLINE_TAGS = setOf("u", "ins")
 private val STRIKE_TAGS = setOf("s", "del", "strike")
 
+/** Block elements that start on their own line. Lists break lines per item instead. */
+private val BLOCK_TAGS = setOf("p", "blockquote", "pre", "h1", "h2", "h3", "h4", "h5", "h6")
+
+/** Trailing whitespace that runs into a block boundary, which HTML treats as nothing. */
+private val TRAILING_BLOCK_WS = Regex("""[ \t\r]*(?:\r?\n[ \t\r]*)+\z""")
+
+/** What an [`ol`][Element] counts from, restarted for every nested list. */
+private sealed interface ListContext {
+    data object Unordered : ListContext
+    class Ordered(var next: Int = 1) : ListContext
+}
+
 /** The attribute the spec marks a spoiler span with. The value is the reason. */
 private const val SPOILER_ATTR = "data-mx-spoiler"
 
@@ -272,6 +284,8 @@ private class Builder(
     private val text = AnnotatedString.Builder()
     private val inlineContent = mutableMapOf<String, InlineTextContent>()
     private var spoilers = 0
+    private val listStack = ArrayDeque<ListContext>()
+    private var atLineStart = true
 
     fun build() = FormattedBody(text.toAnnotatedString(), inlineContent)
 
@@ -283,12 +297,45 @@ private class Builder(
         }
     }
 
+    private fun ensureLineStart() {
+        if (!atLineStart) {
+            text.append('\n')
+            atLineStart = true
+        }
+    }
+
+    /**
+     * Walks a block container's children, dropping the whitespace-only text
+     * nodes pretty-printed HTML leaves between the tags. Those carry no
+     * content; the blocks break their own lines.
+     */
+    private fun walkBlockChildren(element: Element, linkify: Boolean) {
+        val tag = element.normalName()
+        val childLinkify = linkify && tag != "a" && tag !in CODE_TAGS
+        element.childNodes().forEach { child ->
+            if (child is TextNode) {
+                val raw = child.getWholeText()
+                if ('\n' in raw) {
+                    if (raw.all { it.isWhitespace() }) return@forEach
+                    val trimmed = raw.replace(TRAILING_BLOCK_WS, "")
+                    if (trimmed.isEmpty()) return@forEach
+                    if (trimmed.length != raw.length) {
+                        appendText(trimmed, childLinkify)
+                        return@forEach
+                    }
+                }
+            }
+            walk(child, childLinkify)
+        }
+    }
+
     private fun walkElement(element: Element, linkify: Boolean) {
         val tag = element.normalName()
 
         if (tag in DROPPED_TAGS) return
         if (tag in BREAK_TAGS) {
             text.append('\n')
+            atLineStart = true
             return
         }
         if (tag == "img") {
@@ -306,6 +353,36 @@ private class Builder(
                 appendMention(mention)
                 return
             }
+        }
+
+        if (tag == "ul" || tag == "ol") {
+            listStack.addLast(if (tag == "ol") ListContext.Ordered() else ListContext.Unordered)
+            walkBlockChildren(element, linkify)
+            listStack.removeLastOrNull()
+            return
+        }
+        if (tag == "li") {
+            ensureLineStart()
+            val depth = listStack.size.coerceAtLeast(1)
+            repeat(depth - 1) { text.append("  ") }
+            when (val context = listStack.lastOrNull()) {
+                is ListContext.Ordered -> {
+                    text.append("${context.next}. ")
+                    context.next++
+                }
+                else -> text.append("• ")
+            }
+            // A loose list wraps the item in a paragraph; the item already
+            // started its line, so that paragraph must not break it again.
+            atLineStart = true
+            walkBlockChildren(element, linkify)
+            atLineStart = false
+            return
+        }
+        if (tag in BLOCK_TAGS) {
+            ensureLineStart()
+            walkBlockChildren(element, linkify)
+            return
         }
 
         val link = if (tag == "a") linkFor(element) else null
@@ -399,6 +476,7 @@ private class Builder(
             }
         }
         text.appendInlineContent(id, alternateText = ref.label)
+        atLineStart = false
     }
 
     private fun styleFor(tag: String, isLink: Boolean): SpanStyle? = when {
@@ -430,6 +508,7 @@ private class Builder(
                 return
             }
             if (roomCursor < collapsed.length) appendPlain(collapsed.substring(roomCursor), linkify)
+            else atLineStart = false
             return
         }
 
@@ -451,11 +530,14 @@ private class Builder(
             }
         }
         text.appendInlineContent(id, alternateText = ROOM_LABEL)
+        atLineStart = false
     }
 
     private fun appendPlain(collapsed: String, linkify: Boolean) {
+        if (collapsed.isEmpty()) return
         if (!linkify) {
             text.append(collapsed)
+            atLineStart = collapsed.endsWith('\n')
             return
         }
 
@@ -478,6 +560,7 @@ private class Builder(
             cursor = start + url.length
         }
         if (cursor < collapsed.length) text.append(collapsed.substring(cursor))
+        atLineStart = cursor < collapsed.length && collapsed.endsWith('\n')
     }
 
     private fun isAsciiLetterOrDigit(c: Char): Boolean =
@@ -487,6 +570,7 @@ private class Builder(
         val mxcUri = element.attr("src").trim()
         if (!mxcUri.startsWith("mxc://")) {
             element.attr("alt").trim().ifEmpty { null }?.let { text.append(it) }
+            atLineStart = false
             return
         }
 
@@ -500,6 +584,7 @@ private class Builder(
         val path = ref.path
         if (path == null) {
             if (ref.label.isNotEmpty()) text.append(ref.label)
+            atLineStart = false
             return
         }
 
@@ -515,6 +600,7 @@ private class Builder(
             }
         }
         text.appendInlineContent(mxcUri, alternateText = ref.label)
+        atLineStart = false
     }
 }
 
