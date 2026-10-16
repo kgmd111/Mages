@@ -1,3 +1,9 @@
+## v5.1.5
+
+- account switch crash hotfix
+- fix: render markdown lists in timeline bodies
+
+
 ## v5.1.4
 
 - Add opt-in option for split panes

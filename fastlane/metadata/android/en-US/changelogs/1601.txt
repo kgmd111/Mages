@@ -1,0 +1,2 @@
+- account switch crash hotfix
+- fix: render markdown lists in timeline bodies
