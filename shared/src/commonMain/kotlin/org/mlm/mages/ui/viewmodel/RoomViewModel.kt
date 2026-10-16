@@ -2750,7 +2750,7 @@ class RoomViewModel(
 
     private fun observeTyping() {
         launch {
-            typingToken?.let { service.stopTypingObserver(it) }
+            typingToken?.let { runCatching { service.portOrNull?.stopTypingObserver(it) } }
             typingToken = service.observeTyping(currentState.roomId) { names ->
                 updateState { copy(typingNames = names) }
             }
@@ -2759,7 +2759,7 @@ class RoomViewModel(
 
     private fun observeRoomCallState() {
         launch {
-            roomCallStateToken?.let { service.port.unobserveRoomCallState(it) }
+            roomCallStateToken?.let { runCatching { service.portOrNull?.unobserveRoomCallState(it) } }
             roomCallStateToken = null
             remoteCallActiveForRoom = false
             recomputeActiveCall()
@@ -2826,7 +2826,7 @@ class RoomViewModel(
 
     private fun observeReceipts() {
         launch {
-            receiptsToken?.let { service.port.stopReceiptsObserver(it) }
+            receiptsToken?.let { runCatching { service.portOrNull?.stopReceiptsObserver(it) } }
             receiptsToken = service.port.observeReceipts(currentState.roomId, object : ReceiptsObserver {
                 override fun onChanged() {
                     recomputeReadStatuses()
@@ -2844,7 +2844,7 @@ class RoomViewModel(
         }
 
         launch {
-            ownReceiptToken?.let { service.port.stopReceiptsObserver(it) }
+            ownReceiptToken?.let { runCatching { service.portOrNull?.stopReceiptsObserver(it) } }
             ownReceiptToken = service.port.observeOwnReceipt(currentState.roomId, object : ReceiptsObserver {
                 override fun onChanged() {
                     launch {
@@ -3233,12 +3233,12 @@ class RoomViewModel(
         super.onCleared()
         checkedThreadRootsViaApi.clear()
         Notifier.setCurrentRoom(null)
-        typingToken?.let { service.stopTypingObserver(it) }
-        receiptsToken?.let { service.port.stopReceiptsObserver(it) }
-        ownReceiptToken?.let { service.port.stopReceiptsObserver(it) }
-        roomCallStateToken?.let { service.port.unobserveRoomCallState(it) }
-        currentState.liveLocationSubToken?.let { service.port.stopObserveLiveLocation(it) }
-        liveLocationBeaconToken?.let { service.port.unsubscribeFromOwnBeaconInfoUpdates(it) }
+        typingToken?.let { runCatching { service.portOrNull?.stopTypingObserver(it) } }
+        receiptsToken?.let { runCatching { service.portOrNull?.stopReceiptsObserver(it) } }
+        ownReceiptToken?.let { runCatching { service.portOrNull?.stopReceiptsObserver(it) } }
+        roomCallStateToken?.let { runCatching { service.portOrNull?.unobserveRoomCallState(it) } }
+        currentState.liveLocationSubToken?.let { runCatching { service.portOrNull?.stopObserveLiveLocation(it) } }
+        liveLocationBeaconToken?.let { runCatching { service.portOrNull?.unsubscribeFromOwnBeaconInfoUpdates(it) } }
         LiveLocationSharingCoordinator.onLocationDispatched = null
         LiveLocationSharingCoordinator.onError = null
     }

@@ -97,6 +97,8 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         return block(c)
     }
 
+    private inline fun <T> withClientOrNull(block: (FfiClient) -> T): T? = client?.let(block)
+
     override fun close() {
         val c = takeClient() ?: return
         runCatching { c.shutdown() }
@@ -214,10 +216,13 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
         val token = withContext(matrixDispatcher) {
-            withClient { it.observeTimeline(roomId, obs) }
+            withClientOrNull { it.observeTimeline(roomId, obs) }
+        } ?: run {
+            close()
+            return@callbackFlow
         }
         awaitClose {
-            withClient { it.unobserveTimeline(token) }
+            withClientOrNull { it.unobserveTimeline(token) }
         }
     }
 
@@ -239,7 +244,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun stopConnectionObserver(token: ULong) {
-        withClient { it.unobserveConnection(token) }
+        withClientOrNull { it.unobserveConnection(token) }
     }
 
     override suspend fun startVerificationInbox(observer: MatrixPort.VerificationInboxObserver): ULong =
@@ -257,7 +262,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun stopVerificationInbox(token: ULong) {
-        withClient { it.unobserveVerificationInbox(token) }
+        withClientOrNull { it.unobserveVerificationInbox(token) }
     }
 
     override suspend fun send(roomId: String, body: String, formattedBody: String?): Result<Unit> =
@@ -308,10 +313,13 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             }
         }
         val token = withContext(matrixDispatcher) {
-            withClient { it.observeSends(obs) }
+            withClientOrNull { it.observeSends(obs) }
+        } ?: run {
+            close()
+            return@callbackFlow
         }
         awaitClose {
-            withClient { it.unobserveSends(token) }
+            withClientOrNull { it.unobserveSends(token) }
         }
     }
 
@@ -373,8 +381,9 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         return withClient { it.observeRecoveryState(cb) }
     }
 
-    override fun unobserveRecoveryState(subId: ULong): Unit =
-        withClient { it.unobserveRecoveryState(subId) }
+    override fun unobserveRecoveryState(subId: ULong) {
+        withClientOrNull { it.unobserveRecoveryState(subId) }
+    }
 
     override fun observeBackupState(observer: MatrixPort.BackupStateObserver): ULong {
         val cb = object : mages.BackupStateObserver {
@@ -394,8 +403,9 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         return withClient { it.observeBackupState(cb) }
     }
 
-    override fun unobserveBackupState(subId: ULong): Unit =
-        withClient { it.unobserveBackupState(subId) }
+    override fun unobserveBackupState(subId: ULong) {
+        withClientOrNull { it.unobserveBackupState(subId) }
+    }
 
     override suspend fun backupExistsOnServer(fetch: Boolean): Boolean =
         withContext(matrixDispatcher) {
@@ -515,7 +525,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun stopTypingObserver(token: ULong) {
-        withClient { it.unobserveTyping(token) }
+        withClientOrNull { it.unobserveTyping(token) }
     }
 
     override suspend fun observeReceipts(roomId: String, observer: ReceiptsObserver): ULong =
@@ -529,7 +539,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun stopReceiptsObserver(token: ULong) {
-        withClient { it.unobserveReceipts(token) }
+        withClientOrNull { it.unobserveReceipts(token) }
     }
 
     override suspend fun dmPeerUserId(roomId: String): String? =
@@ -561,7 +571,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun stopCallInbox(token: ULong) {
-        withClient { it.stopCallInbox(token) }
+        withClientOrNull { it.stopCallInbox(token) }
     }
 
     override suspend fun observeRoomCallState(roomId: String, observer: MatrixPort.RoomCallStateObserver): ULong =
@@ -580,7 +590,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun unobserveRoomCallState(token: ULong) {
-        withClient { it.unobserveRoomCallState(token) }
+        withClientOrNull { it.unobserveRoomCallState(token) }
     }
 
     override suspend fun roomInfoSnapshot(roomId: String): RoomInfoSnapshot? =
@@ -599,7 +609,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun unobserveRoomInfo(token: ULong) {
-        withClient { it.unobserveRoomInfo(token) }
+        withClientOrNull { it.unobserveRoomInfo(token) }
     }
 
     private fun mages.ImagePackSummary.toModel() = ImagePackSummary(
@@ -690,7 +700,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun unobserveCallDecline(token: ULong) {
-        withClient { it.unobserveCallDecline(token) }
+        withClientOrNull { it.unobserveCallDecline(token) }
     }
 
     override suspend fun startSupervisedSync(observer: MatrixPort.SyncObserver) =
@@ -816,15 +826,15 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun enterForeground() {
-        withClient { it.enterForeground() }
+        withClientOrNull { it.enterForeground() }
     }
 
     override fun enterBackground() {
-        withClient { it.enterBackground() }
+        withClientOrNull { it.enterBackground() }
     }
 
     override fun resumeActiveUi() {
-        withClient { it.resumeActiveUi() }
+        withClientOrNull { it.resumeActiveUi() }
     }
 
     override suspend fun sendAttachmentFromPath(
@@ -1048,7 +1058,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
 
     override fun unobserveRoomList(token: ULong) {
-        withClient { it.unobserveRoomList(token) }
+        withClientOrNull { it.unobserveRoomList(token) }
     }
 
     override suspend fun fetchNotification(roomId: String, eventId: String): RenderedNotification? =
@@ -2099,7 +2109,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
     }
 
     override fun stopObserveLiveLocation(token: ULong) {
-        withClient { it.unobserveLiveLocation(token) }
+        withClientOrNull { it.unobserveLiveLocation(token) }
     }
 
     override fun subscribeToOwnBeaconInfoUpdates(onUpdate: (BeaconInfoUpdate) -> Unit): ULong {
@@ -2118,7 +2128,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
     }
 
     override fun unsubscribeFromOwnBeaconInfoUpdates(token: ULong) {
-        withClient { it.unsubscribeFromOwnBeaconInfoUpdates(token) }
+        withClientOrNull { it.unsubscribeFromOwnBeaconInfoUpdates(token) }
     }
 
     override suspend fun sendPoll(

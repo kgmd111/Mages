@@ -557,7 +557,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun unobserveRecoveryState(subId: ULong) {
-        requireClient().unobserveRecoveryState(subId.toDouble())
+        requireClientOrNull()?.unobserveRecoveryState(subId.toDouble())
     }
 
     override fun observeBackupState(observer: MatrixPort.BackupStateObserver): ULong =
@@ -571,7 +571,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun unobserveBackupState(subId: ULong) {
-        requireClient().unobserveBackupState(subId.toDouble())
+        requireClientOrNull()?.unobserveBackupState(subId.toDouble())
     }
 
     override suspend fun backupExistsOnServer(fetch: Boolean): Boolean =
@@ -676,7 +676,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun stopVerificationInbox(token: ULong) {
-        requireClient().unobserveVerificationInbox(token.toDouble())
+        requireClientOrNull()?.unobserveVerificationInbox(token.toDouble())
     }
 
     override suspend fun retryByTxn(roomId: String, txnId: String): Boolean =
@@ -690,7 +690,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         }.getOrDefault(false)
 
     override fun stopTypingObserver(token: ULong) {
-        requireClient().unobserveTyping(token.toDouble())
+        requireClientOrNull()?.unobserveTyping(token.toDouble())
     }
 
     override suspend fun paginateBack(roomId: String, count: Int): Result<Boolean> =
@@ -898,7 +898,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         requireClient().observeReceipts(roomId, jsCallback0 { observer.onChanged() }).toULong()
 
     override fun stopReceiptsObserver(token: ULong) {
-        requireClient().unobserveReceipts(token.toDouble())
+        requireClientOrNull()?.unobserveReceipts(token.toDouble())
     }
 
     override suspend fun dmPeerUserId(roomId: String): String? =
@@ -917,7 +917,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun stopCallInbox(token: ULong) {
-        requireClient().stopCallInbox(token.toDouble())
+        requireClientOrNull()?.stopCallInbox(token.toDouble())
     }
 
     override suspend fun observeRoomCallState(roomId: String, observer: MatrixPort.RoomCallStateObserver): ULong =
@@ -931,7 +931,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun unobserveRoomCallState(token: ULong) {
-        requireClient().unobserveRoomCallState(token.toDouble())
+        requireClientOrNull()?.unobserveRoomCallState(token.toDouble())
     }
 
     override suspend fun roomInfoSnapshot(roomId: String): RoomInfoSnapshot? =
@@ -948,7 +948,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun unobserveRoomInfo(token: ULong) {
-        requireClient().unobserveRoomInfo(token.toDouble())
+        requireClientOrNull()?.unobserveRoomInfo(token.toDouble())
     }
 
     override suspend fun observeCallDecline(roomId: String, notificationEventId: String, observer: MatrixPort.CallDeclineObserver): ULong =
@@ -962,7 +962,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun unobserveCallDecline(token: ULong) {
-        requireClient().unobserveCallDecline(token.toDouble())
+        requireClientOrNull()?.unobserveCallDecline(token.toDouble())
     }
 
     override suspend fun registerUnifiedPush(
@@ -1009,7 +1009,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     }
 
     override fun unobserveRoomList(token: ULong) {
-        requireClient().unobserveRoomList(token.toDouble())
+        requireClientOrNull()?.unobserveRoomList(token.toDouble())
     }
 
     override suspend fun fetchNotification(roomId: String, eventId: String): RenderedNotification? =
@@ -1678,7 +1678,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         ).toULong()
 
     override fun stopObserveLiveLocation(token: ULong) {
-        requireClient().unobserveLiveLocation(token.toDouble())
+        requireClientOrNull()?.unobserveLiveLocation(token.toDouble())
     }
 
     override fun subscribeToOwnBeaconInfoUpdates(onUpdate: (BeaconInfoUpdate) -> Unit): ULong = 0u
@@ -1742,7 +1742,7 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         requireClient().callWidgetFromWebview(sessionId.toDouble(), message)
 
     override fun stopElementCall(sessionId: ULong): Boolean =
-        requireClient().stopElementCall(sessionId.toDouble())
+        requireClientOrNull()?.stopElementCall(sessionId.toDouble()) ?: false
 
     override suspend fun mediaCacheOverview(): MediaCacheOverview? = null
 
