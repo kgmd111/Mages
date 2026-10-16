@@ -74,6 +74,8 @@ fun main(args: Array<String>) {
 
     WindowsUriSchemes.registerSchemes()
 
+    val skipTray = shouldSkipDorkboxTray()
+
     application {
 
     val settingsRepo = remember { SettingsProvider.get() }
@@ -87,8 +89,10 @@ fun main(args: Array<String>) {
         runBlocking { settingsRepo.flow.first().hideWindowDecoration }
     }
 
+    val trayWanted = desktopSettings.enableTray && !skipTray
+
     var startInTray by remember { mutableStateOf(initialStartInTray) }
-var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != null) }
+    var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != null || !trayWanted) }
 
     runCatching {
         java.awt.Desktop.getDesktop().setOpenURIHandler { event ->
@@ -132,26 +136,36 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
     var trayIcons by remember { mutableStateOf<TrayIcons?>(null) }
     val unreadRooms by NotifierImpl.unreadRooms.collectAsState()
 
-    LaunchedEffect(Unit) {
-        val computedTray = withContext(Dispatchers.IO) {
-            runCatching {
-                SystemTray.DEBUG = false
+    LaunchedEffect(trayWanted) {
+        if (!trayWanted) {
+            if (skipTray) {
+                println("System tray disabled: dorkbox SystemTray 4.4 falls back to GtkStatusIcon on GNOME 40+, whose GTK init segfaults in gdk_display_open on some Wayland systems; running without tray.")
+            } else if (tray != null) {
+                println("System tray disabled by settings; running without tray.")
+            }
+            tray = null
+        } else if (tray == null) {
+            tray = withContext(Dispatchers.IO) {
+                runCatching {
+                    SystemTray.DEBUG = false
 
-                val osName = System.getProperty("os.name").lowercase()
-                if (osName.contains("mac")) {
-                    SystemTray.FORCE_TRAY_TYPE = SystemTray.TrayType.Swing
-                }
+                    val osName = System.getProperty("os.name").lowercase()
+                    if (osName.contains("mac")) {
+                        SystemTray.FORCE_TRAY_TYPE = SystemTray.TrayType.Swing
+                    }
 
-                val t = SystemTray.get()
-                if (t == null) {
-                    println("SystemTray.get() returned null - no tray available on this platform/configuration.")
-                }
-                t
-            }.onFailure {
-                println("System tray unavailable: ${it.message}")
-            }.getOrNull()
+                    val t = SystemTray.get()
+                    if (t == null) {
+                        println("SystemTray.get() returned null - no tray available on this platform/configuration.")
+                    }
+                    t
+                }.onFailure {
+                    println("System tray unavailable: ${it.message}")
+                }.getOrNull()
+            }
         }
-        tray = computedTray
+
+        if (tray == null) showWindow = true
     }
 
     DisposableEffect(tray) {
@@ -236,7 +250,11 @@ var showWindow by remember { mutableStateOf(!startInTray || initialDeepLink != n
         Window(
             onCloseRequest = {
                 Notifier.setWindowFocused(false)
-                showWindow = false
+                if (tray == null) {
+                    exitApplication()
+                } else {
+                    showWindow = false
+                }
             },
             state = windowState,
             visible = showWindow,

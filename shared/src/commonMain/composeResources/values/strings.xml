@@ -718,6 +718,8 @@
     <string name="setting_media_cache_description">View and manage cached media</string>
     <string name="setting_start_in_tray">Start in tray</string>
     <string name="setting_start_in_tray_description">Minimize to tray on launch</string>
+    <string name="setting_enable_tray">Enable system tray</string>
+    <string name="setting_enable_tray_description">Show a tray icon with quick actions. Turn off if the tray crashes on your system</string>
     <string name="setting_enter_sends_message">Enter sends message</string>
     <string name="setting_enter_sends_message_description">When enabled, pressing Enter will send the message and Shift, Ctrl or Cmd + Enter will insert a new line</string>
     <string name="setting_edit_latest_with_up_arrow">Edit latest message with up arrow</string>

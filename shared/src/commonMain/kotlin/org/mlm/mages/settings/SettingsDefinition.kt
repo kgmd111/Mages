@@ -1050,6 +1050,17 @@ data class AppSettings(
     )
     val startInTray: Boolean = false,
 
+    @Setting(
+        title = "Enable system tray",
+        titleKey = MagesSettingsKeys.ENABLE_TRAY,
+        description = "Show a tray icon with quick actions. Turn off if the tray crashes on your system",
+        descriptionKey = MagesSettingsKeys.ENABLE_TRAY_DESCRIPTION,
+        category = Advanced::class,
+        type = Toggle::class,
+        platforms = [SettingPlatform.JVM]
+    )
+    val enableTray: Boolean = true,
+
     @Persisted
     val lastOpenedRoomId: String? = null,
 
