@@ -77,7 +77,7 @@ class MatrixClients(
     suspend fun switchTo(account: MatrixAccount, proxyUrl: String? = null): Boolean = mutex.withLock {
         // Close current client if any
         _activePort?.let { port ->
-            runCatching { port.close() }
+            runCatching { port.release() }
         }
         _activePort = null
         _activeAccount.value = null
@@ -89,7 +89,7 @@ class MatrixClients(
      * The port should already be logged in.
      */
     suspend fun addLoggedInAccount(account: MatrixAccount, port: MatrixPort) = mutex.withLock {
-        _activePort?.let { runCatching { it.close() } }
+        _activePort?.let { runCatching { it.release() } }
 
         val existing = accountStore.getAccountByUserId(account.userId)
         if (existing != null && existing.id != account.id) {
@@ -168,7 +168,7 @@ class MatrixClients(
     fun getAccounts(): List<MatrixAccount> = accountStore.accounts.value
 
     private suspend fun initAccountInternal(account: MatrixAccount, proxyUrl: String? = null): Boolean {
-        _activePort?.let { runCatching { it.close() } }
+        _activePort?.let { runCatching { it.release() } }
         _activePort = null
         _activeAccount.value = null
 
@@ -195,7 +195,7 @@ class MatrixClients(
                 true
             } else {
                 accountStore.removeAccount(account.id)
-                runCatching { port.close() }
+                runCatching { port.release() }
                 _isReady.value = true
                 false
             }
@@ -205,7 +205,7 @@ class MatrixClients(
             } else {
                 Logger.w(e) { "MatrixClients: session resume failed for ${account.userId}" }
             }
-            runCatching { port.close() }
+            runCatching { port.release() }
             _isReady.value = true
             false
         }

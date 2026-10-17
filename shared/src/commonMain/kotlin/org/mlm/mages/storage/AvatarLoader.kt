@@ -1,5 +1,6 @@
 package org.mlm.mages.storage
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -55,7 +56,9 @@ class AvatarLoader(
 
         // Start a shared download in AvatarLoader's own scope (so one caller cancel won't kill others).
         val deferred = scope.async {
-            runCatching { port.mxcThumbnailToCache(url, px, px, crop) }.getOrNull()
+            runCatching { port.mxcThumbnailToCache(url, px, px, crop) }
+                .onFailure { Logger.w(it) { "AvatarLoader: failed to fetch $url" } }
+                .getOrNull()
         }
 
         mu.withLock { inFlight[key] = deferred }
