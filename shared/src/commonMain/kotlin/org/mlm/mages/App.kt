@@ -512,7 +512,6 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
-                                    canSwitchAccount = accounts.size > 1,
                                 ) { sel ->
                                     RoomEntryContent(
                                         route = Route.Room(sel.roomId, sel.name),
@@ -536,7 +535,6 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
-                                    canSwitchAccount = accounts.size > 1,
                                 )
                             }
 

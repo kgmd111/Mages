@@ -53,7 +53,6 @@ fun RoomsScreen(
     onOpenSpaces: () -> Unit,
     onOpenSearch: () -> Unit,
     onOpenAccountSwitcher: () -> Unit,
-    canSwitchAccount: Boolean,
 ) {
     val state by viewModel.state.collectAsState()
     val settingsRepository: SettingsRepository<AppSettings> = koinInject()
@@ -112,8 +111,7 @@ fun RoomsScreen(
                 unreadGroupsCount = state.unreadGroupsCount,
                 unreadDmsCount = state.unreadDmsCount,
                 spacesUnreadCount = state.spacesUnreadCount,
-                showSwitchAccountButton = state.showSwitchAccountButton,
-                canSwitchAccount = canSwitchAccount,
+                showSwitchAccountButton = settings.showSwitchAccountButton,
                 onOpenSpaces = onOpenSpaces,
                 onOpenSecurity = onOpenSecurity,
                 onOpenStartChat = onOpenStartChat,
@@ -231,8 +229,8 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = state.swipeRightAction,
-                                swipeLeftAction = state.swipeLeftAction,
+                                swipeRightAction = settings.swipeRightAction,
+                                swipeLeftAction = settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) }
                             ) {
                                 RoomListItem(
@@ -267,8 +265,8 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = state.swipeRightAction,
-                                swipeLeftAction = state.swipeLeftAction,
+                                swipeRightAction = settings.swipeRightAction,
+                                swipeLeftAction = settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) }
                             ) {
                                 RoomListItem(
@@ -301,8 +299,8 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = state.swipeRightAction,
-                                swipeLeftAction = state.swipeLeftAction,
+                                swipeRightAction = settings.swipeRightAction,
+                                swipeLeftAction = settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) },
                                 modifier = Modifier.alpha(0.6f)
                             ) {
@@ -385,7 +383,6 @@ private fun RoomsTopBar(
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
     showSwitchAccountButton: Boolean,
-    canSwitchAccount: Boolean,
     onSearchChange: (String) -> Unit,
     onToggleUnreadOnly: () -> Unit,
     onSetTypeFilter: (RoomTypeFilter) -> Unit,
@@ -425,7 +422,7 @@ private fun RoomsTopBar(
                 IconButton(onClick = onOpenSearch) {
                     Icon(Icons.Default.Search, stringResource(Res.string.search_messages))
                 }
-                if (showSwitchAccountButton && canSwitchAccount) {
+                if (showSwitchAccountButton) {
                     IconButton(onClick = onOpenAccountSwitcher) {
                         Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
                     }

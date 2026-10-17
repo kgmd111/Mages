@@ -37,7 +37,6 @@ fun DesktopChatHost(
     onOpenSpaces: () -> Unit,
     onOpenSearch: () -> Unit,
     onOpenAccountSwitcher: () -> Unit,
-    canSwitchAccount: Boolean,
     detailContent: @Composable (ChatSelection) -> Unit,
 ) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -52,7 +51,6 @@ fun DesktopChatHost(
                     onOpenSpaces = onOpenSpaces,
                     onOpenSearch = onOpenSearch,
                     onOpenAccountSwitcher = onOpenAccountSwitcher,
-                    canSwitchAccount = canSwitchAccount,
                 )
             }
         } else {
@@ -65,7 +63,6 @@ fun DesktopChatHost(
                         onOpenSpaces = onOpenSpaces,
                         onOpenSearch = onOpenSearch,
                         onOpenAccountSwitcher = onOpenAccountSwitcher,
-                        canSwitchAccount = canSwitchAccount,
                     )
                 }
                 VerticalDivider()

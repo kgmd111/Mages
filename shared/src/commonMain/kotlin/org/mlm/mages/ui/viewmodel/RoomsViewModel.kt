@@ -56,13 +56,6 @@ class RoomsViewModel(
         launch {
             settingsRepo.flow.collect {
                 recomputeGroupedRooms()
-                updateState {
-                    copy(
-                        swipeRightAction = it.swipeRightAction,
-                        swipeLeftAction = it.swipeLeftAction,
-                        showSwitchAccountButton = it.showSwitchAccountButton
-                    )
-                }
             }
         }
 
