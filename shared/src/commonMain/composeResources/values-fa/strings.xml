@@ -69,6 +69,8 @@
     <string name="setting_theme_description">سامانه / روشن / تاریک</string>
     <string name="setting_dynamic_colors_description">استفاده از رنگ‌های Material You (اندروید 12+)</string>
     <string name="setting_oled_black_description">استفاده از پس‌زمینه کاملاً سیاه در حالت تاریک برای نمایشگرهای OLED</string>
+    <string name="setting_use_24_hour_time">استفاده از زمان ۲۴ساعته</string>
+    <string name="setting_use_24_hour_time_description">نمایش زمان‌ها در قالب ۲۴ساعته به‌جای ق.ظ/ب.ظ</string>
     <string name="setting_language_description">زبان برنامه</string>
     <string name="setting_font_size_description">اندازه قلم پیام‌ها</string>
     <string name="setting_show_message_avatars_description">نمایش آواتار کاربران کنار پیام‌ها</string>
@@ -980,6 +982,17 @@
     <string name="phone">تلفن</string>
     <string name="phone_number">شماره تلفن</string>
     <string name="photo">تصویر</string>
+    <string name="failed_to_update_bookmark">نشانک به‌روزرسانی نشد. دوباره تلاش کنید.</string>
+    <string name="bookmark">افزودن نشانک</string>
+    <string name="bookmark_added">نشانک افزوده شد</string>
+    <string name="bookmark_removed">نشانک حذف شد</string>
+    <string name="bookmarks">نشانک‌ها</string>
+    <string name="bookmarks_empty_subtitle">پیامی را نگه دارید و «افزودن نشانک» را انتخاب کنید تا اینجا بماند.</string>
+    <string name="bookmarks_empty_title">هنوز نشانکی نیست</string>
+    <string name="draft_prefix">پیش‌نویس:</string>
+    <string name="remove_bookmark">حذف نشانک</string>
+    <string name="time_am">ق.ظ</string>
+    <string name="time_pm">ب.ظ</string>
     <string name="pinned_message">پیام سنجاق‌شده</string>
     <string name="pinned_messages">پیام‌های سنجاق‌شده</string>
     <string name="please_enter_a_server">لطفاً یک سرور وارد کنید</string>

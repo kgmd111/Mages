@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Rendszer / Világos / Sötét</string>
     <string name="setting_dynamic_colors_description">Material You színek használata (Android 12)</string>
     <string name="setting_oled_black_description">Használjon valódi fekete hátteret sötét módban az OLED-kijelzőkhöz</string>
+    <string name="setting_use_24_hour_time">24 órás időformátum használata</string>
+    <string name="setting_use_24_hour_time_description">Időbélyegek 24 órás formátumban a de./du. helyett</string>
     <string name="setting_language_description">Alkalmazás nyelve</string>
     <string name="setting_font_size_description">Üzenet betűmérete</string>
     <string name="setting_show_message_avatars_description">Felhasználói avatarok megjelenítése az üzenetek mellett</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefonszám</string>
     <string name="photo">Fénykép</string>
+    <string name="failed_to_update_bookmark">Nem sikerült frissíteni a könyvjelzőt. Próbálja újra.</string>
+    <string name="bookmark">Könyvjelző hozzáadása</string>
+    <string name="bookmark_added">Könyvjelző hozzáadva</string>
+    <string name="bookmark_removed">Könyvjelző eltávolítva</string>
+    <string name="bookmarks">Könyvjelzők</string>
+    <string name="bookmarks_empty_subtitle">Tartsa nyomva az üzenetet, és válassza a Könyvjelző hozzáadása lehetőséget, hogy itt maradjon.</string>
+    <string name="bookmarks_empty_title">Még nincsenek könyvjelzők</string>
+    <string name="draft_prefix">Piszkozat:</string>
+    <string name="remove_bookmark">Könyvjelző eltávolítása</string>
+    <string name="time_am">de.</string>
+    <string name="time_pm">du.</string>
     <string name="pinned_message">Rögzített üzenet</string>
     <string name="pinned_messages">Rögzített üzenetek</string>
     <string name="please_enter_a_server">Adjon meg egy szervert</string>

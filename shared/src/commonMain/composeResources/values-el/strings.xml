@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Σύστημα / Φως / Σκούρο</string>
     <string name="setting_dynamic_colors_description">Χρήση χρωμάτων You Material (Android 12+)</string>
     <string name="setting_oled_black_description">Χρήση πραγματικού μαύρου φόντου σε σκοτεινή λειτουργία για οθόνες OLED</string>
+    <string name="setting_use_24_hour_time">Χρήση 24ωρης ώρας</string>
+    <string name="setting_use_24_hour_time_description">Εμφάνιση χρονικών σημείων σε 24ωρη μορφή αντί για π.μ./μ.μ.</string>
     <string name="setting_language_description">Γλώσσα εφαρμογής</string>
     <string name="setting_font_size_description">Μέγεθος γραμματοσειράς μηνύματος</string>
     <string name="setting_show_message_avatars_description">Εμφάνιση avatar χρήστη δίπλα σε μηνύματα</string>
@@ -980,6 +982,17 @@
     <string name="phone">Τηλέφωνο</string>
     <string name="phone_number">Αριθμός τηλεφώνου</string>
     <string name="photo">Φωτογραφία</string>
+    <string name="failed_to_update_bookmark">Δεν ήταν δυνατή η ενημέρωση του σελιδοδείκτη. Δοκιμάστε ξανά.</string>
+    <string name="bookmark">Προσθήκη σελιδοδείκτη</string>
+    <string name="bookmark_added">Ο σελιδοδείκτης προστέθηκε</string>
+    <string name="bookmark_removed">Ο σελιδοδείκτης αφαιρέθηκε</string>
+    <string name="bookmarks">Σελιδοδείκτες</string>
+    <string name="bookmarks_empty_subtitle">Κρατήστε πατημένο ένα μήνυμα και επιλέξτε Προσθήκη σελιδοδείκτη για να το κρατήσετε εδώ.</string>
+    <string name="bookmarks_empty_title">Δεν υπάρχουν σελιδοδείκτες ακόμη</string>
+    <string name="draft_prefix">Πρόχειρο:</string>
+    <string name="remove_bookmark">Αφαίρεση σελιδοδείκτη</string>
+    <string name="time_am">π.μ.</string>
+    <string name="time_pm">μ.μ.</string>
     <string name="pinned_message">Καρφιτσωμένο μήνυμα</string>
     <string name="pinned_messages">Καρφιτσωμένα μηνύματα</string>
     <string name="please_enter_a_server">Παρακαλώ εισαγάγετε έναν διακομιστή</string>

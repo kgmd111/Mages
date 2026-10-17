@@ -69,6 +69,8 @@
     <string name="setting_theme_description">시스템 / 밝음 / 어두움</string>
     <string name="setting_dynamic_colors_description">Material You 색상 사용(Android 12 )</string>
     <string name="setting_oled_black_description">OLED 디스플레이에 어두운 모드에서 실제 검정색 배경 사용</string>
+    <string name="setting_use_24_hour_time">24시간 형식 사용</string>
+    <string name="setting_use_24_hour_time_description">시간을 오전/오후 대신 24시간 형식으로 표시합니다</string>
     <string name="setting_language_description">앱 언어</string>
     <string name="setting_font_size_description">메시지 글꼴 크기</string>
     <string name="setting_show_message_avatars_description">메시지 옆에 사용자 아바타 표시</string>
@@ -980,6 +982,18 @@
     <string name="phone">전화</string>
     <string name="phone_number">전화번호</string>
     <string name="photo">사진</string>
+    <string name="failed_to_update_bookmark">북마크를 업데이트하지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="bookmark">북마크에 추가</string>
+    <string name="bookmark_added">북마크에 추가됨</string>
+    <string name="bookmark_removed">북마크에서 제거됨</string>
+    <string name="bookmarks">북마크</string>
+    <string name="bookmarks_empty_subtitle">메시지를 길게 눌러 북마크에 추가를 선택하면 여기에 보관됩니다.</string>
+    <string name="bookmarks_empty_title">아직 북마크가 없습니다</string>
+    <string name="draft_prefix">임시 저장:</string>
+    <string name="remove_bookmark">북마크에서 제거</string>
+    <string name="time_12h_format">%3$s %1$d:%2$s</string>
+    <string name="time_am">오전</string>
+    <string name="time_pm">오후</string>
     <string name="pinned_message">고정된 메시지</string>
     <string name="pinned_messages">고정된 메시지</string>
     <string name="please_enter_a_server">서버를 입력하세요</string>

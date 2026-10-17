@@ -1143,6 +1143,7 @@
     <string name="bookmarks_empty_title">No bookmarks yet</string>
     <string name="draft_prefix">Draft:</string>
     <string name="remove_bookmark">Remove bookmark</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Pinned message</string>

@@ -69,6 +69,8 @@
     <string name="setting_theme_description">System / Hell / Dunkel</string>
     <string name="setting_dynamic_colors_description">Material-You-Farben verwenden (Android 12+)</string>
     <string name="setting_oled_black_description">Echtes Schwarz im dunklen Modus für OLED-Displays</string>
+    <string name="setting_use_24_hour_time">24-Stunden-Anzeige verwenden</string>
+    <string name="setting_use_24_hour_time_description">Zeitstempel im 24-Stunden-Format statt vorm./nachm. anzeigen</string>
     <string name="setting_language_description">Anwendungssprache</string>
     <string name="setting_font_size_description">Schriftgröße der Nachrichten</string>
     <string name="setting_show_message_avatars_description">Benutzeravatare neben Nachrichten anzeigen</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefonnummer</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Lesezeichen konnte nicht aktualisiert werden. Versuche es erneut.</string>
+    <string name="bookmark">Lesezeichen hinzufügen</string>
+    <string name="bookmark_added">Lesezeichen hinzugefügt</string>
+    <string name="bookmark_removed">Lesezeichen entfernt</string>
+    <string name="bookmarks">Lesezeichen</string>
+    <string name="bookmarks_empty_subtitle">Halte eine Nachricht gedrückt und wähle „Lesezeichen hinzufügen“, um sie hier zu behalten.</string>
+    <string name="bookmarks_empty_title">Noch keine Lesezeichen</string>
+    <string name="draft_prefix">Entwurf:</string>
+    <string name="remove_bookmark">Lesezeichen entfernen</string>
+    <string name="time_am">vorm.</string>
+    <string name="time_pm">nachm.</string>
     <string name="pinned_message">Angeheftete Nachricht</string>
     <string name="pinned_messages">Angeheftete Nachrichten</string>
     <string name="please_enter_a_server">Bitte geben Sie einen Server ein</string>

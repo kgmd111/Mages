@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Sistem / Açık / Koyu</string>
     <string name="setting_dynamic_colors_description">Materyal Siz renklerini kullanın (Android 12)_</string>
     <string name="setting_oled_black_description">_OLED ekranlar için karanlık modda gerçek siyah arka plan kullanın_</string>
+    <string name="setting_use_24_hour_time">24 saat biçimini kullan</string>
+    <string name="setting_use_24_hour_time_description">Zaman damgalarını ÖÖ/ÖS yerine 24 saat biçiminde göster</string>
     <string name="setting_language_description">Uygulama dili</string>
     <string name="setting_font_size_description">_Mesaj yazı tipi boyutu_</string>
     <string name="setting_show_message_avatars_description">_Mesajların yanında kullanıcı avatarlarını görüntüleyin_</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefon numarası</string>
     <string name="photo">Fotoğraf</string>
+    <string name="failed_to_update_bookmark">Yer imi güncellenemedi. Yeniden deneyin.</string>
+    <string name="bookmark">Yer imlerine ekle</string>
+    <string name="bookmark_added">Yer imlerine eklendi</string>
+    <string name="bookmark_removed">Yer imlerinden kaldırıldı</string>
+    <string name="bookmarks">Yer imleri</string>
+    <string name="bookmarks_empty_subtitle">Bir iletiye uzun basın ve burada tutmak için Yer imlerine ekle'yi seçin.</string>
+    <string name="bookmarks_empty_title">Henüz yer imi yok</string>
+    <string name="draft_prefix">Taslak:</string>
+    <string name="remove_bookmark">Yer imlerinden kaldır</string>
+    <string name="time_am">ÖÖ</string>
+    <string name="time_pm">ÖS</string>
     <string name="pinned_message">Sabitlenmiş mesaj</string>
     <string name="pinned_messages">Sabitlenmiş mesajlar</string>
     <string name="please_enter_a_server">Lütfen bir sunucu girin</string>

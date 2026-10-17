@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Sistema / Chiaro / Scuro</string>
     <string name="setting_dynamic_colors_description">Usa i colori Material You (Android 12+)</string>
     <string name="setting_oled_black_description">Usa uno sfondo nero puro in modalità scura per i display OLED</string>
+    <string name="setting_use_24_hour_time">Usa il formato 24 ore</string>
+    <string name="setting_use_24_hour_time_description">Mostra gli orari nel formato 24 ore invece di AM/PM</string>
     <string name="setting_language_description">Lingua dell’app</string>
     <string name="setting_font_size_description">Dimensione del carattere dei messaggi</string>
     <string name="setting_show_message_avatars_description">Mostra gli avatar degli utenti accanto ai messaggi</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefono</string>
     <string name="phone_number">Numero di telefono</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Impossibile aggiornare il segnalibro. Riprova.</string>
+    <string name="bookmark">Aggiungi ai segnalibri</string>
+    <string name="bookmark_added">Aggiunto ai segnalibri</string>
+    <string name="bookmark_removed">Rimosso dai segnalibri</string>
+    <string name="bookmarks">Segnalibri</string>
+    <string name="bookmarks_empty_subtitle">Tieni premuto un messaggio e scegli Aggiungi ai segnalibri per conservarlo qui.</string>
+    <string name="bookmarks_empty_title">Nessun segnalibro</string>
+    <string name="draft_prefix">Bozza:</string>
+    <string name="remove_bookmark">Rimuovi dai segnalibri</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Messaggio fissato</string>
     <string name="pinned_messages">Messaggi fissati</string>
     <string name="please_enter_a_server">Inserisci un server</string>

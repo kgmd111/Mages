@@ -31,8 +31,8 @@ fun formatClockTime(hour: Int, minute: Int): String {
         hour > 12 -> hour - 12
         else -> hour
     }
-    val suffix = stringResource(if (hour < 12) Res.string.time_am else Res.string.time_pm)
-    return "$hour12:${pad2(minute)} $suffix"
+    val marker = stringResource(if (hour < 12) Res.string.time_am else Res.string.time_pm)
+    return stringResource(Res.string.time_12h_format, hour12, pad2(minute), marker)
 }
 
 @OptIn(ExperimentalTime::class)

@@ -69,6 +69,8 @@
     <string name="setting_theme_description">מערכת / בהיר / כהה</string>
     <string name="setting_dynamic_colors_description">שימוש בצבעי Material You (Android 12+)</string>
     <string name="setting_oled_black_description">שימוש ברקע שחור מלא במצב כהה למסכי OLED</string>
+    <string name="setting_use_24_hour_time">שימוש בשעון 24 שעות</string>
+    <string name="setting_use_24_hour_time_description">הצגת חותמות זמן בשעון 24 שעות במקום לפנה״צ/אחה״צ</string>
     <string name="setting_language_description">שפת היישום</string>
     <string name="setting_font_size_description">גודל גופן ההודעות</string>
     <string name="setting_show_message_avatars_description">הצגת תמונות משתמש לצד הודעות</string>
@@ -980,6 +982,17 @@
     <string name="phone">טלפון</string>
     <string name="phone_number">מספר טלפון</string>
     <string name="photo">תמונה</string>
+    <string name="failed_to_update_bookmark">עדכון הסימנייה נכשל. נסו שוב.</string>
+    <string name="bookmark">הוספה לסימניות</string>
+    <string name="bookmark_added">נוסף לסימניות</string>
+    <string name="bookmark_removed">הוסר מהסימניות</string>
+    <string name="bookmarks">סימניות</string>
+    <string name="bookmarks_empty_subtitle">לחצו לחיצה ארוכה על הודעה ובחרו הוספה לסימניות כדי לשמור אותה כאן.</string>
+    <string name="bookmarks_empty_title">אין סימניות עדיין</string>
+    <string name="draft_prefix">טיוטה:</string>
+    <string name="remove_bookmark">הסרה מהסימניות</string>
+    <string name="time_am">לפנה״צ</string>
+    <string name="time_pm">אחה״צ</string>
     <string name="pinned_message">הודעה מוצמדת</string>
     <string name="pinned_messages">הודעות מוצמדות</string>
     <string name="please_enter_a_server">הזן שרת</string>

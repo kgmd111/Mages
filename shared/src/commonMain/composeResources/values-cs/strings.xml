@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Systém / Světlo / Tma</string>
     <string name="setting_dynamic_colors_description">Použít barvy Material You (Android 12+)</string>
     <string name="setting_oled_black_description">Použijte skutečné černé pozadí v tmavém režimu pro OLED displeje</string>
+    <string name="setting_use_24_hour_time">Používat 24hodinový čas</string>
+    <string name="setting_use_24_hour_time_description">Zobrazovat časy ve 24hodinovém formátu místo dop./odp.</string>
     <string name="setting_language_description">Jazyk aplikace</string>
     <string name="setting_font_size_description">Velikost písma zprávy</string>
     <string name="setting_show_message_avatars_description">Zobrazit uživatelské avatary vedle zpráv</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefonní číslo</string>
     <string name="photo">Fotografie</string>
+    <string name="failed_to_update_bookmark">Záložku se nepodařilo aktualizovat. Zkuste to znovu.</string>
+    <string name="bookmark">Přidat záložku</string>
+    <string name="bookmark_added">Záložka přidána</string>
+    <string name="bookmark_removed">Záložka odebrána</string>
+    <string name="bookmarks">Záložky</string>
+    <string name="bookmarks_empty_subtitle">Dlouze stiskněte zprávu a zvolte Přidat záložku, ať tu zůstane.</string>
+    <string name="bookmarks_empty_title">Zatím žádné záložky</string>
+    <string name="draft_prefix">Koncept:</string>
+    <string name="remove_bookmark">Odebrat záložku</string>
+    <string name="time_am">dop.</string>
+    <string name="time_pm">odp.</string>
     <string name="pinned_message">Připnutá zpráva</string>
     <string name="pinned_messages">Připnuté zprávy</string>
     <string name="please_enter_a_server">Zadejte prosím server</string>

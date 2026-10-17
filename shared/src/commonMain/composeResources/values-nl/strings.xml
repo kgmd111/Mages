@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Systeem / Licht / Donker</string>
     <string name="setting_dynamic_colors_description">Gebruik materiaal in jouw kleuren (Android 12)</string>
     <string name="setting_oled_black_description">Gebruik een echt zwarte achtergrond in de donkere modus voor OLED-schermen</string>
+    <string name="setting_use_24_hour_time">24-uursklok gebruiken</string>
+    <string name="setting_use_24_hour_time_description">Tijdstempels in 24-uursformaat tonen in plaats van a.m./p.m.</string>
     <string name="setting_language_description">App-taal</string>
     <string name="setting_font_size_description">Lettergrootte van bericht</string>
     <string name="setting_show_message_avatars_description">Toon gebruikersavatars naast berichten</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefoon</string>
     <string name="phone_number">Telefoonnummer</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Bladwijzer bijwerken is mislukt. Probeer het opnieuw.</string>
+    <string name="bookmark">Bladwijzer toevoegen</string>
+    <string name="bookmark_added">Bladwijzer toegevoegd</string>
+    <string name="bookmark_removed">Bladwijzer verwijderd</string>
+    <string name="bookmarks">Bladwijzers</string>
+    <string name="bookmarks_empty_subtitle">Houd een bericht ingedrukt en kies Bladwijzer toevoegen om het hier te bewaren.</string>
+    <string name="bookmarks_empty_title">Nog geen bladwijzers</string>
+    <string name="draft_prefix">Concept:</string>
+    <string name="remove_bookmark">Bladwijzer verwijderen</string>
+    <string name="time_am">a.m.</string>
+    <string name="time_pm">p.m.</string>
     <string name="pinned_message">Vastgezet bericht</string>
     <string name="pinned_messages">Vastgezette berichten</string>
     <string name="please_enter_a_server">Voer een server in</string>

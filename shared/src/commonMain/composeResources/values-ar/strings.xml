@@ -69,6 +69,8 @@
     <string name="setting_theme_description">النظام / الضوء / الظلام</string>
     <string name="setting_dynamic_colors_description">استخدم ألوان ماتيريال يو (أندرويد 12+)</string>
     <string name="setting_oled_black_description">استخدم خلفية سوداء حقيقية في الوضع المظلم لشاشات OLED</string>
+    <string name="setting_use_24_hour_time">استخدام نظام 24 ساعة</string>
+    <string name="setting_use_24_hour_time_description">عرض الطوابع الزمنية بنظام 24 ساعة بدلاً من ص/م</string>
     <string name="setting_language_description">لغة التطبيق</string>
     <string name="setting_font_size_description">حجم خط الرسالة</string>
     <string name="setting_show_message_avatars_description">عرض الصور الرمزية للمستخدم بجوار الرسائل</string>
@@ -980,6 +982,17 @@
     <string name="phone">الهاتف</string>
     <string name="phone_number">رقم الهاتف</string>
     <string name="photo">صورة</string>
+    <string name="failed_to_update_bookmark">تعذّر تحديث الإشارة المرجعية. حاول مجددًا.</string>
+    <string name="bookmark">إضافة إشارة مرجعية</string>
+    <string name="bookmark_added">تمت إضافة إشارة مرجعية</string>
+    <string name="bookmark_removed">تمت إزالة الإشارة المرجعية</string>
+    <string name="bookmarks">الإشارات المرجعية</string>
+    <string name="bookmarks_empty_subtitle">اضغط مطولًا على رسالة واختر «إضافة إشارة مرجعية» للاحتفاظ بها هنا.</string>
+    <string name="bookmarks_empty_title">لا توجد إشارات مرجعية بعد</string>
+    <string name="draft_prefix">مسودة:</string>
+    <string name="remove_bookmark">إزالة الإشارة المرجعية</string>
+    <string name="time_am">ص</string>
+    <string name="time_pm">م</string>
     <string name="pinned_message">رسالة مثبتة</string>
     <string name="pinned_messages">الرسائل المثبتة</string>
     <string name="please_enter_a_server">يرجى إدخال خادم</string>

@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Система / Світла / Темна</string>
     <string name="setting_dynamic_colors_description">Використовувати кольори Material You (Android 12+)</string>
     <string name="setting_oled_black_description">Використовувати повністю чорний фон у темній темі для OLED-дисплеїв</string>
+    <string name="setting_use_24_hour_time">24-годинний формат часу</string>
+    <string name="setting_use_24_hour_time_description">Показувати час у 24-годинному форматі замість дп/пп</string>
     <string name="setting_language_description">Мова застосунку</string>
     <string name="setting_font_size_description">Розмір шрифту повідомлень</string>
     <string name="setting_show_message_avatars_description">Показувати аватари користувачів поруч із повідомленнями</string>
@@ -980,6 +982,17 @@
     <string name="phone">Телефон</string>
     <string name="phone_number">Номер телефону</string>
     <string name="photo">Фото</string>
+    <string name="failed_to_update_bookmark">Не вдалося оновити закладку. Спробуйте ще раз.</string>
+    <string name="bookmark">Додати до закладок</string>
+    <string name="bookmark_added">Додано до закладок</string>
+    <string name="bookmark_removed">Видалено із закладок</string>
+    <string name="bookmarks">Закладки</string>
+    <string name="bookmarks_empty_subtitle">Натисніть і утримуйте повідомлення та виберіть «Додати до закладок», щоб зберегти його тут.</string>
+    <string name="bookmarks_empty_title">Закладок ще немає</string>
+    <string name="draft_prefix">Чернетка:</string>
+    <string name="remove_bookmark">Видалити із закладок</string>
+    <string name="time_am">дп</string>
+    <string name="time_pm">пп</string>
     <string name="pinned_message">Закріплене повідомлення</string>
     <string name="pinned_messages">Закріплені повідомлення</string>
     <string name="please_enter_a_server">Введіть сервер</string>

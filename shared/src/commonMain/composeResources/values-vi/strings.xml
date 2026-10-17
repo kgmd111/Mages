@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Hệ thống / Sáng / Tối</string>
     <string name="setting_dynamic_colors_description">Dùng màu Material You (Android 12+)</string>
     <string name="setting_oled_black_description">Dùng nền đen tuyệt đối ở chế độ tối cho màn hình OLED</string>
+    <string name="setting_use_24_hour_time">Dùng định dạng 24 giờ</string>
+    <string name="setting_use_24_hour_time_description">Hiển thị thời gian theo định dạng 24 giờ thay vì SA/CH</string>
     <string name="setting_language_description">Ngôn ngữ ứng dụng</string>
     <string name="setting_font_size_description">Cỡ chữ tin nhắn</string>
     <string name="setting_show_message_avatars_description">Hiển thị ảnh đại diện người dùng bên cạnh tin nhắn</string>
@@ -980,6 +982,17 @@
     <string name="phone">Điện thoại</string>
     <string name="phone_number">Số điện thoại</string>
     <string name="photo">Ảnh</string>
+    <string name="failed_to_update_bookmark">Không thể cập nhật dấu trang. Hãy thử lại.</string>
+    <string name="bookmark">Thêm dấu trang</string>
+    <string name="bookmark_added">Đã thêm dấu trang</string>
+    <string name="bookmark_removed">Đã xóa dấu trang</string>
+    <string name="bookmarks">Dấu trang</string>
+    <string name="bookmarks_empty_subtitle">Nhấn giữ một tin nhắn và chọn Thêm dấu trang để lưu lại đây.</string>
+    <string name="bookmarks_empty_title">Chưa có dấu trang</string>
+    <string name="draft_prefix">Bản nháp:</string>
+    <string name="remove_bookmark">Xóa dấu trang</string>
+    <string name="time_am">SA</string>
+    <string name="time_pm">CH</string>
     <string name="pinned_message">Tin nhắn được ghim</string>
     <string name="pinned_messages">Tin nhắn được ghim</string>
     <string name="please_enter_a_server">Vui lòng nhập máy chủ</string>

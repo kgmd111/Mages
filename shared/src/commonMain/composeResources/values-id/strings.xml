@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Sistem / Terang / Gelap</string>
     <string name="setting_dynamic_colors_description">Gunakan warna Material You (Android 12 )</string>
     <string name="setting_oled_black_description">Gunakan latar belakang hitam pekat dalam mode gelap untuk tampilan OLED</string>
+    <string name="setting_use_24_hour_time">Gunakan waktu 24 jam</string>
+    <string name="setting_use_24_hour_time_description">Tampilkan stempel waktu dalam format 24 jam, bukan AM/PM</string>
     <string name="setting_language_description">Bahasa aplikasi</string>
     <string name="setting_font_size_description">Ukuran font pesan</string>
     <string name="setting_show_message_avatars_description">Tampilkan avatar pengguna di samping pesan</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telepon</string>
     <string name="phone_number">Nomor telepon</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Markah tidak dapat diperbarui. Coba lagi.</string>
+    <string name="bookmark">Tambah markah</string>
+    <string name="bookmark_added">Markah ditambahkan</string>
+    <string name="bookmark_removed">Markah dihapus</string>
+    <string name="bookmarks">Markah</string>
+    <string name="bookmarks_empty_subtitle">Tekan lama sebuah pesan dan pilih Tambah markah untuk menyimpannya di sini.</string>
+    <string name="bookmarks_empty_title">Belum ada markah</string>
+    <string name="draft_prefix">Draf:</string>
+    <string name="remove_bookmark">Hapus markah</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Pesan yang disematkan</string>
     <string name="pinned_messages">Pesan yang disematkan</string>
     <string name="please_enter_a_server">Masukkan server</string>

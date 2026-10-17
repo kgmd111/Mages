@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Järjestelmä / Vaalea / Tumma</string>
     <string name="setting_dynamic_colors_description">Käytä Material You -värejä (Android 12)</string>
     <string name="setting_oled_black_description">Käytä aitoa mustaa taustaa tummassa tilassa OLED-näytöissä</string>
+    <string name="setting_use_24_hour_time">Käytä 24 tunnin aikaa</string>
+    <string name="setting_use_24_hour_time_description">Näytä aikaleimat 24 tunnin muodossa ap./ip. sijaan</string>
     <string name="setting_language_description">Sovelluksen kieli</string>
     <string name="setting_font_size_description">Viestin fonttikoko</string>
     <string name="setting_show_message_avatars_description">Näytä käyttäjän avatarit viestien vieressä</string>
@@ -980,6 +982,17 @@
     <string name="phone">Puhelin</string>
     <string name="phone_number">Puhelinnumero</string>
     <string name="photo">Valokuva</string>
+    <string name="failed_to_update_bookmark">Kirjanmerkkiä ei voitu päivittää. Yritä uudelleen.</string>
+    <string name="bookmark">Lisää kirjanmerkki</string>
+    <string name="bookmark_added">Kirjanmerkki lisätty</string>
+    <string name="bookmark_removed">Kirjanmerkki poistettu</string>
+    <string name="bookmarks">Kirjanmerkit</string>
+    <string name="bookmarks_empty_subtitle">Paina viestiä pitkään ja valitse Lisää kirjanmerkki, niin se pysyy täällä.</string>
+    <string name="bookmarks_empty_title">Ei vielä kirjanmerkkejä</string>
+    <string name="draft_prefix">Luonnos:</string>
+    <string name="remove_bookmark">Poista kirjanmerkki</string>
+    <string name="time_am">ap.</string>
+    <string name="time_pm">ip.</string>
     <string name="pinned_message">Kiinnitetty viesti</string>
     <string name="pinned_messages">Kiinnitettyjä viestejä</string>
     <string name="please_enter_a_server">Anna palvelin</string>

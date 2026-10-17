@@ -69,6 +69,8 @@
     <string name="setting_theme_description">System / Jasny / Ciemny</string>
     <string name="setting_dynamic_colors_description">Używaj kolorów Material You (Android 12+)</string>
     <string name="setting_oled_black_description">Używaj czarnego tła w trybie ciemnym na ekranach OLED</string>
+    <string name="setting_use_24_hour_time">Używaj formatu 24-godzinnego</string>
+    <string name="setting_use_24_hour_time_description">Wyświetlaj znaczniki czasu w formacie 24-godzinnym zamiast AM/PM</string>
     <string name="setting_language_description">Język aplikacji</string>
     <string name="setting_font_size_description">Rozmiar czcionki wiadomości</string>
     <string name="setting_show_message_avatars_description">Wyświetlaj awatary użytkowników obok wiadomości</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Numer telefonu</string>
     <string name="photo">Zdjęcie</string>
+    <string name="failed_to_update_bookmark">Nie udało się zaktualizować zakładki. Spróbuj ponownie.</string>
+    <string name="bookmark">Dodaj zakładkę</string>
+    <string name="bookmark_added">Dodano zakładkę</string>
+    <string name="bookmark_removed">Usunięto zakładkę</string>
+    <string name="bookmarks">Zakładki</string>
+    <string name="bookmarks_empty_subtitle">Przytrzymaj wiadomość i wybierz Dodaj zakładkę, aby ją tu zachować.</string>
+    <string name="bookmarks_empty_title">Brak zakładek</string>
+    <string name="draft_prefix">Szkic:</string>
+    <string name="remove_bookmark">Usuń zakładkę</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Przypięta wiadomość</string>
     <string name="pinned_messages">Przypięte wiadomości</string>
     <string name="please_enter_a_server">Wprowadź serwer</string>

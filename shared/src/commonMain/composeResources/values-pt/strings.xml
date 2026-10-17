@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Sistema / Claro / Escuro</string>
     <string name="setting_dynamic_colors_description">Use Material You Colors (Android 12)</string>
     <string name="setting_oled_black_description">Use um fundo preto verdadeiro no modo escuro para monitores OLED</string>
+    <string name="setting_use_24_hour_time">Usar formato de 24 horas</string>
+    <string name="setting_use_24_hour_time_description">Mostrar os horários em formato de 24 horas em vez de AM/PM</string>
     <string name="setting_language_description">Idioma do aplicativo</string>
     <string name="setting_font_size_description">Tamanho da fonte da mensagem</string>
     <string name="setting_show_message_avatars_description">Exibir avatares de usuários ao lado de mensagens</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefone</string>
     <string name="phone_number">Número de telefone</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Não foi possível atualizar o marcador. Tente novamente.</string>
+    <string name="bookmark">Adicionar marcador</string>
+    <string name="bookmark_added">Marcador adicionado</string>
+    <string name="bookmark_removed">Marcador removido</string>
+    <string name="bookmarks">Marcadores</string>
+    <string name="bookmarks_empty_subtitle">Mantenha uma mensagem pressionada e escolha Adicionar marcador para a guardar aqui.</string>
+    <string name="bookmarks_empty_title">Ainda não há marcadores</string>
+    <string name="draft_prefix">Rascunho:</string>
+    <string name="remove_bookmark">Remover marcador</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Mensagem fixada</string>
     <string name="pinned_messages">Mensagens fixadas</string>
     <string name="please_enter_a_server">Digite um servidor</string>

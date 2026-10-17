@@ -69,6 +69,8 @@
     <string name="setting_theme_description">Sustav / Svijetlo / Tamno</string>
     <string name="setting_dynamic_colors_description">Koristite boje Material You (Android 12 )</string>
     <string name="setting_oled_black_description">Koristite pravu crnu pozadinu u tamnom načinu rada za OLED zaslone</string>
+    <string name="setting_use_24_hour_time">Koristi 24-satni format</string>
+    <string name="setting_use_24_hour_time_description">Prikazuj vremenske oznake u 24-satnom formatu umjesto AM/PM</string>
     <string name="setting_language_description">Jezik aplikacije</string>
     <string name="setting_font_size_description">Veličina fonta poruke</string>
     <string name="setting_show_message_avatars_description">Prikažite korisničke avatare pored poruka</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Broj telefona</string>
     <string name="photo">Fotografija</string>
+    <string name="failed_to_update_bookmark">Oznaku nije moguće ažurirati. Pokušajte ponovno.</string>
+    <string name="bookmark">Dodaj u oznake</string>
+    <string name="bookmark_added">Dodano u oznake</string>
+    <string name="bookmark_removed">Uklonjeno iz oznaka</string>
+    <string name="bookmarks">Oznake</string>
+    <string name="bookmarks_empty_subtitle">Dugo pritisnite poruku i odaberite Dodaj u oznake da bi ostala ovdje.</string>
+    <string name="bookmarks_empty_title">Još nema oznaka</string>
+    <string name="draft_prefix">Skica:</string>
+    <string name="remove_bookmark">Ukloni iz oznaka</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Prikvačena poruka</string>
     <string name="pinned_messages">Prikvačene poruke</string>
     <string name="please_enter_a_server">Unesite poslužitelj</string>

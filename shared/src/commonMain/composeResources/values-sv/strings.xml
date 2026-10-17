@@ -69,6 +69,8 @@
     <string name="setting_theme_description">System / Ljus / Mörk</string>
     <string name="setting_dynamic_colors_description">Använd material du färgar (Android 12)</string>
     <string name="setting_oled_black_description">Använd en äkta svart bakgrund i mörkt läge för OLED-skärmar</string>
+    <string name="setting_use_24_hour_time">Använd 24-timmarsklocka</string>
+    <string name="setting_use_24_hour_time_description">Visa tidsstämplar i 24-timmarsformat i stället för fm/em</string>
     <string name="setting_language_description">Appens språk</string>
     <string name="setting_font_size_description">Meddelande teckenstorlek</string>
     <string name="setting_show_message_avatars_description">Visa användaravatarer bredvid meddelanden</string>
@@ -980,6 +982,17 @@
     <string name="phone">Telefon</string>
     <string name="phone_number">Telefonnummer</string>
     <string name="photo">Foto</string>
+    <string name="failed_to_update_bookmark">Det gick inte att uppdatera bokmärket. Försök igen.</string>
+    <string name="bookmark">Lägg till bokmärke</string>
+    <string name="bookmark_added">Bokmärke tillagt</string>
+    <string name="bookmark_removed">Bokmärke borttaget</string>
+    <string name="bookmarks">Bokmärken</string>
+    <string name="bookmarks_empty_subtitle">Håll in ett meddelande och välj Lägg till bokmärke för att spara det här.</string>
+    <string name="bookmarks_empty_title">Inga bokmärken än</string>
+    <string name="draft_prefix">Utkast:</string>
+    <string name="remove_bookmark">Ta bort bokmärke</string>
+    <string name="time_am">fm</string>
+    <string name="time_pm">em</string>
     <string name="pinned_message">Fäst meddelande</string>
     <string name="pinned_messages">Fästa meddelanden</string>
     <string name="please_enter_a_server">Ange en server</string>

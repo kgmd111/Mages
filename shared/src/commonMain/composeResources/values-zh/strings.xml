@@ -69,6 +69,8 @@
     <string name="setting_theme_description">系统 / 浅色 / 深色</string>
     <string name="setting_dynamic_colors_description">使用 Material You 颜色（Android 12+）</string>
     <string name="setting_oled_black_description">在深色模式下为 OLED 显示屏使用纯黑背景</string>
+    <string name="setting_use_24_hour_time">使用 24 小时制</string>
+    <string name="setting_use_24_hour_time_description">以 24 小时制显示时间，而不是上午/下午</string>
     <string name="setting_language_description">应用语言</string>
     <string name="setting_font_size_description">消息字体大小</string>
     <string name="setting_show_message_avatars_description">在消息旁显示用户头像</string>
@@ -980,6 +982,18 @@
     <string name="phone">电话</string>
     <string name="phone_number">电话号码</string>
     <string name="photo">照片</string>
+    <string name="failed_to_update_bookmark">无法更新书签。请重试。</string>
+    <string name="bookmark">添加到书签</string>
+    <string name="bookmark_added">已添加到书签</string>
+    <string name="bookmark_removed">已从书签移除</string>
+    <string name="bookmarks">书签</string>
+    <string name="bookmarks_empty_subtitle">长按消息并选择“添加到书签”，即可保存在这里。</string>
+    <string name="bookmarks_empty_title">还没有书签</string>
+    <string name="draft_prefix">草稿:</string>
+    <string name="remove_bookmark">从书签移除</string>
+    <string name="time_12h_format">%3$s%1$d:%2$s</string>
+    <string name="time_am">上午</string>
+    <string name="time_pm">下午</string>
     <string name="pinned_message">置顶消息</string>
     <string name="pinned_messages">置顶消息</string>
     <string name="please_enter_a_server">请输入服务器</string>
