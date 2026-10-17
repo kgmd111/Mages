@@ -1,3 +1,8 @@
+## v5.1.6
+
+- feat: bookmarks, draft preview and 24h clock
+
+
 ## v5.1.5
 
 - account switch crash hotfix
