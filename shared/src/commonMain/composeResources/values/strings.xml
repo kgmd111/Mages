@@ -1134,6 +1134,7 @@
     <string name="phone">Phone</string>
     <string name="phone_number">Phone number</string>
     <string name="photo">Photo</string>
+    <string name="failed_to_update_bookmark">Could not update the bookmark. Try again.</string>
     <string name="bookmark">Bookmark</string>
     <string name="bookmark_added">Message bookmarked</string>
     <string name="bookmark_removed">Bookmark removed</string>

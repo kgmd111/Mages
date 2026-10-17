@@ -31,7 +31,7 @@ val accountModule = module {
     single { MatrixService(get(), get()) }
     single { VerificationCoordinator(get()) }
     single { RecentEmojiStore { get<MatrixClients>().portOrNull ?: error("no active account") } }
-    single { BookmarksStore(get(), get()) }
+    single { BookmarksStore(get(), { get<MatrixClients>().portOrNull }) }
 
 }
 

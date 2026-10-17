@@ -1152,16 +1152,23 @@ fun RoomScreen(
             onUnpin = { if (state.pinAction.isEnabled) viewModel.unpinEvent(event.eventId) },
             onBookmark = {
                 val adding = !bookmarksStore.isBookmarked(state.roomId, event.eventId)
-                bookmarksStore.toggle(
-                    roomId = state.roomId,
-                    roomName = state.roomName,
-                    eventId = event.eventId,
-                    sender = event.senderDisplayName ?: event.sender,
-                    preview = bookmarkPreview,
-                    timestampMs = event.timestampMs,
-                )
                 scope.launch {
-                    snackbarManager.show(getString(if (adding) Res.string.bookmark_added else Res.string.bookmark_removed))
+                    val successMessage = getString(
+                        if (adding) Res.string.bookmark_added else Res.string.bookmark_removed
+                    )
+                    val failureMessage = getString(Res.string.failed_to_update_bookmark)
+                    bookmarksStore.toggle(
+                        roomId = state.roomId,
+                        roomName = state.roomName,
+                        eventId = event.eventId,
+                        sender = event.senderDisplayName ?: event.sender,
+                        preview = bookmarkPreview,
+                        timestampMs = event.timestampMs,
+                    ).onSuccess {
+                        snackbarManager.show(successMessage)
+                    }.onFailure { error ->
+                        postError(error.message ?: failureMessage)
+                    }
                 }
             },
             onReport = { viewModel.showReportDialog(event) },

@@ -21,18 +21,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.coroutines.launch
 import mages.shared.generated.resources.*
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.mlm.mages.bookmarks.Bookmark
 import org.mlm.mages.bookmarks.BookmarksStore
 import org.mlm.mages.ui.components.core.EmptyState
+import org.mlm.mages.ui.components.snackbar.SnackbarManager
+import org.mlm.mages.ui.components.snackbar.snackbarHost
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.util.formatPinnedTimestamp
 import mages.shared.generated.resources.Res
@@ -44,6 +50,12 @@ fun BookmarksRoute(
 ) {
     val store: BookmarksStore = koinInject()
     val bookmarks by store.bookmarks.collectAsState()
+    val scope = rememberCoroutineScope()
+    val snackbarManager: SnackbarManager = koinInject()
+
+    LaunchedEffect(Unit) {
+        store.refresh()
+    }
 
     BookmarksScreen(
         bookmarks = bookmarks,
@@ -51,7 +63,14 @@ fun BookmarksRoute(
         onOpenMessage = { bookmark ->
             onOpenMessage(bookmark.roomId, bookmark.eventId, bookmark.roomName)
         },
-        onRemove = store::remove,
+        onRemove = { bookmark ->
+            scope.launch {
+                val failureMessage = getString(Res.string.failed_to_update_bookmark)
+                store.remove(bookmark).onFailure { error ->
+                    snackbarManager.showError(error.message ?: failureMessage)
+                }
+            }
+        },
     )
 }
 
@@ -63,6 +82,8 @@ fun BookmarksScreen(
     onOpenMessage: (Bookmark) -> Unit,
     onRemove: (Bookmark) -> Unit,
 ) {
+    val snackbarManager: SnackbarManager = koinInject()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -76,7 +97,8 @@ fun BookmarksScreen(
                     }
                 }
             )
-        }
+        },
+        snackbarHost = { snackbarManager.snackbarHost() }
     ) { padding ->
         if (bookmarks.isEmpty()) {
             EmptyState(
