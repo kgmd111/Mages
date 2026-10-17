@@ -21,7 +21,8 @@ use matrix_sdk::{
         },
         directory::{Filter, PublicRoomsChunk},
         events::{
-            AnyMessageLikeEventContent, Mentions,
+            AnyGlobalAccountDataEventContent, AnyMessageLikeEventContent, GlobalAccountDataEventType,
+            Mentions,
             ignored_user_list::IgnoredUserListEventContent,
             invite_permission_config::InvitePermissionConfigEventContent,
             key::verification::request::ToDeviceKeyVerificationRequestEvent,
@@ -49,6 +50,7 @@ use matrix_sdk::{
         },
         presence::PresenceState,
         room::{JoinRuleSummary, RoomType},
+        serde::Raw,
     },
 };
 use matrix_sdk_ui::{
@@ -3134,6 +3136,40 @@ impl CoreClient {
             .ffi()?
             .and_then(|raw| raw.deserialize().ok())
             .unwrap_or_else(|| RecentEmojiEventContent::new(Vec::new())))
+    }
+
+    /// Reads any global account data event's content as raw JSON.
+    ///
+    /// The content comes from the local store, so an event this account never
+    /// received is absent rather than fetched. A write only reaches the store on
+    /// the next sync, so a caller that reads right after writing keeps its own
+    /// copy until then.
+    pub async fn account_data(&self, event_type: String) -> Result<Option<String>, FfiError> {
+        let event_type = GlobalAccountDataEventType::from(event_type.as_str());
+        Ok(self
+            .sdk
+            .account()
+            .account_data_raw(event_type)
+            .await
+            .ffi()?
+            .map(|raw| raw.json().get().to_owned()))
+    }
+
+    /// Writes raw JSON content for a global account data event.
+    pub async fn set_account_data(
+        &self,
+        event_type: String,
+        content_json: String,
+    ) -> Result<(), FfiError> {
+        let event_type = GlobalAccountDataEventType::from(event_type.as_str());
+        let content: Raw<AnyGlobalAccountDataEventContent> = Raw::from_json_string(content_json)
+            .map_err(|e| ffi_err!("account data content is not valid JSON: {e}"))?;
+        self.sdk
+            .account()
+            .set_account_data_raw(event_type, content)
+            .await
+            .ffi()?;
+        Ok(())
     }
 
     /// Downloads a pack image as a thumbnail into the media cache.

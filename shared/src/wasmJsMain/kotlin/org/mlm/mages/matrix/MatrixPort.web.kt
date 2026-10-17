@@ -1494,6 +1494,12 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override suspend fun inviteBlocked(): Boolean? =
         requireClient().inviteBlocked().awaitValue()
 
+    override suspend fun accountData(eventType: String): String? =
+        requireClient().accountData(eventType).awaitStringValue()
+
+    override suspend fun setAccountData(eventType: String, contentJson: String): Result<Unit> =
+        requireClient().setAccountData(eventType, contentJson).awaitUnitResult()
+
     override suspend fun setInviteBlocked(blocked: Boolean): Result<Unit> {
         val result = requireClient().setInviteBlocked(blocked).awaitResult()
         return unitResult(result.ok, "set invite blocked", result.error)

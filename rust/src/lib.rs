@@ -228,6 +228,8 @@ delegate! { result bool; is_reaction_notifications_enabled(); }
 delegate! { result bool; can_set_profile_fields(); }
 delegate! { result Vec<ProfileField>; own_profile_fields(); }
 delegate! { option bool; invite_blocked(); }
+delegate! { option String; account_data(event_type: String); }
+delegate! { unit; set_account_data(event_type: String, content_json: String); }
 delegate! { result FfiRoomNotificationMode; get_default_room_notification_mode(is_encrypted: bool, is_one_to_one: bool); }
 delegate! { option UnreadStats; room_unread_stats(room_id: String); }
 delegate! { option RoomCallState; room_call_state(room_id: String); }

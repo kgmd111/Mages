@@ -542,6 +542,7 @@ wasm_delegate! { webffi_unit;
     "setDisplayName"       => set_display_name(name: Option<String>);
     "removeAvatar"         => remove_avatar();
     "setInviteBlocked"     => set_invite_blocked(blocked: bool);
+    "setAccountData"       => set_account_data(event_type: String, content_json: String);
     "setProfileField"      => set_profile_field(name: String, value: String);
     "deleteProfileField"   => delete_profile_field(name: String);
 }
@@ -603,6 +604,7 @@ wasm_delegate! { webffi_option;
     "roomPredecessor"  => room_predecessor(room_id: String);
     "eventDetails"     => event_details(room_id: String, event_id: String);
     "inviteBlocked"    => invite_blocked();
+    "accountData"      => account_data(event_type: String);
     "getLinkPreview"   => get_link_preview(url: String);
 }
 

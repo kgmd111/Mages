@@ -1296,6 +1296,16 @@ interface MatrixPort {
     /** Records one use of [emoji], reordering and truncating as the spec asks. */
     suspend fun recordEmojiUse(emoji: String): Result<Unit>
 
+    /**
+     * Raw JSON content of a global account data event, or null when the account
+     * has none. The content is read from the local store, so a write only shows
+     * up here after the next sync.
+     */
+    suspend fun accountData(eventType: String): String?
+
+    /** Writes raw JSON content for a global account data event. */
+    suspend fun setAccountData(eventType: String, contentJson: String): Result<Unit>
+
     /** Downloads a pack image into the media cache and returns a local path. */
     suspend fun packImageToCache(
         mxcUrl: String,

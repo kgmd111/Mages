@@ -1870,6 +1870,15 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         runWithFfiResult { withClient { it.inviteBlocked() } }.getOrNull()
     }
 
+    override suspend fun accountData(eventType: String): String? = withContext(matrixDispatcher) {
+        runWithFfiResult { withClient { it.accountData(eventType) } }.getOrNull()
+    }
+
+    override suspend fun setAccountData(eventType: String, contentJson: String): Result<Unit> =
+        withContext(matrixDispatcher) {
+            runWithFfiResult { withClient { it.setAccountData(eventType, contentJson) } }.map { }
+        }
+
     override suspend fun setInviteBlocked(blocked: Boolean): Result<Unit> =
         withContext(matrixDispatcher) {
             runWithFfiResult { withClient { it.setInviteBlocked(blocked) } }.map { }
