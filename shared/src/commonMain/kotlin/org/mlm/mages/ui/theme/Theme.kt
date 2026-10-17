@@ -4,11 +4,13 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.mlm.mages.platform.getDynamicColorScheme
+import org.mlm.mages.ui.util.LocalUse24HourTime
 
 
 object AppColors {
@@ -96,6 +98,7 @@ fun MainTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColors: Boolean = true,
     oledBlack: Boolean = false,
+    use24HourTime: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val baseScheme = getDynamicColorScheme(darkTheme, dynamicColors)
@@ -132,6 +135,9 @@ fun MainTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
         shapes = AppShapes,
-        content = content
-    )
+    ) {
+        CompositionLocalProvider(LocalUse24HourTime provides use24HourTime) {
+            content()
+        }
+    }
 }

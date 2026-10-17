@@ -79,6 +79,9 @@ import org.koin.compose.koinInject
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.components.sheets.*
 import org.mlm.mages.ui.components.voice.VoicePreviewDialog
+import org.mlm.mages.bookmarks.BookmarksStore
+import org.mlm.mages.ui.displayPreview
+import org.mlm.mages.ui.theme.Limits
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
@@ -148,6 +151,8 @@ fun RoomScreen(
         settingsRepository.flow.collect { persistedSettings = it }
     }
     val settings = persistedSettings ?: AppSettings()
+    val bookmarksStore: BookmarksStore = koinInject()
+    val bookmarks by bookmarksStore.bookmarks.collectAsState()
 
     val hasEditableLatest = remember(state.allEvents, state.myUserId) {
         state.allEvents.any { it.isEditableBy(state.myUserId) }
@@ -1122,6 +1127,8 @@ fun RoomScreen(
     sheetEvent?.let { event ->
         val isMine = event.sender == state.myUserId
         val isPinned = event.eventId in state.pinnedEventIds
+        val isBookmarked = bookmarks.any { it.roomId == state.roomId && it.eventId == event.eventId }
+        val bookmarkPreview = event.displayPreview().take(Limits.previewCharsLong)
         val msgActions = state.selectedMessageActions
         MessageActionSheet(
             event = event,
@@ -1129,6 +1136,7 @@ fun RoomScreen(
             canDeleteOthers = msgActions?.delete?.isEnabled ?: state.redactOthersAction.isEnabled,
             canPin = msgActions?.pin?.isEnabled ?: state.pinAction.isEnabled,
             isPinned = isPinned,
+            isBookmarked = isBookmarked,
             onDismiss = { sheetEvent = null; viewModel.clearSelectedMessageActions() },
             onReply = { viewModel.startReply(event); sheetEvent = null },
             onEdit = { viewModel.startEdit(event); sheetEvent = null },
@@ -1142,6 +1150,20 @@ fun RoomScreen(
             onDelete = { viewModel.delete(event); sheetEvent = null },
             onPin = { if (state.pinAction.isEnabled) viewModel.pinEvent(event) },
             onUnpin = { if (state.pinAction.isEnabled) viewModel.unpinEvent(event.eventId) },
+            onBookmark = {
+                val adding = !bookmarksStore.isBookmarked(state.roomId, event.eventId)
+                bookmarksStore.toggle(
+                    roomId = state.roomId,
+                    roomName = state.roomName,
+                    eventId = event.eventId,
+                    sender = event.senderDisplayName ?: event.sender,
+                    preview = bookmarkPreview,
+                    timestampMs = event.timestampMs,
+                )
+                scope.launch {
+                    snackbarManager.show(getString(if (adding) Res.string.bookmark_added else Res.string.bookmark_removed))
+                }
+            },
             onReport = { viewModel.showReportDialog(event) },
             onShowMessageInfo = { viewModel.showMessageInfo(event) },
             onReact = { emoji ->

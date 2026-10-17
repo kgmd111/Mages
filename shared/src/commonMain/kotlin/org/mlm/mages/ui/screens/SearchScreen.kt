@@ -33,7 +33,8 @@ import mages.shared.generated.resources.Res
 fun SearchScreen(
     viewModel: SearchViewModel,
     onBack: () -> Unit,
-    onOpenResult: (roomId: String, eventId: String, roomName: String) -> Unit
+    onOpenResult: (roomId: String, eventId: String, roomName: String) -> Unit,
+    onOpenBookmarks: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     val pagingItems = viewModel.searchResults.collectAsLazyPagingItems()
@@ -78,7 +79,10 @@ fun SearchScreen(
         ) {
             when {
                 state.query.length < 2 -> {
-                    SearchPlaceholder(isScoped = state.scopedRoomId != null)
+                    SearchPlaceholder(
+                        isScoped = state.scopedRoomId != null,
+                        onOpenBookmarks = onOpenBookmarks
+                    )
                 }
 
                 pagingItems.loadState.refresh is LoadState.Error -> {
@@ -223,12 +227,29 @@ private fun SearchTopBar(
 }
 
 @Composable
-private fun SearchPlaceholder(isScoped: Boolean) {
-    EmptyState(
-        icon = Icons.Default.Search,
-        title = if (isScoped) stringResource(Res.string.search_this_room) else stringResource(Res.string.search_all_messages),
-        subtitle = stringResource(Res.string.search_min_chars)
-    )
+private fun SearchPlaceholder(isScoped: Boolean, onOpenBookmarks: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        if (!isScoped) {
+            ListItem(
+                headlineContent = { Text(stringResource(Res.string.bookmarks)) },
+                leadingContent = {
+                    Icon(
+                        Icons.Default.Bookmark,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                modifier = Modifier.clickable { onOpenBookmarks() }
+            )
+            HorizontalDivider()
+        }
+        EmptyState(
+            icon = Icons.Default.Search,
+            title = if (isScoped) stringResource(Res.string.search_this_room) else stringResource(Res.string.search_all_messages),
+            subtitle = stringResource(Res.string.search_min_chars),
+            modifier = Modifier.weight(1f)
+        )
+    }
 }
 
 @Composable

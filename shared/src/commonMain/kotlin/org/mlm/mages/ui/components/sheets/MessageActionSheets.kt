@@ -59,6 +59,8 @@ fun MessageActionSheet(
     onDelete: () -> Unit,
     onPin: (() -> Unit)? = null,
     onUnpin: (() -> Unit)? = null,
+    isBookmarked: Boolean = false,
+    onBookmark: (() -> Unit)? = null,
     onReport: (() -> Unit)? = null,
     onShowMessageInfo: (() -> Unit)? = null,
     onReact: (String) -> Unit,
@@ -147,7 +149,16 @@ fun MessageActionSheet(
             if (isMine && event.sendState == SendState.Failed && onRetry != null) {
                 ActionItem(Icons.Default.Refresh, stringResource(Res.string.retry)) { onRetry(); onDismiss() }
             }
-            ActionItem(Icons.Default.Bookmark, stringResource(Res.string.mark_as_read_here)) { onMarkReadHere(); onDismiss() }
+            if (onBookmark != null && !isRedacted && event.eventId.isNotBlank()) {
+                ActionItem(
+                    if (isBookmarked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                    stringResource(if (isBookmarked) Res.string.remove_bookmark else Res.string.bookmark)
+                ) {
+                    onBookmark()
+                    onDismiss()
+                }
+            }
+            ActionItem(Icons.Default.Done, stringResource(Res.string.mark_as_read_here)) { onMarkReadHere(); onDismiss() }
             if (isMine && !isRedacted && event.sendState != SendState.Failed && event.eventId.isNotBlank()) {
                 if (event.pollData != null) {
                     if (event.pollData?.isEnded == false && onEditPoll != null) {

@@ -127,6 +127,16 @@ data class AppSettings(
     val oledBlack: Boolean = false,
 
     @Setting(
+        title = "Use 24-hour time",
+        titleKey = MagesSettingsKeys.USE_24_HOUR_TIME,
+        description = "Show timestamps as 24-hour clock instead of AM/PM",
+        descriptionKey = MagesSettingsKeys.USE_24_HOUR_TIME_DESCRIPTION,
+        category = Appearance::class,
+        type = Toggle::class,
+    )
+    val use24HourTime: Boolean = true,
+
+    @Setting(
         title = "Language",
         titleKey = MagesSettingsKeys.LANGUAGE,
         description = "Application language",
@@ -1066,6 +1076,9 @@ data class AppSettings(
 
     @Persisted
     val roomDraftsJson: String = "",
+
+    @Persisted
+    val bookmarksJson: String = "",
 
     @Setting(
         title = "Enter sends message",

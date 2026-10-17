@@ -28,6 +28,7 @@ import org.mlm.mages.ui.RoomListItemUi
 import org.mlm.mages.ui.components.core.Avatar
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.theme.Limits
+import org.mlm.mages.ui.util.formatClockTime
 import org.mlm.mages.ui.util.secondaryClick
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -41,6 +42,7 @@ fun RoomListItem(
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
     showSilentUnreadCount: Boolean = true,
+    draft: String? = null,
     modifier: Modifier = Modifier
 ) {
     val clickModifier = if (onLongClick != null) {
@@ -200,36 +202,54 @@ fun RoomListItem(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    val preview = formatMessagePreview(
-                        type = item.lastMessageType,
-                        body = item.lastMessageBody ?: item.lastMessageLabel?.let { stringResource(it) },
-                        sender = item.lastMessageSender,
-                        isDm = item.isDm
-                    )
-
-                    preview.icon?.let { icon ->
-                        Icon(
-                            icon,
-                            contentDescription = null,
-                            modifier = Modifier.size(14.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    if (draft != null) {
+                        Text(
+                            text = stringResource(Res.string.draft_prefix),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            fontWeight = FontWeight.Medium
                         )
                         Spacer(Modifier.width(4.dp))
-                    }
+                        Text(
+                            text = draft,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        val preview = formatMessagePreview(
+                            type = item.lastMessageType,
+                            body = item.lastMessageBody ?: item.lastMessageLabel?.let { stringResource(it) },
+                            sender = item.lastMessageSender,
+                            isDm = item.isDm
+                        )
 
-                    Text(
-                        text = preview.text,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = if (item.hasUnreadMessages)
-                            MaterialTheme.colorScheme.onSurface
-                        else
-                            MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = if (item.hasUnreadMessages)
-                            FontWeight.Medium else FontWeight.Normal,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f)
-                    )
+                        preview.icon?.let { icon ->
+                            Icon(
+                                icon,
+                                contentDescription = null,
+                                modifier = Modifier.size(14.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(Modifier.width(4.dp))
+                        }
+
+                        Text(
+                            text = preview.text,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = if (item.hasUnreadMessages)
+                                MaterialTheme.colorScheme.onSurface
+                            else
+                                MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = if (item.hasUnreadMessages)
+                                FontWeight.Medium else FontWeight.Normal,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
 
@@ -433,8 +453,6 @@ private fun formatSenderName(sender: String): String {
 @OptIn(ExperimentalTime::class)
 @Composable
 fun formatRelativeTime(timestamp: Long): String {
-    fun pad2(value: Int): String = value.toString().padStart(2, '0')
-
     val now = Clock.System.now()
     val messageTime = Instant.fromEpochMilliseconds(timestamp)
     val duration = now - messageTime
@@ -446,7 +464,7 @@ fun formatRelativeTime(timestamp: Long): String {
         duration.inWholeMinutes < 1 -> "now"
         duration.inWholeHours < 1 -> "${duration.inWholeMinutes}m"
         localNow.date == localMessage.date -> {
-            "${pad2(localMessage.hour)}:${pad2(localMessage.minute)}"
+            formatClockTime(localMessage.hour, localMessage.minute)
         }
 
         localNow.date.minus(1, DateTimeUnit.DAY) == localMessage.date -> stringResource(Res.string.yesterday)

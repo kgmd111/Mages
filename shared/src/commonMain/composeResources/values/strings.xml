@@ -544,6 +544,8 @@
     <string name="setting_dynamic_colors_description">Use Material You colors (Android 12+)</string>
     <string name="setting_oled_black">Pure black (OLED)</string>
     <string name="setting_oled_black_description">Use a true black background in dark mode for OLED displays</string>
+    <string name="setting_use_24_hour_time">Use 24-hour time</string>
+    <string name="setting_use_24_hour_time_description">Show timestamps as a 24-hour clock instead of AM/PM</string>
     <string name="setting_language">Language</string>
     <string name="setting_language_description">Application language</string>
     <string name="setting_font_size">Font size</string>
@@ -1132,6 +1134,16 @@
     <string name="phone">Phone</string>
     <string name="phone_number">Phone number</string>
     <string name="photo">Photo</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="bookmark_added">Message bookmarked</string>
+    <string name="bookmark_removed">Bookmark removed</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="bookmarks_empty_subtitle">Long-press a message and choose Bookmark to keep it here.</string>
+    <string name="bookmarks_empty_title">No bookmarks yet</string>
+    <string name="draft_prefix">Draft:</string>
+    <string name="remove_bookmark">Remove bookmark</string>
+    <string name="time_am">AM</string>
+    <string name="time_pm">PM</string>
     <string name="pinned_message">Pinned message</string>
     <string name="pinned_messages">Pinned messages</string>
     <string name="please_enter_a_server">Please enter a server</string>

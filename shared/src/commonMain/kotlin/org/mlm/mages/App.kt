@@ -206,7 +206,8 @@ private fun AppContent(
         MainTheme(
             darkTheme = isDark,
             dynamicColors = settings.dynamicColors,
-            oledBlack = settings.oledBlack
+            oledBlack = settings.oledBlack,
+            use24HourTime = settings.use24HourTime
         ) {
             val languageTag = LocalAppLocale.current
             val scope = rememberCoroutineScope()
@@ -911,7 +912,8 @@ private fun AppContent(
                                 onBack = backStack::popBack,
                                 onOpenResult = { roomId, eventId, roomName ->
                                     backStack.add(Route.Room(roomId, roomName, eventId))
-                                }
+                                },
+                                onOpenBookmarks = { backStack.add(Route.Bookmarks) }
                             )
                         }
 
@@ -982,6 +984,15 @@ private fun AppContent(
                         entry<Route.MediaCache> {
                             MediaCacheRoute(
                                 onBack = backStack::popBack
+                            )
+                        }
+
+                        entry<Route.Bookmarks> {
+                            BookmarksRoute(
+                                onBack = backStack::popBack,
+                                onOpenMessage = { roomId, eventId, roomName ->
+                                    backStack.add(Route.Room(roomId, roomName, eventId))
+                                }
                             )
                         }
                     }

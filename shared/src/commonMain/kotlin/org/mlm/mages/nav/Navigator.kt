@@ -51,6 +51,7 @@ sealed interface Route : NavKey {
 
     @Serializable data object NotificationRules : Route
     @Serializable data object MediaCache : Route
+    @Serializable data object Bookmarks : Route
 }
 
 fun <T : NavKey> NavBackStack<T>.replaceTop(key: T) {

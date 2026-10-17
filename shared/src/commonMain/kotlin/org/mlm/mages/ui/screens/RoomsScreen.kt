@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.mlmgames.settings.core.SettingsRepository
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import co.touchlab.kermit.Logger
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.mlm.mages.settings.AppSettings
@@ -57,6 +59,7 @@ fun RoomsScreen(
     val state by viewModel.state.collectAsState()
     val settingsRepository: SettingsRepository<AppSettings> = koinInject()
     val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
+    val drafts = remember(settings.roomDraftsJson) { decodeRoomDrafts(settings.roomDraftsJson) }
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -237,7 +240,8 @@ fun RoomsScreen(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
                                     onLongClick = { selectedRoom = item.name to item.roomId },
-                                    showSilentUnreadCount = settings.showSilentUnreadCount
+                                    showSilentUnreadCount = settings.showSilentUnreadCount,
+                                    draft = drafts[item.roomId]
                                 )
                             }
                         }
@@ -273,7 +277,8 @@ fun RoomsScreen(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
                                     onLongClick = { selectedRoom = item.name to item.roomId },
-                                    showSilentUnreadCount = settings.showSilentUnreadCount
+                                    showSilentUnreadCount = settings.showSilentUnreadCount,
+                                    draft = drafts[item.roomId]
                                 )
                             }
                         }
@@ -308,7 +313,8 @@ fun RoomsScreen(
                                     item = item.copy(avatarUrl = resolved),
                                     onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
                                     onLongClick = { selectedRoom = item.name to item.roomId },
-                                    showSilentUnreadCount = settings.showSilentUnreadCount
+                                    showSilentUnreadCount = settings.showSilentUnreadCount,
+                                    draft = drafts[item.roomId]
                                 )
                             }
                         }
@@ -537,4 +543,18 @@ private fun RoomsTopBar(
 private fun withCount(label: String, count: Int, showCount : Boolean = true): String {
     if (count <= 0 || !showCount) return label
     return "$label ($count)"
+}
+
+private val draftsJson = Json { ignoreUnknownKeys = true }
+
+private fun decodeRoomDrafts(raw: String): Map<String, String> {
+    if (raw.isBlank()) return emptyMap()
+    return try {
+        draftsJson.decodeFromString<Map<String, String>>(raw)
+            .mapValues { (_, text) -> text.replace('\n', ' ').trim() }
+            .filterValues { it.isNotBlank() }
+    } catch (e: Exception) {
+        Logger.w { "RoomsScreen: corrupt roomDraftsJson, ignoring: ${e.message}" }
+        emptyMap()
+    }
 }

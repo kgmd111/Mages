@@ -8,6 +8,7 @@ import org.koin.dsl.module
 import org.mlm.mages.MatrixService
 import org.mlm.mages.accounts.AccountStore
 import org.mlm.mages.accounts.MatrixClients
+import org.mlm.mages.bookmarks.BookmarksStore
 import org.mlm.mages.calls.CallManager
 import org.mlm.mages.calls.IncomingCallTracker
 import org.mlm.mages.emoji.RecentEmojiStore
@@ -30,6 +31,7 @@ val accountModule = module {
     single { MatrixService(get(), get()) }
     single { VerificationCoordinator(get()) }
     single { RecentEmojiStore { get<MatrixClients>().portOrNull ?: error("no active account") } }
+    single { BookmarksStore(get(), get()) }
 
 }
 

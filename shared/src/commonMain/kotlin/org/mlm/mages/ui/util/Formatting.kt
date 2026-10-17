@@ -11,16 +11,36 @@ import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import org.jetbrains.compose.resources.stringResource
 import mages.shared.generated.resources.Res
 
 private fun pad2(value: Int): String = value.toString().padStart(2, '0')
 
+/**
+ * Provided from settings so the clock preference reaches every timestamp
+ * without threading a flag through each call site.
+ */
+val LocalUse24HourTime = compositionLocalOf { true }
+
+@Composable
+fun formatClockTime(hour: Int, minute: Int): String {
+    if (LocalUse24HourTime.current) return "${pad2(hour)}:${pad2(minute)}"
+    val hour12 = when {
+        hour == 0 -> 12
+        hour > 12 -> hour - 12
+        else -> hour
+    }
+    val suffix = stringResource(if (hour < 12) Res.string.time_am else Res.string.time_pm)
+    return "$hour12:${pad2(minute)} $suffix"
+}
+
 @OptIn(ExperimentalTime::class)
+@Composable
 fun formatTime(epochMs: Long): String {
     val instant = Instant.fromEpochMilliseconds(epochMs)
     val local = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-    return "${pad2(local.hour)}:${pad2(local.minute)}"
+    return formatClockTime(local.hour, local.minute)
 }
 
 @OptIn(ExperimentalTime::class)
@@ -49,7 +69,7 @@ fun formatPinnedTimestamp(timestampMs: Long): String {
     val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val yesterday = Clock.System.now().minus(1.days)
         .toLocalDateTime(TimeZone.currentSystemDefault()).date
-    val time = "${pad2(local.hour)}:${pad2(local.minute)}"
+    val time = formatClockTime(local.hour, local.minute)
     val day = when (local.date) {
         today -> return time
         yesterday -> stringResource(Res.string.yesterday)
