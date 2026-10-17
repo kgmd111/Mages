@@ -1815,6 +1815,16 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             runWithFfiResult { withClient { it.uploadBytes(bytes, mime) } }
         }
 
+    override suspend fun uploadImageFromPath(path: String, mime: String): Result<String> =
+        withContext(mediaDispatcher) {
+            val bytes = runCatching { java.io.File(path).readBytes() }.getOrElse { error ->
+                return@withContext Result.failure(
+                    IllegalStateException("cannot read $path: ${error.message}")
+                )
+            }
+            runWithFfiResult { withClient { it.uploadBytes(bytes, mime) } }
+        }
+
     override suspend fun removeAvatar(): Result<Unit> =
         withContext(matrixDispatcher) {
             runWithFfiResult { withClient { it.removeAvatar() } }.map { }

@@ -80,6 +80,7 @@ import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.components.sheets.*
 import org.mlm.mages.ui.components.voice.VoicePreviewDialog
 import org.mlm.mages.bookmarks.BookmarksStore
+import org.mlm.mages.ui.components.wallpaper.WallpaperBackground
 import org.mlm.mages.ui.displayPreview
 import org.mlm.mages.ui.theme.Limits
 import org.mlm.mages.ui.theme.Spacing
@@ -90,6 +91,7 @@ import org.mlm.mages.ui.util.formatTime
 import org.mlm.mages.ui.util.formatTimelineDate
 import org.mlm.mages.ui.util.formatTypingText
 import org.mlm.mages.ui.util.rememberTopVisibleRoomEventTimestamp
+import org.mlm.mages.wallpaper.WallpaperStore
 import org.mlm.mages.ui.util.secondaryClick
 import org.mlm.mages.ui.viewmodel.RoomViewModel
 import mages.shared.generated.resources.*
@@ -153,6 +155,12 @@ fun RoomScreen(
     val settings = persistedSettings ?: AppSettings()
     val bookmarksStore: BookmarksStore = koinInject()
     val bookmarks by bookmarksStore.bookmarks.collectAsState()
+    val wallpaperStore: WallpaperStore = koinInject()
+    val wallpaper by wallpaperStore.wallpaper.collectAsState()
+
+    LaunchedEffect(state.roomId) {
+        wallpaperStore.refresh()
+    }
 
     val hasEditableLatest = remember(state.allEvents, state.myUserId) {
         state.allEvents.any { it.isEditableBy(state.myUserId) }
@@ -762,6 +770,7 @@ fun RoomScreen(
                 // as the timeline snapshot so sender names/avatars never paint
                 // with default isDm/visibility flags while those load.
                 Box(modifier = Modifier.weight(1f)) {
+                    WallpaperBackground(wallpaper)
                     val listSettings = persistedSettings
                     if (!state.hasTimelineSnapshot || !state.identityKnown || listSettings == null) {
                         Box(

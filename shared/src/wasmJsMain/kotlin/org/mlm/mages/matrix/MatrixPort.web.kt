@@ -1456,6 +1456,14 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
             .awaitStringResult()
     }
 
+    override suspend fun uploadImageFromPath(path: String, mime: String): Result<String> {
+        // Picked files are staged as blobs rather than written to disk, so the
+        // bytes come from that cache instead of a path.
+        val bytes = retrieveWebBlob(path)
+            ?: return Result.failure(IllegalStateException("image no longer available"))
+        return uploadBytes(bytes, mime)
+    }
+
     override suspend fun removeAvatar(): Result<Unit> {
         val result = requireClient().removeAvatar().awaitResult()
         return unitResult(result.ok, "remove avatar", result.error)

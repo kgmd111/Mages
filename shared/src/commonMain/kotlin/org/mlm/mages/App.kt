@@ -626,6 +626,10 @@ private fun AppContent(
                                         SecurityViewModel.Event.NavigateToMediaCache -> {
                                             backStack.add(Route.MediaCache)
                                         }
+
+                                        SecurityViewModel.Event.NavigateToWallpaper -> {
+                                            backStack.add(Route.Wallpaper)
+                                        }
                                     }
                                 }
                             }
@@ -983,6 +987,12 @@ private fun AppContent(
 
                         entry<Route.MediaCache> {
                             MediaCacheRoute(
+                                onBack = backStack::popBack
+                            )
+                        }
+
+                        entry<Route.Wallpaper> {
+                            WallpaperRoute(
                                 onBack = backStack::popBack
                             )
                         }

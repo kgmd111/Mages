@@ -1366,6 +1366,12 @@ interface MatrixPort {
     /** Uploads arbitrary bytes and returns the resulting `mxc://` URI. */
     suspend fun uploadBytes(bytes: ByteArray, mime: String): Result<String>
 
+    /**
+     * Uploads a picked image file and returns the resulting `mxc://` URI.
+     * On web [path] is a staged blob rather than a path on disk.
+     */
+    suspend fun uploadImageFromPath(path: String, mime: String): Result<String>
+
     suspend fun removeAvatar(): Result<Unit>
 
     /** MSC4133: false when the homeserver has no `m.profile_fields` capability. */

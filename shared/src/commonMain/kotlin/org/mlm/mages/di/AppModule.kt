@@ -15,6 +15,7 @@ import org.mlm.mages.emoji.RecentEmojiStore
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.viewmodel.*
+import org.mlm.mages.wallpaper.WallpaperStore
 import org.mlm.mages.verification.VerificationCoordinator
 
 val coreModule = module {
@@ -32,6 +33,7 @@ val accountModule = module {
     single { VerificationCoordinator(get()) }
     single { RecentEmojiStore { get<MatrixClients>().portOrNull ?: error("no active account") } }
     single { BookmarksStore(get(), { get<MatrixClients>().portOrNull }) }
+    single { WallpaperStore(get(), { get<MatrixClients>().portOrNull }) }
 
 }
 

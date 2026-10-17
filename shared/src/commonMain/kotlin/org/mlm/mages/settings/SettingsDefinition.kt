@@ -137,6 +137,17 @@ data class AppSettings(
     val use24HourTime: Boolean = true,
 
     @Setting(
+        title = "Chat wallpaper",
+        titleKey = MagesSettingsKeys.CHAT_WALLPAPER,
+        description = "Set a background image for the message list",
+        descriptionKey = MagesSettingsKeys.CHAT_WALLPAPER_DESCRIPTION,
+        category = Appearance::class,
+        type = Button::class,
+    )
+    @ActionHandler(OpenWallpaperAction::class)
+    val openWallpaper: Unit = Unit,
+
+    @Setting(
         title = "Language",
         titleKey = MagesSettingsKeys.LANGUAGE,
         description = "Application language",
@@ -1141,6 +1152,7 @@ object ReRegisterUnifiedPushAction : SettingAction
 object CopyUnifiedPushEndpointAction : SettingAction
 
 object OpenBubbleSettingsAction : SettingAction
+object OpenWallpaperAction : SettingAction
 object OpenNotificationRulesAction : SettingAction
 object OpenMediaCacheAction : SettingAction
 object RequestNotificationPermissionAction : SettingAction
