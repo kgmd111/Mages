@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Use um fundo preto verdadeiro no modo escuro para monitores OLED</string>
     <string name="setting_use_24_hour_time">Usar formato de 24 horas</string>
     <string name="setting_use_24_hour_time_description">Mostrar os horários em formato de 24 horas em vez de AM/PM</string>
+    <string name="setting_chat_wallpaper">Fundo da conversa</string>
+    <string name="setting_chat_wallpaper_description">Definir uma imagem de fundo para a lista de mensagens</string>
     <string name="setting_language_description">Idioma do aplicativo</string>
     <string name="setting_font_size_description">Tamanho da fonte da mensagem</string>
     <string name="setting_show_message_avatars_description">Exibir avatares de usuários ao lado de mensagens</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Ainda não há marcadores</string>
     <string name="draft_prefix">Rascunho:</string>
     <string name="remove_bookmark">Remover marcador</string>
+    <string name="wallpaper_choose_image">Escolher imagem</string>
+    <string name="wallpaper_change_image">Alterar imagem</string>
+    <string name="wallpaper_opacity">Opacidade</string>
+    <string name="wallpaper_blur">Desfoque</string>
+    <string name="wallpaper_remove">Remover fundo</string>
+    <string name="wallpaper_none_title">Nenhum fundo definido</string>
+    <string name="wallpaper_none_subtitle">Escolha uma imagem para usar atrás das suas mensagens. É guardada no seu servidor, pelo que acompanha a sua conta em todos os dispositivos.</string>
+    <string name="wallpaper_upload_failed">Não foi possível definir o fundo. Tente novamente.</string>
+    <string name="wallpaper_image_too_large">Essa imagem é demasiado grande para usar como fundo.</string>
+    <string name="wallpaper_pick_image_only">Escolha um ficheiro de imagem.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Mensagem fixada</string>

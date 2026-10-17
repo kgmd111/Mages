@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Echtes Schwarz im dunklen Modus für OLED-Displays</string>
     <string name="setting_use_24_hour_time">24-Stunden-Anzeige verwenden</string>
     <string name="setting_use_24_hour_time_description">Zeitstempel im 24-Stunden-Format statt vorm./nachm. anzeigen</string>
+    <string name="setting_chat_wallpaper">Chat-Hintergrundbild</string>
+    <string name="setting_chat_wallpaper_description">Ein Hintergrundbild für die Nachrichtenliste festlegen</string>
     <string name="setting_language_description">Anwendungssprache</string>
     <string name="setting_font_size_description">Schriftgröße der Nachrichten</string>
     <string name="setting_show_message_avatars_description">Benutzeravatare neben Nachrichten anzeigen</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Noch keine Lesezeichen</string>
     <string name="draft_prefix">Entwurf:</string>
     <string name="remove_bookmark">Lesezeichen entfernen</string>
+    <string name="wallpaper_choose_image">Bild auswählen</string>
+    <string name="wallpaper_change_image">Bild ändern</string>
+    <string name="wallpaper_opacity">Deckkraft</string>
+    <string name="wallpaper_blur">Unschärfe</string>
+    <string name="wallpaper_remove">Hintergrundbild entfernen</string>
+    <string name="wallpaper_none_title">Kein Hintergrundbild festgelegt</string>
+    <string name="wallpaper_none_subtitle">Wähle ein Bild, das hinter deinen Nachrichten angezeigt wird. Es wird auf deinem Homeserver gespeichert und folgt so deinem Konto über alle Geräte hinweg.</string>
+    <string name="wallpaper_upload_failed">Hintergrundbild konnte nicht festgelegt werden. Versuche es erneut.</string>
+    <string name="wallpaper_image_too_large">Dieses Bild ist zu groß für ein Hintergrundbild.</string>
+    <string name="wallpaper_pick_image_only">Wähle eine Bilddatei.</string>
     <string name="time_am">vorm.</string>
     <string name="time_pm">nachm.</string>
     <string name="pinned_message">Angeheftete Nachricht</string>

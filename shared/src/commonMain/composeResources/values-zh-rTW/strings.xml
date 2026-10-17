@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">在深色模式下為 OLED 顯示器使用純黑背景</string>
     <string name="setting_use_24_hour_time">使用 24 小時制</string>
     <string name="setting_use_24_hour_time_description">以 24 小時制顯示時間，而非上午/下午</string>
+    <string name="setting_chat_wallpaper">聊天桌布</string>
+    <string name="setting_chat_wallpaper_description">為訊息列表設定背景圖片</string>
     <string name="setting_language_description">應用程式語言</string>
     <string name="setting_font_size_description">訊息字型大小</string>
     <string name="setting_show_message_avatars_description">在訊息旁顯示使用者大頭貼</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">尚無書籤</string>
     <string name="draft_prefix">草稿:</string>
     <string name="remove_bookmark">從書籤移除</string>
+    <string name="wallpaper_choose_image">選擇圖片</string>
+    <string name="wallpaper_change_image">更換圖片</string>
+    <string name="wallpaper_opacity">不透明度</string>
+    <string name="wallpaper_blur">模糊</string>
+    <string name="wallpaper_remove">移除桌布</string>
+    <string name="wallpaper_none_title">尚未設定桌布</string>
+    <string name="wallpaper_none_subtitle">選擇一張圖片顯示在訊息後方。圖片儲存在你的主伺服器上，因此會跟隨帳號同步到所有裝置。</string>
+    <string name="wallpaper_upload_failed">無法設定桌布。請再試一次。</string>
+    <string name="wallpaper_image_too_large">該圖片太大，無法作為桌布。</string>
+    <string name="wallpaper_pick_image_only">請選擇圖片檔案。</string>
     <string name="time_12h_format">%3$s%1$d:%2$s</string>
     <string name="time_am">上午</string>
     <string name="time_pm">下午</string>

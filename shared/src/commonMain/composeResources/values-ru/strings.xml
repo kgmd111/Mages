@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Использовать полностью чёрный фон в тёмной теме для OLED-дисплеев</string>
     <string name="setting_use_24_hour_time">24-часовой формат времени</string>
     <string name="setting_use_24_hour_time_description">Показывать время в 24-часовом формате вместо AM/PM</string>
+    <string name="setting_chat_wallpaper">Обои чата</string>
+    <string name="setting_chat_wallpaper_description">Установить фоновое изображение для списка сообщений</string>
     <string name="setting_language_description">Язык приложения</string>
     <string name="setting_font_size_description">Размер шрифта сообщений</string>
     <string name="setting_show_message_avatars_description">Показывать аватары пользователей рядом с сообщениями</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Закладок пока нет</string>
     <string name="draft_prefix">Черновик:</string>
     <string name="remove_bookmark">Удалить из закладок</string>
+    <string name="wallpaper_choose_image">Выбрать изображение</string>
+    <string name="wallpaper_change_image">Сменить изображение</string>
+    <string name="wallpaper_opacity">Непрозрачность</string>
+    <string name="wallpaper_blur">Размытие</string>
+    <string name="wallpaper_remove">Удалить обои</string>
+    <string name="wallpaper_none_title">Обои не установлены</string>
+    <string name="wallpaper_none_subtitle">Выберите изображение, которое будет отображаться за сообщениями. Оно хранится на вашем домашнем сервере, поэтому следует за аккаунтом на всех устройствах.</string>
+    <string name="wallpaper_upload_failed">Не удалось установить обои. Попробуйте снова.</string>
+    <string name="wallpaper_image_too_large">Это изображение слишком большое для обоев.</string>
+    <string name="wallpaper_pick_image_only">Выберите файл изображения.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Закреплённое сообщение</string>

@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">استفاده از پس‌زمینه کاملاً سیاه در حالت تاریک برای نمایشگرهای OLED</string>
     <string name="setting_use_24_hour_time">استفاده از زمان ۲۴ساعته</string>
     <string name="setting_use_24_hour_time_description">نمایش زمان‌ها در قالب ۲۴ساعته به‌جای ق.ظ/ب.ظ</string>
+    <string name="setting_chat_wallpaper">پس‌زمینه گفتگو</string>
+    <string name="setting_chat_wallpaper_description">تعیین تصویر پس‌زمینه برای فهرست پیام‌ها</string>
     <string name="setting_language_description">زبان برنامه</string>
     <string name="setting_font_size_description">اندازه قلم پیام‌ها</string>
     <string name="setting_show_message_avatars_description">نمایش آواتار کاربران کنار پیام‌ها</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">هنوز نشانکی نیست</string>
     <string name="draft_prefix">پیش‌نویس:</string>
     <string name="remove_bookmark">حذف نشانک</string>
+    <string name="wallpaper_choose_image">انتخاب تصویر</string>
+    <string name="wallpaper_change_image">تغییر تصویر</string>
+    <string name="wallpaper_opacity">شفافیت</string>
+    <string name="wallpaper_blur">محو</string>
+    <string name="wallpaper_remove">حذف پس‌زمینه</string>
+    <string name="wallpaper_none_title">پس‌زمینه‌ای تنظیم نشده</string>
+    <string name="wallpaper_none_subtitle">تصویری را انتخاب کنید که پشت پیام‌هایتان نمایش داده شود. در سرور شما ذخیره می‌شود، بنابراین همراه حساب شما در همه دستگاه‌ها است.</string>
+    <string name="wallpaper_upload_failed">تنظیم پس‌زمینه ممکن نشد. دوباره تلاش کنید.</string>
+    <string name="wallpaper_image_too_large">این تصویر برای پس‌زمینه بیش از حد بزرگ است.</string>
+    <string name="wallpaper_pick_image_only">یک فایل تصویری انتخاب کنید.</string>
     <string name="time_am">ق.ظ</string>
     <string name="time_pm">ب.ظ</string>
     <string name="pinned_message">پیام سنجاق‌شده</string>

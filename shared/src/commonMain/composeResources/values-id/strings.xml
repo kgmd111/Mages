@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Gunakan latar belakang hitam pekat dalam mode gelap untuk tampilan OLED</string>
     <string name="setting_use_24_hour_time">Gunakan waktu 24 jam</string>
     <string name="setting_use_24_hour_time_description">Tampilkan stempel waktu dalam format 24 jam, bukan AM/PM</string>
+    <string name="setting_chat_wallpaper">Wallpaper obrolan</string>
+    <string name="setting_chat_wallpaper_description">Atur gambar latar untuk daftar pesan</string>
     <string name="setting_language_description">Bahasa aplikasi</string>
     <string name="setting_font_size_description">Ukuran font pesan</string>
     <string name="setting_show_message_avatars_description">Tampilkan avatar pengguna di samping pesan</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Belum ada markah</string>
     <string name="draft_prefix">Draf:</string>
     <string name="remove_bookmark">Hapus markah</string>
+    <string name="wallpaper_choose_image">Pilih gambar</string>
+    <string name="wallpaper_change_image">Ganti gambar</string>
+    <string name="wallpaper_opacity">Opasitas</string>
+    <string name="wallpaper_blur">Buram</string>
+    <string name="wallpaper_remove">Hapus wallpaper</string>
+    <string name="wallpaper_none_title">Wallpaper belum diatur</string>
+    <string name="wallpaper_none_subtitle">Pilih gambar untuk ditampilkan di belakang pesan Anda. Gambar disimpan di server Anda, sehingga mengikuti akun di semua perangkat.</string>
+    <string name="wallpaper_upload_failed">Wallpaper tidak dapat diatur. Coba lagi.</string>
+    <string name="wallpaper_image_too_large">Gambar itu terlalu besar untuk wallpaper.</string>
+    <string name="wallpaper_pick_image_only">Pilih berkas gambar.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Pesan yang disematkan</string>

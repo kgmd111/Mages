@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">_OLED ekranlar için karanlık modda gerçek siyah arka plan kullanın_</string>
     <string name="setting_use_24_hour_time">24 saat biçimini kullan</string>
     <string name="setting_use_24_hour_time_description">Zaman damgalarını ÖÖ/ÖS yerine 24 saat biçiminde göster</string>
+    <string name="setting_chat_wallpaper">Sohbet duvar kağıdı</string>
+    <string name="setting_chat_wallpaper_description">İleti listesi için arka plan resmi ayarla</string>
     <string name="setting_language_description">Uygulama dili</string>
     <string name="setting_font_size_description">_Mesaj yazı tipi boyutu_</string>
     <string name="setting_show_message_avatars_description">_Mesajların yanında kullanıcı avatarlarını görüntüleyin_</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Henüz yer imi yok</string>
     <string name="draft_prefix">Taslak:</string>
     <string name="remove_bookmark">Yer imlerinden kaldır</string>
+    <string name="wallpaper_choose_image">Resim seç</string>
+    <string name="wallpaper_change_image">Resmi değiştir</string>
+    <string name="wallpaper_opacity">Opaklık</string>
+    <string name="wallpaper_blur">Bulanıklık</string>
+    <string name="wallpaper_remove">Duvar kağıdını kaldır</string>
+    <string name="wallpaper_none_title">Duvar kağıdı ayarlanmadı</string>
+    <string name="wallpaper_none_subtitle">İletilerinizin arkasında görünecek bir resim seçin. Kendi sunucunuzda saklanır, böylece hesabınızla tüm cihazlarda geçerli olur.</string>
+    <string name="wallpaper_upload_failed">Duvar kağıdı ayarlanamadı. Yeniden deneyin.</string>
+    <string name="wallpaper_image_too_large">Bu resim duvar kağıdı için çok büyük.</string>
+    <string name="wallpaper_pick_image_only">Bir resim dosyası seçin.</string>
     <string name="time_am">ÖÖ</string>
     <string name="time_pm">ÖS</string>
     <string name="pinned_message">Sabitlenmiş mesaj</string>

@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Koristite pravu crnu pozadinu u tamnom načinu rada za OLED zaslone</string>
     <string name="setting_use_24_hour_time">Koristi 24-satni format</string>
     <string name="setting_use_24_hour_time_description">Prikazuj vremenske oznake u 24-satnom formatu umjesto AM/PM</string>
+    <string name="setting_chat_wallpaper">Pozadina razgovora</string>
+    <string name="setting_chat_wallpaper_description">Postavi sliku pozadine za popis poruka</string>
     <string name="setting_language_description">Jezik aplikacije</string>
     <string name="setting_font_size_description">Veličina fonta poruke</string>
     <string name="setting_show_message_avatars_description">Prikažite korisničke avatare pored poruka</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Još nema oznaka</string>
     <string name="draft_prefix">Skica:</string>
     <string name="remove_bookmark">Ukloni iz oznaka</string>
+    <string name="wallpaper_choose_image">Odaberi sliku</string>
+    <string name="wallpaper_change_image">Promijeni sliku</string>
+    <string name="wallpaper_opacity">Neprozirnost</string>
+    <string name="wallpaper_blur">Zamućenje</string>
+    <string name="wallpaper_remove">Ukloni pozadinu</string>
+    <string name="wallpaper_none_title">Pozadina nije postavljena</string>
+    <string name="wallpaper_none_subtitle">Odaberite sliku koja će se prikazivati iza vaših poruka. Pohranjuje se na vašem poslužitelju pa prati vaš račun na svim uređajima.</string>
+    <string name="wallpaper_upload_failed">Pozadinu nije moguće postaviti. Pokušajte ponovno.</string>
+    <string name="wallpaper_image_too_large">Ta je slika prevelika za pozadinu.</string>
+    <string name="wallpaper_pick_image_only">Odaberite datoteku slike.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Prikvačena poruka</string>

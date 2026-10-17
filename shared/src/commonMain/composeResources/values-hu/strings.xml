@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Használjon valódi fekete hátteret sötét módban az OLED-kijelzőkhöz</string>
     <string name="setting_use_24_hour_time">24 órás időformátum használata</string>
     <string name="setting_use_24_hour_time_description">Időbélyegek 24 órás formátumban a de./du. helyett</string>
+    <string name="setting_chat_wallpaper">Csevegő háttérképe</string>
+    <string name="setting_chat_wallpaper_description">Háttérkép beállítása az üzenetlistához</string>
     <string name="setting_language_description">Alkalmazás nyelve</string>
     <string name="setting_font_size_description">Üzenet betűmérete</string>
     <string name="setting_show_message_avatars_description">Felhasználói avatarok megjelenítése az üzenetek mellett</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Még nincsenek könyvjelzők</string>
     <string name="draft_prefix">Piszkozat:</string>
     <string name="remove_bookmark">Könyvjelző eltávolítása</string>
+    <string name="wallpaper_choose_image">Kép kiválasztása</string>
+    <string name="wallpaper_change_image">Kép cseréje</string>
+    <string name="wallpaper_opacity">Átlátszatlanság</string>
+    <string name="wallpaper_blur">Elmosás</string>
+    <string name="wallpaper_remove">Háttérkép eltávolítása</string>
+    <string name="wallpaper_none_title">Nincs beállított háttérkép</string>
+    <string name="wallpaper_none_subtitle">Válasszon egy képet, amely az üzenetei mögött jelenik meg. A saját kiszolgálóján tárolódik, így követi a fiókját minden eszközön.</string>
+    <string name="wallpaper_upload_failed">Nem sikerült beállítani a háttérképet. Próbálja újra.</string>
+    <string name="wallpaper_image_too_large">Ez a kép túl nagy háttérképnek.</string>
+    <string name="wallpaper_pick_image_only">Válasszon képfájlt.</string>
     <string name="time_am">de.</string>
     <string name="time_pm">du.</string>
     <string name="pinned_message">Rögzített üzenet</string>

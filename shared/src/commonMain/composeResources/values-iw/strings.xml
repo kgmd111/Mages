@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">שימוש ברקע שחור מלא במצב כהה למסכי OLED</string>
     <string name="setting_use_24_hour_time">שימוש בשעון 24 שעות</string>
     <string name="setting_use_24_hour_time_description">הצגת חותמות זמן בשעון 24 שעות במקום לפנה״צ/אחה״צ</string>
+    <string name="setting_chat_wallpaper">רקע צ׳אט</string>
+    <string name="setting_chat_wallpaper_description">הגדרת תמונת רקע לרשימת ההודעות</string>
     <string name="setting_language_description">שפת היישום</string>
     <string name="setting_font_size_description">גודל גופן ההודעות</string>
     <string name="setting_show_message_avatars_description">הצגת תמונות משתמש לצד הודעות</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">אין סימניות עדיין</string>
     <string name="draft_prefix">טיוטה:</string>
     <string name="remove_bookmark">הסרה מהסימניות</string>
+    <string name="wallpaper_choose_image">בחירת תמונה</string>
+    <string name="wallpaper_change_image">שינוי תמונה</string>
+    <string name="wallpaper_opacity">אטימות</string>
+    <string name="wallpaper_blur">טשטוש</string>
+    <string name="wallpaper_remove">הסרת רקע</string>
+    <string name="wallpaper_none_title">לא הוגדר רקע</string>
+    <string name="wallpaper_none_subtitle">בחרו תמונה שתוצג מאחורי ההודעות שלכם. היא נשמרת בשרת הבית שלכם, כך שהיא עוקבת אחרי החשבון בכל המכשירים.</string>
+    <string name="wallpaper_upload_failed">לא ניתן היה להגדיר את הרקע. נסו שוב.</string>
+    <string name="wallpaper_image_too_large">התמונה גדולה מדי לשימוש כרקע.</string>
+    <string name="wallpaper_pick_image_only">בחרו קובץ תמונה.</string>
     <string name="time_am">לפנה״צ</string>
     <string name="time_pm">אחה״צ</string>
     <string name="pinned_message">הודעה מוצמדת</string>

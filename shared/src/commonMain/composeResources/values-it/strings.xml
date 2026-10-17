@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Usa uno sfondo nero puro in modalità scura per i display OLED</string>
     <string name="setting_use_24_hour_time">Usa il formato 24 ore</string>
     <string name="setting_use_24_hour_time_description">Mostra gli orari nel formato 24 ore invece di AM/PM</string>
+    <string name="setting_chat_wallpaper">Sfondo della chat</string>
+    <string name="setting_chat_wallpaper_description">Imposta un’immagine di sfondo per l’elenco dei messaggi</string>
     <string name="setting_language_description">Lingua dell’app</string>
     <string name="setting_font_size_description">Dimensione del carattere dei messaggi</string>
     <string name="setting_show_message_avatars_description">Mostra gli avatar degli utenti accanto ai messaggi</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Nessun segnalibro</string>
     <string name="draft_prefix">Bozza:</string>
     <string name="remove_bookmark">Rimuovi dai segnalibri</string>
+    <string name="wallpaper_choose_image">Scegli immagine</string>
+    <string name="wallpaper_change_image">Cambia immagine</string>
+    <string name="wallpaper_opacity">Opacità</string>
+    <string name="wallpaper_blur">Sfocatura</string>
+    <string name="wallpaper_remove">Rimuovi sfondo</string>
+    <string name="wallpaper_none_title">Nessuno sfondo impostato</string>
+    <string name="wallpaper_none_subtitle">Scegli un’immagine da mostrare dietro ai messaggi. È salvata sul tuo homeserver, quindi segue l’account su tutti i dispositivi.</string>
+    <string name="wallpaper_upload_failed">Impossibile impostare lo sfondo. Riprova.</string>
+    <string name="wallpaper_image_too_large">L’immagine è troppo grande per uno sfondo.</string>
+    <string name="wallpaper_pick_image_only">Scegli un file immagine.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Messaggio fissato</string>

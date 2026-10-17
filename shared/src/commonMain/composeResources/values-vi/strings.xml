@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Dùng nền đen tuyệt đối ở chế độ tối cho màn hình OLED</string>
     <string name="setting_use_24_hour_time">Dùng định dạng 24 giờ</string>
     <string name="setting_use_24_hour_time_description">Hiển thị thời gian theo định dạng 24 giờ thay vì SA/CH</string>
+    <string name="setting_chat_wallpaper">Hình nền trò chuyện</string>
+    <string name="setting_chat_wallpaper_description">Đặt ảnh nền cho danh sách tin nhắn</string>
     <string name="setting_language_description">Ngôn ngữ ứng dụng</string>
     <string name="setting_font_size_description">Cỡ chữ tin nhắn</string>
     <string name="setting_show_message_avatars_description">Hiển thị ảnh đại diện người dùng bên cạnh tin nhắn</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Chưa có dấu trang</string>
     <string name="draft_prefix">Bản nháp:</string>
     <string name="remove_bookmark">Xóa dấu trang</string>
+    <string name="wallpaper_choose_image">Chọn ảnh</string>
+    <string name="wallpaper_change_image">Đổi ảnh</string>
+    <string name="wallpaper_opacity">Độ mờ đục</string>
+    <string name="wallpaper_blur">Độ mờ</string>
+    <string name="wallpaper_remove">Xóa hình nền</string>
+    <string name="wallpaper_none_title">Chưa đặt hình nền</string>
+    <string name="wallpaper_none_subtitle">Chọn ảnh để hiển thị phía sau tin nhắn. Ảnh được lưu trên máy chủ của bạn nên sẽ đi kèm tài khoản trên mọi thiết bị.</string>
+    <string name="wallpaper_upload_failed">Không thể đặt hình nền. Hãy thử lại.</string>
+    <string name="wallpaper_image_too_large">Ảnh đó quá lớn để làm hình nền.</string>
+    <string name="wallpaper_pick_image_only">Hãy chọn một tệp ảnh.</string>
     <string name="time_am">SA</string>
     <string name="time_pm">CH</string>
     <string name="pinned_message">Tin nhắn được ghim</string>

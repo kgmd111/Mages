@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Χρήση πραγματικού μαύρου φόντου σε σκοτεινή λειτουργία για οθόνες OLED</string>
     <string name="setting_use_24_hour_time">Χρήση 24ωρης ώρας</string>
     <string name="setting_use_24_hour_time_description">Εμφάνιση χρονικών σημείων σε 24ωρη μορφή αντί για π.μ./μ.μ.</string>
+    <string name="setting_chat_wallpaper">Ταπετσαρία συνομιλίας</string>
+    <string name="setting_chat_wallpaper_description">Ορίστε εικόνα φόντου για τη λίστα μηνυμάτων</string>
     <string name="setting_language_description">Γλώσσα εφαρμογής</string>
     <string name="setting_font_size_description">Μέγεθος γραμματοσειράς μηνύματος</string>
     <string name="setting_show_message_avatars_description">Εμφάνιση avatar χρήστη δίπλα σε μηνύματα</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Δεν υπάρχουν σελιδοδείκτες ακόμη</string>
     <string name="draft_prefix">Πρόχειρο:</string>
     <string name="remove_bookmark">Αφαίρεση σελιδοδείκτη</string>
+    <string name="wallpaper_choose_image">Επιλογή εικόνας</string>
+    <string name="wallpaper_change_image">Αλλαγή εικόνας</string>
+    <string name="wallpaper_opacity">Αδιαφάνεια</string>
+    <string name="wallpaper_blur">Θόλωμα</string>
+    <string name="wallpaper_remove">Αφαίρεση ταπετσαρίας</string>
+    <string name="wallpaper_none_title">Δεν έχει οριστεί ταπετσαρία</string>
+    <string name="wallpaper_none_subtitle">Επιλέξτε μια εικόνα για να εμφανίζεται πίσω από τα μηνύματά σας. Αποθηκεύεται στον διακομιστή σας, ώστε να ακολουθεί τον λογαριασμό σας σε όλες τις συσκευές.</string>
+    <string name="wallpaper_upload_failed">Δεν ήταν δυνατός ο ορισμός της ταπετσαρίας. Δοκιμάστε ξανά.</string>
+    <string name="wallpaper_image_too_large">Η εικόνα είναι πολύ μεγάλη για ταπετσαρία.</string>
+    <string name="wallpaper_pick_image_only">Επιλέξτε αρχείο εικόνας.</string>
     <string name="time_am">π.μ.</string>
     <string name="time_pm">μ.μ.</string>
     <string name="pinned_message">Καρφιτσωμένο μήνυμα</string>

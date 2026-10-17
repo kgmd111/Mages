@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Använd en äkta svart bakgrund i mörkt läge för OLED-skärmar</string>
     <string name="setting_use_24_hour_time">Använd 24-timmarsklocka</string>
     <string name="setting_use_24_hour_time_description">Visa tidsstämplar i 24-timmarsformat i stället för fm/em</string>
+    <string name="setting_chat_wallpaper">Chattbakgrund</string>
+    <string name="setting_chat_wallpaper_description">Ange en bakgrundsbild för meddelandelistan</string>
     <string name="setting_language_description">Appens språk</string>
     <string name="setting_font_size_description">Meddelande teckenstorlek</string>
     <string name="setting_show_message_avatars_description">Visa användaravatarer bredvid meddelanden</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Inga bokmärken än</string>
     <string name="draft_prefix">Utkast:</string>
     <string name="remove_bookmark">Ta bort bokmärke</string>
+    <string name="wallpaper_choose_image">Välj bild</string>
+    <string name="wallpaper_change_image">Byt bild</string>
+    <string name="wallpaper_opacity">Opacitet</string>
+    <string name="wallpaper_blur">Oskärpa</string>
+    <string name="wallpaper_remove">Ta bort bakgrund</string>
+    <string name="wallpaper_none_title">Ingen bakgrund angiven</string>
+    <string name="wallpaper_none_subtitle">Välj en bild som visas bakom dina meddelanden. Den lagras på din hemserver och följer därför ditt konto på alla enheter.</string>
+    <string name="wallpaper_upload_failed">Det gick inte att ange bakgrunden. Försök igen.</string>
+    <string name="wallpaper_image_too_large">Bilden är för stor för att användas som bakgrund.</string>
+    <string name="wallpaper_pick_image_only">Välj en bildfil.</string>
     <string name="time_am">fm</string>
     <string name="time_pm">em</string>
     <string name="pinned_message">Fäst meddelande</string>

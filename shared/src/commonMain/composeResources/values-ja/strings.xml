@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">_OLED ディスプレイのダーク モードで真の黒の背景を使用します_</string>
     <string name="setting_use_24_hour_time">24時間表示を使う</string>
     <string name="setting_use_24_hour_time_description">時刻を午前/午後ではなく24時間表示で表示します</string>
+    <string name="setting_chat_wallpaper">チャットの壁紙</string>
+    <string name="setting_chat_wallpaper_description">メッセージリストの背景画像を設定します</string>
     <string name="setting_language_description">アプリの言語</string>
     <string name="setting_font_size_description">_メッセージのフォント サイズ_</string>
     <string name="setting_show_message_avatars_description">_メッセージの横にユーザー アバターを表示</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">ブックマークはまだありません</string>
     <string name="draft_prefix">下書き:</string>
     <string name="remove_bookmark">ブックマークを削除</string>
+    <string name="wallpaper_choose_image">画像を選択</string>
+    <string name="wallpaper_change_image">画像を変更</string>
+    <string name="wallpaper_opacity">不透明度</string>
+    <string name="wallpaper_blur">ぼかし</string>
+    <string name="wallpaper_remove">壁紙を削除</string>
+    <string name="wallpaper_none_title">壁紙が設定されていません</string>
+    <string name="wallpaper_none_subtitle">メッセージの背後に表示する画像を選択してください。ホームサーバーに保存されるため、アカウントとともにすべての端末で共有されます。</string>
+    <string name="wallpaper_upload_failed">壁紙を設定できませんでした。もう一度お試しください。</string>
+    <string name="wallpaper_image_too_large">この画像は壁紙にするには大きすぎます。</string>
+    <string name="wallpaper_pick_image_only">画像ファイルを選択してください。</string>
     <string name="time_12h_format">%3$s%1$d:%2$s</string>
     <string name="time_am">午前</string>
     <string name="time_pm">午後</string>

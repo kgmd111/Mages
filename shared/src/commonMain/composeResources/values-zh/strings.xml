@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">在深色模式下为 OLED 显示屏使用纯黑背景</string>
     <string name="setting_use_24_hour_time">使用 24 小时制</string>
     <string name="setting_use_24_hour_time_description">以 24 小时制显示时间，而不是上午/下午</string>
+    <string name="setting_chat_wallpaper">聊天壁纸</string>
+    <string name="setting_chat_wallpaper_description">为消息列表设置背景图片</string>
     <string name="setting_language_description">应用语言</string>
     <string name="setting_font_size_description">消息字体大小</string>
     <string name="setting_show_message_avatars_description">在消息旁显示用户头像</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">还没有书签</string>
     <string name="draft_prefix">草稿:</string>
     <string name="remove_bookmark">从书签移除</string>
+    <string name="wallpaper_choose_image">选择图片</string>
+    <string name="wallpaper_change_image">更换图片</string>
+    <string name="wallpaper_opacity">不透明度</string>
+    <string name="wallpaper_blur">模糊</string>
+    <string name="wallpaper_remove">移除壁纸</string>
+    <string name="wallpaper_none_title">未设置壁纸</string>
+    <string name="wallpaper_none_subtitle">选择一张图片显示在消息后面。图片保存在你的主服务器上，因此会跟随账号同步到所有设备。</string>
+    <string name="wallpaper_upload_failed">无法设置壁纸。请重试。</string>
+    <string name="wallpaper_image_too_large">该图片太大，无法用作壁纸。</string>
+    <string name="wallpaper_pick_image_only">请选择图片文件。</string>
     <string name="time_12h_format">%3$s%1$d:%2$s</string>
     <string name="time_am">上午</string>
     <string name="time_pm">下午</string>

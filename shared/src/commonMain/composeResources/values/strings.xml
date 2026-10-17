@@ -546,6 +546,8 @@
     <string name="setting_oled_black_description">Use a true black background in dark mode for OLED displays</string>
     <string name="setting_use_24_hour_time">Use 24-hour time</string>
     <string name="setting_use_24_hour_time_description">Show timestamps as a 24-hour clock instead of AM/PM</string>
+    <string name="setting_chat_wallpaper">Chat wallpaper</string>
+    <string name="setting_chat_wallpaper_description">Set a background image for the message list</string>
     <string name="setting_language">Language</string>
     <string name="setting_language_description">Application language</string>
     <string name="setting_font_size">Font size</string>
@@ -1143,6 +1145,16 @@
     <string name="bookmarks_empty_title">No bookmarks yet</string>
     <string name="draft_prefix">Draft:</string>
     <string name="remove_bookmark">Remove bookmark</string>
+    <string name="wallpaper_choose_image">Choose image</string>
+    <string name="wallpaper_change_image">Change image</string>
+    <string name="wallpaper_opacity">Opacity</string>
+    <string name="wallpaper_blur">Blur</string>
+    <string name="wallpaper_remove">Remove wallpaper</string>
+    <string name="wallpaper_none_title">No wallpaper set</string>
+    <string name="wallpaper_none_subtitle">Choose an image to use behind your messages. It is stored on your homeserver, so it follows your account across devices.</string>
+    <string name="wallpaper_upload_failed">Could not set the wallpaper. Try again.</string>
+    <string name="wallpaper_image_too_large">That image is too large to use as a wallpaper.</string>
+    <string name="wallpaper_pick_image_only">Pick an image file.</string>
     <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>

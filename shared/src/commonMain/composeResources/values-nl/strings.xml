@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Gebruik een echt zwarte achtergrond in de donkere modus voor OLED-schermen</string>
     <string name="setting_use_24_hour_time">24-uursklok gebruiken</string>
     <string name="setting_use_24_hour_time_description">Tijdstempels in 24-uursformaat tonen in plaats van a.m./p.m.</string>
+    <string name="setting_chat_wallpaper">Chatachtergrond</string>
+    <string name="setting_chat_wallpaper_description">Stel een achtergrondafbeelding in voor de berichtenlijst</string>
     <string name="setting_language_description">App-taal</string>
     <string name="setting_font_size_description">Lettergrootte van bericht</string>
     <string name="setting_show_message_avatars_description">Toon gebruikersavatars naast berichten</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Nog geen bladwijzers</string>
     <string name="draft_prefix">Concept:</string>
     <string name="remove_bookmark">Bladwijzer verwijderen</string>
+    <string name="wallpaper_choose_image">Afbeelding kiezen</string>
+    <string name="wallpaper_change_image">Afbeelding wijzigen</string>
+    <string name="wallpaper_opacity">Dekking</string>
+    <string name="wallpaper_blur">Vervaging</string>
+    <string name="wallpaper_remove">Achtergrond verwijderen</string>
+    <string name="wallpaper_none_title">Geen achtergrond ingesteld</string>
+    <string name="wallpaper_none_subtitle">Kies een afbeelding die achter je berichten wordt weergegeven. Deze wordt op je homeserver opgeslagen en volgt dus je account op al je apparaten.</string>
+    <string name="wallpaper_upload_failed">Achtergrond instellen is mislukt. Probeer het opnieuw.</string>
+    <string name="wallpaper_image_too_large">Die afbeelding is te groot voor een achtergrond.</string>
+    <string name="wallpaper_pick_image_only">Kies een afbeeldingsbestand.</string>
     <string name="time_am">a.m.</string>
     <string name="time_pm">p.m.</string>
     <string name="pinned_message">Vastgezet bericht</string>

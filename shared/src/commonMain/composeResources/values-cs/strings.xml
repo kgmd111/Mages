@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Použijte skutečné černé pozadí v tmavém režimu pro OLED displeje</string>
     <string name="setting_use_24_hour_time">Používat 24hodinový čas</string>
     <string name="setting_use_24_hour_time_description">Zobrazovat časy ve 24hodinovém formátu místo dop./odp.</string>
+    <string name="setting_chat_wallpaper">Tapeta chatu</string>
+    <string name="setting_chat_wallpaper_description">Nastavit obrázek na pozadí seznamu zpráv</string>
     <string name="setting_language_description">Jazyk aplikace</string>
     <string name="setting_font_size_description">Velikost písma zprávy</string>
     <string name="setting_show_message_avatars_description">Zobrazit uživatelské avatary vedle zpráv</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Zatím žádné záložky</string>
     <string name="draft_prefix">Koncept:</string>
     <string name="remove_bookmark">Odebrat záložku</string>
+    <string name="wallpaper_choose_image">Vybrat obrázek</string>
+    <string name="wallpaper_change_image">Změnit obrázek</string>
+    <string name="wallpaper_opacity">Neprůhlednost</string>
+    <string name="wallpaper_blur">Rozmazání</string>
+    <string name="wallpaper_remove">Odebrat tapetu</string>
+    <string name="wallpaper_none_title">Tapeta není nastavena</string>
+    <string name="wallpaper_none_subtitle">Vyberte obrázek, který se zobrazí za zprávami. Ukládá se na váš domovský server, takže následuje váš účet na všech zařízeních.</string>
+    <string name="wallpaper_upload_failed">Tapetu se nepodařilo nastavit. Zkuste to znovu.</string>
+    <string name="wallpaper_image_too_large">Tento obrázek je pro tapetu příliš velký.</string>
+    <string name="wallpaper_pick_image_only">Vyberte obrázkový soubor.</string>
     <string name="time_am">dop.</string>
     <string name="time_pm">odp.</string>
     <string name="pinned_message">Připnutá zpráva</string>

@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Używaj czarnego tła w trybie ciemnym na ekranach OLED</string>
     <string name="setting_use_24_hour_time">Używaj formatu 24-godzinnego</string>
     <string name="setting_use_24_hour_time_description">Wyświetlaj znaczniki czasu w formacie 24-godzinnym zamiast AM/PM</string>
+    <string name="setting_chat_wallpaper">Tapeta czatu</string>
+    <string name="setting_chat_wallpaper_description">Ustaw obraz tła dla listy wiadomości</string>
     <string name="setting_language_description">Język aplikacji</string>
     <string name="setting_font_size_description">Rozmiar czcionki wiadomości</string>
     <string name="setting_show_message_avatars_description">Wyświetlaj awatary użytkowników obok wiadomości</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Brak zakładek</string>
     <string name="draft_prefix">Szkic:</string>
     <string name="remove_bookmark">Usuń zakładkę</string>
+    <string name="wallpaper_choose_image">Wybierz obraz</string>
+    <string name="wallpaper_change_image">Zmień obraz</string>
+    <string name="wallpaper_opacity">Nieprzezroczystość</string>
+    <string name="wallpaper_blur">Rozmycie</string>
+    <string name="wallpaper_remove">Usuń tapetę</string>
+    <string name="wallpaper_none_title">Nie ustawiono tapety</string>
+    <string name="wallpaper_none_subtitle">Wybierz obraz, który pojawi się za wiadomościami. Jest przechowywany na twoim serwerze, więc podąża za kontem na wszystkich urządzeniach.</string>
+    <string name="wallpaper_upload_failed">Nie udało się ustawić tapety. Spróbuj ponownie.</string>
+    <string name="wallpaper_image_too_large">Ten obraz jest za duży na tapetę.</string>
+    <string name="wallpaper_pick_image_only">Wybierz plik obrazu.</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Przypięta wiadomość</string>

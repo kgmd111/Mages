@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">Використовувати повністю чорний фон у темній темі для OLED-дисплеїв</string>
     <string name="setting_use_24_hour_time">24-годинний формат часу</string>
     <string name="setting_use_24_hour_time_description">Показувати час у 24-годинному форматі замість дп/пп</string>
+    <string name="setting_chat_wallpaper">Шпалери чату</string>
+    <string name="setting_chat_wallpaper_description">Установити фонове зображення для списку повідомлень</string>
     <string name="setting_language_description">Мова застосунку</string>
     <string name="setting_font_size_description">Розмір шрифту повідомлень</string>
     <string name="setting_show_message_avatars_description">Показувати аватари користувачів поруч із повідомленнями</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">Закладок ще немає</string>
     <string name="draft_prefix">Чернетка:</string>
     <string name="remove_bookmark">Видалити із закладок</string>
+    <string name="wallpaper_choose_image">Вибрати зображення</string>
+    <string name="wallpaper_change_image">Змінити зображення</string>
+    <string name="wallpaper_opacity">Непрозорість</string>
+    <string name="wallpaper_blur">Розмиття</string>
+    <string name="wallpaper_remove">Видалити шпалери</string>
+    <string name="wallpaper_none_title">Шпалери не встановлено</string>
+    <string name="wallpaper_none_subtitle">Виберіть зображення, яке відображатиметься за повідомленнями. Воно зберігається на вашому домашньому сервері, тож супроводжує обліковий запис на всіх пристроях.</string>
+    <string name="wallpaper_upload_failed">Не вдалося встановити шпалери. Спробуйте ще раз.</string>
+    <string name="wallpaper_image_too_large">Це зображення завелике для шпалер.</string>
+    <string name="wallpaper_pick_image_only">Виберіть файл зображення.</string>
     <string name="time_am">дп</string>
     <string name="time_pm">пп</string>
     <string name="pinned_message">Закріплене повідомлення</string>

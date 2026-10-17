@@ -71,6 +71,8 @@
     <string name="setting_oled_black_description">استخدم خلفية سوداء حقيقية في الوضع المظلم لشاشات OLED</string>
     <string name="setting_use_24_hour_time">استخدام نظام 24 ساعة</string>
     <string name="setting_use_24_hour_time_description">عرض الطوابع الزمنية بنظام 24 ساعة بدلاً من ص/م</string>
+    <string name="setting_chat_wallpaper">خلفية الدردشة</string>
+    <string name="setting_chat_wallpaper_description">تعيين صورة خلفية لقائمة الرسائل</string>
     <string name="setting_language_description">لغة التطبيق</string>
     <string name="setting_font_size_description">حجم خط الرسالة</string>
     <string name="setting_show_message_avatars_description">عرض الصور الرمزية للمستخدم بجوار الرسائل</string>
@@ -991,6 +993,16 @@
     <string name="bookmarks_empty_title">لا توجد إشارات مرجعية بعد</string>
     <string name="draft_prefix">مسودة:</string>
     <string name="remove_bookmark">إزالة الإشارة المرجعية</string>
+    <string name="wallpaper_choose_image">اختيار صورة</string>
+    <string name="wallpaper_change_image">تغيير الصورة</string>
+    <string name="wallpaper_opacity">الشفافية</string>
+    <string name="wallpaper_blur">الضبابية</string>
+    <string name="wallpaper_remove">إزالة الخلفية</string>
+    <string name="wallpaper_none_title">لم يتم تعيين خلفية</string>
+    <string name="wallpaper_none_subtitle">اختر صورة لتظهر خلف رسائلك. تُحفظ على خادمك، لذا تتبع حسابك على جميع الأجهزة.</string>
+    <string name="wallpaper_upload_failed">تعذّر تعيين الخلفية. حاول مجددًا.</string>
+    <string name="wallpaper_image_too_large">هذه الصورة كبيرة جدًا لاستخدامها كخلفية.</string>
+    <string name="wallpaper_pick_image_only">اختر ملف صورة.</string>
     <string name="time_am">ص</string>
     <string name="time_pm">م</string>
     <string name="pinned_message">رسالة مثبتة</string>
