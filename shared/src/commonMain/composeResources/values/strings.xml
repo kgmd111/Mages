@@ -630,17 +630,8 @@
         <item>Copy</item>
         <item>Nothing</item>
     </string-array>
-    <string name="setting_message_double_tap">Double-tap action</string>
-    <string name="setting_message_double_tap_description">Action performed when double-tapping a message</string>
-    <string-array name="setting_message_double_tap_options">
-        <item>React</item>
-        <item>Reply</item>
-        <item>Pin</item>
-        <item>Copy</item>
-        <item>Nothing</item>
-    </string-array>
     <string name="setting_message_double_tap_reaction">Double-tap reaction</string>
-    <string name="setting_message_double_tap_reaction_description">Reaction sent when the double-tap action is React</string>
+    <string name="setting_message_double_tap_reaction_description">Reaction sent when you double-tap a message</string>
     <string name="notification_keywords">Keywords</string>
     <string name="notification_keywords_description">Rooms set to mentions &amp; keywords only will notify you when a message matches one of these words</string>
     <string name="notification_keywords_empty">No keywords yet</string>

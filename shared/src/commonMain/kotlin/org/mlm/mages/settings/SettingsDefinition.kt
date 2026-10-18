@@ -69,9 +69,6 @@ enum class RoomSwipeAction { MarkRead, MarkUnread, Nothing, ToggleUnread }
 enum class MessageSwipeAction { Reply, React, Pin, Copy, Nothing }
 
 @Serializable
-enum class MessageDoubleTapAction { React, Reply, Pin, Copy, Nothing }
-
-@Serializable
 enum class AutoMarkReadTrigger { OnSend, WhileOpen, OnRoomClose, Never }
 
 @Serializable
@@ -535,21 +532,9 @@ data class AppSettings(
     val messageSwipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
 
     @Setting(
-        title = "Double-tap action",
-        titleKey = MagesSettingsKeys.MESSAGE_DOUBLE_TAP,
-        description = "Action performed when double-tapping a message",
-        descriptionKey = MagesSettingsKeys.MESSAGE_DOUBLE_TAP_DESCRIPTION,
-        category = Timeline::class,
-        type = Dropdown::class,
-        options = ["React", "Reply", "Pin", "Copy", "Nothing"],
-        optionsKey = MagesSettingsKeys.MESSAGE_DOUBLE_TAP_OPTIONS,
-    )
-    val messageDoubleTapAction: MessageDoubleTapAction = MessageDoubleTapAction.React,
-
-    @Setting(
         title = "Double-tap reaction",
         titleKey = MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION,
-        description = "Reaction sent when the double-tap action is React",
+        description = "Reaction sent when you double-tap a message",
         descriptionKey = MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION_DESCRIPTION,
         category = Timeline::class,
         type = Dropdown::class,
