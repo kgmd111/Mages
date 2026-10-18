@@ -288,12 +288,9 @@ class RoomsViewModel(
 
     //  Bulk room selection
 
-    fun startRoomSelection(roomId: String? = null) {
+    fun startRoomSelection(roomId: String) {
         updateState {
-            copy(
-                selectionMode = true,
-                selectedRoomIds = roomId?.let { setOf(it) } ?: selectedRoomIds,
-            )
+            copy(selectionMode = true, selectedRoomIds = setOf(roomId))
         }
     }
 

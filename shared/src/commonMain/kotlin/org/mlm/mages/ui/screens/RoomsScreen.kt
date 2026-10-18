@@ -136,16 +136,12 @@ fun RoomsScreen(
                     unreadDmsCount = state.unreadDmsCount,
                     spacesUnreadCount = state.spacesUnreadCount,
                     showSwitchAccountButton = settings.showSwitchAccountButton,
-                    selectable = state.favouriteItems.isNotEmpty() ||
-                            state.normalItems.isNotEmpty() ||
-                            state.lowPriorityItems.isNotEmpty(),
                     onOpenSpaces = onOpenSpaces,
                     onOpenSecurity = onOpenSecurity,
                     onOpenStartChat = onOpenStartChat,
                     inviteCount = state.inviteItems.size,
                     onOpenSearch = onOpenSearch,
                     onOpenAccountSwitcher = onOpenAccountSwitcher,
-                    onEnterSelection = viewModel::startRoomSelection,
                 )
             }
         },
@@ -538,11 +534,9 @@ private fun RoomsTopBar(
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
     showSwitchAccountButton: Boolean,
-    selectable: Boolean,
     onSearchChange: (String) -> Unit,
     onToggleUnreadOnly: () -> Unit,
     onSetTypeFilter: (RoomTypeFilter) -> Unit,
-    onEnterSelection: () -> Unit,
     onOpenSpaces: () -> Unit,
     onOpenSecurity: () -> Unit,
     onOpenStartChat: () -> Unit,
@@ -578,11 +572,6 @@ private fun RoomsTopBar(
                 }
                 IconButton(onClick = onOpenSearch) {
                     Icon(Icons.Default.Search, stringResource(Res.string.search_messages))
-                }
-                if (selectable) {
-                    IconButton(onClick = onEnterSelection) {
-                        Icon(Icons.Default.Checklist, stringResource(Res.string.select))
-                    }
                 }
                 if (showSwitchAccountButton) {
                     IconButton(onClick = onOpenAccountSwitcher) {
