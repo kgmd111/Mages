@@ -513,6 +513,8 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                    maxWidthInbox = settings.maxWidthInbox,
+                                    maxWidthConversation = settings.maxWidthConversation,
                                 ) { sel ->
                                     RoomEntryContent(
                                         route = Route.Room(sel.roomId, sel.name),

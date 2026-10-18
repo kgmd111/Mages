@@ -98,6 +98,7 @@ fun RoomsScreen(
     }
 
     Scaffold(
+        modifier = Modifier.contentWidth(settings.maxWidthInbox),
         topBar = {
             RoomsTopBar(
                 offlineBanner = state.offlineBanner,
@@ -142,7 +143,6 @@ fun RoomsScreen(
         }
     ) { innerPadding ->
         val listModifier = Modifier
-            .contentWidth(settings.maxWidthInbox, settings.splitPanes)
             .fillMaxSize()
             .padding(innerPadding)
         when {

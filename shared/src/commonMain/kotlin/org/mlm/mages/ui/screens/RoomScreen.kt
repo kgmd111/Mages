@@ -564,6 +564,7 @@ fun RoomScreen(
     }
 
     Scaffold(
+        modifier = Modifier.contentWidth(settings.maxWidthConversation),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f),
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
         topBar = {
@@ -783,7 +784,6 @@ fun RoomScreen(
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
-                                .contentWidth(listSettings.maxWidthConversation, listSettings.splitPanes)
                                 .fillMaxSize()
                                 .dragToScrollIfEnabled(listState, reverse = true),
                             contentPadding = PaddingValues(vertical = 8.dp),
