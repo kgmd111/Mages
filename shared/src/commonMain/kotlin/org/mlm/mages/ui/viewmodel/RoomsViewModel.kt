@@ -17,6 +17,7 @@ import org.mlm.mages.RoomSummary
 import org.mlm.mages.matrix.LatestRoomEvent
 import org.mlm.mages.matrix.MatrixPort
 import org.mlm.mages.matrix.RoomListEntry
+import org.mlm.mages.matrix.RoomNotificationMode
 import org.mlm.mages.platform.LiveLocationSharingCoordinator
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.RoomSwipeAction
@@ -247,29 +248,95 @@ class RoomsViewModel(
     }
 
     fun toggleFavourite(roomId: String, currentFavourite: Boolean) {
+        setFavourite(roomId, !currentFavourite)
+    }
+
+    fun toggleLowPriority(roomId: String, currentLowPriority: Boolean) {
+        setLowPriority(roomId, !currentLowPriority)
+    }
+
+    private fun setFavourite(roomId: String, favourite: Boolean) {
         launch {
-            service.port.setRoomFavourite(roomId, !currentFavourite).onSuccess {
+            service.port.setRoomFavourite(roomId, favourite).onSuccess {
                 updateState {
-                    copy(
-                        favourites = if (!currentFavourite) favourites + roomId else favourites - roomId
-                    )
+                    copy(favourites = if (favourite) favourites + roomId else favourites - roomId)
                 }
                 recomputeGroupedRooms()
             }
         }
     }
 
-    fun toggleLowPriority(roomId: String, currentLowPriority: Boolean) {
+    private fun setLowPriority(roomId: String, enabled: Boolean) {
         launch {
-            service.port.setRoomLowPriority(roomId, !currentLowPriority).onSuccess {
+            service.port.setRoomLowPriority(roomId, enabled).onSuccess {
                 updateState {
-                    copy(
-                        lowPriority = if (!currentLowPriority) lowPriority + roomId else lowPriority - roomId
-                    )
+                    copy(lowPriority = if (enabled) lowPriority + roomId else lowPriority - roomId)
                 }
                 recomputeGroupedRooms()
             }
         }
+    }
+
+    private fun setMuted(roomId: String, muted: Boolean) {
+        launch {
+            service.port.setRoomNotificationMode(
+                roomId,
+                if (muted) RoomNotificationMode.Mute else RoomNotificationMode.AllMessages,
+            )
+        }
+    }
+
+    //  Bulk room selection
+
+    fun startRoomSelection() {
+        updateState { copy(selectionMode = true) }
+    }
+
+    fun toggleRoomSelection(roomId: String) {
+        val selected = currentState.selectedRoomIds
+        updateState {
+            copy(selectedRoomIds = if (roomId in selected) selected - roomId else selected + roomId)
+        }
+    }
+
+    fun selectAllVisibleRooms() {
+        val ids = (currentState.favouriteItems + currentState.normalItems + currentState.lowPriorityItems)
+            .map { it.roomId }
+            .toSet()
+        if (ids.isEmpty()) return
+        updateState { copy(selectedRoomIds = ids) }
+    }
+
+    fun clearRoomSelection() {
+        updateState { copy(selectionMode = false, selectedRoomIds = emptySet()) }
+    }
+
+    fun bulkMarkRead() = forEachSelectedRoom(::markRead)
+
+    fun bulkMarkUnread() = forEachSelectedRoom(::markUnread)
+
+    fun bulkSetFavourite(favourite: Boolean) = forEachSelectedRoom { setFavourite(it, favourite) }
+
+    fun bulkSetLowPriority(lowPriority: Boolean) = forEachSelectedRoom { setLowPriority(it, lowPriority) }
+
+    fun bulkSetMuted(muted: Boolean) = forEachSelectedRoom { setMuted(it, muted) }
+
+    fun bulkLeaveRooms() {
+        val ids = currentState.selectedRoomIds
+        if (ids.isEmpty()) return
+        clearRoomSelection()
+        launch {
+            ids.forEach { roomId ->
+                runCatching { service.port.leaveRoom(roomId) }
+            }
+        }
+    }
+
+    private fun forEachSelectedRoom(op: (String) -> Unit) {
+        val ids = currentState.selectedRoomIds
+        if (ids.isEmpty()) return
+        clearRoomSelection()
+        ids.forEach(op)
     }
 
     fun refresh() {

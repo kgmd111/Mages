@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,6 +16,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -25,6 +27,7 @@ import co.touchlab.kermit.Logger
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.RoomSwipeAction
 import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.RoomSummary
@@ -64,6 +67,7 @@ fun RoomsScreen(
     val scope = rememberCoroutineScope()
 
     var selectedRoom by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var showLeaveConfirm by remember { mutableStateOf(false) }
 
     val hasAnyRooms = state.favouriteItems.isNotEmpty() ||
             state.normalItems.isNotEmpty() ||
@@ -100,29 +104,50 @@ fun RoomsScreen(
     Scaffold(
         modifier = Modifier.contentWidth(settings.maxWidthInbox),
         topBar = {
-            RoomsTopBar(
-                offlineBanner = state.offlineBanner,
-                syncBanner = state.syncBanner,
-                isLoading = state.isLoading && state.allItems.isNotEmpty(),
-                searchQuery = state.roomSearchQuery,
-                unreadOnly = state.unreadOnly,
-                typeFilter = state.typeFilter,
-                onSearchChange = viewModel::setSearchQuery,
-                onToggleUnreadOnly = viewModel::toggleUnreadOnly,
-                onSetTypeFilter = viewModel::setTypeFilter,
-                unreadChatCount = state.unreadChatCount,
-                unreadFavouritesCount = state.unreadFavouritesCount,
-                unreadGroupsCount = state.unreadGroupsCount,
-                unreadDmsCount = state.unreadDmsCount,
-                spacesUnreadCount = state.spacesUnreadCount,
-                showSwitchAccountButton = settings.showSwitchAccountButton,
-                onOpenSpaces = onOpenSpaces,
-                onOpenSecurity = onOpenSecurity,
-                onOpenStartChat = onOpenStartChat,
-                inviteCount = state.inviteItems.size,
-                onOpenSearch = onOpenSearch,
-                onOpenAccountSwitcher = onOpenAccountSwitcher
-            )
+            if (state.selectionMode) {
+                RoomSelectionTopBar(
+                    selectedCount = state.selectedRoomIds.size,
+                    onClose = viewModel::clearRoomSelection,
+                    onMarkRead = viewModel::bulkMarkRead,
+                    onMarkUnread = viewModel::bulkMarkUnread,
+                    onFavourite = { viewModel.bulkSetFavourite(true) },
+                    onUnfavourite = { viewModel.bulkSetFavourite(false) },
+                    onLowPriority = { viewModel.bulkSetLowPriority(true) },
+                    onRemoveLowPriority = { viewModel.bulkSetLowPriority(false) },
+                    onMute = { viewModel.bulkSetMuted(true) },
+                    onUnmute = { viewModel.bulkSetMuted(false) },
+                    onSelectAll = viewModel::selectAllVisibleRooms,
+                    onLeave = { showLeaveConfirm = true },
+                )
+            } else {
+                RoomsTopBar(
+                    offlineBanner = state.offlineBanner,
+                    syncBanner = state.syncBanner,
+                    isLoading = state.isLoading && state.allItems.isNotEmpty(),
+                    searchQuery = state.roomSearchQuery,
+                    unreadOnly = state.unreadOnly,
+                    typeFilter = state.typeFilter,
+                    onSearchChange = viewModel::setSearchQuery,
+                    onToggleUnreadOnly = viewModel::toggleUnreadOnly,
+                    onSetTypeFilter = viewModel::setTypeFilter,
+                    unreadChatCount = state.unreadChatCount,
+                    unreadFavouritesCount = state.unreadFavouritesCount,
+                    unreadGroupsCount = state.unreadGroupsCount,
+                    unreadDmsCount = state.unreadDmsCount,
+                    spacesUnreadCount = state.spacesUnreadCount,
+                    showSwitchAccountButton = settings.showSwitchAccountButton,
+                    selectable = state.favouriteItems.isNotEmpty() ||
+                            state.normalItems.isNotEmpty() ||
+                            state.lowPriorityItems.isNotEmpty(),
+                    onOpenSpaces = onOpenSpaces,
+                    onOpenSecurity = onOpenSecurity,
+                    onOpenStartChat = onOpenStartChat,
+                    inviteCount = state.inviteItems.size,
+                    onOpenSearch = onOpenSearch,
+                    onOpenAccountSwitcher = onOpenAccountSwitcher,
+                    onEnterSelection = viewModel::startRoomSelection,
+                )
+            }
         },
         floatingActionButton = {
             AnimatedVisibility(
@@ -232,14 +257,23 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = settings.swipeRightAction,
-                                swipeLeftAction = settings.swipeLeftAction,
+                                swipeRightAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeRightAction,
+                                swipeLeftAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) }
                             ) {
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
-                                    onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    onClick = {
+                                        if (state.selectionMode) viewModel.toggleRoomSelection(item.roomId)
+                                        else viewModel.openRoom(RoomSummary(item.roomId, item.name))
+                                    },
+                                    onLongClick = if (state.selectionMode) {
+                                        null
+                                    } else {
+                                        { selectedRoom = item.name to item.roomId }
+                                    },
+                                    selectionMode = state.selectionMode,
+                                    selected = item.roomId in state.selectedRoomIds,
                                     showSilentUnreadCount = settings.showSilentUnreadCount,
                                     draft = drafts[item.roomId]
                                 )
@@ -269,14 +303,23 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = settings.swipeRightAction,
-                                swipeLeftAction = settings.swipeLeftAction,
+                                swipeRightAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeRightAction,
+                                swipeLeftAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) }
                             ) {
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
-                                    onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    onClick = {
+                                        if (state.selectionMode) viewModel.toggleRoomSelection(item.roomId)
+                                        else viewModel.openRoom(RoomSummary(item.roomId, item.name))
+                                    },
+                                    onLongClick = if (state.selectionMode) {
+                                        null
+                                    } else {
+                                        { selectedRoom = item.name to item.roomId }
+                                    },
+                                    selectionMode = state.selectionMode,
+                                    selected = item.roomId in state.selectedRoomIds,
                                     showSilentUnreadCount = settings.showSilentUnreadCount,
                                     draft = drafts[item.roomId]
                                 )
@@ -304,15 +347,24 @@ fun RoomsScreen(
                             }
                             val resolved = state.roomAvatarPath[item.roomId] ?: item.avatarUrl
                             SwipeActionRow(
-                                swipeRightAction = settings.swipeRightAction,
-                                swipeLeftAction = settings.swipeLeftAction,
+                                swipeRightAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeRightAction,
+                                swipeLeftAction = if (state.selectionMode) RoomSwipeAction.Nothing else settings.swipeLeftAction,
                                 onAction = { viewModel.onListSwipeAction(it, item.roomId) },
                                 modifier = Modifier.alpha(0.6f)
                             ) {
                                 RoomListItem(
                                     item = item.copy(avatarUrl = resolved),
-                                    onClick = { viewModel.openRoom(RoomSummary(item.roomId, item.name)) },
-                                    onLongClick = { selectedRoom = item.name to item.roomId },
+                                    onClick = {
+                                        if (state.selectionMode) viewModel.toggleRoomSelection(item.roomId)
+                                        else viewModel.openRoom(RoomSummary(item.roomId, item.name))
+                                    },
+                                    onLongClick = if (state.selectionMode) {
+                                        null
+                                    } else {
+                                        { selectedRoom = item.name to item.roomId }
+                                    },
+                                    selectionMode = state.selectionMode,
+                                    selected = item.roomId in state.selectedRoomIds,
                                     showSilentUnreadCount = settings.showSilentUnreadCount,
                                     draft = drafts[item.roomId]
                                 )
@@ -372,6 +424,102 @@ fun RoomsScreen(
             onDismiss = viewModel::hideDeclineInvite,
         )
     }
+
+    if (showLeaveConfirm) {
+        AlertDialog(
+            onDismissRequest = { showLeaveConfirm = false },
+            title = { Text(stringResource(Res.string.leave_rooms_confirm_title)) },
+            text = { Text(stringResource(Res.string.leave_rooms_warning)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showLeaveConfirm = false
+                        viewModel.bulkLeaveRooms()
+                    },
+                ) {
+                    Text(stringResource(Res.string.leave))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLeaveConfirm = false }) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun RoomSelectionTopBar(
+    selectedCount: Int,
+    onClose: () -> Unit,
+    onMarkRead: () -> Unit,
+    onMarkUnread: () -> Unit,
+    onFavourite: () -> Unit,
+    onUnfavourite: () -> Unit,
+    onLowPriority: () -> Unit,
+    onRemoveLowPriority: () -> Unit,
+    onMute: () -> Unit,
+    onUnmute: () -> Unit,
+    onSelectAll: () -> Unit,
+    onLeave: () -> Unit,
+) {
+    var menuExpanded by remember { mutableStateOf(false) }
+
+    @Composable
+    fun menuItem(icon: ImageVector, label: String, onClick: () -> Unit) {
+        DropdownMenuItem(
+            text = { Text(label) },
+            leadingIcon = { Icon(icon, contentDescription = null) },
+            onClick = {
+                menuExpanded = false
+                onClick()
+            },
+        )
+    }
+
+    TopAppBar(
+        title = {
+            Text(
+                stringResource(Res.string.selected_count, selectedCount),
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = onClose) {
+                Icon(Icons.Default.Close, stringResource(Res.string.close))
+            }
+        },
+        actions = {
+            IconButton(onClick = onMarkRead) {
+                Icon(Icons.Default.DoneAll, stringResource(Res.string.mark_read))
+            }
+            Box {
+                IconButton(onClick = { menuExpanded = true }) {
+                    Icon(Icons.Default.MoreVert, stringResource(Res.string.more_options))
+                }
+                DropdownMenu(
+                    expanded = menuExpanded,
+                    onDismissRequest = { menuExpanded = false },
+                ) {
+                    menuItem(Icons.Default.MarkEmailUnread, stringResource(Res.string.mark_as_unread), onMarkUnread)
+                    menuItem(Icons.Default.Star, stringResource(Res.string.add_to_favorites), onFavourite)
+                    menuItem(Icons.Default.StarBorder, stringResource(Res.string.remove_from_favorites), onUnfavourite)
+                    menuItem(Icons.Default.ArrowDownward, stringResource(Res.string.low_priority), onLowPriority)
+                    menuItem(Icons.Default.Remove, stringResource(Res.string.remove_from_low_priority), onRemoveLowPriority)
+                    menuItem(Icons.Default.NotificationsOff, stringResource(Res.string.mute), onMute)
+                    menuItem(Icons.Default.Notifications, stringResource(Res.string.unmute), onUnmute)
+                    menuItem(Icons.Default.SelectAll, stringResource(Res.string.select_all), onSelectAll)
+                    menuItem(Icons.AutoMirrored.Filled.Logout, stringResource(Res.string.leave_rooms), onLeave)
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        ),
+    )
 }
 
 @Composable
@@ -389,9 +537,11 @@ private fun RoomsTopBar(
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
     showSwitchAccountButton: Boolean,
+    selectable: Boolean,
     onSearchChange: (String) -> Unit,
     onToggleUnreadOnly: () -> Unit,
     onSetTypeFilter: (RoomTypeFilter) -> Unit,
+    onEnterSelection: () -> Unit,
     onOpenSpaces: () -> Unit,
     onOpenSecurity: () -> Unit,
     onOpenStartChat: () -> Unit,
@@ -427,6 +577,11 @@ private fun RoomsTopBar(
                 }
                 IconButton(onClick = onOpenSearch) {
                     Icon(Icons.Default.Search, stringResource(Res.string.search_messages))
+                }
+                if (selectable) {
+                    IconButton(onClick = onEnterSelection) {
+                        Icon(Icons.Default.Checklist, stringResource(Res.string.select))
+                    }
                 }
                 if (showSwitchAccountButton) {
                     IconButton(onClick = onOpenAccountSwitcher) {

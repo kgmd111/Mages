@@ -76,6 +76,9 @@ data class RoomsUiState(
     val favourites: Set<String> = emptySet(),
     val lowPriority: Set<String> = emptySet(),
 
+    val selectionMode: Boolean = false,
+    val selectedRoomIds: Set<String> = emptySet(),
+
     val allItems: List<RoomListItemUi> = emptyList(),
     val favouriteItems: List<RoomListItemUi> = emptyList(),
     val normalItems: List<RoomListItemUi> = emptyList(),

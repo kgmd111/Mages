@@ -43,6 +43,8 @@ fun RoomListItem(
     onLongClick: (() -> Unit)? = null,
     showSilentUnreadCount: Boolean = true,
     draft: String? = null,
+    selectionMode: Boolean = false,
+    selected: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val clickModifier = if (onLongClick != null) {
@@ -58,7 +60,8 @@ fun RoomListItem(
 
     Surface(
         modifier = modifier.fillMaxWidth().then(clickModifier),
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = if (selected) MaterialTheme.colorScheme.secondaryContainer
+        else MaterialTheme.colorScheme.surfaceContainer
     ) {
         Row(
             modifier = Modifier
@@ -66,6 +69,13 @@ fun RoomListItem(
                 .padding(horizontal = Spacing.lg, vertical = Spacing.md),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            if (selectionMode) {
+                Checkbox(
+                    checked = selected,
+                    onCheckedChange = null,
+                )
+                Spacer(Modifier.width(Spacing.sm))
+            }
             Box {
                 Avatar(
                     name = item.name,

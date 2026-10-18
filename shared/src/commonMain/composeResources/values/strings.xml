@@ -1263,6 +1263,12 @@
     <string name="security_and_access">Security &amp; Access</string>
     <string name="select">Select</string>
     <string name="select_all">Select all</string>
+    <string name="selected_count">%1$d selected</string>
+    <string name="more_options">More options</string>
+    <string name="unmute">Unmute</string>
+    <string name="leave_rooms">Leave rooms</string>
+    <string name="leave_rooms_confirm_title">Leave rooms?</string>
+    <string name="leave_rooms_warning">You will stop receiving messages from the selected rooms. This can\'t be undone.</string>
     <string name="select_any_rooms_to_leave_as_well">Select any rooms to leave as well.</string>
     <string name="select_at_least_one_room">Select at least one room</string>
     <string name="select_rooms">Select rooms</string>
