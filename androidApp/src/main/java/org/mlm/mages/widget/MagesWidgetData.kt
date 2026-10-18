@@ -12,12 +12,7 @@ data class WidgetRoom(
     val lastTs: Long,
 )
 
-/**
- * Reads the room-list snapshot the Rust side persists per account
- * (`room_list_cache.json`) so the widget can render without booting the
- * Matrix stack. Picks the most recently written snapshot, which is the
- * active account's.
- */
+/** The most recently written snapshot is the active account's. */
 object MagesWidgetData {
 
     private const val CACHE_FILE = "room_list_cache.json"

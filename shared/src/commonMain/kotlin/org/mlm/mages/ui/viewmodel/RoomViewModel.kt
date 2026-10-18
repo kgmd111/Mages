@@ -2294,11 +2294,6 @@ class RoomViewModel(
         }
     }
 
-    /**
-     * Finds the first visible event of the local day `[dayStartMs, dayEndMs)`,
-     * paginating older pages until the window covers the day. Falls back to the
-     * closest older event when the day itself has no messages.
-     */
     private suspend fun awaitDateTarget(dayStartMs: Long, dayEndMs: Long): JumpTargetResolution? {
         fun targetIndex(): Int {
             val events = currentState.events
