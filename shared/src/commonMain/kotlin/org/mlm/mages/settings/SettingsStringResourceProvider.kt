@@ -124,6 +124,8 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT to Res.string.setting_room_list_swipe_left,
     MagesSettingsKeys.MESSAGE_SWIPE_RIGHT to Res.string.setting_message_swipe_right,
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT to Res.string.setting_message_swipe_left,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP to Res.string.setting_message_double_tap,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION to Res.string.setting_message_double_tap_reaction,
     MagesSettingsKeys.MAX_WIDTH_CONVERSATION to Res.string.setting_max_width_conversation,
     MagesSettingsKeys.MAX_WIDTH_INBOX to Res.string.setting_max_width_inbox,
     MagesSettingsKeys.SPLIT_PANES to Res.string.setting_split_panes,
@@ -216,6 +218,8 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.ROOM_LIST_SWIPE_LEFT_DESCRIPTION to Res.string.setting_room_list_swipe_left_description,
     MagesSettingsKeys.MESSAGE_SWIPE_RIGHT_DESCRIPTION to Res.string.setting_message_swipe_right_description,
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT_DESCRIPTION to Res.string.setting_message_swipe_left_description,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP_DESCRIPTION to Res.string.setting_message_double_tap_description,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION_DESCRIPTION to Res.string.setting_message_double_tap_reaction_description,
     MagesSettingsKeys.MAX_WIDTH_CONVERSATION_DESCRIPTION to Res.string.setting_max_width_conversation_description,
     MagesSettingsKeys.MAX_WIDTH_INBOX_DESCRIPTION to Res.string.setting_max_width_inbox_description,
     MagesSettingsKeys.SPLIT_PANES_DESCRIPTION to Res.string.setting_split_panes_description,
@@ -243,6 +247,8 @@ private val arrayResources: Map<String, StringArrayResource> = mapOf(
     MagesSettingsKeys.LINK_PREVIEWS_OPTIONS to Res.array.setting_link_previews_options,
     MagesSettingsKeys.ROOM_LIST_SWIPE_OPTIONS to Res.array.setting_room_list_swipe_options,
     MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS to Res.array.setting_message_swipe_options,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP_OPTIONS to Res.array.setting_message_double_tap_options,
+    MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION_OPTIONS to Res.array.setting_message_double_tap_reaction_options,
     MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_OPTIONS to Res.array.setting_auto_mark_read_trigger_options,
 )
 
