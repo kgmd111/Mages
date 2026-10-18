@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Mages</string>
+    <string name="widget_description">Unread chats at a glance</string>
+    <string name="widget_empty">No unread chats</string>
     <string name="location_disclosure_title">Location access needed</string>
     <string name="location_disclosure_message">Mages shares your location only when you choose to.\n\nLive location: your precise location is sent to this room and visible to its members. It continues in the background with a notification until the timer ends or you tap Stop Sharing.\n\nOne-time location: your current location is sent once as a message.\n\nYour location is sent to your Matrix homeserver and not used elsewhere. You can stop sharing or turn off permission in Settings at any time.</string>
     <string name="location_disclosure_continue">Continue</string>

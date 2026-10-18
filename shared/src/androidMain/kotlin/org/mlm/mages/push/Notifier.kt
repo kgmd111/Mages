@@ -681,6 +681,7 @@ object Notifier {
     }
 
     fun updateSummaryNotification(context: Context) {
+        WidgetRefresh.request(context)
         val nm = NotificationManagerCompat.from(context)
         val activeNotifications = nm.activeNotifications
 

@@ -41,6 +41,7 @@ import org.mlm.mages.platform.applyAppLocale
 import org.mlm.mages.push.AndroidNotificationHelper
 import org.mlm.mages.push.PREF_INSTANCE
 import org.mlm.mages.push.PusherReconciler
+import org.mlm.mages.push.WidgetRefresh
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.appLanguageTagOrNull
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
@@ -195,6 +196,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         CurrentActivityHolder.activity = this
+        WidgetRefresh.request(this)
 
         val settingsRepository: SettingsRepository<AppSettings> =
             SettingsProvider.get(applicationContext)
