@@ -52,6 +52,8 @@
     <string name="timeline_date_today">Today</string>
     <string name="timeline_date_yesterday">Yesterday</string>
     <string name="jump_to_unread">Jump to unread</string>
+    <string name="jump_to_date">Jump to date</string>
+    <string name="jump_to_date_no_messages">No messages found for this date</string>
     <string name="scroll_to_top">Scroll to top</string>
     <string name="spaces">Spaces</string>
 

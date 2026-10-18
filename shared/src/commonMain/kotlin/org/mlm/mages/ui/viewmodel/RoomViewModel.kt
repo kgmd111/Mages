@@ -2271,6 +2271,74 @@ class RoomViewModel(
         }
     }
 
+    fun jumpToDate(dayStartMs: Long, dayEndMs: Long) {
+        if (dayEndMs <= dayStartMs) return
+        jumpSeekJob?.cancel()
+        _state.update { it.copy(jumpHitStart = false) }
+        jumpSeekJob = launch {
+            when (val result = awaitDateTarget(dayStartMs, dayEndMs)) {
+                is JumpTargetResolution.Jump -> {
+                    clearJumpHighlightDelayed()
+                    _events.send(Event.JumpToEventScrolled(result.index))
+                    _events.send(Event.JumpSeekEnded)
+                }
+                JumpTargetResolution.NotFound -> {
+                    clearJumpHighlight()
+                    _events.send(Event.ShowError(getString(Res.string.jump_to_date_no_messages)))
+                    _events.send(Event.JumpSeekEnded)
+                }
+                null -> {
+                    _events.send(Event.JumpSeekEnded)
+                }
+            }
+        }
+    }
+
+    /**
+     * Finds the first visible event of the local day `[dayStartMs, dayEndMs)`,
+     * paginating older pages until the window covers the day. Falls back to the
+     * closest older event when the day itself has no messages.
+     */
+    private suspend fun awaitDateTarget(dayStartMs: Long, dayEndMs: Long): JumpTargetResolution? {
+        fun targetIndex(): Int {
+            val events = currentState.events
+            if (events.isEmpty()) return -1
+            if (events.first().timestampMs >= dayEndMs) return -1
+            val lastBeforeDayEnd = events.indexOfLast { it.timestampMs < dayEndMs }
+            if (lastBeforeDayEnd < 0) return -1
+            val firstOfDay = events.indexOfFirst { it.timestampMs >= dayStartMs }
+            return if (firstOfDay in 0..lastBeforeDayEnd) firstOfDay else lastBeforeDayEnd
+        }
+
+        if (!currentState.hasTimelineSnapshot) {
+            withTimeoutOrNull(JUMP_SNAPSHOT_TIMEOUT_MS) {
+                state.filter { it.hasTimelineSnapshot }.first()
+            }
+        }
+
+        targetIndex().takeIf { it >= 0 }?.let { return JumpTargetResolution.Jump(it) }
+
+        repeat(JUMP_MAX_PAGES) {
+            if (currentState.jumpHitStart) return JumpTargetResolution.NotFound
+            if (currentState.isPaginatingBack) {
+                delay(JUMP_PAGINATE_POLL_MS)
+                targetIndex().takeIf { it >= 0 }?.let { return JumpTargetResolution.Jump(it) }
+                return@repeat
+            }
+
+            val before = currentState.allEvents.size
+            val hitStart = paginateBackAwait(useJumpHitStart = true, waitForLock = true)
+                ?: return JumpTargetResolution.NotFound
+
+            withTimeoutOrNull(JUMP_PAGE_SETTLE_TIMEOUT_MS) {
+                state.filter { it.allEvents.size > before }.first()
+            }
+            targetIndex().takeIf { it >= 0 }?.let { return JumpTargetResolution.Jump(it) }
+            if (hitStart == true) return JumpTargetResolution.NotFound
+        }
+        return JumpTargetResolution.NotFound
+    }
+
     sealed interface JumpTargetResolution {
         data class Jump(val index: Int) : JumpTargetResolution
         data object NotFound : JumpTargetResolution

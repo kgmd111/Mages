@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ fun FloatingTimelineDateChip(
     text: String,
     visible: Boolean,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -38,6 +40,7 @@ fun FloatingTimelineDateChip(
             tonalElevation = 3.dp,
             shadowElevation = 2.dp,
             color = MaterialTheme.colorScheme.surfaceContainerLow,
+            modifier = if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier,
         ) {
             Text(
                 text = text,

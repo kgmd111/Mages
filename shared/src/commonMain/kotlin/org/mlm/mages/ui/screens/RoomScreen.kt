@@ -91,6 +91,7 @@ import org.mlm.mages.ui.util.formatTime
 import org.mlm.mages.ui.util.formatTimelineDate
 import org.mlm.mages.ui.util.formatTypingText
 import org.mlm.mages.ui.util.rememberTopVisibleRoomEventTimestamp
+import org.mlm.mages.ui.util.nowMs
 import org.mlm.mages.wallpaper.WallpaperStore
 import org.mlm.mages.ui.util.secondaryClick
 import org.mlm.mages.ui.viewmodel.RoomViewModel
@@ -102,6 +103,12 @@ import io.github.vinceglb.filekit.dialogs.FileKitMode
 import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.AutoMarkReadTrigger
 import org.mlm.mages.settings.MessageSwipeAction
@@ -123,6 +130,7 @@ import org.jetbrains.compose.resources.getString
 import kotlin.math.abs
 
 @Suppress("NewApi")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoomScreen(
     viewModel: RoomViewModel,
@@ -281,6 +289,7 @@ fun RoomScreen(
     var isDragging by remember { mutableStateOf(false) }
     var sheetEvent by remember { mutableStateOf<MessageEvent?>(null) }
     var openedImageKey by remember { mutableStateOf<String?>(null) }
+    var showJumpToDatePicker by remember { mutableStateOf(false) }
 
     var didInitialScroll by rememberSaveable { mutableStateOf(false) }
 
@@ -825,6 +834,7 @@ fun RoomScreen(
                                                     sheetEvent = bubbleItem.event
                                                     viewModel.showMessageActions(bubbleItem.event)
                                                 },
+                                                onDateClick = { showJumpToDatePicker = true },
                                                 onReply = { viewModel.startReply(bubbleItem.event) },
                                                 onOpenActions = {
                                                     sheetEvent = bubbleItem.event
@@ -969,6 +979,7 @@ fun RoomScreen(
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .padding(top = 12.dp),
+                            onClick = { showJumpToDatePicker = true },
                         )
                     }
                 }
@@ -1289,6 +1300,43 @@ fun RoomScreen(
             onReRecord = viewModel::reRecordVoice,
             onCancel = viewModel::cancelVoicePreview
         )
+    }
+
+    if (showJumpToDatePicker) {
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = events.lastOrNull()?.timestampMs ?: nowMs(),
+        )
+        val pickerZone = remember { TimeZone.currentSystemDefault() }
+        DatePickerDialog(
+            onDismissRequest = { showJumpToDatePicker = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val selected = datePickerState.selectedDateMillis
+                        showJumpToDatePicker = false
+                        if (selected != null) {
+                            val date = Instant.fromEpochMilliseconds(selected)
+                                .toLocalDateTime(TimeZone.UTC)
+                                .date
+                            val dayStart = date.atStartOfDayIn(pickerZone).toEpochMilliseconds()
+                            val dayEnd = date.plus(1, DateTimeUnit.DAY)
+                                .atStartOfDayIn(pickerZone)
+                                .toEpochMilliseconds()
+                            viewModel.jumpToDate(dayStart, dayEnd)
+                        }
+                    }
+                ) {
+                    Text(stringResource(Res.string.jump_to_date))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showJumpToDatePicker = false }) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+        ) {
+            DatePicker(state = datePickerState)
+        }
     }
 
     val openedImage = openedImageKey
@@ -1672,6 +1720,7 @@ private fun MessageItem(
     onOpenAttachment: () -> Unit,
     onOpenThread: () -> Unit,
     onSaveReturnPosition: (String) -> Unit,
+    onDateClick: () -> Unit = {},
     highlightedEventId: String? = null,
     viewModel: RoomViewModel,
     showMessageAvatars: Boolean,
@@ -1689,7 +1738,7 @@ private fun MessageItem(
 
         // Date header
         if (prevDate != eventDate) {
-            DateHeader(eventDate)
+            DateHeader(eventDate, onDateClick)
         }
 
         // Unread divider
@@ -2000,7 +2049,7 @@ private fun messageSwipeIcon(action: MessageSwipeAction): androidx.compose.ui.gr
     }
 
 @Composable
-private fun DateHeader(date: String) {
+private fun DateHeader(date: String, onDateClick: (() -> Unit)? = null) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -2015,7 +2064,11 @@ private fun DateHeader(date: String) {
         Surface(
             color = MaterialTheme.colorScheme.surfaceContainerLow,
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.padding(horizontal = Spacing.md)
+            modifier = Modifier
+                .padding(horizontal = Spacing.md)
+                .then(
+                    if (onDateClick != null) Modifier.clickable(onClick = onDateClick) else Modifier
+                )
         ) {
             Text(
                 text = date,
