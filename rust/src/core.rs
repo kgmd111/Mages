@@ -2241,6 +2241,25 @@ impl CoreClient {
             .ffi()
     }
 
+    pub async fn get_notification_keywords(&self) -> Result<Vec<String>, FfiError> {
+        let settings = self.sdk.notification_settings().await;
+        Ok(settings.enabled_keywords().await.into_iter().collect())
+    }
+
+    pub async fn add_notification_keyword(&self, keyword: String) -> Result<(), FfiError> {
+        let keyword = keyword.trim().to_owned();
+        if keyword.is_empty() {
+            return Ok(());
+        }
+        let settings = self.sdk.notification_settings().await;
+        settings.add_keyword(keyword).await.ffi()
+    }
+
+    pub async fn remove_notification_keyword(&self, keyword: String) -> Result<(), FfiError> {
+        let settings = self.sdk.notification_settings().await;
+        settings.remove_keyword(&keyword).await.ffi()
+    }
+
     pub async fn is_reaction_notifications_enabled(&self) -> Result<bool, FfiError> {
         use matrix_sdk::ruma::push::RuleKind;
 

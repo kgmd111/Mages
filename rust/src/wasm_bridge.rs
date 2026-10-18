@@ -1565,6 +1565,33 @@ impl WasmClient {
         }
     }
 
+    #[wasm_bindgen(js_name = getNotificationKeywords)]
+    pub async fn get_notification_keywords(&self) -> JsValue {
+        let Some(s) = self.state() else {
+            return JsValue::NULL;
+        };
+        match s.core.get_notification_keywords().await {
+            Ok(keywords) => to_json(&keywords),
+            Err(_) => JsValue::NULL,
+        }
+    }
+
+    #[wasm_bindgen(js_name = addNotificationKeyword)]
+    pub async fn add_notification_keyword(&self, keyword: String) -> JsValue {
+        let Some(s) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_unit(s.core.add_notification_keyword(keyword).await)
+    }
+
+    #[wasm_bindgen(js_name = removeNotificationKeyword)]
+    pub async fn remove_notification_keyword(&self, keyword: String) -> JsValue {
+        let Some(s) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_unit(s.core.remove_notification_keyword(keyword).await)
+    }
+
     #[wasm_bindgen(js_name = setRoomNotificationMode)]
     pub async fn set_room_notification_mode(&self, room_id: String, mode: String) -> bool {
         let Some(s) = self.state() else {

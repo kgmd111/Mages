@@ -224,6 +224,8 @@ delegate! { result bool; can_user_ban(room_id: String, user_id: String); can_use
 
 delegate! { option FfiRoomNotificationMode; room_notification_mode(room_id: String); }
 delegate! { result bool; is_push_rule_enabled(kind: FfiPushRuleKind, rule_id: String); }
+delegate! { result Vec<String>; get_notification_keywords(); }
+delegate! { unit; add_notification_keyword(keyword: String); remove_notification_keyword(keyword: String); }
 delegate! { result bool; is_reaction_notifications_enabled(); }
 delegate! { result bool; can_set_profile_fields(); }
 delegate! { result Vec<ProfileField>; own_profile_fields(); }

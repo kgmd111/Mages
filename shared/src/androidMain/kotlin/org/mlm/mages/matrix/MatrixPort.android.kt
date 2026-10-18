@@ -970,6 +970,21 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         runWithFfiResult { withClient { it.setPushRuleEnabled(kind.toFfi(), ruleId, enabled) } }
     }
 
+    override suspend fun getNotificationKeywords(): List<String> =
+        withContext(matrixDispatcher) {
+            runWithFfiResult { withClient { it.getNotificationKeywords() } }.getOrDefault(emptyList())
+        }
+
+    override suspend fun addNotificationKeyword(keyword: String): Result<Unit> =
+        withContext(matrixDispatcher) {
+            runWithFfiResult { withClient { it.addNotificationKeyword(keyword) } }
+        }
+
+    override suspend fun removeNotificationKeyword(keyword: String): Result<Unit> =
+        withContext(matrixDispatcher) {
+            runWithFfiResult { withClient { it.removeNotificationKeyword(keyword) } }
+        }
+
     override suspend fun isReactionNotificationsEnabled(): Result<Boolean> =
         withContext(matrixDispatcher) {
             runWithFfiResult { withClient { it.isReactionNotificationsEnabled() } }

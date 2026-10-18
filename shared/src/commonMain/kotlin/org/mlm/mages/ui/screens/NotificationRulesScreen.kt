@@ -14,12 +14,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -60,6 +63,10 @@ fun NotificationRulesScreen(
     var defaultGroupUnencrypted by remember { mutableStateOf<RoomNotificationMode?>(null) }
     var defaultGroupEncrypted by remember { mutableStateOf<RoomNotificationMode?>(null) }
     var isLoading by remember { mutableStateOf(true) }
+    var keywords by remember { mutableStateOf<List<String>>(emptyList()) }
+    var showAddKeyword by remember { mutableStateOf(false) }
+    var keywordInput by remember { mutableStateOf("") }
+    var keywordAddFailed by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         isLoading = true
@@ -69,6 +76,7 @@ fun NotificationRulesScreen(
             defaultDmEncrypted = repo.getDefaultRoomNotificationMode(true, true).getOrNull()
             defaultGroupUnencrypted = repo.getDefaultRoomNotificationMode(false, false).getOrNull()
             defaultGroupEncrypted = repo.getDefaultRoomNotificationMode(true, false).getOrNull()
+            keywords = matrixPort.getNotificationKeywords()
         } finally {
             isLoading = false
         }
@@ -208,8 +216,127 @@ fun NotificationRulesScreen(
                         },
                     )
                 }
+
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(Res.string.notification_keywords),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
+                    Text(
+                        text = stringResource(Res.string.notification_keywords_description),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+
+                if (keywords.isEmpty()) {
+                    item {
+                        Text(
+                            text = stringResource(Res.string.notification_keywords_empty),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(vertical = 4.dp),
+                        )
+                    }
+                } else {
+                    items(keywords) { keyword ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = keyword,
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.weight(1f),
+                            )
+                            IconButton(
+                                onClick = {
+                                    val previous = keywords
+                                    keywords = keywords - keyword
+                                    scope.launch {
+                                        val result = matrixPort.removeNotificationKeyword(keyword)
+                                        if (result.isFailure) {
+                                            keywords = previous
+                                        }
+                                    }
+                                },
+                            ) {
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = stringResource(Res.string.remove),
+                                )
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    TextButton(
+                        onClick = {
+                            keywordInput = ""
+                            showAddKeyword = true
+                        },
+                    ) {
+                        Text(stringResource(Res.string.notification_keywords_add))
+                    }
+                }
             }
         }
+    }
+
+    if (showAddKeyword) {
+        AlertDialog(
+            onDismissRequest = { showAddKeyword = false },
+            title = { Text(stringResource(Res.string.notification_keywords_add)) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = keywordInput,
+                        onValueChange = { keywordInput = it },
+                        singleLine = true,
+                        label = { Text(stringResource(Res.string.notification_keywords_hint)) },
+                    )
+                    if (keywordAddFailed) {
+                        Text(
+                            text = stringResource(Res.string.error),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val keyword = keywordInput.trim()
+                        if (keyword.isEmpty()) return@TextButton
+                        scope.launch {
+                            val result = matrixPort.addNotificationKeyword(keyword)
+                            if (result.isSuccess) {
+                                if (keyword !in keywords) keywords = keywords + keyword
+                                showAddKeyword = false
+                                keywordAddFailed = false
+                            } else {
+                                keywordAddFailed = true
+                            }
+                        }
+                    },
+                ) {
+                    Text(stringResource(Res.string.add))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAddKeyword = false }) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+        )
     }
 }
 

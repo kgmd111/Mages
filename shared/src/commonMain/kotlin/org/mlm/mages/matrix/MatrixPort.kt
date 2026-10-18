@@ -1189,6 +1189,12 @@ interface MatrixPort {
     suspend fun isPushRuleEnabled(kind: PushRuleKind, ruleId: String): Result<Boolean>
     suspend fun setPushRuleEnabled(kind: PushRuleKind, ruleId: String, enabled: Boolean): Result<Unit>
 
+    suspend fun getNotificationKeywords(): List<String>
+
+    suspend fun addNotificationKeyword(keyword: String): Result<Unit>
+
+    suspend fun removeNotificationKeyword(keyword: String): Result<Unit>
+
     suspend fun isReactionNotificationsEnabled(): Result<Boolean>
     suspend fun setReactionNotificationsEnabled(enabled: Boolean): Result<Unit>
 

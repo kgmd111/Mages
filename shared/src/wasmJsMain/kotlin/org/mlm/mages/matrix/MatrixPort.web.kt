@@ -1261,6 +1261,15 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
         "set push rule enabled"
     )
 
+    override suspend fun getNotificationKeywords(): List<String> =
+        decodeNullableStringList(requireClient().getNotificationKeywords().awaitAny()).orEmpty()
+
+    override suspend fun addNotificationKeyword(keyword: String): Result<Unit> =
+        requireClient().addNotificationKeyword(keyword).awaitUnitResult()
+
+    override suspend fun removeNotificationKeyword(keyword: String): Result<Unit> =
+        requireClient().removeNotificationKeyword(keyword).awaitUnitResult()
+
     override suspend fun isReactionNotificationsEnabled(): Result<Boolean> =
         requireClient().isReactionNotificationsEnabled().awaitBoolResult()
 
