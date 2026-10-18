@@ -1195,6 +1195,9 @@ interface MatrixPort {
 
     suspend fun removeNotificationKeyword(keyword: String): Result<Unit>
 
+    /** MSC3030: ID of the event nearest [tsMs], searching forward or backward. */
+    suspend fun eventAtTimestamp(roomId: String, tsMs: Long, backward: Boolean): String?
+
     suspend fun isReactionNotificationsEnabled(): Result<Boolean>
     suspend fun setReactionNotificationsEnabled(enabled: Boolean): Result<Unit>
 

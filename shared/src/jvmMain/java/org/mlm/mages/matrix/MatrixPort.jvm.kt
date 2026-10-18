@@ -977,6 +977,11 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             runWithFfiResult { withClient { it.removeNotificationKeyword(keyword) } }
         }
 
+    override suspend fun eventAtTimestamp(roomId: String, tsMs: Long, backward: Boolean): String? =
+        withContext(matrixDispatcher) {
+            runWithFfiResult { withClient { it.eventAtTimestamp(roomId, tsMs, backward) } }.getOrNull()
+        }
+
     override suspend fun isReactionNotificationsEnabled(): Result<Boolean> =
         withContext(matrixDispatcher) {
             runWithFfiResult { withClient { it.isReactionNotificationsEnabled() } }

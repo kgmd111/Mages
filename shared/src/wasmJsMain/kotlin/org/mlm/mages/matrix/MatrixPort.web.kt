@@ -1270,6 +1270,9 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override suspend fun removeNotificationKeyword(keyword: String): Result<Unit> =
         requireClient().removeNotificationKeyword(keyword).awaitUnitResult()
 
+    override suspend fun eventAtTimestamp(roomId: String, tsMs: Long, backward: Boolean): String? =
+        requireClient().eventAtTimestamp(roomId, tsMs.toDouble(), backward).awaitValue()
+
     override suspend fun isReactionNotificationsEnabled(): Result<Boolean> =
         requireClient().isReactionNotificationsEnabled().awaitBoolResult()
 

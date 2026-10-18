@@ -606,6 +606,7 @@ wasm_delegate! { webffi_option;
     "inviteBlocked"    => invite_blocked();
     "accountData"      => account_data(event_type: String);
     "getLinkPreview"   => get_link_preview(url: String);
+    "eventAtTimestamp" => event_at_timestamp(room_id: String, ts_ms: i64, backward: bool);
 }
 
 wasm_delegate! { webffi_unit;

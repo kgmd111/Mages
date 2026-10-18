@@ -227,6 +227,15 @@ fn text_content_no_rel(body: &str, formatted_body: Option<&str>) -> MsgNoRel {
     content
 }
 
+fn endpoint_unavailable(error: &matrix_sdk::HttpError) -> bool {
+    use matrix_sdk::ruma::api::error::ErrorKind;
+
+    matches!(
+        error.as_client_api_error().and_then(|api| api.error_kind()),
+        Some(ErrorKind::Unrecognized) | Some(ErrorKind::NotFound)
+    )
+}
+
 /// MSC4171. Only valid for rooms we are in, since the server summary has no member hints.
 pub(crate) fn human_member_count(room: &Room, joined: u64) -> u64 {
     let service_members = room
@@ -931,6 +940,30 @@ impl CoreClient {
             .ok_or_else(|| FfiError::Msg("timeline not found".into()))?;
         let content = text_content(&body, formatted_body.as_deref());
         tl.send(content.into()).await.ffi().map(|_| ())
+    }
+
+    pub async fn event_at_timestamp(
+        &self,
+        room_id: String,
+        ts_ms: i64,
+        backward: bool,
+    ) -> Result<Option<String>, FfiError> {
+        use matrix_sdk::ruma::{
+            MilliSecondsSinceUnixEpoch, RoomId, UInt,
+            api::{Direction, client::room::get_event_by_timestamp},
+        };
+
+        let rid = RoomId::parse(&room_id).map_err(|_| FfiError::Msg("invalid room id".into()))?;
+        let dir = if backward { Direction::Backward } else { Direction::Forward };
+        let ts = UInt::try_from(ts_ms.max(0) as u64)
+            .map(MilliSecondsSinceUnixEpoch)
+            .map_err(|_| FfiError::Msg("timestamp out of range".into()))?;
+        let request = get_event_by_timestamp::v1::Request::new(rid.to_owned(), ts, dir);
+        match self.sdk.send(request).await {
+            Ok(response) => Ok(Some(response.event_id.to_string())),
+            Err(error) if endpoint_unavailable(&error) => Ok(None),
+            Err(error) => Err(FfiError::Msg(error.to_string())),
+        }
     }
 
     pub async fn reply(

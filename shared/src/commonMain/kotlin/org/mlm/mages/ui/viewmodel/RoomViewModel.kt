@@ -885,8 +885,7 @@ class RoomViewModel(
 
     //  Reactions
 
-    fun react(event: MessageEvent, emoji: String) {
-        if (event.eventId.isBlank()) return
+    fun react(event: MessageEvent, emoji: String) {        if (event.eventId.isBlank()) return
         recentEmoji.record(emoji)
         launch {
             runSafe { service.port.react(currentState.roomId, event.eventId, emoji, reactionShortcodeFor(emoji)) }
@@ -2276,7 +2275,7 @@ class RoomViewModel(
         jumpSeekJob?.cancel()
         _state.update { it.copy(jumpHitStart = false) }
         jumpSeekJob = launch {
-            when (val result = awaitDateTarget(dayStartMs, dayEndMs)) {
+            when (val result = resolveDateTarget(dayStartMs, dayEndMs)) {
                 is JumpTargetResolution.Jump -> {
                     clearJumpHighlightDelayed()
                     _events.send(Event.JumpToEventScrolled(result.index))
@@ -2292,6 +2291,20 @@ class RoomViewModel(
                 }
             }
         }
+    }
+
+    private suspend fun resolveDateTarget(dayStartMs: Long, dayEndMs: Long): JumpTargetResolution? {
+        val serverEventId = runCatching {
+            service.port.eventAtTimestamp(currentState.roomId, dayStartMs, backward = false)
+        }.getOrNull()
+        if (serverEventId != null) {
+            when (val result = awaitJumpTarget(serverEventId)) {
+                is JumpTargetResolution.Jump -> return result
+                null -> return null
+                JumpTargetResolution.NotFound -> _state.update { it.copy(jumpHitStart = false) }
+            }
+        }
+        return awaitDateTarget(dayStartMs, dayEndMs)
     }
 
     private suspend fun awaitDateTarget(dayStartMs: Long, dayEndMs: Long): JumpTargetResolution? {
