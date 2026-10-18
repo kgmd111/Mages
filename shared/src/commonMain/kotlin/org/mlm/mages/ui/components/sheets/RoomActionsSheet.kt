@@ -26,6 +26,7 @@ fun RoomActionsSheet(
     onMarkRead: () -> Unit,
     onToggleFavourite: () -> Unit,
     onToggleLowPriority: () -> Unit,
+    onSelect: () -> Unit,
 ) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
@@ -65,6 +66,11 @@ fun RoomActionsSheet(
             ) {
                 onToggleLowPriority()
                 onDismiss()
+            }
+
+            ActionItem(Icons.Default.Checklist, stringResource(Res.string.select)) {
+                onDismiss()
+                onSelect()
             }
         }
     }

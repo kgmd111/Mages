@@ -411,7 +411,8 @@ fun RoomsScreen(
             onDismiss = { selectedRoom = null },
             onMarkRead = { viewModel.markRead(roomId) },
             onToggleFavourite = { viewModel.toggleFavourite(roomId, roomId in state.favourites) },
-            onToggleLowPriority = { viewModel.toggleLowPriority(roomId, roomId in state.lowPriority) }
+            onToggleLowPriority = { viewModel.toggleLowPriority(roomId, roomId in state.lowPriority) },
+            onSelect = { viewModel.startRoomSelection(roomId) },
         )
     }
 
