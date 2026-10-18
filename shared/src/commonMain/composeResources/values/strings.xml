@@ -3,7 +3,7 @@
 
     <string name="waiting_for_sso">Waiting for SSO...</string>
     <string name="connecting">Connecting...</string>
-    <string name="couldnt_reach_server">Couldn\'t reach %1$s. Check the address and your connection.</string>
+    <string name="couldnt_reach_server">Couldn't reach %1$s. Check the address and your connection.</string>
     <string name="syncing">Syncing…</string>
     <string name="add_account">Add Account</string>
     <string name="welcome_to_mages">Welcome to Mages</string>
@@ -1259,7 +1259,7 @@
     <string name="unmute">Unmute</string>
     <string name="leave_rooms">Leave rooms</string>
     <string name="leave_rooms_confirm_title">Leave rooms?</string>
-    <string name="leave_rooms_warning">You will stop receiving messages from the selected rooms. This can\'t be undone.</string>
+    <string name="leave_rooms_warning">You will stop receiving messages from the selected rooms. This can't be undone.</string>
     <string name="select_any_rooms_to_leave_as_well">Select any rooms to leave as well.</string>
     <string name="select_at_least_one_room">Select at least one room</string>
     <string name="select_rooms">Select rooms</string>
