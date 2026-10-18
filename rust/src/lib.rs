@@ -3142,6 +3142,21 @@ impl Client {
         }
     }
 
+    pub fn stop_sync(&self) {
+        let svc = self
+            .core
+            .sync_service
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .as_ref()
+            .cloned();
+        if let Some(svc) = svc {
+            let _ = RT.block_on(async move {
+                svc.stop().await;
+            });
+        }
+    }
+
     pub fn shutdown(&self) {
         self.shutdown_inner();
     }

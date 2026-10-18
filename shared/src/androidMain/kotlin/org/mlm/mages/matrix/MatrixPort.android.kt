@@ -110,6 +110,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
     override suspend fun release() {
         withContext(callDispatcher) {
             val c = takeClient() ?: return@withContext
+            runCatching { c.stopSync() }
             runCatching { c.shutdown() }
             runCatching { c.close() }
         }
