@@ -606,7 +606,6 @@ wasm_delegate! { webffi_option;
     "inviteBlocked"    => invite_blocked();
     "accountData"      => account_data(event_type: String);
     "getLinkPreview"   => get_link_preview(url: String);
-    "eventAtTimestamp" => event_at_timestamp(room_id: String, ts_ms: i64, backward: bool);
 }
 
 wasm_delegate! { webffi_unit;
@@ -1832,6 +1831,19 @@ impl WasmClient {
             _ => return false,
         };
         s.core.set_room_history_visibility(room_id, v).await.is_ok()
+    }
+
+    #[wasm_bindgen(js_name = eventAtTimestamp)]
+    pub async fn event_at_timestamp(
+        &self,
+        room_id: String,
+        ts_ms: f64,
+        backward: bool,
+    ) -> JsValue {
+        let Some(s) = self.state() else {
+            return webffi_not_init();
+        };
+        (webffi_option)(s.core.event_at_timestamp(room_id, ts_ms as i64, backward).await)
     }
 
     #[wasm_bindgen(js_name = updatePowerLevelForUser)]
