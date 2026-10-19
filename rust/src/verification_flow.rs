@@ -221,7 +221,7 @@ impl CoreClient {
         if members.is_empty() {
             return false;
         }
-        if members.len() as u64 < room.active_members_count() {
+        if (members.len() as u64) < room.active_members_count() {
             return false;
         }
         for member in members {
