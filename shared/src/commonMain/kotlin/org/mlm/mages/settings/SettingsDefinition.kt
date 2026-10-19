@@ -558,7 +558,7 @@ data class AppSettings(
         dependsOn = "messageDoubleTapAction",
         dependsOnValue = "React",
     )
-    val messageDoubleTapReaction: String = "❤️",
+    val messageDoubleTapReaction: String = "👍",
 
     @Setting(
         title = "Split panes",

@@ -1771,7 +1771,7 @@ private fun MessageItem(
     swipeRightAction: MessageSwipeAction = MessageSwipeAction.Reply,
     swipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
     doubleTapAction: MessageDoubleTapAction = MessageDoubleTapAction.React,
-    doubleTapReaction: String = "❤️",
+    doubleTapReaction: String = "👍",
 ) {
     Column {
         val timestamp = event.timestampMs
