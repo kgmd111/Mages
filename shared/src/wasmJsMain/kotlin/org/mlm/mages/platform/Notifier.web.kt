@@ -20,6 +20,7 @@ import org.mlm.mages.calls.isRingingCall
 import org.mlm.mages.calls.ringing
 import org.mlm.mages.matrix.NotificationKind
 import org.mlm.mages.matrix.RoomNotificationMode
+import org.mlm.mages.settings.autoDownloadRules
 import org.mlm.mages.push.NotificationMediaPolicy
 import org.mlm.mages.push.NotificationPresentation
 import org.mlm.mages.settings.AppSettings
@@ -278,4 +279,28 @@ actual fun BindNotifications(
 @Composable
 actual fun rememberQuitApp(): () -> Unit = {
     runCatching { window.close() }
+}
+
+@Composable
+actual fun BindAutoDownload(
+    service: MatrixService,
+    settingsRepository: SettingsRepository<AppSettings>,
+) {
+    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
+    val account by service.activeAccount.collectAsState()
+    val ready by service.isReady.collectAsState()
+
+    LaunchedEffect(
+        settings.autoDownloadPhotos,
+        settings.autoDownloadAudio,
+        settings.autoDownloadVideo,
+        settings.autoDownloadDocuments,
+        account?.id,
+        ready,
+    ) {
+        if (!ready) return@LaunchedEffect
+        val port = service.portOrNull ?: return@LaunchedEffect
+        port.setAutoDownloadRules(settings.autoDownloadRules())
+        port.setAutoDownloadNetwork(metered = false, roaming = false)
+    }
 }

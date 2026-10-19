@@ -754,6 +754,14 @@
     <string name="setting_copy_unified_push_endpoint_description">For debugging; shows what endpoint is registered</string>
     <string name="setting_block_media_previews">Media previews</string>
     <string name="setting_block_media_previews_description">Automatically download thumbnails, images, voice and video. Synced to your other devices</string>
+    <string name="setting_auto_download_photos">Auto-download photos</string>
+    <string name="setting_auto_download_photos_description">Download full-size photos automatically</string>
+    <string name="setting_auto_download_audio">Auto-download audio</string>
+    <string name="setting_auto_download_audio_description">Download voice messages and audio automatically</string>
+    <string name="setting_auto_download_video">Auto-download videos</string>
+    <string name="setting_auto_download_video_description">Download videos automatically</string>
+    <string name="setting_auto_download_documents">Auto-download documents</string>
+    <string name="setting_auto_download_documents_description">Download file attachments automatically</string>
     <string name="setting_media_cache">Media Cache</string>
     <string name="setting_media_cache_description">View and manage cached media</string>
     <string name="setting_start_in_tray">Start in tray</string>
@@ -828,6 +836,11 @@
         <item>Always</item>
         <item>Only in private rooms</item>
         <item>Never</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobile data</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Always</item>

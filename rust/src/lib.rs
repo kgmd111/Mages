@@ -47,6 +47,7 @@ use uniffi::{Object, export, setup_scaffolding};
 
 #[cfg(target_os = "android")]
 mod android_tls;
+mod auto_download;
 mod core;
 #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
 mod desktop_location;
@@ -311,6 +312,7 @@ delegate! { plain bool; backup_exists_on_server(fetch: bool); set_key_backup_ena
 pub struct Client {
     core: TokioDrop<Arc<CoreClient>>,
     store_dir: PathBuf,
+    auto_download: auto_download::AutoDownload,
     guards: Mutex<Vec<tokio::task::JoinHandle<()>>>,
     send_observers: Arc<Mutex<HashMap<u64, Arc<dyn SendObserver>>>>,
     send_obs_counter: AtomicU64,
@@ -812,6 +814,7 @@ impl Client {
         let this = Self {
             core: TokioDrop::new(core.clone()),
             store_dir: store_dir_path,
+            auto_download: auto_download::spawn(inner.clone()),
             guards: Mutex::new(vec![]),
             send_observers: Arc::new(Mutex::new(HashMap::new())),
             send_obs_counter: AtomicU64::new(0),
@@ -3239,6 +3242,14 @@ impl Client {
 
         #[cfg(not(target_family = "wasm"))]
         RT.block_on(async { expire_media_cache(&self.core.sdk, days).await.ffi() })
+    }
+
+    pub fn set_auto_download_rules(&self, rules: MediaAutoDownloadRules) {
+        self.auto_download.set_rules(rules);
+    }
+
+    pub fn set_auto_download_network(&self, metered: bool, roaming: bool) {
+        self.auto_download.set_network(metered, roaming);
     }
 
     pub fn start_device_verification(

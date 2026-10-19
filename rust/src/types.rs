@@ -617,6 +617,25 @@ pub struct MediaCacheOverview {
     pub thumbnail_bytes: u64,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Enum)]
+pub enum AutoDownloadNetwork {
+    Wifi,
+    Mobile,
+    Roaming,
+}
+
+#[derive(Clone, Debug, Default, Serialize, Deserialize, Record)]
+pub struct MediaAutoDownloadRules {
+    #[serde(default)]
+    pub photos: Vec<AutoDownloadNetwork>,
+    #[serde(default)]
+    pub audio: Vec<AutoDownloadNetwork>,
+    #[serde(default)]
+    pub video: Vec<AutoDownloadNetwork>,
+    #[serde(default)]
+    pub documents: Vec<AutoDownloadNetwork>,
+}
+
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, Record)]
 pub struct MediaRetentionPolicyInfo {
     pub max_cache_size_bytes: Option<u64>,

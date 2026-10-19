@@ -1791,6 +1791,13 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override suspend fun clearMediaCacheOlderThan(days: Long): Result<Unit> =
         requireClient().clearMediaCacheOlderThan(days.toDouble()).awaitUnitResult()
 
+    override suspend fun setAutoDownloadRules(rules: MediaAutoDownloadRules): Result<Unit> =
+        requireClient().setAutoDownloadRules(wasmJson.encodeToString(rules))
+            .toUnitResult("setAutoDownloadRules")
+
+    override suspend fun setAutoDownloadNetwork(metered: Boolean, roaming: Boolean): Result<Unit> =
+        requireClient().setAutoDownloadNetwork(metered, roaming).toUnitResult("setAutoDownloadNetwork")
+
     override suspend fun roomPreview(idOrAlias: String, via: List<String>): Result<RoomPreview> {
         val value = requireClient().roomPreview(idOrAlias, via.toJsArray()).awaitValue<RoomPreview>()
         return if (value != null) Result.success(value)

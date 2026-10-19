@@ -29,6 +29,7 @@ import org.mlm.mages.calls.IncomingCallTracker
 import org.mlm.mages.di.appModules
 import org.mlm.mages.platform.CurrentActivityHolder
 import org.mlm.mages.platform.MagesPaths
+import org.mlm.mages.platform.observeNetworkMetering
 import org.mlm.mages.platform.SettingsProvider
 import org.mlm.mages.platform.LiveLocationSharingCoordinator
 import org.mlm.mages.push.AppNotificationChannels
@@ -137,6 +138,8 @@ class MagesApp : Application() {
 
         val koin = GlobalContext.getOrNull()
         if (koin != null) {
+            observeNetworkMetering(this, appScope, koin.get<MatrixService>())
+
             @Suppress("UNCHECKED_CAST")
             val callManager = koin.get<CallManager>()
             var lastTelecomRoomId = ""

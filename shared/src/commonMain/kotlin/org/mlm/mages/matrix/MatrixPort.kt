@@ -1484,6 +1484,8 @@ interface MatrixPort {
     suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo?
     suspend fun setMediaRetentionPolicy(policy: MediaRetentionPolicyInfo): Result<Unit>
     suspend fun clearMediaCacheOlderThan(days: Long): Result<Unit>
+    suspend fun setAutoDownloadRules(rules: MediaAutoDownloadRules): Result<Unit>
+    suspend fun setAutoDownloadNetwork(metered: Boolean, roaming: Boolean): Result<Unit>
 }
 
 @Serializable
@@ -1499,6 +1501,21 @@ data class MediaRetentionPolicyInfo(
     val maxCacheSizeBytes: ULong? = null,
     val maxFileSizeBytes: ULong? = null,
     val lastAccessExpiryDays: ULong? = null,
+)
+
+@Serializable
+enum class AutoDownloadNetwork {
+    Wifi,
+    Mobile,
+    Roaming,
+}
+
+@Serializable
+data class MediaAutoDownloadRules(
+    val photos: List<AutoDownloadNetwork> = emptyList(),
+    val audio: List<AutoDownloadNetwork> = emptyList(),
+    val video: List<AutoDownloadNetwork> = emptyList(),
+    val documents: List<AutoDownloadNetwork> = emptyList(),
 )
 
 expect fun createMatrixPort(): MatrixPort

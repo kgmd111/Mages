@@ -7,6 +7,9 @@ import android.content.Context
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
@@ -28,6 +31,7 @@ import org.mlm.mages.push.AndroidNotificationHelper
 import org.mlm.mages.push.PREF_INSTANCE
 import org.mlm.mages.push.PusherReconciler
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.autoDownloadRules
 import org.mlm.mages.shared.R
 
 private fun parseNotifiedRooms(json: String): Set<String> {
@@ -190,5 +194,31 @@ actual fun BindNotifications(
                 runCatching { service.portOrNull?.unobserveRoomList(token) }
             }
         }
+    }
+}
+
+@Composable
+actual fun BindAutoDownload(
+    service: MatrixService,
+    settingsRepository: SettingsRepository<AppSettings>,
+) {
+    val context = LocalContext.current
+    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
+    val account by service.activeAccount.collectAsState()
+    val ready by service.isReady.collectAsState()
+
+    LaunchedEffect(
+        settings.autoDownloadPhotos,
+        settings.autoDownloadAudio,
+        settings.autoDownloadVideo,
+        settings.autoDownloadDocuments,
+        account?.id,
+        ready,
+    ) {
+        if (!ready) return@LaunchedEffect
+        val port = service.portOrNull ?: return@LaunchedEffect
+        port.setAutoDownloadRules(settings.autoDownloadRules())
+        val (metered, roaming) = currentNetworkMetering(context)
+        port.setAutoDownloadNetwork(metered, roaming)
     }
 }

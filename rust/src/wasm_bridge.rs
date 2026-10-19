@@ -324,6 +324,7 @@ async fn delete_wasm_databases(store_name: &str) {
 
 struct WasmAsyncState {
     core: Rc<CoreClient>,
+    auto_download: crate::auto_download::AutoDownload,
     store_name: String,
     room_list_cache: RefCell<Vec<RoomListEntry>>,
     send_observers: RefCell<HashMap<u64, Function>>,
@@ -779,9 +780,11 @@ impl WasmClient {
                 }
             }
         }
+        let auto_download = crate::auto_download::spawn(client.clone());
         let core = Rc::new(CoreClient::new(client).await);
         let state = Rc::new(WasmAsyncState {
             core,
+            auto_download,
             store_name,
             room_list_cache: RefCell::new(Vec::new()),
             send_observers: RefCell::new(HashMap::new()),
@@ -2513,6 +2516,29 @@ impl WasmClient {
             return webffi_not_init();
         };
         webffi_unit(crate::expire_media_cache(state.client(), days.max(0.0) as u64).await)
+    }
+
+    #[wasm_bindgen(js_name = setAutoDownloadRules)]
+    pub fn set_auto_download_rules(&self, rules_json: String) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        match serde_json::from_str::<MediaAutoDownloadRules>(&rules_json) {
+            Ok(rules) => {
+                state.auto_download.set_rules(rules);
+                webffi_unit(Ok::<(), crate::FfiError>(()))
+            }
+            Err(error) => webffi_err(&format!("auto download rules: {error}")),
+        }
+    }
+
+    #[wasm_bindgen(js_name = setAutoDownloadNetwork)]
+    pub fn set_auto_download_network(&self, metered: bool, roaming: bool) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        state.auto_download.set_network(metered, roaming);
+        webffi_unit(Ok::<(), crate::FfiError>(()))
     }
 
     #[wasm_bindgen(js_name = searchRoom)]

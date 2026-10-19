@@ -57,6 +57,7 @@ import org.mlm.mages.matrix.RoomCallState
 import org.mlm.mages.matrix.MatrixPort.RoomCallStateObserver
 import org.mlm.mages.nav.*
 import org.mlm.mages.platform.BindAppLock
+import org.mlm.mages.platform.BindAutoDownload
 import org.mlm.mages.platform.BindLifecycle
 import org.mlm.mages.platform.BindNotifications
 import org.mlm.mages.platform.BindScreenSecurity
@@ -151,6 +152,8 @@ private fun AppContent(
     if (currentPlatform == SettingPlatform.WEB || currentPlatform == SettingPlatform.ANDROID) {
         BindNotifications(service = service, settingsRepository = settingsRepository)
     } //NOTE: web notifs , causes duplicate notifs on desktop if used there too (due to it being called on DesktopAppContent already).
+
+    BindAutoDownload(service = service, settingsRepository = settingsRepository)
 
     var initDone by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {

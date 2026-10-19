@@ -1066,6 +1066,54 @@ data class AppSettings(
     val mediaPreviews: MediaPreviewsMode = MediaPreviewsMode.On,
 
     @Setting(
+        title = "Auto-download photos",
+        titleKey = MagesSettingsKeys.AUTO_DOWNLOAD_PHOTOS,
+        description = "Download full-size photos automatically",
+        descriptionKey = MagesSettingsKeys.AUTO_DOWNLOAD_PHOTOS_DESCRIPTION,
+        category = Storage::class,
+        type = MultiSelect::class,
+        options = [AUTO_DOWNLOAD_WIFI, AUTO_DOWNLOAD_MOBILE, AUTO_DOWNLOAD_ROAMING],
+        optionsKey = MagesSettingsKeys.AUTO_DOWNLOAD_NETWORKS_OPTIONS,
+    )
+    val autoDownloadPhotos: Set<String> = setOf(AUTO_DOWNLOAD_WIFI),
+
+    @Setting(
+        title = "Auto-download audio",
+        titleKey = MagesSettingsKeys.AUTO_DOWNLOAD_AUDIO,
+        description = "Download voice messages and audio automatically",
+        descriptionKey = MagesSettingsKeys.AUTO_DOWNLOAD_AUDIO_DESCRIPTION,
+        category = Storage::class,
+        type = MultiSelect::class,
+        options = [AUTO_DOWNLOAD_WIFI, AUTO_DOWNLOAD_MOBILE, AUTO_DOWNLOAD_ROAMING],
+        optionsKey = MagesSettingsKeys.AUTO_DOWNLOAD_NETWORKS_OPTIONS,
+    )
+    val autoDownloadAudio: Set<String> = setOf(AUTO_DOWNLOAD_WIFI),
+
+    @Setting(
+        title = "Auto-download videos",
+        titleKey = MagesSettingsKeys.AUTO_DOWNLOAD_VIDEO,
+        description = "Download videos automatically",
+        descriptionKey = MagesSettingsKeys.AUTO_DOWNLOAD_VIDEO_DESCRIPTION,
+        category = Storage::class,
+        type = MultiSelect::class,
+        options = [AUTO_DOWNLOAD_WIFI, AUTO_DOWNLOAD_MOBILE, AUTO_DOWNLOAD_ROAMING],
+        optionsKey = MagesSettingsKeys.AUTO_DOWNLOAD_NETWORKS_OPTIONS,
+    )
+    val autoDownloadVideo: Set<String> = setOf(AUTO_DOWNLOAD_WIFI),
+
+    @Setting(
+        title = "Auto-download documents",
+        titleKey = MagesSettingsKeys.AUTO_DOWNLOAD_DOCUMENTS,
+        description = "Download file attachments automatically",
+        descriptionKey = MagesSettingsKeys.AUTO_DOWNLOAD_DOCUMENTS_DESCRIPTION,
+        category = Storage::class,
+        type = MultiSelect::class,
+        options = [AUTO_DOWNLOAD_WIFI, AUTO_DOWNLOAD_MOBILE, AUTO_DOWNLOAD_ROAMING],
+        optionsKey = MagesSettingsKeys.AUTO_DOWNLOAD_NETWORKS_OPTIONS,
+    )
+    val autoDownloadDocuments: Set<String> = emptySet(),
+
+    @Setting(
         title = "Media Cache",
         titleKey = MagesSettingsKeys.MEDIA_CACHE,
         description = "View and manage cached media",

@@ -2377,6 +2377,35 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             runWithFfiResult { it.clearMediaCacheOlderThan(days.toULong()) }
         }
     }
+
+    override suspend fun setAutoDownloadRules(rules: MediaAutoDownloadRules): Result<Unit> =
+        withContext(matrixDispatcher) {
+            withClient {
+                runWithFfiResult {
+                    it.setAutoDownloadRules(
+                        mages.MediaAutoDownloadRules(
+                            photos = rules.photos.map(AutoDownloadNetwork::toFfi),
+                            audio = rules.audio.map(AutoDownloadNetwork::toFfi),
+                            video = rules.video.map(AutoDownloadNetwork::toFfi),
+                            documents = rules.documents.map(AutoDownloadNetwork::toFfi),
+                        )
+                    )
+                }
+            }
+        }
+
+    override suspend fun setAutoDownloadNetwork(metered: Boolean, roaming: Boolean): Result<Unit> =
+        withContext(matrixDispatcher) {
+            withClient {
+                runWithFfiResult { it.setAutoDownloadNetwork(metered, roaming) }
+            }
+        }
+}
+
+private fun AutoDownloadNetwork.toFfi(): mages.AutoDownloadNetwork = when (this) {
+    AutoDownloadNetwork.Wifi -> mages.AutoDownloadNetwork.WIFI
+    AutoDownloadNetwork.Mobile -> mages.AutoDownloadNetwork.MOBILE
+    AutoDownloadNetwork.Roaming -> mages.AutoDownloadNetwork.ROAMING
 }
 
 private fun FfiRoom.toModel() = RoomSummary(id = id, name = name)

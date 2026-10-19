@@ -19,4 +19,7 @@ expect fun BindLifecycle(service: MatrixService, resetSyncState: Boolean = true)
 expect fun BindNotifications(service: MatrixService, settingsRepository: SettingsRepository<AppSettings>)
 
 @Composable
+expect fun BindAutoDownload(service: MatrixService, settingsRepository: SettingsRepository<AppSettings>)
+
+@Composable
 expect fun rememberQuitApp(): () -> Unit

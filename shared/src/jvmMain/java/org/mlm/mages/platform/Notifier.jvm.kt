@@ -26,6 +26,7 @@ import org.mlm.mages.push.LinuxPushHandler
 import org.mlm.mages.push.NotificationMediaPolicy
 import org.mlm.mages.push.NotificationPresentation
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.autoDownloadRules
 import mages.shared.generated.resources.*
 import org.jetbrains.compose.resources.getString
 import kotlin.system.exitProcess
@@ -274,4 +275,28 @@ actual fun BindNotifications(
 @Composable
 actual fun rememberQuitApp(): () -> Unit = {
     exitProcess(0)
+}
+
+@Composable
+actual fun BindAutoDownload(
+    service: MatrixService,
+    settingsRepository: SettingsRepository<AppSettings>,
+) {
+    val settings by settingsRepository.flow.collectAsState(initial = AppSettings())
+    val account by service.activeAccount.collectAsState()
+    val ready by service.isReady.collectAsState()
+
+    LaunchedEffect(
+        settings.autoDownloadPhotos,
+        settings.autoDownloadAudio,
+        settings.autoDownloadVideo,
+        settings.autoDownloadDocuments,
+        account?.id,
+        ready,
+    ) {
+        if (!ready) return@LaunchedEffect
+        val port = service.portOrNull ?: return@LaunchedEffect
+        port.setAutoDownloadRules(settings.autoDownloadRules())
+        port.setAutoDownloadNetwork(metered = false, roaming = false)
+    }
 }
