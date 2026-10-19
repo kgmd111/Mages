@@ -617,6 +617,13 @@ pub struct MediaCacheOverview {
     pub thumbnail_bytes: u64,
 }
 
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, Record)]
+pub struct MediaRetentionPolicyInfo {
+    pub max_cache_size_bytes: Option<u64>,
+    pub max_file_size_bytes: Option<u64>,
+    pub last_access_expiry_days: Option<u64>,
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize, uniffi::Record)]
 pub struct LatestRoomEvent {
     pub event_id: String,

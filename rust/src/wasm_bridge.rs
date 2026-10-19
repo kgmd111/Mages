@@ -2450,6 +2450,71 @@ impl WasmClient {
         }
     }
 
+    #[wasm_bindgen(js_name = mediaCacheOverview)]
+    pub async fn media_cache_overview(&self) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        let store_bytes = match state.client().media_store().lock().await {
+            Ok(store) => store
+                .get_size()
+                .await
+                .ok()
+                .flatten()
+                .map(|bytes| bytes as u64),
+            Err(_) => None,
+        };
+        webffi_value(Ok::<_, crate::FfiError>(MediaCacheOverview {
+            store_bytes,
+            thumbnail_bytes: 0,
+        }))
+    }
+
+    #[wasm_bindgen(js_name = mediaRetentionPolicy)]
+    pub async fn media_retention_policy(&self) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_value(crate::read_media_policy(state.client()).await)
+    }
+
+    #[wasm_bindgen(js_name = setMediaRetentionPolicy)]
+    pub async fn set_media_retention_policy(
+        &self,
+        max_cache_size_bytes: Option<f64>,
+        max_file_size_bytes: Option<f64>,
+        last_access_expiry_days: Option<f64>,
+    ) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_unit(
+            crate::apply_media_policy(
+                state.client(),
+                max_cache_size_bytes.map(|bytes| bytes.max(0.0) as u64),
+                max_file_size_bytes.map(|bytes| bytes.max(0.0) as u64),
+                last_access_expiry_days.map(|days| days.max(0.0) as u64),
+            )
+            .await,
+        )
+    }
+
+    #[wasm_bindgen(js_name = clearMediaCache)]
+    pub async fn clear_media_cache(&self) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_unit(crate::wipe_media_cache(state.client()).await)
+    }
+
+    #[wasm_bindgen(js_name = clearMediaCacheOlderThan)]
+    pub async fn clear_media_cache_older_than(&self, days: f64) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        webffi_unit(crate::expire_media_cache(state.client(), days.max(0.0) as u64).await)
+    }
+
     #[wasm_bindgen(js_name = searchRoom)]
     pub async fn search_room(
         &self,

@@ -21,6 +21,7 @@ import mages.ActionPresentation as FfiActionPresentation
 import mages.RoomActionState as FfiRoomActionState
 import mages.MemberActionState as FfiMemberActionState
 import mages.MessageActionState as FfiMessageActionState
+import mages.MediaRetentionPolicyInfo as FfiMediaRetentionPolicyInfo
 import org.mlm.mages.*
 import org.mlm.mages.platform.AndroidBrowserAuthCoordinator
 import org.mlm.mages.platform.MagesPaths
@@ -2333,6 +2334,42 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
     override suspend fun clearMediaCache(): Result<Unit> = withContext(matrixDispatcher) {
         withClient {
             runWithFfiResult { it.clearMediaCache() }
+        }
+    }
+
+    override suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo? = withContext(matrixDispatcher) {
+        withClient {
+            runCatching {
+                it.mediaRetentionPolicy()?.let { policy ->
+                    MediaRetentionPolicyInfo(
+                        maxCacheSizeBytes = policy.maxCacheSizeBytes,
+                        maxFileSizeBytes = policy.maxFileSizeBytes,
+                        lastAccessExpiryDays = policy.lastAccessExpiryDays,
+                    )
+                }
+            }.getOrNull()
+        }
+    }
+
+    override suspend fun setMediaRetentionPolicy(
+        policy: MediaRetentionPolicyInfo,
+    ): Result<Unit> = withContext(matrixDispatcher) {
+        withClient {
+            runWithFfiResult {
+                it.setMediaRetentionPolicy(
+                    FfiMediaRetentionPolicyInfo(
+                        maxCacheSizeBytes = policy.maxCacheSizeBytes,
+                        maxFileSizeBytes = policy.maxFileSizeBytes,
+                        lastAccessExpiryDays = policy.lastAccessExpiryDays,
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun clearMediaCacheOlderThan(days: Long): Result<Unit> = withContext(matrixDispatcher) {
+        withClient {
+            runWithFfiResult { it.clearMediaCacheOlderThan(days.toULong()) }
         }
     }
 }

@@ -462,6 +462,14 @@
     <string
         name="media_cache_clear_confirm_body"
     >Local cached media will be removed. Your messages stay in your chats and media can download again when needed.</string>
+    <string name="media_cache_keep_media">Keep media for</string>
+    <string name="media_cache_keep_forever">Forever</string>
+    <string name="media_cache_days">%1$d days</string>
+    <string name="media_cache_cache_limit">Cache size limit</string>
+    <string name="media_cache_max_file">Largest file kept</string>
+    <string name="media_cache_unlimited">Unlimited</string>
+    <string name="media_cache_clear_older">Clear older media</string>
+    <string name="media_cache_clear_older_confirm">Clear media older than %1$d days?</string>
 
     <string name="local_network_permission_title">Allow local network access</string>
     <string name="local_network_permission_subtitle">Your homeserver appears to be on your local network. Mages needs permission to connect to devices on your LAN.</string>

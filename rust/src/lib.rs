@@ -73,7 +73,7 @@ use matrix_sdk::{
     Client as SdkClient, Room, SessionMeta, SessionTokens,
     authentication::matrix::MatrixSession,
     authentication::oauth::{ClientId, OAuthSession, UserSession},
-    media::{MediaFormat, MediaRequestParameters},
+    media::{MediaFormat, MediaRequestParameters, MediaRetentionPolicy},
     ruma::{
         api::client::push::{Pusher, PusherIds, PusherInit, PusherKind},
         events::room::{EncryptedFile, MediaSource},
@@ -503,6 +503,89 @@ pub(crate) fn is_hard_auth_error(e: &matrix_sdk::Error) -> bool {
 
 fn cache_dir(dir: &PathBuf) -> PathBuf {
     dir.join("media_cache")
+}
+
+fn media_policy_from(
+    max_cache_size_bytes: Option<u64>,
+    max_file_size_bytes: Option<u64>,
+    last_access_expiry_days: Option<u64>,
+) -> MediaRetentionPolicy {
+    let mut policy = MediaRetentionPolicy::empty()
+        .with_max_cache_size(max_cache_size_bytes)
+        .with_max_file_size(max_file_size_bytes)
+        .with_last_access_expiry(
+            last_access_expiry_days.map(|days| Duration::from_secs(days.min(3650) * 86_400)),
+        );
+    if policy.has_limitations() {
+        policy = policy.with_cleanup_frequency(Some(Duration::from_secs(86_400)));
+    }
+    policy
+}
+
+pub(crate) async fn read_media_policy(
+    sdk: &SdkClient,
+) -> Result<MediaRetentionPolicyInfo, matrix_sdk::Error> {
+    let policy = sdk.media().media_retention_policy().await?;
+    Ok(MediaRetentionPolicyInfo {
+        max_cache_size_bytes: policy.max_cache_size,
+        max_file_size_bytes: policy.max_file_size,
+        last_access_expiry_days: policy
+            .last_access_expiry
+            .map(|expiry| expiry.as_secs() / 86_400),
+    })
+}
+
+pub(crate) async fn apply_media_policy(
+    sdk: &SdkClient,
+    max_cache_size_bytes: Option<u64>,
+    max_file_size_bytes: Option<u64>,
+    last_access_expiry_days: Option<u64>,
+) -> Result<(), matrix_sdk::Error> {
+    let media = sdk.media();
+    media
+        .set_media_retention_policy(media_policy_from(
+            max_cache_size_bytes,
+            max_file_size_bytes,
+            last_access_expiry_days,
+        ))
+        .await?;
+    media.clean().await?;
+    Ok(())
+}
+
+async fn apply_policy_and_restore(
+    sdk: &SdkClient,
+    policy: MediaRetentionPolicy,
+) -> Result<(), matrix_sdk::Error> {
+    let media = sdk.media();
+    let previous = media.media_retention_policy().await?;
+    media.set_media_retention_policy(policy).await?;
+    let cleaned = media.clean().await;
+    let restored = media.set_media_retention_policy(previous).await;
+    cleaned?;
+    restored?;
+    Ok(())
+}
+
+pub(crate) async fn wipe_media_cache(sdk: &SdkClient) -> Result<(), matrix_sdk::Error> {
+    apply_policy_and_restore(
+        sdk,
+        MediaRetentionPolicy::empty().with_max_cache_size(Some(0)),
+    )
+    .await
+}
+
+pub(crate) async fn expire_media_cache(
+    sdk: &SdkClient,
+    days: u64,
+) -> Result<(), matrix_sdk::Error> {
+    apply_policy_and_restore(
+        sdk,
+        MediaRetentionPolicy::empty().with_last_access_expiry(Some(Duration::from_secs(
+            days.min(3650) * 86_400,
+        ))),
+    )
+    .await
 }
 
 pub(crate) fn sanitize_filename(name: &str) -> String {
@@ -3093,19 +3176,7 @@ impl Client {
         return Ok(());
 
         #[cfg(not(target_family = "wasm"))]
-        RT.block_on(async {
-            use matrix_sdk::media::MediaRetentionPolicy;
-
-            let media = self.core.sdk.media();
-            let previous = media.media_retention_policy().await.ffi()?;
-            let wipe = MediaRetentionPolicy::empty().with_max_cache_size(Some(0));
-            media.set_media_retention_policy(wipe).await.ffi()?;
-            let cleaned = media.clean().await;
-            let restored = media.set_media_retention_policy(previous).await;
-            cleaned.ffi()?;
-            restored.ffi()?;
-            Ok(())
-        })
+        RT.block_on(async { wipe_media_cache(&self.core.sdk).await.ffi() })
     }
 
     pub fn run_media_cache_maintenance(&self) -> Result<(), FfiError> {
@@ -3114,6 +3185,59 @@ impl Client {
 
         #[cfg(not(target_family = "wasm"))]
         RT.block_on(async { self.core.sdk.media().clean().await.ffi() })
+    }
+
+    pub fn media_retention_policy(&self) -> Option<MediaRetentionPolicyInfo> {
+        #[cfg(target_family = "wasm")]
+        return None;
+
+        #[cfg(not(target_family = "wasm"))]
+        RT.block_on(async { read_media_policy(&self.core.sdk).await.ok() })
+    }
+
+    pub fn set_media_retention_policy(
+        &self,
+        policy: MediaRetentionPolicyInfo,
+    ) -> Result<(), FfiError> {
+        #[cfg(target_family = "wasm")]
+        return Ok(());
+
+        #[cfg(not(target_family = "wasm"))]
+        RT.block_on(async {
+            apply_media_policy(
+                &self.core.sdk,
+                policy.max_cache_size_bytes,
+                policy.max_file_size_bytes,
+                policy.last_access_expiry_days,
+            )
+            .await
+            .ffi()
+        })
+    }
+
+    pub fn clear_media_cache_older_than(&self, days: u64) -> Result<(), FfiError> {
+        let dir = cache_dir(&self.store_dir);
+        if dir.exists() {
+            let cutoff = SystemTime::now().checked_sub(Duration::from_secs(days.min(3650) * 86_400));
+            if let (Some(cutoff), Ok(entries)) = (cutoff, std::fs::read_dir(&dir)) {
+                for entry in entries.flatten() {
+                    let stale = entry
+                        .metadata()
+                        .and_then(|metadata| metadata.modified())
+                        .map(|modified| modified < cutoff)
+                        .unwrap_or(false);
+                    if stale && entry.file_type().map(|kind| kind.is_file()).unwrap_or(false) {
+                        std::fs::remove_file(entry.path()).ok();
+                    }
+                }
+            }
+        }
+
+        #[cfg(target_family = "wasm")]
+        return Ok(());
+
+        #[cfg(not(target_family = "wasm"))]
+        RT.block_on(async { expire_media_cache(&self.core.sdk, days).await.ffi() })
     }
 
     pub fn start_device_verification(

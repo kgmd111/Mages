@@ -1479,6 +1479,9 @@ interface MatrixPort {
 
     suspend fun mediaCacheOverview(): MediaCacheOverview?
     suspend fun clearMediaCache(): Result<Unit>
+    suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo?
+    suspend fun setMediaRetentionPolicy(policy: MediaRetentionPolicyInfo): Result<Unit>
+    suspend fun clearMediaCacheOlderThan(days: Long): Result<Unit>
 }
 
 @Serializable
@@ -1488,6 +1491,13 @@ data class MediaCacheOverview(
 ) {
     val totalBytes: ULong get() = (storeBytes ?: 0u) + thumbnailBytes
 }
+
+@Serializable
+data class MediaRetentionPolicyInfo(
+    val maxCacheSizeBytes: ULong? = null,
+    val maxFileSizeBytes: ULong? = null,
+    val lastAccessExpiryDays: ULong? = null,
+)
 
 expect fun createMatrixPort(): MatrixPort
 

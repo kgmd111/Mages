@@ -1770,9 +1770,26 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override fun stopElementCall(sessionId: ULong): Boolean =
         requireClientOrNull()?.stopElementCall(sessionId.toDouble()) ?: false
 
-    override suspend fun mediaCacheOverview(): MediaCacheOverview? = null
+    override suspend fun mediaCacheOverview(): MediaCacheOverview? =
+        requireClientOrNull()?.mediaCacheOverview()?.awaitValue()
 
-    override suspend fun clearMediaCache(): Result<Unit> = Result.success(Unit)
+    override suspend fun clearMediaCache(): Result<Unit> =
+        requireClient().clearMediaCache().awaitUnitResult()
+
+    override suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo? =
+        requireClientOrNull()?.mediaRetentionPolicy()?.awaitValue()
+
+    override suspend fun setMediaRetentionPolicy(policy: MediaRetentionPolicyInfo): Result<Unit> =
+        requireClient()
+            .setMediaRetentionPolicy(
+                policy.maxCacheSizeBytes?.toDouble(),
+                policy.maxFileSizeBytes?.toDouble(),
+                policy.lastAccessExpiryDays?.toDouble(),
+            )
+            .awaitUnitResult()
+
+    override suspend fun clearMediaCacheOlderThan(days: Long): Result<Unit> =
+        requireClient().clearMediaCacheOlderThan(days.toDouble()).awaitUnitResult()
 
     override suspend fun roomPreview(idOrAlias: String, via: List<String>): Result<RoomPreview> {
         val value = requireClient().roomPreview(idOrAlias, via.toJsArray()).awaitValue<RoomPreview>()

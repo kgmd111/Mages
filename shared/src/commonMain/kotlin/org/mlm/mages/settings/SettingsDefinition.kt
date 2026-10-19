@@ -1072,7 +1072,6 @@ data class AppSettings(
         descriptionKey = MagesSettingsKeys.MEDIA_CACHE_DESCRIPTION,
         category = Storage::class,
         type = Button::class,
-        platforms = [SettingPlatform.ANDROID, SettingPlatform.JVM]
     )
     @ActionHandler(OpenMediaCacheAction::class)
     val openMediaCache: Unit = Unit,
