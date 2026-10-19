@@ -46,6 +46,14 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.2.1" date="2026-10-19" type="stable">
+      <description>
+        <ul>
+          <li>verified badges, double tap action setting and per-chat wallpaper options</li>
+          <li>Add containerised setup for web version</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.2.0" date="2026-10-19" type="stable">
       <description>
         <ul>
