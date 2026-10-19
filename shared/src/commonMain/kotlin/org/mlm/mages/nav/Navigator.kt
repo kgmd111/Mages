@@ -53,6 +53,7 @@ sealed interface Route : NavKey {
     @Serializable data object MediaCache : Route
     @Serializable data object Bookmarks : Route
     @Serializable data object Wallpaper : Route
+    @Serializable data class RoomWallpaper(val roomId: String) : Route
 }
 
 fun <T : NavKey> NavBackStack<T>.replaceTop(key: T) {

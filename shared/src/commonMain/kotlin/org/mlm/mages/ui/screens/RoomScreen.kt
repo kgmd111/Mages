@@ -110,6 +110,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.AutoMarkReadTrigger
+import org.mlm.mages.settings.MessageDoubleTapAction
 import org.mlm.mages.settings.MessageSwipeAction
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.isEditableBy
@@ -163,7 +164,9 @@ fun RoomScreen(
     val bookmarksStore: BookmarksStore = koinInject()
     val bookmarks by bookmarksStore.bookmarks.collectAsState()
     val wallpaperStore: WallpaperStore = koinInject()
-    val wallpaper by wallpaperStore.wallpaper.collectAsState()
+    val globalWallpaper by wallpaperStore.wallpaper.collectAsState()
+    val roomWallpapers by wallpaperStore.roomWallpapers.collectAsState()
+    val wallpaper = roomWallpapers[state.roomId] ?: globalWallpaper
 
     LaunchedEffect(state.roomId) {
         wallpaperStore.refresh()
@@ -868,6 +871,7 @@ fun RoomScreen(
                                                 showReactionAvatars = listSettings.showReactionAvatars,
                                                 swipeRightAction = listSettings.messageSwipeRightAction,
                                                 swipeLeftAction = listSettings.messageSwipeLeftAction,
+                                                doubleTapAction = listSettings.messageDoubleTapAction,
                                                 doubleTapReaction = listSettings.messageDoubleTapReaction
                                             )
                                         },
@@ -1731,6 +1735,7 @@ private fun MessageItem(
     showReactionAvatars: Boolean = true,
     swipeRightAction: MessageSwipeAction = MessageSwipeAction.Reply,
     swipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
+    doubleTapAction: MessageDoubleTapAction = MessageDoubleTapAction.React,
     doubleTapReaction: String = "❤️",
 ) {
     Column {
@@ -1837,14 +1842,26 @@ private fun MessageItem(
                         }
                     },
                     onLongClick = onRowLongPress,
-                    onDoubleClick = if (state.sendReactionAction.isEnabled) {
+                    onDoubleClick = if (doubleTapAction == MessageDoubleTapAction.Nothing) {
+                        null
+                    } else {
                         {
                             if (!state.isSelectionMode) {
-                                viewModel.react(event, doubleTapReaction)
+                                when (doubleTapAction) {
+                                    MessageDoubleTapAction.React ->
+                                        if (state.sendReactionAction.isEnabled) {
+                                            viewModel.react(event, doubleTapReaction)
+                                        }
+                                    MessageDoubleTapAction.Reply -> onReply()
+                                    MessageDoubleTapAction.Pin ->
+                                        if (event.eventId in pinnedEventIdSet) viewModel.unpinEvent(event.eventId)
+                                        else viewModel.pinEvent(event)
+                                    MessageDoubleTapAction.Copy ->
+                                        clipboardManager.setText(AnnotatedString(event.body))
+                                    MessageDoubleTapAction.Nothing -> Unit
+                                }
                             }
                         }
-                    } else {
-                        null
                     }
                 )
                 .secondaryClick(onRowLongPress)

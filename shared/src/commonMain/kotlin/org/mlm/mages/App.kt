@@ -513,6 +513,7 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                    onOpenWallpaper = { backStack.add(Route.RoomWallpaper(it)) },
                                     roomListPercent = settings.splitRoomListPercent,
                                 ) { sel ->
                                     RoomEntryContent(
@@ -537,6 +538,7 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
+                                    onOpenWallpaper = { backStack.add(Route.RoomWallpaper(it)) },
                                 )
                             }
 
@@ -707,6 +709,7 @@ private fun AppContent(
                                 onLeaveSuccess = { backStack.popUntil { it is Route.Rooms } },
                                 onOpenMediaGallery = { backStack.add(Route.MediaGallery(key.roomId)) },
                                 onOpenImagePackEditor = { backStack.add(Route.ImagePackEditor(key.roomId)) },
+                                onOpenWallpaper = { backStack.add(Route.RoomWallpaper(key.roomId)) },
                                 onOpenSpace = { spaceId ->
                                     val name = viewModel.state.value.parentSpaces
                                         .firstOrNull { it.spaceId == spaceId }?.name.orEmpty()
@@ -995,6 +998,13 @@ private fun AppContent(
                         entry<Route.Wallpaper> {
                             WallpaperRoute(
                                 onBack = backStack::popBack
+                            )
+                        }
+
+                        entry<Route.RoomWallpaper> { key ->
+                            WallpaperRoute(
+                                onBack = backStack::popBack,
+                                roomId = key.roomId,
                             )
                         }
 

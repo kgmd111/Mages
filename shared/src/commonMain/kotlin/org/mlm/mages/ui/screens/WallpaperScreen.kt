@@ -66,13 +66,18 @@ import mages.shared.generated.resources.Res
 private const val MAX_WALLPAPER_BYTES = 8L * 1024 * 1024
 
 @Composable
-fun WallpaperRoute(onBack: () -> Unit) {
+fun WallpaperRoute(onBack: () -> Unit, roomId: String? = null) {
     val service: MatrixService = koinInject()
     val store: WallpaperStore = koinInject()
-    val wallpaper by store.wallpaper.collectAsState()
+    val global by store.wallpaper.collectAsState()
+    val roomWallpapers by store.roomWallpapers.collectAsState()
     val scope = rememberCoroutineScope()
     val snackbarManager: SnackbarManager = koinInject()
     var uploading by remember { mutableStateOf(false) }
+
+    val room = roomId
+    val override = room?.let { roomWallpapers[it] }
+    val wallpaper = override ?: global
 
     LaunchedEffect(Unit) {
         store.refresh()
@@ -102,7 +107,7 @@ fun WallpaperRoute(onBack: () -> Unit) {
                     return@launch
                 }
                 client.uploadImageFromPath(path, mime)
-                    .mapCatching { mxc -> store.setImage(mxc).getOrThrow() }
+                    .mapCatching { mxc -> store.setImage(mxc, room).getOrThrow() }
                     .onFailure { error ->
                         snackbarManager.showError(
                             error.message ?: getString(Res.string.wallpaper_upload_failed)
@@ -117,15 +122,30 @@ fun WallpaperRoute(onBack: () -> Unit) {
     WallpaperScreen(
         wallpaper = wallpaper,
         isUploading = uploading,
+        inheritsGlobal = room != null && override == null,
         onBack = onBack,
         onChooseImage = { picker.launch() },
         onOpacityChange = { value ->
-            scope.launch { store.setOpacity(value).onFailure { snackbarManager.reportWallpaperFailure(it) } }
+            scope.launch { store.setOpacity(value, room).onFailure { snackbarManager.reportWallpaperFailure(it) } }
         },
         onBlurChange = { value ->
-            scope.launch { store.setBlur(value).onFailure { snackbarManager.reportWallpaperFailure(it) } }
+            scope.launch { store.setBlur(value, room).onFailure { snackbarManager.reportWallpaperFailure(it) } }
         },
-        onRemove = { scope.launch { store.remove().onFailure { snackbarManager.reportWallpaperFailure(it) } } },
+        onRemove = if (room == null) {
+            { scope.launch { store.remove().onFailure { snackbarManager.reportWallpaperFailure(it) } } }
+        } else {
+            null
+        },
+        onSetNoWallpaper = if (room != null) {
+            { scope.launch { store.disableForRoom(room).onFailure { snackbarManager.reportWallpaperFailure(it) } } }
+        } else {
+            null
+        },
+        onResetToGlobal = if (room != null && override != null) {
+            { scope.launch { store.remove(room).onFailure { snackbarManager.reportWallpaperFailure(it) } } }
+        } else {
+            null
+        },
     )
 }
 
@@ -138,11 +158,14 @@ private suspend fun SnackbarManager.reportWallpaperFailure(error: Throwable) {
 fun WallpaperScreen(
     wallpaper: WallpaperConfig?,
     isUploading: Boolean,
+    inheritsGlobal: Boolean = false,
     onBack: () -> Unit,
     onChooseImage: () -> Unit,
     onOpacityChange: (Float) -> Unit,
     onBlurChange: (Float) -> Unit,
-    onRemove: () -> Unit,
+    onRemove: (() -> Unit)?,
+    onSetNoWallpaper: (() -> Unit)? = null,
+    onResetToGlobal: (() -> Unit)? = null,
 ) {
     val snackbarManager: SnackbarManager = koinInject()
     val hasWallpaper = wallpaper?.url != null
@@ -205,6 +228,14 @@ fun WallpaperScreen(
                 )
             }
 
+            if (inheritsGlobal && hasWallpaper) {
+                Text(
+                    text = stringResource(Res.string.wallpaper_using_global),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
             Button(
                 onClick = onChooseImage,
                 enabled = !isUploading,
@@ -230,7 +261,27 @@ fun WallpaperScreen(
                     valueRange = WallpaperConfig.MIN_BLUR..WallpaperConfig.MAX_BLUR,
                     onChange = onBlurChange,
                 )
+            }
 
+            if (onSetNoWallpaper != null && hasWallpaper) {
+                OutlinedButton(
+                    onClick = onSetNoWallpaper,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(Res.string.wallpaper_room_none))
+                }
+            }
+
+            if (onResetToGlobal != null) {
+                OutlinedButton(
+                    onClick = onResetToGlobal,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(Res.string.wallpaper_reset_to_global))
+                }
+            }
+
+            if (onRemove != null && hasWallpaper) {
                 OutlinedButton(
                     onClick = onRemove,
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),

@@ -632,8 +632,17 @@
         <item>Copy</item>
         <item>Nothing</item>
     </string-array>
+    <string name="setting_message_double_tap">Double-tap action</string>
+    <string name="setting_message_double_tap_description">Action performed when double-tapping a message</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>React</item>
+        <item>Reply</item>
+        <item>Pin</item>
+        <item>Copy</item>
+        <item>Nothing</item>
+    </string-array>
     <string name="setting_message_double_tap_reaction">Double-tap reaction</string>
-    <string name="setting_message_double_tap_reaction_description">Reaction sent when you double-tap a message</string>
+    <string name="setting_message_double_tap_reaction_description">Reaction sent when the double-tap action is React</string>
     <string name="notification_keywords">Keywords</string>
     <string name="notification_keywords_description">Rooms set to mentions &amp; keywords only will notify you when a message matches one of these words</string>
     <string name="notification_keywords_empty">No keywords yet</string>
@@ -1169,6 +1178,9 @@
     <string name="wallpaper_opacity">Opacity</string>
     <string name="wallpaper_blur">Blur</string>
     <string name="wallpaper_remove">Remove wallpaper</string>
+    <string name="wallpaper_room_none">No wallpaper for this chat</string>
+    <string name="wallpaper_reset_to_global">Reset to global</string>
+    <string name="wallpaper_using_global">Using the global wallpaper</string>
     <string name="wallpaper_none_title">No wallpaper set</string>
     <string name="wallpaper_none_subtitle">Choose an image to use behind your messages. It is stored on your homeserver, so it follows your account across devices.</string>
     <string name="wallpaper_upload_failed">Could not set the wallpaper. Try again.</string>

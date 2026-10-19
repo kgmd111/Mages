@@ -65,6 +65,7 @@ fun RoomInfoRoute(
     onLeaveSuccess: () -> Unit,
     onOpenMediaGallery: () -> Unit,
     onOpenImagePackEditor: () -> Unit,
+    onOpenWallpaper: () -> Unit,
     onOpenSpace: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -122,6 +123,7 @@ fun RoomInfoRoute(
         onOpenSpace = onOpenSpace,
         onOpenMediaGallery = onOpenMediaGallery,
         onOpenImagePackEditor = onOpenImagePackEditor,
+        onOpenWallpaper = onOpenWallpaper,
         onShowNotificationSettings = viewModel::showNotificationSettings,
         onHideNotificationSettings = viewModel::hideNotificationSettings,
         onSetNotificationMode = viewModel::setNotificationMode,
@@ -175,6 +177,7 @@ fun RoomInfoScreen(
     onOpenSpace: (String) -> Unit,
     onOpenMediaGallery: () -> Unit,
     onOpenImagePackEditor: () -> Unit,
+    onOpenWallpaper: () -> Unit,
     onShowNotificationSettings: () -> Unit,
     onHideNotificationSettings: () -> Unit,
     onSetNotificationMode: (RoomNotificationMode) -> Unit,
@@ -372,6 +375,12 @@ fun RoomInfoScreen(
                             title = stringResource(Res.string.notifications),
                             subtitle = state.notificationMode?.displayName() ?: stringResource(Res.string.default),
                             onClick = onShowNotificationSettings
+                        )
+                        HorizontalDivider(Modifier.padding(horizontal = Spacing.md))
+                        SettingsNavRow(
+                            icon = Icons.Default.Wallpaper,
+                            title = stringResource(Res.string.setting_chat_wallpaper),
+                            onClick = onOpenWallpaper
                         )
                         HorizontalDivider(Modifier.padding(horizontal = Spacing.md))
                         SettingsNavRow(

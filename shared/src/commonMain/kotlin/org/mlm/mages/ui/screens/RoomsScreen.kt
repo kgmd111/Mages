@@ -57,6 +57,7 @@ fun RoomsScreen(
     onOpenSpaces: () -> Unit,
     onOpenSearch: () -> Unit,
     onOpenAccountSwitcher: () -> Unit,
+    onOpenWallpaper: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
     val settingsRepository: SettingsRepository<AppSettings> = koinInject()
@@ -407,6 +408,7 @@ fun RoomsScreen(
             onToggleFavourite = { viewModel.toggleFavourite(roomId, roomId in state.favourites) },
             onToggleLowPriority = { viewModel.toggleLowPriority(roomId, roomId in state.lowPriority) },
             onSelect = { viewModel.startRoomSelection(roomId) },
+            onWallpaper = { onOpenWallpaper(roomId) },
         )
     }
 
