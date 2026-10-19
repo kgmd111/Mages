@@ -513,7 +513,6 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
-                                    onOpenWallpaper = { backStack.add(Route.RoomWallpaper(it)) },
                                     roomListPercent = settings.splitRoomListPercent,
                                 ) { sel ->
                                     RoomEntryContent(
@@ -538,7 +537,6 @@ private fun AppContent(
                                     onOpenSpaces = { backStack.add(Route.Spaces) },
                                     onOpenSearch = { backStack.add(Route.Search) },
                                     onOpenAccountSwitcher = { showAccountSwitcher = true },
-                                    onOpenWallpaper = { backStack.add(Route.RoomWallpaper(it)) },
                                 )
                             }
 

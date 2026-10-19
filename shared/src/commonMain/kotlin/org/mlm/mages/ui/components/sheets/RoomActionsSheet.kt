@@ -27,7 +27,6 @@ fun RoomActionsSheet(
     onToggleFavourite: () -> Unit,
     onToggleLowPriority: () -> Unit,
     onSelect: () -> Unit,
-    onWallpaper: () -> Unit,
 ) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
@@ -66,11 +65,6 @@ fun RoomActionsSheet(
                 if (isLowPriority) stringResource(Res.string.remove_from_low_priority) else stringResource(Res.string.low_priority)
             ) {
                 onToggleLowPriority()
-                onDismiss()
-            }
-
-            ActionItem(Icons.Default.Wallpaper, stringResource(Res.string.setting_chat_wallpaper)) {
-                onWallpaper()
                 onDismiss()
             }
 
