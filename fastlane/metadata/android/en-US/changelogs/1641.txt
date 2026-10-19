@@ -1,0 +1,2 @@
+- verified badges, double tap action setting and per-chat wallpaper options
+- Add containerised setup for web version

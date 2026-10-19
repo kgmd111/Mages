@@ -1,3 +1,9 @@
+## v5.2.2
+
+- verified badges, double tap action setting and per-chat wallpaper options
+- Add containerised setup for web version
+
+
 ## v5.2.1
 
 - verified badges, double tap action setting and per-chat wallpaper options
