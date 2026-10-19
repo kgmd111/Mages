@@ -40,7 +40,10 @@ use matrix_sdk::{
     encryption::{BackupDownloadStrategy, EncryptionSettings},
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
 };
-use matrix_sdk_base::{event_cache::store::EventCacheStore, media::store::MediaStore};
+use matrix_sdk_base::{
+    event_cache::store::{EventCacheStore, EventCacheStoreLockState},
+    media::store::MediaStore,
+};
 use mime::Mime;
 
 use matrix_sdk_ui::{
@@ -2483,6 +2486,118 @@ impl WasmClient {
             thumbnail_bytes: 0,
             event_bytes,
         }))
+    }
+
+    #[wasm_bindgen(js_name = roomStorageUsage)]
+    pub async fn room_storage_usage(&self, room_id: String) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        let client = state.client();
+        let Ok(room_id) = OwnedRoomId::try_from(room_id) else {
+            return webffi_err("invalid room id");
+        };
+
+        let empty = RoomStorageUsage { messages: 0, files: 0, bytes: 0 };
+
+        let Ok(guard) = client.event_cache_store().lock().await else {
+            return webffi_value(Ok::<_, crate::FfiError>(empty));
+        };
+        let store = match guard {
+            EventCacheStoreLockState::Clean(store) | EventCacheStoreLockState::Dirty(store) => store,
+        };
+        let media = crate::collect_room_media(&*store, &room_id).await;
+        drop(store);
+
+        let media = match media {
+            Ok(media) => media,
+            Err(error) => return webffi_err(&error.to_string()),
+        };
+        let uris = crate::media_store_uris(media.uris.iter().map(|(uri, _)| uri.as_str()));
+        let bytes = crate::media_sizes_of(client, &uris)
+            .await
+            .into_iter()
+            .map(|(_, size)| size)
+            .sum();
+
+        webffi_value(Ok::<_, crate::FfiError>(RoomStorageUsage {
+            messages: media.messages,
+            files: media.files,
+            bytes,
+        }))
+    }
+
+    #[wasm_bindgen(js_name = mediaTypeUsage)]
+    pub async fn media_type_usage(&self) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        let client = state.client();
+        let mut kinds: HashMap<String, crate::MediaKind> = HashMap::new();
+
+        if let Ok(guard) = client.event_cache_store().lock().await {
+            let store = match guard {
+                EventCacheStoreLockState::Clean(store)
+                | EventCacheStoreLockState::Dirty(store) => store,
+            };
+            for room in client.rooms() {
+                if let Ok(media) = crate::collect_room_media(&*store, room.room_id()).await {
+                    for (uri, kind) in media.uris {
+                        kinds.entry(uri).or_insert(kind);
+                    }
+                }
+            }
+        }
+
+        let uris = crate::media_store_uris(kinds.keys().map(String::as_str));
+        let mut usage = MediaTypeUsage::default();
+        for (uri, size) in crate::media_sizes_of(client, &uris).await {
+            match kinds.get(uri.as_str()) {
+                Some(crate::MediaKind::Image) => usage.images += size,
+                Some(crate::MediaKind::Video) => usage.videos += size,
+                Some(crate::MediaKind::Audio) => usage.audio += size,
+                Some(crate::MediaKind::File) => usage.files += size,
+                Some(crate::MediaKind::Other) | None => usage.other += size,
+            }
+        }
+
+        webffi_value(Ok::<_, crate::FfiError>(usage))
+    }
+
+    #[wasm_bindgen(js_name = clearRoomMedia)]
+    pub async fn clear_room_media(&self, room_id: String) -> JsValue {
+        let Some(state) = self.state() else {
+            return webffi_not_init();
+        };
+        let client = state.client();
+        let Ok(room_id) = OwnedRoomId::try_from(room_id) else {
+            return webffi_err("invalid room id");
+        };
+
+        let Ok(guard) = client.event_cache_store().lock().await else {
+            return webffi_unit(Ok::<(), crate::FfiError>(()));
+        };
+        let store = match guard {
+            EventCacheStoreLockState::Clean(store) | EventCacheStoreLockState::Dirty(store) => store,
+        };
+        let media = crate::collect_room_media(&*store, &room_id).await;
+        drop(store);
+
+        let media = match media {
+            Ok(media) => media,
+            Err(error) => return webffi_err(&error.to_string()),
+        };
+        let uris = crate::media_store_uris(media.uris.iter().map(|(uri, _)| uri.as_str()));
+
+        let mut outcome = Ok(());
+        for uri in &uris {
+            if let Err(error) = client.media().remove_media_content_for_uri(uri).await {
+                outcome = Err(error);
+                break;
+            }
+        }
+
+        webffi_unit(outcome)
     }
 
     #[wasm_bindgen(js_name = mediaRetentionPolicy)]

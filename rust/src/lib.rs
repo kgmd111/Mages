@@ -3199,13 +3199,14 @@ impl Client {
                 EventCacheStoreLockState::Clean(store)
                 | EventCacheStoreLockState::Dirty(store) => store,
             };
-            let media = collect_room_media(&*store, &rid)?;
+            let media = RT.block_on(collect_room_media(&*store, &rid))?;
             let uris = media_store_uris(media.uris.iter().map(|(uri, _)| uri.as_str()));
 
             Ok(RoomStorageUsage {
                 messages: media.messages,
                 files: media.files,
-                bytes: media_sizes_of(&self.core.sdk, &uris)
+                bytes: RT
+                    .block_on(media_sizes_of(&self.core.sdk, &uris))
                     .into_iter()
                     .map(|(_, size)| size)
                     .sum(),
@@ -3229,7 +3230,7 @@ impl Client {
                 | EventCacheStoreLockState::Dirty(store) => store,
             };
             for room in self.core.sdk.rooms() {
-                let Ok(media) = collect_room_media(&*store, room.room_id()) else {
+                let Ok(media) = RT.block_on(collect_room_media(&*store, room.room_id())) else {
                     continue;
                 };
                 for (uri, kind) in media.uris {
@@ -3240,7 +3241,7 @@ impl Client {
 
             let mut usage = MediaTypeUsage::default();
             let uris = media_store_uris(kinds.keys().map(String::as_str));
-            for (uri, size) in media_sizes_of(&self.core.sdk, &uris) {
+            for (uri, size) in RT.block_on(media_sizes_of(&self.core.sdk, &uris)) {
                 match kinds.get(uri.as_str()) {
                     Some(MediaKind::Image) => usage.images += size,
                     Some(MediaKind::Video) => usage.videos += size,
@@ -3268,7 +3269,10 @@ impl Client {
                 | EventCacheStoreLockState::Dirty(store) => store,
             };
             let uris = media_store_uris(
-                collect_room_media(&*store, &rid)?.uris.iter().map(|(uri, _)| uri.as_str()),
+                RT.block_on(collect_room_media(&*store, &rid))?
+                    .uris
+                    .iter()
+                    .map(|(uri, _)| uri.as_str()),
             );
             drop(store);
 
@@ -4413,9 +4417,8 @@ fn search_hit_from_event(
     })
 }
 
-#[cfg(not(target_family = "wasm"))]
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
-enum MediaKind {
+pub(crate) enum MediaKind {
     Image,
     Video,
     Audio,
@@ -4423,19 +4426,20 @@ enum MediaKind {
     Other,
 }
 
-#[cfg(not(target_family = "wasm"))]
-struct RoomMedia {
-    messages: u64,
-    files: u64,
-    uris: Vec<(String, MediaKind)>,
+pub(crate) struct RoomMedia {
+    pub(crate) messages: u64,
+    pub(crate) files: u64,
+    pub(crate) uris: Vec<(String, MediaKind)>,
 }
 
-#[cfg(not(target_family = "wasm"))]
-fn collect_room_media(store: &DynEventCacheStore, room_id: &RoomId) -> Result<RoomMedia, FfiError> {
+pub(crate) async fn collect_room_media(
+    store: &DynEventCacheStore,
+    room_id: &RoomId,
+) -> Result<RoomMedia, FfiError> {
     let mut media = RoomMedia { messages: 0, files: 0, uris: Vec::new() };
 
     for (event_type, is_message) in [("m.room.message", true), ("m.sticker", false)] {
-        let events = RT.block_on(store.get_room_events(room_id, Some(event_type), None)).ffi()?;
+        let events = store.get_room_events(room_id, Some(event_type), None).await.ffi()?;
         for event in &events {
             if is_message {
                 media.messages += 1;
@@ -4450,27 +4454,27 @@ fn collect_room_media(store: &DynEventCacheStore, room_id: &RoomId) -> Result<Ro
     Ok(media)
 }
 
-#[cfg(not(target_family = "wasm"))]
-fn media_store_uris<'a>(uris: impl IntoIterator<Item = &'a str>) -> Vec<OwnedMxcUri> {
+pub(crate) fn media_store_uris<'a>(uris: impl IntoIterator<Item = &'a str>) -> Vec<OwnedMxcUri> {
     let mut uris: Vec<&str> = uris.into_iter().collect();
     uris.sort_unstable();
     uris.dedup();
     uris.into_iter().filter_map(|uri| OwnedMxcUri::try_from(uri).ok()).collect()
 }
 
-#[cfg(not(target_family = "wasm"))]
-fn media_sizes_of(sdk: &SdkClient, uris: &[OwnedMxcUri]) -> Vec<(OwnedMxcUri, u64)> {
+pub(crate) async fn media_sizes_of(
+    sdk: &SdkClient,
+    uris: &[OwnedMxcUri],
+) -> Vec<(OwnedMxcUri, u64)> {
     if uris.is_empty() {
         return Vec::new();
     }
 
-    match RT.block_on(sdk.media_store().lock()) {
-        Ok(store) => RT.block_on(store.media_sizes(uris)).unwrap_or_default(),
+    match sdk.media_store().lock().await {
+        Ok(store) => store.media_sizes(uris).await.unwrap_or_default(),
         Err(_) => Vec::new(),
     }
 }
 
-#[cfg(not(target_family = "wasm"))]
 fn media_of(
     ev: &matrix_sdk_base::deserialized_responses::TimelineEvent,
 ) -> Option<(MediaKind, Vec<String>)> {
