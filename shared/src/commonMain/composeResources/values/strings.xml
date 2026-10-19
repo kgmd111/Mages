@@ -440,6 +440,7 @@
     <string name="video">Video</string>
     <string name="file">File</string>
     <string name="media_cache">Media Cache</string>
+    <string name="media_cache_by_chat">By chat</string>
     <string name="media_cache_calculating">Calculating…</string>
     <string name="media_cache_used_by_mages">Used by Mages</string>
     <string name="media_cache_reclaimable">Reclaimable</string>
@@ -468,9 +469,17 @@
     <string name="media_cache_days">%1$d days</string>
     <string name="media_cache_cache_limit">Cache size limit</string>
     <string name="media_cache_max_file">Largest file kept</string>
+    <string name="media_cache_of_limit">of %1$s</string>
     <string name="media_cache_unlimited">Unlimited</string>
     <string name="media_cache_clear_older">Clear older media</string>
     <string name="media_cache_clear_older_confirm">Clear media older than %1$d days?</string>
+    <string name="media_cache_by_type">By type</string>
+    <string name="media_cache_images">Images</string>
+    <string name="media_cache_videos">Videos</string>
+    <string name="media_cache_audio">Audio</string>
+    <string name="media_cache_other">Other</string>
+    <string name="media_cache_clear_chat_title">Clear media for this chat?</string>
+    <string name="media_cache_clear_chat_body">Downloaded media for %1$s will be removed from this device and can download again when needed.</string>
 
     <string name="local_network_permission_title">Allow local network access</string>
     <string name="local_network_permission_subtitle">Your homeserver appears to be on your local network. Mages needs permission to connect to devices on your LAN.</string>

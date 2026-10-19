@@ -1481,7 +1481,9 @@ interface MatrixPort {
 
     suspend fun mediaCacheOverview(): MediaCacheOverview?
 
+    suspend fun mediaTypeUsage(): MediaTypeUsage
     suspend fun roomStorageUsage(roomId: String): RoomStorageUsage
+    suspend fun clearRoomMedia(roomId: String): Result<Unit>
     suspend fun clearMediaCache(): Result<Unit>
     suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo?
     suspend fun setMediaRetentionPolicy(policy: MediaRetentionPolicyInfo): Result<Unit>
@@ -1496,6 +1498,17 @@ data class RoomStorageUsage(
     val files: ULong = 0u,
     val bytes: ULong = 0u,
 )
+
+@Serializable
+data class MediaTypeUsage(
+    val images: ULong = 0u,
+    val videos: ULong = 0u,
+    val audio: ULong = 0u,
+    val files: ULong = 0u,
+    val other: ULong = 0u,
+) {
+    val totalBytes: ULong get() = images + videos + audio + files + other
+}
 
 @Serializable
 data class MediaCacheOverview(

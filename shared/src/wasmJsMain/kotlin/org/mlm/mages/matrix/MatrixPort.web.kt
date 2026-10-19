@@ -1775,6 +1775,10 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
 
     override suspend fun roomStorageUsage(roomId: String): RoomStorageUsage = RoomStorageUsage()
 
+    override suspend fun mediaTypeUsage(): MediaTypeUsage = MediaTypeUsage()
+
+    override suspend fun clearRoomMedia(roomId: String): Result<Unit> = Result.success(Unit)
+
     override suspend fun clearMediaCache(): Result<Unit> =
         requireClient().clearMediaCache().awaitUnitResult()
 

@@ -626,6 +626,15 @@ pub struct RoomStorageUsage {
     pub bytes: u64,
 }
 
+#[derive(Clone, Copy, Default, Serialize, Deserialize, Record)]
+pub struct MediaTypeUsage {
+    pub images: u64,
+    pub videos: u64,
+    pub audio: u64,
+    pub files: u64,
+    pub other: u64,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Enum)]
 pub enum AutoDownloadNetwork {
     Wifi,

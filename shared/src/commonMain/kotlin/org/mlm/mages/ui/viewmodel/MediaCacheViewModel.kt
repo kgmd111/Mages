@@ -7,11 +7,13 @@ import org.mlm.mages.MatrixService
 import org.mlm.mages.RoomSummary
 import org.mlm.mages.matrix.MediaCacheOverview
 import org.mlm.mages.matrix.MediaRetentionPolicyInfo
+import org.mlm.mages.matrix.MediaTypeUsage
 import org.mlm.mages.matrix.RoomStorageUsage
 
 data class MediaCacheUiState(
     val isLoading: Boolean = true,
     val overview: MediaCacheOverview? = null,
+    val types: MediaTypeUsage = MediaTypeUsage(),
     val policy: MediaRetentionPolicyInfo? = null,
     val rooms: List<RoomSummary> = emptyList(),
     val usageById: Map<String, RoomStorageUsage> = emptyMap(),
@@ -36,6 +38,8 @@ class MediaCacheViewModel(
             runCatching { service.port.mediaCacheOverview() }
                 .onSuccess { updateState { copy(isLoading = false, overview = it) } }
                 .onFailure { updateState { copy(isLoading = false, error = it.message) } }
+            runCatching { service.port.mediaTypeUsage() }
+                .onSuccess { usage -> updateState { copy(types = usage) } }
             runCatching { service.port.mediaRetentionPolicy() }
                 .onSuccess { updateState { copy(policy = it) } }
             runCatching { service.port.listRooms() }
@@ -79,6 +83,18 @@ class MediaCacheViewModel(
         viewModelScope.launch {
             updateState { copy(isClearing = true, error = null) }
             service.port.clearMediaCacheOlderThan(days)
+                .onSuccess {
+                    updateState { copy(isClearing = false) }
+                    load()
+                }
+                .onFailure { updateState { copy(isClearing = false, error = it.message) } }
+        }
+    }
+
+    fun clearRoomMedia(roomId: String) {
+        viewModelScope.launch {
+            updateState { copy(isClearing = true, error = null) }
+            service.port.clearRoomMedia(roomId)
                 .onSuccess {
                     updateState { copy(isClearing = false) }
                     load()

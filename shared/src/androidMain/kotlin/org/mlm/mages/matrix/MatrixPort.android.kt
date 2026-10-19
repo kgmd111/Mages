@@ -2351,6 +2351,27 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             }
         }
 
+    override suspend fun mediaTypeUsage(): MediaTypeUsage = withContext(matrixDispatcher) {
+        withClient {
+            runCatching {
+                val usage = it.mediaTypeUsage()
+                MediaTypeUsage(
+                    images = usage.images,
+                    videos = usage.videos,
+                    audio = usage.audio,
+                    files = usage.files,
+                    other = usage.other,
+                )
+            }.getOrNull() ?: MediaTypeUsage()
+        }
+    }
+
+    override suspend fun clearRoomMedia(roomId: String): Result<Unit> = withContext(matrixDispatcher) {
+        withClient {
+            runWithFfiResult { it.clearRoomMedia(roomId) }
+        }
+    }
+
     override suspend fun clearMediaCache(): Result<Unit> = withContext(matrixDispatcher) {
         withClient {
             runWithFfiResult { it.clearMediaCache() }

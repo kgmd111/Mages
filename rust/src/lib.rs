@@ -83,9 +83,10 @@ use matrix_sdk::{
 };
 use matrix_sdk::{
     encryption::BackupDownloadStrategy,
-    ruma::{OwnedEventId, OwnedMxcUri, OwnedRoomId},
+    ruma::{OwnedEventId, OwnedMxcUri, OwnedRoomId, RoomId},
 };
 use matrix_sdk::{encryption::EncryptionSettings, ruma};
+use matrix_sdk_base::event_cache::store::{DynEventCacheStore, EventCacheStoreLockState};
 use matrix_sdk_ui::{
     eyeball_im::VectorDiff,
     notification_client::{
@@ -3169,7 +3170,11 @@ impl Client {
         let event_bytes = RT
             .block_on(async {
                 let state = self.core.sdk.event_cache_store().lock().await.ok()?;
-                state.as_clean()?.get_size().await.ok().flatten()
+                let store = match state {
+                    EventCacheStoreLockState::Clean(store)
+                    | EventCacheStoreLockState::Dirty(store) => store,
+                };
+                store.get_size().await.ok().flatten()
             })
             .map(|bytes| bytes as u64);
 
@@ -3187,50 +3192,93 @@ impl Client {
         #[cfg(not(target_family = "wasm"))]
         {
             let rid = OwnedRoomId::try_from(room_id).ffi()?;
-            let mut messages = 0u64;
-            let mut files = 0u64;
-            let mut uris: Vec<String> = Vec::new();
+            let Ok(state) = RT.block_on(self.core.sdk.event_cache_store().lock()) else {
+                return Ok(RoomStorageUsage { messages: 0, files: 0, bytes: 0 });
+            };
+            let store = match state {
+                EventCacheStoreLockState::Clean(store)
+                | EventCacheStoreLockState::Dirty(store) => store,
+            };
+            let media = collect_room_media(&*store, &rid)?;
+            let uris = media_store_uris(media.uris.iter().map(|(uri, _)| uri.as_str()));
 
-            if let Ok(store) = RT.block_on(self.core.sdk.event_cache_store().lock()) {
-                if let Some(store) = store.as_clean() {
-                    for (event_type, is_message) in
-                        [("m.room.message", true), ("m.sticker", false)]
-                    {
-                        let events =
-                            RT.block_on(store.get_room_events(&rid, Some(event_type), None)).ffi()?;
-                        for event in &events {
-                            if is_message {
-                                messages += 1;
-                            }
-                            if let Some(event_uris) = media_uris_of(event) {
-                                files += 1;
-                                uris.extend(event_uris);
-                            }
-                        }
-                    }
+            Ok(RoomStorageUsage {
+                messages: media.messages,
+                files: media.files,
+                bytes: media_sizes_of(&self.core.sdk, &uris)
+                    .into_iter()
+                    .map(|(_, size)| size)
+                    .sum(),
+            })
+        }
+    }
+
+    pub fn media_type_usage(&self) -> MediaTypeUsage {
+        #[cfg(target_family = "wasm")]
+        return MediaTypeUsage::default();
+
+        #[cfg(not(target_family = "wasm"))]
+        {
+            let mut kinds: HashMap<String, MediaKind> = HashMap::new();
+
+            let Ok(state) = RT.block_on(self.core.sdk.event_cache_store().lock()) else {
+                return MediaTypeUsage::default();
+            };
+            let store = match state {
+                EventCacheStoreLockState::Clean(store)
+                | EventCacheStoreLockState::Dirty(store) => store,
+            };
+            for room in self.core.sdk.rooms() {
+                let Ok(media) = collect_room_media(&*store, room.room_id()) else {
+                    continue;
+                };
+                for (uri, kind) in media.uris {
+                    kinds.entry(uri).or_insert(kind);
                 }
             }
+            drop(store);
 
-            uris.sort();
-            uris.dedup();
-            let uris: Vec<OwnedMxcUri> = uris
-                .iter()
-                .filter_map(|uri| OwnedMxcUri::try_from(uri.as_str()).ok())
-                .collect();
-
-            let bytes = if uris.is_empty() {
-                0
-            } else {
-                match RT.block_on(self.core.sdk.media_store().lock()) {
-                    Ok(store) => RT
-                        .block_on(store.media_sizes(&uris))
-                        .map(|sizes| sizes.into_iter().map(|(_, size)| size).sum())
-                        .unwrap_or(0),
-                    Err(_) => 0,
+            let mut usage = MediaTypeUsage::default();
+            let uris = media_store_uris(kinds.keys().map(String::as_str));
+            for (uri, size) in media_sizes_of(&self.core.sdk, &uris) {
+                match kinds.get(uri.as_str()) {
+                    Some(MediaKind::Image) => usage.images += size,
+                    Some(MediaKind::Video) => usage.videos += size,
+                    Some(MediaKind::Audio) => usage.audio += size,
+                    Some(MediaKind::File) => usage.files += size,
+                    Some(MediaKind::Other) | None => usage.other += size,
                 }
-            };
+            }
+            usage
+        }
+    }
 
-            Ok(RoomStorageUsage { messages, files, bytes })
+    pub fn clear_room_media(&self, room_id: String) -> Result<(), FfiError> {
+        #[cfg(target_family = "wasm")]
+        return Ok(());
+
+        #[cfg(not(target_family = "wasm"))]
+        {
+            let rid = OwnedRoomId::try_from(room_id).ffi()?;
+            let Ok(state) = RT.block_on(self.core.sdk.event_cache_store().lock()) else {
+                return Ok(());
+            };
+            let store = match state {
+                EventCacheStoreLockState::Clean(store)
+                | EventCacheStoreLockState::Dirty(store) => store,
+            };
+            let uris = media_store_uris(
+                collect_room_media(&*store, &rid)?.uris.iter().map(|(uri, _)| uri.as_str()),
+            );
+            drop(store);
+
+            RT.block_on(async {
+                let media = self.core.sdk.media();
+                for uri in &uris {
+                    media.remove_media_content_for_uri(uri).await.ffi()?;
+                }
+                Ok(())
+            })
         }
     }
 
@@ -4365,18 +4413,84 @@ fn search_hit_from_event(
     })
 }
 
-fn media_uris_of(
+#[cfg(not(target_family = "wasm"))]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+enum MediaKind {
+    Image,
+    Video,
+    Audio,
+    File,
+    Other,
+}
+
+#[cfg(not(target_family = "wasm"))]
+struct RoomMedia {
+    messages: u64,
+    files: u64,
+    uris: Vec<(String, MediaKind)>,
+}
+
+#[cfg(not(target_family = "wasm"))]
+fn collect_room_media(store: &DynEventCacheStore, room_id: &RoomId) -> Result<RoomMedia, FfiError> {
+    let mut media = RoomMedia { messages: 0, files: 0, uris: Vec::new() };
+
+    for (event_type, is_message) in [("m.room.message", true), ("m.sticker", false)] {
+        let events = RT.block_on(store.get_room_events(room_id, Some(event_type), None)).ffi()?;
+        for event in &events {
+            if is_message {
+                media.messages += 1;
+            }
+            if let Some((kind, uris)) = media_of(event) {
+                media.files += 1;
+                media.uris.extend(uris.into_iter().map(|uri| (uri, kind)));
+            }
+        }
+    }
+
+    Ok(media)
+}
+
+#[cfg(not(target_family = "wasm"))]
+fn media_store_uris<'a>(uris: impl IntoIterator<Item = &'a str>) -> Vec<OwnedMxcUri> {
+    let mut uris: Vec<&str> = uris.into_iter().collect();
+    uris.sort_unstable();
+    uris.dedup();
+    uris.into_iter().filter_map(|uri| OwnedMxcUri::try_from(uri).ok()).collect()
+}
+
+#[cfg(not(target_family = "wasm"))]
+fn media_sizes_of(sdk: &SdkClient, uris: &[OwnedMxcUri]) -> Vec<(OwnedMxcUri, u64)> {
+    if uris.is_empty() {
+        return Vec::new();
+    }
+
+    match RT.block_on(sdk.media_store().lock()) {
+        Ok(store) => RT.block_on(store.media_sizes(uris)).unwrap_or_default(),
+        Err(_) => Vec::new(),
+    }
+}
+
+#[cfg(not(target_family = "wasm"))]
+fn media_of(
     ev: &matrix_sdk_base::deserialized_responses::TimelineEvent,
-) -> Option<Vec<String>> {
+) -> Option<(MediaKind, Vec<String>)> {
     use matrix_sdk::ruma::events::{room::MediaSource, sticker::StickerMediaSource};
 
     let event: AnySyncTimelineEvent = ev.raw().deserialize().ok()?;
     match event {
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomMessage(message)) => {
-            let attachment = extract_attachment(&message.as_original()?.content.msgtype)?;
+            let msgtype = &message.as_original()?.content.msgtype;
+            let kind = match msgtype {
+                matrix_sdk::ruma::events::room::message::MessageType::Image(_) => MediaKind::Image,
+                matrix_sdk::ruma::events::room::message::MessageType::Video(_) => MediaKind::Video,
+                matrix_sdk::ruma::events::room::message::MessageType::Audio(_) => MediaKind::Audio,
+                matrix_sdk::ruma::events::room::message::MessageType::File(_) => MediaKind::File,
+                _ => MediaKind::Other,
+            };
+            let attachment = extract_attachment(msgtype)?;
             let mut uris = vec![attachment.mxc_uri];
             uris.extend(attachment.thumbnail_mxc_uri);
-            Some(uris)
+            Some((kind, uris))
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(sticker)) => {
             let content = &sticker.as_original()?.content;
@@ -4389,7 +4503,7 @@ fn media_uris_of(
                 MediaSource::Plain(url) => url.to_string(),
                 MediaSource::Encrypted(file) => file.url.to_string(),
             }));
-            Some(uris)
+            Some((MediaKind::Other, uris))
         }
         _ => None,
     }

@@ -1,23 +1,36 @@
 package org.mlm.mages.ui.screens
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -34,14 +47,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mages.shared.generated.resources.*
 import mages.shared.generated.resources.Res
 import mages.shared.generated.resources.back
+import mages.shared.generated.resources.files
 import mages.shared.generated.resources.media_cache
+import mages.shared.generated.resources.media_cache_audio
+import mages.shared.generated.resources.media_cache_by_chat
+import mages.shared.generated.resources.media_cache_by_type
 import mages.shared.generated.resources.media_cache_cache_limit
+import mages.shared.generated.resources.media_cache_clear
+import mages.shared.generated.resources.media_cache_clear_chat_body
+import mages.shared.generated.resources.media_cache_clear_chat_title
 import mages.shared.generated.resources.media_cache_clear_confirm_body
 import mages.shared.generated.resources.media_cache_clear_confirm_title
 import mages.shared.generated.resources.media_cache_clear_media_cache
@@ -49,17 +82,26 @@ import mages.shared.generated.resources.media_cache_clear_older
 import mages.shared.generated.resources.media_cache_clear_older_confirm
 import mages.shared.generated.resources.media_cache_days
 import mages.shared.generated.resources.media_cache_downloaded_media
+import mages.shared.generated.resources.media_cache_images
 import mages.shared.generated.resources.media_cache_keep_forever
 import mages.shared.generated.resources.media_cache_keep_media
 import mages.shared.generated.resources.media_cache_max_file
+import mages.shared.generated.resources.media_cache_of_limit
+import mages.shared.generated.resources.media_cache_other
 import mages.shared.generated.resources.media_cache_storage_used
 import mages.shared.generated.resources.media_cache_thumbnails
 import mages.shared.generated.resources.media_cache_unlimited
+import mages.shared.generated.resources.media_cache_videos
 import mages.shared.generated.resources.messages
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.mlm.mages.RoomSummary
+import org.mlm.mages.matrix.MediaCacheOverview
 import org.mlm.mages.matrix.MediaRetentionPolicyInfo
+import org.mlm.mages.matrix.MediaTypeUsage
+import org.mlm.mages.matrix.RoomStorageUsage
 import org.mlm.mages.ui.components.dialogs.ConfirmationDialog
+import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.util.formatBytes
 import org.mlm.mages.ui.viewmodel.MediaCacheUiState
 import org.mlm.mages.ui.viewmodel.MediaCacheViewModel
@@ -73,6 +115,7 @@ fun MediaCacheRoute(onBack: () -> Unit) {
         state = state,
         onBack = onBack,
         onClearCache = viewModel::clearCache,
+        onClearRoom = viewModel::clearRoomMedia,
         onClearOlderThan = viewModel::clearCacheOlderThan,
         onKeepMediaChange = viewModel::setKeepMediaFor,
         onCacheLimitChange = viewModel::setCacheLimit,
@@ -86,6 +129,7 @@ fun MediaCacheScreen(
     state: MediaCacheUiState,
     onBack: () -> Unit,
     onClearCache: () -> Unit,
+    onClearRoom: (String) -> Unit,
     onClearOlderThan: (Long) -> Unit,
     onKeepMediaChange: (Long?) -> Unit,
     onCacheLimitChange: (ULong?) -> Unit,
@@ -95,6 +139,7 @@ fun MediaCacheScreen(
     var showConfirm by remember { mutableStateOf(false) }
     var showOlderMenu by remember { mutableStateOf(false) }
     var pendingOlderThan by remember { mutableStateOf<Long?>(null) }
+    var pendingClearRoom by remember { mutableStateOf<RoomSummary?>(null) }
 
     if (showConfirm) {
         ConfirmationDialog(
@@ -105,6 +150,20 @@ fun MediaCacheScreen(
                 onClearCache()
             },
             onDismiss = { showConfirm = false },
+        )
+    }
+
+    pendingClearRoom?.let { room ->
+        ConfirmationDialog(
+            title = stringResource(Res.string.media_cache_clear_chat_title),
+            message = stringResource(Res.string.media_cache_clear_chat_body, room.name),
+            isDestructive = true,
+            isLoading = state.isClearing,
+            onConfirm = {
+                pendingClearRoom = null
+                onClearRoom(room.id)
+            },
+            onDismiss = { pendingClearRoom = null },
         )
     }
 
@@ -142,72 +201,31 @@ fun MediaCacheScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState()),
         ) {
-
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(Res.string.media_cache_storage_used))
-                },
-                trailingContent = {
-                    val totalBytes = state.overview?.takeIf { it.storeBytes != null }?.totalBytes
-                    when {
-                        state.isLoading -> CircularWavyProgressIndicator()
-                        totalBytes == null -> Text(
-                            text = "-",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        else -> Text(
-                            text = formatBytes(totalBytes.toLong()),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                }
+            StorageSummaryCard(
+                overview = state.overview,
+                limitBytes = state.policy?.maxCacheSizeBytes,
+                isLoading = state.isLoading,
+                modifier = Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.md),
             )
 
-            val overview = state.overview
-            if (!state.isLoading && overview != null) {
-                overview.storeBytes?.let { bytes ->
-                    ListItem(
-                        headlineContent = {
-                            Text(stringResource(Res.string.media_cache_downloaded_media))
-                        },
-                        trailingContent = {
-                            Text(
-                                text = formatBytes(bytes.toLong()),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    )
+            val chatRows = state.rooms
+                .mapNotNull { room ->
+                    val usage = state.usageById[room.id] ?: return@mapNotNull null
+                    if (usage.bytes == 0uL) null else room to usage
                 }
+                .sortedByDescending { it.second.bytes }
 
-                overview.eventBytes?.let { bytes ->
-                    ListItem(
-                        headlineContent = {
-                            Text(stringResource(Res.string.messages))
-                        },
-                        trailingContent = {
-                            Text(
-                                text = formatBytes(bytes.toLong()),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    )
-                }
+            MediaTypeCard(
+                usage = state.types,
+                modifier = Modifier.padding(top = Spacing.lg),
+            )
 
-                ListItem(
-                    headlineContent = {
-                        Text(stringResource(Res.string.media_cache_thumbnails))
-                    },
-                    trailingContent = {
-                        Text(
-                            text = formatBytes(overview.thumbnailBytes.toLong()),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
+            if (!state.isLoading && chatRows.isNotEmpty()) {
+                ByChatCard(
+                    rows = chatRows,
+                    totalBytes = state.overview?.totalBytes ?: 0uL,
+                    onClear = { pendingClearRoom = it },
+                    modifier = Modifier.padding(top = Spacing.lg),
                 )
             }
 
@@ -237,7 +255,7 @@ fun MediaCacheScreen(
                 formatBytes(100L * 1024 * 1024) to 100uL * 1024uL * 1024uL,
             )
 
-            HorizontalDivider()
+            HorizontalDivider(Modifier.padding(top = Spacing.lg))
 
             OptionRow(
                 label = stringResource(Res.string.media_cache_keep_media),
@@ -272,13 +290,13 @@ fun MediaCacheScreen(
                 onSelect = onMaxFileSizeChange,
             )
 
-            HorizontalDivider()
+            HorizontalDivider(Modifier.padding(top = Spacing.sm))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                    .padding(horizontal = Spacing.lg, vertical = Spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(Spacing.md),
             ) {
                 Box(Modifier.fillMaxWidth()) {
                     OutlinedButton(
@@ -316,40 +334,11 @@ fun MediaCacheScreen(
                 ) {
                     if (state.isClearing) {
                         CircularWavyProgressIndicator(
-                            modifier = Modifier.padding(end = 8.dp),
+                            modifier = Modifier.padding(end = Spacing.sm),
                             color = MaterialTheme.colorScheme.onError,
                         )
                     }
                     Text(stringResource(Res.string.media_cache_clear_media_cache))
-                }
-
-                Spacer(Modifier.padding(6.dp))
-
-                if (state.rooms.isNotEmpty()) {
-                    val filesLabel = stringResource(Res.string.files)
-                    val messagesLabel = stringResource(Res.string.messages)
-                    state.rooms.forEach { room ->
-                        val usage = state.usageById[room.id]
-                        ListItem(
-                            headlineContent = { Text(room.name) },
-                            supportingContent = {
-                                Text(
-                                    text = usage?.let {
-                                        "${it.files} $filesLabel · ${it.messages} $messagesLabel"
-                                    } ?: stringResource(Res.string.loading),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            },
-                            trailingContent = {
-                                Text(
-                                    text = usage?.let { formatBytes(it.bytes.toLong()) } ?: "-",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                        )
-                    }
                 }
 
                 state.error?.let {
@@ -361,6 +350,324 @@ fun MediaCacheScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun StorageSummaryCard(
+    overview: MediaCacheOverview?,
+    limitBytes: ULong?,
+    isLoading: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val usedBytes = overview?.totalBytes
+    val known = overview?.storeBytes != null
+    val limit = limitBytes?.toLong()
+    val progress = when {
+        isLoading -> 0f
+        limit != null && limit > 0 && known -> ((usedBytes ?: 0uL).toLong().toFloat() / limit).coerceIn(0f, 1f)
+        known -> 1f
+        else -> 0f
+    }
+    val usedText = if (known && usedBytes != null) formatBytes(usedBytes.toLong()) else null
+    val limitText = when {
+        isLoading || !known -> null
+        limit != null -> stringResource(Res.string.media_cache_of_limit, formatBytes(limit))
+        else -> stringResource(Res.string.media_cache_unlimited)
+    }
+
+    ElevatedCard(modifier = modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.lg, vertical = Spacing.xl),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            StorageRing(
+                progress = progress,
+                usedText = usedText,
+                limitText = limitText,
+                loading = isLoading,
+            )
+
+            val stats = mutableListOf<Pair<String, ULong>>()
+            if (!isLoading && overview != null) {
+                val storeBytes = overview.storeBytes
+                if (storeBytes != null) {
+                    stats.add(stringResource(Res.string.media_cache_downloaded_media) to storeBytes)
+                }
+                val eventBytes = overview.eventBytes
+                if (eventBytes != null) {
+                    stats.add(stringResource(Res.string.messages) to eventBytes)
+                }
+                stats.add(stringResource(Res.string.media_cache_thumbnails) to overview.thumbnailBytes)
+            }
+
+            if (stats.isNotEmpty()) {
+                Spacer(Modifier.height(Spacing.lg))
+                HorizontalDivider()
+                Spacer(Modifier.height(Spacing.md))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                ) {
+                    stats.forEach { (label, value) ->
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = formatBytes(value.toLong()),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            Text(
+                                text = label,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun StorageRing(
+    progress: Float,
+    usedText: String?,
+    limitText: String?,
+    loading: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress.coerceIn(0f, 1f),
+        animationSpec = tween(durationMillis = 900, easing = FastOutSlowInEasing),
+        label = "mediaCacheStorageProgress",
+    )
+    val trackColor = MaterialTheme.colorScheme.surfaceVariant
+    val arcColors = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.tertiary,
+    )
+
+    Box(
+        modifier = modifier
+            .size(180.dp)
+            .semantics { progressBarRangeInfo = ProgressBarRangeInfo(animatedProgress, 0f..1f) },
+        contentAlignment = Alignment.Center,
+    ) {
+        Canvas(Modifier.fillMaxSize()) {
+            val strokeWidth = 16.dp.toPx()
+            val radius = (size.minDimension - strokeWidth) / 2f
+            drawCircle(
+                color = trackColor,
+                radius = radius,
+                style = Stroke(strokeWidth, cap = StrokeCap.Round),
+            )
+            if (animatedProgress > 0.001f) {
+                drawArc(
+                    brush = Brush.sweepGradient(arcColors, center = center),
+                    startAngle = -90f,
+                    sweepAngle = animatedProgress * 360f,
+                    useCenter = false,
+                    style = Stroke(strokeWidth, cap = StrokeCap.Round),
+                    topLeft = Offset(center.x - radius, center.y - radius),
+                    size = Size(radius * 2f, radius * 2f),
+                )
+            }
+        }
+
+        if (loading) {
+            CircularWavyProgressIndicator()
+        } else {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = usedText ?: "-",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = stringResource(Res.string.media_cache_storage_used),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                limitText?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MediaTypeCard(usage: MediaTypeUsage, modifier: Modifier = Modifier) {
+    val entries = listOf(
+        stringResource(Res.string.media_cache_images) to usage.images,
+        stringResource(Res.string.media_cache_videos) to usage.videos,
+        stringResource(Res.string.media_cache_audio) to usage.audio,
+        stringResource(Res.string.files) to usage.files,
+        stringResource(Res.string.media_cache_other) to usage.other,
+    ).filter { it.second > 0uL }
+
+    if (entries.isEmpty()) return
+
+    BreakdownCard(
+        title = stringResource(Res.string.media_cache_by_type),
+        modifier = modifier,
+    ) {
+        entries.forEachIndexed { index, (label, bytes) ->
+            if (index > 0) {
+                HorizontalDivider(Modifier.padding(start = Spacing.lg))
+            }
+            BreakdownRow(
+                label = label,
+                detail = null,
+                bytes = bytes,
+                totalBytes = usage.totalBytes,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ByChatCard(
+    rows: List<Pair<RoomSummary, RoomStorageUsage>>,
+    totalBytes: ULong,
+    onClear: (RoomSummary) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val filesLabel = stringResource(Res.string.files)
+    val messagesLabel = stringResource(Res.string.messages)
+    val clearLabel = stringResource(Res.string.media_cache_clear)
+
+    BreakdownCard(
+        title = stringResource(Res.string.media_cache_by_chat),
+        modifier = modifier,
+    ) {
+        rows.forEachIndexed { index, (room, usage) ->
+            if (index > 0) {
+                HorizontalDivider(Modifier.padding(start = Spacing.lg))
+            }
+            BreakdownRow(
+                label = room.name,
+                detail = buildString {
+                    if (usage.files > 0uL) {
+                        append(usage.files).append(' ').append(filesLabel)
+                    }
+                    if (usage.messages > 0uL) {
+                        if (isNotEmpty()) append(" · ")
+                        append(usage.messages).append(' ').append(messagesLabel)
+                    }
+                }.takeIf { it.isNotEmpty() },
+                bytes = usage.bytes,
+                totalBytes = totalBytes,
+                trailing = {
+                    IconButton(onClick = { onClear(room) }) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = clearLabel,
+                        )
+                    }
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun BreakdownCard(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+        )
+
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.lg),
+        ) {
+            Column(content = content)
+        }
+    }
+}
+
+@Composable
+private fun BreakdownRow(
+    label: String,
+    detail: String?,
+    bytes: ULong,
+    totalBytes: ULong,
+    trailing: @Composable (() -> Unit)? = null,
+) {
+    val total = totalBytes.toFloat().takeIf { it > 0f }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            detail?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Spacer(Modifier.height(Spacing.sm))
+            ShareBar(fraction = total?.let { bytes.toFloat() / it } ?: 0f)
+        }
+        Spacer(Modifier.width(Spacing.md))
+        Text(
+            text = formatBytes(bytes.toLong()),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Medium,
+        )
+        trailing?.let {
+            Spacer(Modifier.width(Spacing.xs))
+            it()
+        }
+    }
+}
+
+@Composable
+private fun ShareBar(fraction: Float) {
+    val safeFraction = fraction.coerceIn(0f, 1f)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp)
+            .clip(RoundedCornerShape(2.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(safeFraction)
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(2.dp))
+                .background(MaterialTheme.colorScheme.primary),
+        )
     }
 }
 
