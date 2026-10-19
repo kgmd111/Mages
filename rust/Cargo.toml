@@ -133,13 +133,13 @@ getrandom = "0.4"
 uniffi = { version = "0.32", features = ["build"] }
 uniffi_bindgen = "0.32.0"
 
-# [patch.crates-io]
-# matrix-sdk = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-base = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-common = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-crypto = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-sqlite = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-store-encryption = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-ui = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-search = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
-# matrix-sdk-indexeddb = { git = "https://github.com/mlm-games/matrix-rust-sdk", branch = "main" }
+[patch.crates-io]
+matrix-sdk = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-base = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-common = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-crypto = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-sqlite = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-store-encryption = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-ui = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-search = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }
+matrix-sdk-indexeddb = { git = "https://github.com/mlm-games/matrix-rust-sdk", rev = "b2647942786c67ea1d39fe75b749c3a5944a83ce" }

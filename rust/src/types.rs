@@ -619,6 +619,13 @@ pub struct MediaCacheOverview {
     pub event_bytes: Option<u64>,
 }
 
+#[derive(Clone, Serialize, Deserialize, Record)]
+pub struct RoomStorageUsage {
+    pub messages: u64,
+    pub files: u64,
+    pub bytes: u64,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Enum)]
 pub enum AutoDownloadNetwork {
     Wifi,

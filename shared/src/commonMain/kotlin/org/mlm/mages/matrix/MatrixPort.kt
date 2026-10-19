@@ -1480,6 +1480,8 @@ interface MatrixPort {
     fun stopElementCall(sessionId: ULong): Boolean
 
     suspend fun mediaCacheOverview(): MediaCacheOverview?
+
+    suspend fun roomStorageUsage(roomId: String): RoomStorageUsage
     suspend fun clearMediaCache(): Result<Unit>
     suspend fun mediaRetentionPolicy(): MediaRetentionPolicyInfo?
     suspend fun setMediaRetentionPolicy(policy: MediaRetentionPolicyInfo): Result<Unit>
@@ -1487,6 +1489,13 @@ interface MatrixPort {
     suspend fun setAutoDownloadRules(rules: MediaAutoDownloadRules): Result<Unit>
     suspend fun setAutoDownloadNetwork(metered: Boolean, roaming: Boolean): Result<Unit>
 }
+
+@Serializable
+data class RoomStorageUsage(
+    val messages: ULong = 0u,
+    val files: ULong = 0u,
+    val bytes: ULong = 0u,
+)
 
 @Serializable
 data class MediaCacheOverview(

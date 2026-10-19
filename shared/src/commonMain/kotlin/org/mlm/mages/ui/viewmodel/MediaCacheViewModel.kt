@@ -1,15 +1,20 @@
 package org.mlm.mages.ui.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.mlm.mages.MatrixService
+import org.mlm.mages.RoomSummary
 import org.mlm.mages.matrix.MediaCacheOverview
 import org.mlm.mages.matrix.MediaRetentionPolicyInfo
+import org.mlm.mages.matrix.RoomStorageUsage
 
 data class MediaCacheUiState(
     val isLoading: Boolean = true,
     val overview: MediaCacheOverview? = null,
     val policy: MediaRetentionPolicyInfo? = null,
+    val rooms: List<RoomSummary> = emptyList(),
+    val usageById: Map<String, RoomStorageUsage> = emptyMap(),
     val isClearing: Boolean = false,
     val isSavingPolicy: Boolean = false,
     val error: String? = null,
@@ -18,6 +23,8 @@ data class MediaCacheUiState(
 class MediaCacheViewModel(
     private val service: MatrixService,
 ) : BaseViewModel<MediaCacheUiState>(MediaCacheUiState()) {
+
+    private var usagesJob: Job? = null
 
     init {
         load()
@@ -31,6 +38,22 @@ class MediaCacheViewModel(
                 .onFailure { updateState { copy(isLoading = false, error = it.message) } }
             runCatching { service.port.mediaRetentionPolicy() }
                 .onSuccess { updateState { copy(policy = it) } }
+            runCatching { service.port.listRooms() }
+                .onSuccess { rooms ->
+                    updateState { copy(rooms = rooms) }
+                    loadUsages(rooms)
+                }
+        }
+    }
+
+    private fun loadUsages(rooms: List<RoomSummary>) {
+        usagesJob?.cancel()
+        usagesJob = viewModelScope.launch {
+            updateState { copy(usageById = emptyMap()) }
+            for (room in rooms) {
+                val usage = runCatching { service.port.roomStorageUsage(room.id) }.getOrNull() ?: continue
+                updateState { copy(usageById = usageById + (room.id to usage)) }
+            }
         }
     }
 

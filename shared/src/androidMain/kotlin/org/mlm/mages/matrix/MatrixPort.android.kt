@@ -2337,6 +2337,20 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         }
     }
 
+    override suspend fun roomStorageUsage(roomId: String): RoomStorageUsage =
+        withContext(matrixDispatcher) {
+            withClient {
+                runCatching {
+                    val usage = it.roomStorageUsage(roomId)
+                    RoomStorageUsage(
+                        messages = usage.messages,
+                        files = usage.files,
+                        bytes = usage.bytes,
+                    )
+                }.getOrNull() ?: RoomStorageUsage()
+            }
+        }
+
     override suspend fun clearMediaCache(): Result<Unit> = withContext(matrixDispatcher) {
         withClient {
             runWithFfiResult { it.clearMediaCache() }

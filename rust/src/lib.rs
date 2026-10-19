@@ -83,7 +83,7 @@ use matrix_sdk::{
 };
 use matrix_sdk::{
     encryption::BackupDownloadStrategy,
-    ruma::{OwnedEventId, OwnedRoomId},
+    ruma::{OwnedEventId, OwnedMxcUri, OwnedRoomId},
 };
 use matrix_sdk::{encryption::EncryptionSettings, ruma};
 use matrix_sdk_base::{event_cache::store::EventCacheStore, media::store::MediaStore};
@@ -3181,6 +3181,60 @@ impl Client {
         }
     }
 
+    pub fn room_storage_usage(&self, room_id: String) -> Result<RoomStorageUsage, FfiError> {
+        #[cfg(target_family = "wasm")]
+        return Ok(RoomStorageUsage { messages: 0, files: 0, bytes: 0 });
+
+        #[cfg(not(target_family = "wasm"))]
+        {
+            let rid = OwnedRoomId::try_from(room_id).ffi()?;
+            let mut messages = 0u64;
+            let mut files = 0u64;
+            let mut uris: Vec<String> = Vec::new();
+
+            if let Ok(store) = RT.block_on(self.core.sdk.event_cache_store().lock()) {
+                if let Some(store) = store.as_clean() {
+                    for (event_type, is_message) in
+                        [("m.room.message", true), ("m.sticker", false)]
+                    {
+                        let events =
+                            RT.block_on(store.get_room_events(&rid, Some(event_type), None)).ffi()?;
+                        for event in &events {
+                            if is_message {
+                                messages += 1;
+                            }
+                            if let Some(event_uris) = media_uris_of(event) {
+                                files += 1;
+                                uris.extend(event_uris);
+                            }
+                        }
+                    }
+                }
+            }
+
+            uris.sort();
+            uris.dedup();
+            let uris: Vec<OwnedMxcUri> = uris
+                .iter()
+                .filter_map(|uri| OwnedMxcUri::try_from(uri.as_str()).ok())
+                .collect();
+
+            let bytes = if uris.is_empty() {
+                0
+            } else {
+                match RT.block_on(self.core.sdk.media_store().lock()) {
+                    Ok(store) => RT
+                        .block_on(store.media_sizes(&uris))
+                        .map(|sizes| sizes.into_iter().map(|(_, size)| size).sum())
+                        .unwrap_or(0),
+                    Err(_) => 0,
+                }
+            };
+
+            Ok(RoomStorageUsage { messages, files, bytes })
+        }
+    }
+
     pub fn clear_media_cache(&self) -> Result<(), FfiError> {
         let dir = cache_dir(&self.store_dir);
         if dir.exists() {
@@ -4310,6 +4364,35 @@ fn search_hit_from_event(
         body,
         timestamp_ms,
     })
+}
+
+fn media_uris_of(
+    ev: &matrix_sdk_base::deserialized_responses::TimelineEvent,
+) -> Option<Vec<String>> {
+    use matrix_sdk::ruma::events::{room::MediaSource, sticker::StickerMediaSource};
+
+    let event: AnySyncTimelineEvent = ev.raw().deserialize().ok()?;
+    match event {
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomMessage(message)) => {
+            let attachment = extract_attachment(&message.as_original()?.content.msgtype)?;
+            let mut uris = vec![attachment.mxc_uri];
+            uris.extend(attachment.thumbnail_mxc_uri);
+            Some(uris)
+        }
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(sticker)) => {
+            let content = sticker.as_original()?.content;
+            let mut uris = vec![match &content.source {
+                StickerMediaSource::Plain(url) => url.to_string(),
+                StickerMediaSource::Encrypted(file) => file.url.to_string(),
+            }];
+            uris.extend(content.info.thumbnail_source.as_ref().map(|source| match source {
+                MediaSource::Plain(url) => url.to_string(),
+                MediaSource::Encrypted(file) => file.url.to_string(),
+            }));
+            Some(uris)
+        }
+        _ => None,
+    }
 }
 
 fn room_message_search_body(

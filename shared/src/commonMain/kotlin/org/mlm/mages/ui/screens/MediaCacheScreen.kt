@@ -325,7 +325,32 @@ fun MediaCacheScreen(
 
                 Spacer(Modifier.padding(6.dp))
 
-                Row(Modifier.fillMaxWidth(), Arrangement.Center) { Text(stringResource(Res.string.room_listings_will_be_added_later)) }
+                if (state.rooms.isNotEmpty()) {
+                    val filesLabel = stringResource(Res.string.files)
+                    val messagesLabel = stringResource(Res.string.messages)
+                    state.rooms.forEach { room ->
+                        val usage = state.usageById[room.id]
+                        ListItem(
+                            headlineContent = { Text(room.name) },
+                            supportingContent = {
+                                Text(
+                                    text = usage?.let {
+                                        "${it.files} $filesLabel · ${it.messages} $messagesLabel"
+                                    } ?: stringResource(Res.string.loading),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            },
+                            trailingContent = {
+                                Text(
+                                    text = usage?.let { formatBytes(it.bytes.toLong()) } ?: "-",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        )
+                    }
+                }
 
                 state.error?.let {
                     Text(
