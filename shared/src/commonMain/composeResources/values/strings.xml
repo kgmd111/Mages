@@ -77,6 +77,7 @@
     <string name="failed_to_delete_section">Could not delete the section</string>
     <string name="failed_to_reorder_sections">Could not reorder the sections</string>
     <string name="failed_to_move_into_section">Could not move the room</string>
+    <string name="files">Files</string>
     <string name="section_created_named">Created section %1$s</string>
     <string name="section_renamed_to_named">Renamed the section to %1$s</string>
     <string name="section_deleted">Section deleted</string>

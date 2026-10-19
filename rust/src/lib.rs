@@ -86,7 +86,6 @@ use matrix_sdk::{
     ruma::{OwnedEventId, OwnedMxcUri, OwnedRoomId},
 };
 use matrix_sdk::{encryption::EncryptionSettings, ruma};
-use matrix_sdk_base::{event_cache::store::EventCacheStore, media::store::MediaStore};
 use matrix_sdk_ui::{
     eyeball_im::VectorDiff,
     notification_client::{
@@ -4380,10 +4379,11 @@ fn media_uris_of(
             Some(uris)
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(sticker)) => {
-            let content = sticker.as_original()?.content;
+            let content = &sticker.as_original()?.content;
             let mut uris = vec![match &content.source {
                 StickerMediaSource::Plain(url) => url.to_string(),
                 StickerMediaSource::Encrypted(file) => file.url.to_string(),
+                _ => return None,
             }];
             uris.extend(content.info.thumbnail_source.as_ref().map(|source| match source {
                 MediaSource::Plain(url) => url.to_string(),
