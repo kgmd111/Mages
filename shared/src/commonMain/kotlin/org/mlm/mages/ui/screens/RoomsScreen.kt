@@ -640,14 +640,6 @@ private fun RoomsTopBar(
                 } else null
             )
             FilterChip(
-                selected = typeFilter == RoomTypeFilter.Favourites,
-                onClick = { onSetTypeFilter(RoomTypeFilter.Favourites) },
-                label = { Text(withCount(stringResource(Res.string.favourites), unreadFavouritesCount, unreadOnly)) },
-                leadingIcon = if (typeFilter == RoomTypeFilter.Favourites) {
-                    { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
-                } else null
-            )
-            FilterChip(
                 selected = typeFilter == RoomTypeFilter.Groups,
                 onClick = { onSetTypeFilter(RoomTypeFilter.Groups) },
                 label = { Text(withCount(stringResource(Res.string.groups), unreadGroupsCount, unreadOnly)) },
@@ -676,6 +668,14 @@ private fun RoomsTopBar(
                     )
                 },
                 leadingIcon = if (typeFilter == RoomTypeFilter.Invites) {
+                    { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
+                } else null
+            )
+            FilterChip(
+                selected = typeFilter == RoomTypeFilter.Favourites,
+                onClick = { onSetTypeFilter(RoomTypeFilter.Favourites) },
+                label = { Text(withCount(stringResource(Res.string.favourites), unreadFavouritesCount, unreadOnly)) },
+                leadingIcon = if (typeFilter == RoomTypeFilter.Favourites) {
                     { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
                 } else null
             )
