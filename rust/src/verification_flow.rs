@@ -208,7 +208,9 @@ impl CoreClient {
 
     /// True when every active member of the room has a verified identity, the
     /// rule FluffyChat gates its badge on: invited members count, and our own
-    /// identity has to be verified too. Members come from the store, no fetch.
+    /// identity has to be verified too. Members and identities come from the
+    /// store, no fetch, so a member list that is not fully synced yet counts
+    /// as unverified rather than claiming a partial list is verified.
     pub async fn all_users_verified(&self, room_id: String) -> bool {
         let Ok(room) = self.require_room(&room_id) else {
             return false;
@@ -217,6 +219,9 @@ impl CoreClient {
             return false;
         };
         if members.is_empty() {
+            return false;
+        }
+        if members.len() as u64 < room.active_members_count() {
             return false;
         }
         for member in members {
