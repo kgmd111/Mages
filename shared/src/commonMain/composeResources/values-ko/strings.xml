@@ -1349,10 +1349,6 @@
         <item>복사</item>
         <item>없음</item>
     </string-array>
-    <string name="setting_max_width_conversation">채팅 최대 너비</string>
-    <string name="setting_max_width_conversation_description">대화의 최대 너비. 제한 없으면 0</string>
-    <string name="setting_max_width_inbox">방 목록 최대 너비</string>
-    <string name="setting_max_width_inbox_description">방 목록의 최대 너비. 제한 없으면 0</string>
     <string name="setting_sort_by_unread">읽지 않음 먼저 정렬</string>
     <string name="setting_sort_by_unread_description">각 섹션 상단에 읽지 않은 활동이 있는 방 유지</string>
     <string name="setting_show_silent_unread_count">숨은 읽지 않음 수 표시</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">전체 창의 투명도</string>
     <string name="setting_split_panes">분할 창</string>
     <string name="setting_split_panes_description">와이드 화면에서 방 목록과 대화를 나란히 표시</string>
+    <string name="setting_split_room_list_percent">방 목록 너비</string>
+    <string name="setting_split_room_list_percent_description">분할 창에서 방 목록이 차지하는 비율</string>
     <string name="select_conversation_title">대화 선택</string>
     <string name="select_conversation_subtitle">목록에서 방을 선택하여 여기에 표시</string>
 </resources>

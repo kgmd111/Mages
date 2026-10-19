@@ -1351,10 +1351,6 @@
         <item>Копировать</item>
         <item>Ничего</item>
     </string-array>
-    <string name="setting_max_width_conversation">Макс. ширина чатов</string>
-    <string name="setting_max_width_conversation_description">Максимальная ширина беседы. 0 — без ограничения</string>
-    <string name="setting_max_width_inbox">Макс. ширина списка комнат</string>
-    <string name="setting_max_width_inbox_description">Максимальная ширина списка комнат. 0 — без ограничения</string>
     <string name="setting_sort_by_unread">Непрочитанные сначала</string>
     <string name="setting_sort_by_unread_description">Держать комнаты с непрочитанной активностью вверху каждого раздела</string>
     <string name="setting_show_silent_unread_count">Показывать тихий счётчик</string>
@@ -1383,6 +1379,8 @@
     <string name="setting_window_background_alpha_description">Прозрачность всего окна</string>
     <string name="setting_split_panes">Разделённые панели</string>
     <string name="setting_split_panes_description">Показывать список комнат и беседу рядом на широких экранах</string>
+    <string name="setting_split_room_list_percent">Ширина списка комнат</string>
+    <string name="setting_split_room_list_percent_description">Процент окна, который занимает список комнат при разделённых панелях</string>
     <string name="select_conversation_title">Выбери беседу</string>
     <string name="select_conversation_subtitle">Выбери комнату из списка, чтобы увидеть её здесь</string>
 </resources>

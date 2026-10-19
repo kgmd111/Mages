@@ -544,32 +544,6 @@ data class AppSettings(
     val messageDoubleTapReaction: String = "❤️",
 
     @Setting(
-        title = "Max width for chats",
-        titleKey = MagesSettingsKeys.MAX_WIDTH_CONVERSATION,
-        description = "Maximum width of a conversation. Set to 0 for no limit",
-        descriptionKey = MagesSettingsKeys.MAX_WIDTH_CONVERSATION_DESCRIPTION,
-        category = Appearance::class,
-        type = Slider::class,
-        min = 0f,
-        max = 2400f,
-        step = 40f,
-    )
-    val maxWidthConversation: Int = 0,
-
-    @Setting(
-        title = "Max width for room list",
-        titleKey = MagesSettingsKeys.MAX_WIDTH_INBOX,
-        description = "Maximum width of the room list. Set to 0 for no limit",
-        descriptionKey = MagesSettingsKeys.MAX_WIDTH_INBOX_DESCRIPTION,
-        category = Appearance::class,
-        type = Slider::class,
-        min = 0f,
-        max = 2400f,
-        step = 40f,
-    )
-    val maxWidthInbox: Int = 0,
-
-    @Setting(
         title = "Split panes",
         titleKey = MagesSettingsKeys.SPLIT_PANES,
         description = "Show the room list and conversation side by side on wide screens",
@@ -578,6 +552,20 @@ data class AppSettings(
         type = Toggle::class,
     )
     val splitPanes: Boolean = false,
+
+    @Setting(
+        title = "Room list width",
+        titleKey = MagesSettingsKeys.SPLIT_ROOM_LIST_PERCENT,
+        description = "Percentage of the window used by the room list when split panes are on",
+        descriptionKey = MagesSettingsKeys.SPLIT_ROOM_LIST_PERCENT_DESCRIPTION,
+        category = Appearance::class,
+        type = Slider::class,
+        min = 15f,
+        max = 50f,
+        step = 5f,
+        dependsOn = "splitPanes",
+    )
+    val splitRoomListPercent: Int = 40,
 
     @Setting(
         title = "Sort unread first",

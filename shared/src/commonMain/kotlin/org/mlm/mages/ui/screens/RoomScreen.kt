@@ -84,7 +84,6 @@ import org.mlm.mages.ui.components.wallpaper.WallpaperBackground
 import org.mlm.mages.ui.displayPreview
 import org.mlm.mages.ui.theme.Limits
 import org.mlm.mages.ui.theme.Spacing
-import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.ui.util.formatDate
 import org.mlm.mages.ui.util.formatTime
@@ -573,7 +572,6 @@ fun RoomScreen(
     }
 
     Scaffold(
-        modifier = Modifier.contentWidth(settings.maxWidthConversation),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f),
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
         topBar = {

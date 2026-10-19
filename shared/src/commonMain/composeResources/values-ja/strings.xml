@@ -1349,10 +1349,6 @@
         <item>コピー</item>
         <item>なし</item>
     </string-array>
-    <string name="setting_max_width_conversation">チャットの最大幅</string>
-    <string name="setting_max_width_conversation_description">会話の最大幅。制限なしは0</string>
-    <string name="setting_max_width_inbox">ルーム一覧の最大幅</string>
-    <string name="setting_max_width_inbox_description">ルーム一覧の最大幅。制限なしは0</string>
     <string name="setting_sort_by_unread">未読を先頭に</string>
     <string name="setting_sort_by_unread_description">各セクションの先頭に未読アクティビティのあるルームを保持</string>
     <string name="setting_show_silent_unread_count">サイレント未読数を表示</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">ウィンドウ全体の透明度</string>
     <string name="setting_split_panes">分割表示</string>
     <string name="setting_split_panes_description">ワイド画面でルーム一覧と会話を並べて表示</string>
+    <string name="setting_split_room_list_percent">ルーム一覧の幅</string>
+    <string name="setting_split_room_list_percent_description">分割表示でルーム一覧が使用するウィンドウの割合</string>
     <string name="select_conversation_title">会話を選択</string>
     <string name="select_conversation_subtitle">一覧からルームを選んでここに表示</string>
 </resources>

@@ -1349,10 +1349,6 @@
         <item>Kopyala</item>
         <item>Hiçbiri</item>
     </string-array>
-    <string name="setting_max_width_conversation">Sohbetler için maks. genişlik</string>
-    <string name="setting_max_width_conversation_description">Bir sohbetin maksimum genişliği. Sınırsız için 0</string>
-    <string name="setting_max_width_inbox">Oda listesi için maks. genişlik</string>
-    <string name="setting_max_width_inbox_description">Oda listesinin maksimum genişliği. Sınırsız için 0</string>
     <string name="setting_sort_by_unread">Okunmamışlar önce</string>
     <string name="setting_sort_by_unread_description">Okunmamış etkinliği olan odaları her bölümün üstünde tut</string>
     <string name="setting_show_silent_unread_count">Sessiz okunmamış sayacı</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Tüm pencerenin saydamlığı</string>
     <string name="setting_split_panes">Bölünmüş paneller</string>
     <string name="setting_split_panes_description">Oda listesini ve sohbeti geniş ekranlarda yan yana göster</string>
+    <string name="setting_split_room_list_percent">Oda listesi genişliği</string>
+    <string name="setting_split_room_list_percent_description">Bölünmüş panellerde oda listesinin kullandığı pencere yüzdesi</string>
     <string name="select_conversation_title">Bir sohbet seç</string>
     <string name="select_conversation_subtitle">Burada görmek için listeden bir oda seç</string>
 </resources>

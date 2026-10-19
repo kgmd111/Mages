@@ -28,7 +28,6 @@ import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.RoomSwipeAction
-import org.mlm.mages.ui.util.contentWidth
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.RoomSummary
 import org.mlm.mages.ui.RoomTypeFilter
@@ -102,7 +101,6 @@ fun RoomsScreen(
     }
 
     Scaffold(
-        modifier = Modifier.contentWidth(settings.maxWidthInbox),
         topBar = {
             if (state.selectionMode) {
                 RoomSelectionTopBar(

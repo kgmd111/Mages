@@ -1349,10 +1349,6 @@
         <item>Salin</item>
         <item>Tidak ada</item>
     </string-array>
-    <string name="setting_max_width_conversation">Lebar maks obrolan</string>
-    <string name="setting_max_width_conversation_description">Lebar maksimum percakapan. Isi 0 untuk tanpa batas</string>
-    <string name="setting_max_width_inbox">Lebar maks daftar ruangan</string>
-    <string name="setting_max_width_inbox_description">Lebar maksimum daftar ruangan. Isi 0 untuk tanpa batas</string>
     <string name="setting_sort_by_unread">Urutkan belum dibaca dulu</string>
     <string name="setting_sort_by_unread_description">Pertahankan ruangan dengan aktivitas belum dibaca di atas setiap bagian</string>
     <string name="setting_show_silent_unread_count">Tampilkan jumlah senyap</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Transparansi seluruh jendela</string>
     <string name="setting_split_panes">Panel terpisah</string>
     <string name="setting_split_panes_description">Tampilkan daftar ruangan dan percakapan berdampingan di layar lebar</string>
+    <string name="setting_split_room_list_percent">Lebar daftar ruangan</string>
+    <string name="setting_split_room_list_percent_description">Persentase jendela yang digunakan daftar ruangan saat panel terpisah aktif</string>
     <string name="select_conversation_title">Pilih percakapan</string>
     <string name="select_conversation_subtitle">Pilih ruangan dari daftar untuk melihatnya di sini</string>
 </resources>

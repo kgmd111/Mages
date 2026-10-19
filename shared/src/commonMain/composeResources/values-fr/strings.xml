@@ -1349,10 +1349,6 @@
         <item>Copier</item>
         <item>Rien</item>
     </string-array>
-    <string name="setting_max_width_conversation">Largeur max des discussions</string>
-    <string name="setting_max_width_conversation_description">Largeur maximale d'une discussion. 0 pour aucune limite</string>
-    <string name="setting_max_width_inbox">Largeur max de la liste des salons</string>
-    <string name="setting_max_width_inbox_description">Largeur maximale de la liste des salons. 0 pour aucune limite</string>
     <string name="setting_sort_by_unread">Non lus en premier</string>
     <string name="setting_sort_by_unread_description">Garder les salons avec une activité non lue en haut de chaque section</string>
     <string name="setting_show_silent_unread_count">Afficher le compteur silencieux</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Transparence de toute la fenêtre</string>
     <string name="setting_split_panes">Panneaux divisés</string>
     <string name="setting_split_panes_description">Afficher la liste des salons et la discussion côte à côte sur les écrans larges</string>
+    <string name="setting_split_room_list_percent">Largeur de la liste des salons</string>
+    <string name="setting_split_room_list_percent_description">Pourcentage de la fenêtre utilisé par la liste des salons avec les panneaux divisés</string>
     <string name="select_conversation_title">Choisir une discussion</string>
     <string name="select_conversation_subtitle">Choisis un salon dans la liste pour l'afficher ici</string>
 </resources>

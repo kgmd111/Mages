@@ -1351,10 +1351,6 @@
         <item>Kopiuj</item>
         <item>Nic</item>
     </string-array>
-    <string name="setting_max_width_conversation">Maks. szerokość czatów</string>
-    <string name="setting_max_width_conversation_description">Maksymalna szerokość konwersacji. 0 oznacza brak limitu</string>
-    <string name="setting_max_width_inbox">Maks. szerokość listy pokoi</string>
-    <string name="setting_max_width_inbox_description">Maksymalna szerokość listy pokoi. 0 oznacza brak limitu</string>
     <string name="setting_sort_by_unread">Nieprzeczytane na górze</string>
     <string name="setting_sort_by_unread_description">Zachowaj pokoje z nieprzeczytaną aktywnością na górze każdej sekcji</string>
     <string name="setting_show_silent_unread_count">Pokazuj cichy licznik</string>
@@ -1383,6 +1379,8 @@
     <string name="setting_window_background_alpha_description">Przezroczystość całego okna</string>
     <string name="setting_split_panes">Podzielone panele</string>
     <string name="setting_split_panes_description">Pokazuj listę pokoi i konwersację obok siebie na szerokich ekranach</string>
+    <string name="setting_split_room_list_percent">Szerokość listy pokoi</string>
+    <string name="setting_split_room_list_percent_description">Procent okna używany przez listę pokoi przy podzielonych panelach</string>
     <string name="select_conversation_title">Wybierz konwersację</string>
     <string name="select_conversation_subtitle">Wybierz pokój z listy, aby zobaczyć go tutaj</string>
 </resources>

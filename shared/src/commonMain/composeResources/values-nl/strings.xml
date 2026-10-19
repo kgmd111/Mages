@@ -1349,10 +1349,6 @@
         <item>Kopiëren</item>
         <item>Niets</item>
     </string-array>
-    <string name="setting_max_width_conversation">Max. breedte voor chats</string>
-    <string name="setting_max_width_conversation_description">Maximale breedte van een gesprek. 0 voor geen limiet</string>
-    <string name="setting_max_width_inbox">Max. breedte voor kamerlijst</string>
-    <string name="setting_max_width_inbox_description">Maximale breedte van de kamerlijst. 0 voor geen limiet</string>
     <string name="setting_sort_by_unread">Ongelezen eerst</string>
     <string name="setting_sort_by_unread_description">Kamers met ongelezen activiteit bovenaan elke sectie houden</string>
     <string name="setting_show_silent_unread_count">Stille ongelezen-teller tonen</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Transparantie van het hele venster</string>
     <string name="setting_split_panes">Gesplitste panelen</string>
     <string name="setting_split_panes_description">Kamerlijst en gesprek naast elkaar tonen op brede schermen</string>
+    <string name="setting_split_room_list_percent">Breedte van de kamerlijst</string>
+    <string name="setting_split_room_list_percent_description">Percentage van het venster dat de kamerlijst gebruikt bij gesplitste panelen</string>
     <string name="select_conversation_title">Kies een gesprek</string>
     <string name="select_conversation_subtitle">Kies een kamer uit de lijst om hier te bekijken</string>
 </resources>

@@ -1349,10 +1349,6 @@
         <item>رونوشت</item>
         <item>هیچ‌کدام</item>
     </string-array>
-    <string name="setting_max_width_conversation">حداکثر پهنای گفتگوها</string>
-    <string name="setting_max_width_conversation_description">حداکثر پهنای یک گفتگو. برای بدون حد ۰ بگذار</string>
-    <string name="setting_max_width_inbox">حداکثر پهنای فهرست اتاق‌ها</string>
-    <string name="setting_max_width_inbox_description">حداکثر پهنای فهرست اتاق‌ها. برای بدون حد ۰ بگذار</string>
     <string name="setting_sort_by_unread">خوانده‌نشده‌ها اول</string>
     <string name="setting_sort_by_unread_description">نگه داشتن اتاق‌های دارای فعالیت خوانده‌نشده در بالای هر بخش</string>
     <string name="setting_show_silent_unread_count">نمایش شمار خوانده‌نشده‌های بی‌صدا</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">شفافیت کل پنجره</string>
     <string name="setting_split_panes">صفحات تقسیم‌شده</string>
     <string name="setting_split_panes_description">نمایش فهرست اتاق‌ها و گفتگو در کنار هم در صفحه‌های عریض</string>
+    <string name="setting_split_room_list_percent">پهنای فهرست اتاق‌ها</string>
+    <string name="setting_split_room_list_percent_description">درصدی از پنجره که فهرست اتاق‌ها هنگام فعال بودن صفحه‌های تقسیم‌شده استفاده می‌کند</string>
     <string name="select_conversation_title">یک گفتگو انتخاب کن</string>
     <string name="select_conversation_subtitle">یک اتاق از فهرست انتخاب کن تا اینجا نمایش داده شود</string>
 </resources>

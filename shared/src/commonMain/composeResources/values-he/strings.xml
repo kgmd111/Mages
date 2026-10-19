@@ -1351,10 +1351,6 @@
         <item>העתקה</item>
         <item>כלום</item>
     </string-array>
-    <string name="setting_max_width_conversation">רוחב מרבי לשיחות</string>
-    <string name="setting_max_width_conversation_description">הרוחב המרבי של שיחה. 0 ללא הגבלה</string>
-    <string name="setting_max_width_inbox">רוחב מרבי לרשימת החדרים</string>
-    <string name="setting_max_width_inbox_description">הרוחב המרבי של רשימת החדרים. 0 ללא הגבלה</string>
     <string name="setting_sort_by_unread">לא נקראו תחילה</string>
     <string name="setting_sort_by_unread_description">שמירת חדרים עם פעילות לא נקראת בראש כל קטע</string>
     <string name="setting_show_silent_unread_count">הצגת מונה שקט</string>
@@ -1383,6 +1379,8 @@
     <string name="setting_window_background_alpha_description">שקיפות כל החלון</string>
     <string name="setting_split_panes">חלוניות מפוצלות</string>
     <string name="setting_split_panes_description">הצגת רשימת החדרים והשיחה זה לצד זה במסכים רחבים</string>
+    <string name="setting_split_room_list_percent">רוחב רשימת החדרים</string>
+    <string name="setting_split_room_list_percent_description">אחוז החלון שבו משתמשת רשימת החדרים כאשר חלוניות מפוצלות פעילות</string>
     <string name="select_conversation_title">בחר שיחה</string>
     <string name="select_conversation_subtitle">בחר חדר מהרשימה כדי לצפות בו כאן</string>
 </resources>

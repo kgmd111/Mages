@@ -1353,10 +1353,6 @@
         <item>نسخ</item>
         <item>لا شيء</item>
     </string-array>
-    <string name="setting_max_width_conversation">أقصى عرض للمحادثات</string>
-    <string name="setting_max_width_conversation_description">أقصى عرض للمحادثة. عيّن 0 لإزالة الحد</string>
-    <string name="setting_max_width_inbox">أقصى عرض لقائمة الغرف</string>
-    <string name="setting_max_width_inbox_description">أقصى عرض لقائمة الغرف. عيّن 0 لإزالة الحد</string>
     <string name="setting_sort_by_unread">ترتيب غير المقروء أولاً</string>
     <string name="setting_sort_by_unread_description">إبقاء الغرف ذات النشاط غير المقروء في أعلى كل قسم</string>
     <string name="setting_show_silent_unread_count">إظهار عدد غير المقروء الصامت</string>
@@ -1385,6 +1381,8 @@
     <string name="setting_window_background_alpha_description">شفافية النافذة كاملة</string>
     <string name="setting_split_panes">أجزاء مقسمة</string>
     <string name="setting_split_panes_description">إظهار قائمة الغرف والمحادثة جنباً إلى جنب على الشاشات العريضة</string>
+    <string name="setting_split_room_list_percent">عرض قائمة الغرف</string>
+    <string name="setting_split_room_list_percent_description">النسبة المئوية من النافذة التي تستخدمها قائمة الغرف عند تفعيل الأجزاء المقسمة</string>
     <string name="select_conversation_title">اختر محادثة</string>
     <string name="select_conversation_subtitle">اختر غرفة من القائمة لعرضها هنا</string>
 </resources>

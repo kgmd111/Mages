@@ -1351,10 +1351,6 @@
         <item>Копіювати</item>
         <item>Нічого</item>
     </string-array>
-    <string name="setting_max_width_conversation">Макс. ширина чатів</string>
-    <string name="setting_max_width_conversation_description">Максимальна ширина бесіди. 0 — без обмеження</string>
-    <string name="setting_max_width_inbox">Макс. ширина списку кімнат</string>
-    <string name="setting_max_width_inbox_description">Максимальна ширина списку кімнат. 0 — без обмеження</string>
     <string name="setting_sort_by_unread">Непрочитані спочатку</string>
     <string name="setting_sort_by_unread_description">Тримати кімнати з непрочитаною активністю вгорі кожного розділу</string>
     <string name="setting_show_silent_unread_count">Показувати тихий лічильник</string>
@@ -1383,6 +1379,8 @@
     <string name="setting_window_background_alpha_description">Прозорість усього вікна</string>
     <string name="setting_split_panes">Розділені панелі</string>
     <string name="setting_split_panes_description">Показувати список кімнат і бесіду поруч на широких екранах</string>
+    <string name="setting_split_room_list_percent">Ширина списку кімнат</string>
+    <string name="setting_split_room_list_percent_description">Відсоток вікна, який займає список кімнат при розділених панелях</string>
     <string name="select_conversation_title">Вибери бесіду</string>
     <string name="select_conversation_subtitle">Вибери кімнату зі списку, щоб побачити її тут</string>
 </resources>

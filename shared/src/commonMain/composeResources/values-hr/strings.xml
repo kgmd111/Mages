@@ -1350,10 +1350,6 @@
         <item>Kopiraj</item>
         <item>Ništa</item>
     </string-array>
-    <string name="setting_max_width_conversation">Maks. širina razgovora</string>
-    <string name="setting_max_width_conversation_description">Maksimalna širina razgovora. 0 za bez ograničenja</string>
-    <string name="setting_max_width_inbox">Maks. širina popisa soba</string>
-    <string name="setting_max_width_inbox_description">Maksimalna širina popisa soba. 0 za bez ograničenja</string>
     <string name="setting_sort_by_unread">Nepročitane prvo</string>
     <string name="setting_sort_by_unread_description">Zadrži sobe s nepročitanom aktivnošću na vrhu svake sekcije</string>
     <string name="setting_show_silent_unread_count">Prikaži tihi broj nepročitanih</string>
@@ -1382,6 +1378,8 @@
     <string name="setting_window_background_alpha_description">Prozirnost cijelog prozora</string>
     <string name="setting_split_panes">Podijeljena okna</string>
     <string name="setting_split_panes_description">Prikaži popis soba i razgovor jedno pored drugog na širokim zaslonima</string>
+    <string name="setting_split_room_list_percent">Širina popisa soba</string>
+    <string name="setting_split_room_list_percent_description">Postotak prozora koji koristi popis soba kad su podijeljena okna uključena</string>
     <string name="select_conversation_title">Odaberi razgovor</string>
     <string name="select_conversation_subtitle">Odaberi sobu s popisa za prikaz ovdje</string>
 </resources>

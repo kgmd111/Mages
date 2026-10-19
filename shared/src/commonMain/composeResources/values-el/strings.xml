@@ -1349,10 +1349,6 @@
         <item>Αντιγραφή</item>
         <item>Τίποτα</item>
     </string-array>
-    <string name="setting_max_width_conversation">Μέγιστο πλάτος συνομιλιών</string>
-    <string name="setting_max_width_conversation_description">Μέγιστο πλάτος συνομιλίας. 0 για χωρίς όριο</string>
-    <string name="setting_max_width_inbox">Μέγιστο πλάτος λίστας δωματίων</string>
-    <string name="setting_max_width_inbox_description">Μέγιστο πλάτος λίστας δωματίων. 0 για χωρίς όριο</string>
     <string name="setting_sort_by_unread">Τα αδιάβαστα πρώτα</string>
     <string name="setting_sort_by_unread_description">Διατήρηση δωματίων με αδιάβαστη δραστηριότητα στην κορυφή κάθε ενότητας</string>
     <string name="setting_show_silent_unread_count">Εμφάνιση σιωπηλού μετρητή</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Διαφάνεια ολόκληρου του παραθύρου</string>
     <string name="setting_split_panes">Διαχωρισμένα παράθυρα</string>
     <string name="setting_split_panes_description">Εμφάνιση της λίστας δωματίων και της συνομιλίας δίπλα-δίπλα σε ευρείες οθόνες</string>
+    <string name="setting_split_room_list_percent">Πλάτος λίστας δωματίων</string>
+    <string name="setting_split_room_list_percent_description">Ποσοστό του παραθύρου που χρησιμοποιεί η λίστα δωματίων όταν είναι ενεργά τα διαχωρισμένα παράθυρα</string>
     <string name="select_conversation_title">Επίλεξε συνομιλία</string>
     <string name="select_conversation_subtitle">Διάλεξε ένα δωμάτιο από τη λίστα για προβολή εδώ</string>
 </resources>

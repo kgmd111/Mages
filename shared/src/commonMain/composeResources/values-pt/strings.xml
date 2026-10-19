@@ -1349,10 +1349,6 @@
         <item>Copiar</item>
         <item>Nada</item>
     </string-array>
-    <string name="setting_max_width_conversation">Largura máx. de conversas</string>
-    <string name="setting_max_width_conversation_description">Largura máxima de uma conversa. 0 para sem limite</string>
-    <string name="setting_max_width_inbox">Largura máx. da lista de salas</string>
-    <string name="setting_max_width_inbox_description">Largura máxima da lista de salas. 0 para sem limite</string>
     <string name="setting_sort_by_unread">Não lidas primeiro</string>
     <string name="setting_sort_by_unread_description">Manter salas com atividade não lida no topo de cada seção</string>
     <string name="setting_show_silent_unread_count">Mostrar contagem silenciosa</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Transparência de toda a janela</string>
     <string name="setting_split_panes">Painéis divididos</string>
     <string name="setting_split_panes_description">Mostrar a lista de salas e a conversa lado a lado em telas largas</string>
+    <string name="setting_split_room_list_percent">Largura da lista de salas</string>
+    <string name="setting_split_room_list_percent_description">Porcentagem da janela usada pela lista de salas com os painéis divididos</string>
     <string name="select_conversation_title">Escolhe uma conversa</string>
     <string name="select_conversation_subtitle">Escolhe uma sala da lista para ver aqui</string>
 </resources>

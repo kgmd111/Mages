@@ -1349,10 +1349,6 @@
         <item>Sao chép</item>
         <item>Không có</item>
     </string-array>
-    <string name="setting_max_width_conversation">Chiều rộng tối đa cho trò chuyện</string>
-    <string name="setting_max_width_conversation_description">Chiều rộng tối đa của cuộc trò chuyện. Đặt 0 để không giới hạn</string>
-    <string name="setting_max_width_inbox">Chiều rộng tối đa danh sách phòng</string>
-    <string name="setting_max_width_inbox_description">Chiều rộng tối đa của danh sách phòng. Đặt 0 để không giới hạn</string>
     <string name="setting_sort_by_unread">Chưa đọc lên trước</string>
     <string name="setting_sort_by_unread_description">Giữ các phòng có hoạt động chưa đọc ở đầu mỗi mục</string>
     <string name="setting_show_silent_unread_count">Hiện số chưa đọc lặng</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Độ trong suốt của toàn cửa sổ</string>
     <string name="setting_split_panes">Khung chia đôi</string>
     <string name="setting_split_panes_description">Hiện danh sách phòng và cuộc trò chuyện cạnh nhau trên màn hình rộng</string>
+    <string name="setting_split_room_list_percent">Chiều rộng danh sách phòng</string>
+    <string name="setting_split_room_list_percent_description">Phần trăm cửa sổ dành cho danh sách phòng khi bật khung chia đôi</string>
     <string name="select_conversation_title">Chọn một cuộc trò chuyện</string>
     <string name="select_conversation_subtitle">Chọn một phòng từ danh sách để xem tại đây</string>
 </resources>

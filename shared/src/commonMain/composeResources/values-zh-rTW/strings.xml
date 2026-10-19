@@ -1349,10 +1349,6 @@
         <item>複製</item>
         <item>無</item>
     </string-array>
-    <string name="setting_max_width_conversation">聊天最大寬度</string>
-    <string name="setting_max_width_conversation_description">對話的最大寬度。設為0表示不限制</string>
-    <string name="setting_max_width_inbox">房間清單最大寬度</string>
-    <string name="setting_max_width_inbox_description">房間清單的最大寬度。設為0表示不限制</string>
     <string name="setting_sort_by_unread">未讀優先排序</string>
     <string name="setting_sort_by_unread_description">將有未讀活動的房間保持在各分區頂部</string>
     <string name="setting_show_silent_unread_count">顯示靜默未讀數</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">整個視窗的透明度</string>
     <string name="setting_split_panes">分割顯示</string>
     <string name="setting_split_panes_description">在寬螢幕上並排顯示房間清單和對話</string>
+    <string name="setting_split_room_list_percent">房間清單寬度</string>
+    <string name="setting_split_room_list_percent_description">分割顯示時房間清單佔視窗的百分比</string>
     <string name="select_conversation_title">選擇一個對話</string>
     <string name="select_conversation_subtitle">從清單中選擇一個房間在此檢視</string>
 </resources>

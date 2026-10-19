@@ -1349,10 +1349,6 @@
         <item>Kopioi</item>
         <item>Ei mitään</item>
     </string-array>
-    <string name="setting_max_width_conversation">Keskustelujen enimmäisleveys</string>
-    <string name="setting_max_width_conversation_description">Keskustelun enimmäisleveys. 0 = ei rajaa</string>
-    <string name="setting_max_width_inbox">Huonelistan enimmäisleveys</string>
-    <string name="setting_max_width_inbox_description">Huonelistan enimmäisleveys. 0 = ei rajaa</string>
     <string name="setting_sort_by_unread">Lukemattomat ensin</string>
     <string name="setting_sort_by_unread_description">Pidä lukematonta toimintaa sisältävät huoneet kunkin osion yläosassa</string>
     <string name="setting_show_silent_unread_count">Näytä hiljainen lukemattomien määrä</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Koko ikkunan läpinäkyvyys</string>
     <string name="setting_split_panes">Jaettu näkymä</string>
     <string name="setting_split_panes_description">Näytä huonelista ja keskustelu vierekkäin leveillä näytöillä</string>
+    <string name="setting_split_room_list_percent">Huonelistan leveys</string>
+    <string name="setting_split_room_list_percent_description">Huonelistan osuus ikkunan leveydestä jaetussa näkymässä</string>
     <string name="select_conversation_title">Valitse keskustelu</string>
     <string name="select_conversation_subtitle">Valitse huone listasta nähdäksesi sen tässä</string>
 </resources>

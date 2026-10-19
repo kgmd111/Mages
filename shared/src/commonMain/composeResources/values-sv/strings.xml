@@ -1349,10 +1349,6 @@
         <item>Kopiera</item>
         <item>Inget</item>
     </string-array>
-    <string name="setting_max_width_conversation">Maxbredd för chattar</string>
-    <string name="setting_max_width_conversation_description">Maximal bredd för en konversation. 0 för ingen gräns</string>
-    <string name="setting_max_width_inbox">Maxbredd för rumslistan</string>
-    <string name="setting_max_width_inbox_description">Maximal bredd för rumslistan. 0 för ingen gräns</string>
     <string name="setting_sort_by_unread">Olästa först</string>
     <string name="setting_sort_by_unread_description">Behåll rum med oläst aktivitet överst i varje avsnitt</string>
     <string name="setting_show_silent_unread_count">Visa tyst olästräknare</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Hela fönstrets transparens</string>
     <string name="setting_split_panes">Delade paneler</string>
     <string name="setting_split_panes_description">Visa rumslistan och konversationen sida vid sida på breda skärmar</string>
+    <string name="setting_split_room_list_percent">Bredd för rumslistan</string>
+    <string name="setting_split_room_list_percent_description">Andel av fönstret som rumslistan använder med delade paneler</string>
     <string name="select_conversation_title">Välj en konversation</string>
     <string name="select_conversation_subtitle">Välj ett rum i listan för att visa det här</string>
 </resources>

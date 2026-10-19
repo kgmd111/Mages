@@ -1349,10 +1349,6 @@
         <item>Copia</item>
         <item>Niente</item>
     </string-array>
-    <string name="setting_max_width_conversation">Larghezza max chat</string>
-    <string name="setting_max_width_conversation_description">Larghezza massima di una conversazione. 0 per nessun limite</string>
-    <string name="setting_max_width_inbox">Larghezza max elenco stanze</string>
-    <string name="setting_max_width_inbox_description">Larghezza massima dell'elenco stanze. 0 per nessun limite</string>
     <string name="setting_sort_by_unread">Non letti prima</string>
     <string name="setting_sort_by_unread_description">Mantieni le stanze con attività non letta in cima a ogni sezione</string>
     <string name="setting_show_silent_unread_count">Mostra conteggio silenzioso</string>
@@ -1381,6 +1377,8 @@
     <string name="setting_window_background_alpha_description">Trasparenza dell'intera finestra</string>
     <string name="setting_split_panes">Pannelli affiancati</string>
     <string name="setting_split_panes_description">Mostra l'elenco delle stanze e la conversazione fianco a fianco su schermi larghi</string>
+    <string name="setting_split_room_list_percent">Larghezza elenco stanze</string>
+    <string name="setting_split_room_list_percent_description">Percentuale della finestra usata dall'elenco delle stanze con i pannelli affiancati</string>
     <string name="select_conversation_title">Seleziona una conversazione</string>
     <string name="select_conversation_subtitle">Scegli una stanza dall'elenco per vederla qui</string>
 </resources>

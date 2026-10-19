@@ -1351,10 +1351,6 @@
         <item>Kopírovat</item>
         <item>Nic</item>
     </string-array>
-    <string name="setting_max_width_conversation">Max. šířka chatů</string>
-    <string name="setting_max_width_conversation_description">Maximální šířka konverzace. 0 znamená bez omezení</string>
-    <string name="setting_max_width_inbox">Max. šířka seznamu místností</string>
-    <string name="setting_max_width_inbox_description">Maximální šířka seznamu místností. 0 znamená bez omezení</string>
     <string name="setting_sort_by_unread">Řadit nepřečtené nejdřív</string>
     <string name="setting_sort_by_unread_description">Ponechat místnosti s nepřečtenou aktivitou nahoře v každé sekci</string>
     <string name="setting_show_silent_unread_count">Zobrazit počet tichých nepřečtených</string>
@@ -1383,6 +1379,8 @@
     <string name="setting_window_background_alpha_description">Průhlednost celého okna</string>
     <string name="setting_split_panes">Rozdělené panely</string>
     <string name="setting_split_panes_description">Zobrazit seznam místností a konverzaci vedle sebe na širokých obrazovkách</string>
+    <string name="setting_split_room_list_percent">Šířka seznamu místností</string>
+    <string name="setting_split_room_list_percent_description">Podíl okna, který zabírá seznam místností při rozdělených panelech</string>
     <string name="select_conversation_title">Vyber konverzaci</string>
     <string name="select_conversation_subtitle">Vyber místnost ze seznamu pro zobrazení zde</string>
 </resources>
