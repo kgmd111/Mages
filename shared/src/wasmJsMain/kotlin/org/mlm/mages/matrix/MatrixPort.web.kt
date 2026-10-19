@@ -1956,6 +1956,9 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override suspend fun isUserVerified(userId: String): Boolean =
         requireClient().isUserVerified(userId).awaitPlainBool()
 
+    override suspend fun allUsersVerified(roomId: String): Boolean =
+        requireClient().allUsersVerified(roomId).awaitPlainBool()
+
     override suspend fun confirmSas(flowId: String, otherUserId: String?): Boolean =
         if (otherUserId.isNullOrEmpty()) requireClient().confirmSas(flowId).awaitPlainBool()
         else requireClient().confirmSasWithUser(flowId, otherUserId).awaitPlainBool()

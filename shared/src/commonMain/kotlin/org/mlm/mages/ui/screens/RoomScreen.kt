@@ -84,6 +84,7 @@ import org.mlm.mages.ui.components.wallpaper.WallpaperBackground
 import org.mlm.mages.ui.displayPreview
 import org.mlm.mages.ui.theme.Limits
 import org.mlm.mages.ui.theme.Spacing
+import org.mlm.mages.ui.theme.AppColors
 import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.ui.util.formatDate
 import org.mlm.mages.ui.util.formatTime
@@ -91,6 +92,7 @@ import org.mlm.mages.ui.util.formatTimelineDate
 import org.mlm.mages.ui.util.formatTypingText
 import org.mlm.mages.ui.util.rememberTopVisibleRoomEventTimestamp
 import org.mlm.mages.ui.util.nowMs
+import org.mlm.mages.verification.VerificationCoordinator
 import org.mlm.mages.wallpaper.WallpaperStore
 import org.mlm.mages.ui.util.secondaryClick
 import org.mlm.mages.ui.viewmodel.RoomViewModel
@@ -167,6 +169,13 @@ fun RoomScreen(
     val globalWallpaper by wallpaperStore.wallpaper.collectAsState()
     val roomWallpapers by wallpaperStore.roomWallpapers.collectAsState()
     val wallpaper = roomWallpapers[state.roomId] ?: globalWallpaper
+
+    val verification: VerificationCoordinator = koinInject()
+    val verState by verification.state.collectAsState()
+
+    LaunchedEffect(verState.sasFlowId, verState.sasPhase) {
+        viewModel.refreshAllUsersVerified()
+    }
 
     LaunchedEffect(state.roomId) {
         wallpaperStore.refresh()
@@ -588,6 +597,7 @@ fun RoomScreen(
                 BubbleTopBar(
                     roomName = state.roomName,
                     avatarUrl = state.roomAvatarUrl,
+                    isVerified = state.allUsersVerified,
                     isSyncing = state.isCatchingUp && state.hasTimelineSnapshot
                 )
             } else {
@@ -595,6 +605,7 @@ fun RoomScreen(
                     roomName = state.roomName,
                     roomId = state.roomId,
                     avatarUrl = state.roomAvatarUrl,
+                    isVerified = state.allUsersVerified,
                     typingNames = state.typingNames,
                     isOffline = state.isOffline,
                     isSyncing = state.isCatchingUp && state.hasTimelineSnapshot,
@@ -1369,10 +1380,21 @@ fun RoomScreen(
 }
 
 @Composable
+private fun VerifiedBadge() {
+    Icon(
+        Icons.Default.Verified,
+        contentDescription = stringResource(Res.string.verified),
+        tint = AppColors.Verified,
+        modifier = Modifier.size(16.dp)
+    )
+}
+
+@Composable
 private fun RoomTopBar(
     roomName: String,
     roomId: String,
     avatarUrl: String?,
+    isVerified: Boolean,
     typingNames: List<String>,
     isOffline: Boolean,
     isSyncing: Boolean,
@@ -1432,12 +1454,18 @@ private fun RoomTopBar(
                         }
                         Spacer(Modifier.width(12.dp))
                         Column {
-                            Text(
-                                roomName,
-                                style = MaterialTheme.typography.titleMedium,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                if (isVerified) {
+                                    VerifiedBadge()
+                                    Spacer(Modifier.width(4.dp))
+                                }
+                                Text(
+                                    roomName,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                             AnimatedVisibility(
                                 visible = typingNames.isNotEmpty(),
                                 enter = fadeIn(),
@@ -1538,6 +1566,7 @@ private fun RoomTopBar(
 private fun BubbleTopBar(
     roomName: String,
     avatarUrl: String?,
+    isVerified: Boolean,
     isSyncing: Boolean = false,
 ) {
     Surface(color = MaterialTheme.colorScheme.surfaceContainerLow, shadowElevation = 2.dp) {
@@ -1572,12 +1601,18 @@ private fun BubbleTopBar(
 //                        }
                     }
                     Spacer(Modifier.width(8.dp))
-                    Text(
-                        roomName,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isVerified) {
+                            VerifiedBadge()
+                            Spacer(Modifier.width(4.dp))
+                        }
+                        Text(
+                            roomName,
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(

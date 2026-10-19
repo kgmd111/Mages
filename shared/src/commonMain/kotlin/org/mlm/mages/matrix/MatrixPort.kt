@@ -1027,6 +1027,8 @@ interface MatrixPort {
 
     suspend fun isUserVerified(userId: String): Boolean
 
+    suspend fun allUsersVerified(roomId: String): Boolean
+
     fun enterForeground()
     fun enterBackground()
     fun resumeActiveUi()

@@ -3,8 +3,9 @@ use futures_util::StreamExt;
 use matrix_sdk::encryption::verification::{
     SasState as SdkSasState, Verification, VerificationRequest, VerificationRequestState,
 };
-use matrix_sdk::ruma::{OwnedDeviceId, OwnedUserId};
+use matrix_sdk::ruma::{OwnedDeviceId, OwnedUserId, UserId};
 use matrix_sdk::sleep::sleep;
+use matrix_sdk::RoomMemberships;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
@@ -195,10 +196,35 @@ impl CoreClient {
         let Ok(uid) = user_id.parse::<OwnedUserId>() else {
             return false;
         };
-        match self.sdk.encryption().get_user_identity(&uid).await {
+        self.user_identity_verified(&uid).await
+    }
+
+    async fn user_identity_verified(&self, user_id: &UserId) -> bool {
+        match self.sdk.encryption().get_user_identity(user_id).await {
             Ok(Some(identity)) => identity.is_verified(),
             _ => false,
         }
+    }
+
+    /// True when every active member of the room has a verified identity, the
+    /// rule FluffyChat gates its badge on: invited members count, and our own
+    /// identity has to be verified too. Members come from the store, no fetch.
+    pub async fn all_users_verified(&self, room_id: String) -> bool {
+        let Ok(room) = self.require_room(&room_id) else {
+            return false;
+        };
+        let Ok(members) = room.members_no_sync(RoomMemberships::ACTIVE).await else {
+            return false;
+        };
+        if members.is_empty() {
+            return false;
+        }
+        for member in members {
+            if !self.user_identity_verified(member.user_id()).await {
+                return false;
+            }
+        }
+        true
     }
 }
 

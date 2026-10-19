@@ -794,6 +794,11 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             client?.isUserVerified(userId) ?: false
         }
 
+    override suspend fun allUsersVerified(roomId: String): Boolean =
+        withContext(matrixDispatcher) {
+            client?.allUsersVerified(roomId) ?: false
+        }
+
     override suspend fun confirmSas(flowId: String, otherUserId: String?): Boolean =
         withContext(matrixDispatcher) {
             client?.confirmSas(flowId, otherUserId?.ifEmpty { null }) ?: false

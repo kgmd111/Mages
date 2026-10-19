@@ -2904,6 +2904,14 @@ impl WasmClient {
         state.core.is_user_verified(user_id).await
     }
 
+    #[wasm_bindgen(js_name = allUsersVerified)]
+    pub async fn all_users_verified(&self, room_id: String) -> bool {
+        let Some(state) = self.state() else {
+            return false;
+        };
+        state.core.all_users_verified(room_id).await
+    }
+
     #[wasm_bindgen(js_name = acceptVerificationRequest)]
     pub async fn accept_verification_request(
         &self,

@@ -99,6 +99,7 @@ class RoomViewModel(
             val profile = service.port.roomProfile(roomId) ?: return
             roomClass = profile.roomClass()
             lastRoomAvatarMxc = profile.avatarUrl
+            roomIsPublic = profile.isPublic
             updateState {
                 copy(
                     isDm = profile.isDm,
@@ -106,6 +107,7 @@ class RoomViewModel(
                     roomName = profile.name
                 )
             }
+            refreshAllUsersVerified()
             recomputeVisibleEvents()
 
             profile.avatarUrl?.let { url ->
@@ -118,6 +120,17 @@ class RoomViewModel(
             }
         } finally {
             updateState { copy(identityKnown = true) }
+        }
+    }
+
+    /** Reads every member's identity, so only private rooms are checked. */
+    fun refreshAllUsersVerified() {
+        if (roomIsPublic != false) return
+        val roomId = currentState.roomId
+        launch {
+            val verified = runSafe { service.port.allUsersVerified(roomId) } ?: false
+            if (currentState.roomId != roomId) return@launch
+            updateState { copy(allUsersVerified = verified) }
         }
     }
 
@@ -221,6 +234,9 @@ class RoomViewModel(
     private var catchUpTimeoutJob: Job? = null
 
     private var roomClass: RoomClass = RoomClass.PrivateGroup
+
+    /** Null until the profile is loaded, and unknown rooms are never scanned. */
+    private var roomIsPublic: Boolean? = null
 
     // Track which event IDs we've checked via API for additional thread replies
     // (beyond what's visible in timeline)

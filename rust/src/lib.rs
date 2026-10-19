@@ -300,6 +300,7 @@ delegate! { plain_option RoomUpgradeLinks; room_upgrade_links(room_id: String); 
 delegate! { plain bool; backup_exists_on_server(fetch: bool); set_key_backup_enabled(enabled: bool); retry_by_txn(room_id: String, txn_id: String);
     cancel_by_txn(room_id: String, txn_id: String);
     is_user_verified(user_id: String);
+    all_users_verified(room_id: String);
     cancel_verification(flow_id: String, other_user_id: Option<String>);
     confirm_sas(flow_id: String, other_user_id: Option<String>);
     accept_verification_request(flow_id: String, other_user_id: Option<String>);
