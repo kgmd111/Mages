@@ -250,3 +250,19 @@ jobs:
               }
             });
             core.info('Triggered Nix flake publish for ${{ inputs.version_tag }}');
+
+      - name: Dispatch publish-container.yml
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'publish-container.yml',
+              ref: 'main',
+              inputs: {
+                version_tag: '${{ inputs.version_tag }}'
+              }
+            });
+            core.info('Triggered web container publish for ${{ inputs.version_tag }}');

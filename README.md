@@ -81,6 +81,9 @@ Most Matrix-specific logic lives in Rust; Kotlin mostly handles presentation.
 ./gradlew :webApp:wasmJsBrowserDevelopmentRun
 ```
 
+A containerized build and prebuilt container images are available, see
+[`containers/ReadMe.md`](containers/ReadMe.md).
+
 ## Version Trackers
 
 | Platform   | Version                                                                                                                              |

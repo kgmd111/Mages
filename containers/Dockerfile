@@ -1,21 +1,32 @@
-ARG gradle_version=9.8
+# syntax=docker/dockerfile:1
+
 ARG jdk_version=25
-FROM docker.io/gradle:${gradle_version}-jdk${jdk_version} AS builder
+FROM docker.io/eclipse-temurin:${jdk_version}-jdk AS builder
 ARG destination=/srv/app
-ARG rust_version
-COPY [".", "${destination}"]
 WORKDIR ${destination}
+ENV PATH="/root/.cargo/bin:${PATH}" \
+  GRADLE_USER_HOME=/root/.gradle
 RUN \
   apt-get update && \
   apt-get --assume-yes --no-install-recommends install \
+    ca-certificates \
+    curl \
     gcc \
     libc-dev \
     rustup && \
-  rustup default ${rust_version:-1.98.0} && \
-  rustup target add wasm32-unknown-unknown && \
-  cargo install wasm-bindgen-cli && \
-  cp ~/.cargo/bin/wasm-bindgen /usr/local/bin/ && \
-  ./gradlew :webApp:wasmJsBrowserDistribution
+  rm -rf /var/lib/apt/lists/*
+COPY ["rust-toolchain.toml", "./rust-toolchain.toml"]
+RUN \
+  rustup default "$(awk -F'"' '/^channel/ { print $2; exit }' rust-toolchain.toml)" && \
+  rustup target add wasm32-unknown-unknown
+COPY ["rust/Cargo.lock", "./rust/Cargo.lock"]
+RUN --mount=type=cache,target=/root/.cargo/registry \
+  --mount=type=cache,target=/root/.cargo/git \
+  BINDGEN_VERSION="$(awk -F'"' '/^name = "wasm-bindgen"$/ { found = 1 } found && /^version = / { print $2; exit }' rust/Cargo.lock)" && \
+  cargo install wasm-bindgen-cli --version "${BINDGEN_VERSION}" --locked
+COPY [".", "${destination}"]
+RUN --mount=type=cache,target=${destination}/rust/target \
+  ./gradlew :webApp:wasmJsBrowserDistribution --no-daemon
 
 FROM docker.io/alpine:3.24
 ARG app_dir=/srv/app
