@@ -1492,8 +1492,9 @@ interface MatrixPort {
 data class MediaCacheOverview(
     val storeBytes: ULong? = null,
     val thumbnailBytes: ULong = 0u,
+    val eventBytes: ULong? = null,
 ) {
-    val totalBytes: ULong get() = (storeBytes ?: 0u) + thumbnailBytes
+    val totalBytes: ULong get() = (storeBytes ?: 0u) + thumbnailBytes + (eventBytes ?: 0u)
 }
 
 @Serializable

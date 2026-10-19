@@ -40,6 +40,7 @@ use matrix_sdk::{
     encryption::{BackupDownloadStrategy, EncryptionSettings},
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
 };
+use matrix_sdk_base::{event_cache::store::EventCacheStore, media::store::MediaStore};
 use mime::Mime;
 
 use matrix_sdk_ui::{
@@ -2467,9 +2468,19 @@ impl WasmClient {
                 .map(|bytes| bytes as u64),
             Err(_) => None,
         };
+        let event_bytes = match state.client().event_cache_store().lock().await {
+            Ok(store) => store
+                .get_size()
+                .await
+                .ok()
+                .flatten()
+                .map(|bytes| bytes as u64),
+            Err(_) => None,
+        };
         webffi_value(Ok::<_, crate::FfiError>(MediaCacheOverview {
             store_bytes,
             thumbnail_bytes: 0,
+            event_bytes,
         }))
     }
 

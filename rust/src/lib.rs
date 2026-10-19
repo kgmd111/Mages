@@ -86,6 +86,7 @@ use matrix_sdk::{
     ruma::{OwnedEventId, OwnedRoomId},
 };
 use matrix_sdk::{encryption::EncryptionSettings, ruma};
+use matrix_sdk_base::{event_cache::store::EventCacheStore, media::store::MediaStore};
 use matrix_sdk_ui::{
     eyeball_im::VectorDiff,
     notification_client::{
@@ -3163,9 +3164,20 @@ impl Client {
             })
             .map(|bytes| bytes as u64);
 
+        #[cfg(target_family = "wasm")]
+        let event_bytes = None;
+        #[cfg(not(target_family = "wasm"))]
+        let event_bytes = RT
+            .block_on(async {
+                let guard = self.core.sdk.event_cache_store().lock().await.ok()?;
+                guard.get_size().await.ok().flatten()
+            })
+            .map(|bytes| bytes as u64);
+
         MediaCacheOverview {
             store_bytes,
             thumbnail_bytes,
+            event_bytes,
         }
     }
 

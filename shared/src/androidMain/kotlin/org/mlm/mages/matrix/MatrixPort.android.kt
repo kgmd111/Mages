@@ -2331,6 +2331,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                 MediaCacheOverview(
                     storeBytes = overview.storeBytes,
                     thumbnailBytes = overview.thumbnailBytes,
+                    eventBytes = overview.eventBytes,
                 )
             }.getOrNull()
         }

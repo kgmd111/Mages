@@ -55,6 +55,7 @@ import mages.shared.generated.resources.media_cache_max_file
 import mages.shared.generated.resources.media_cache_storage_used
 import mages.shared.generated.resources.media_cache_thumbnails
 import mages.shared.generated.resources.media_cache_unlimited
+import mages.shared.generated.resources.messages
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mlm.mages.matrix.MediaRetentionPolicyInfo
@@ -147,18 +148,16 @@ fun MediaCacheScreen(
                     Text(stringResource(Res.string.media_cache_storage_used))
                 },
                 trailingContent = {
-                    val storeBytes = state.overview?.storeBytes
+                    val totalBytes = state.overview?.takeIf { it.storeBytes != null }?.totalBytes
                     when {
                         state.isLoading -> CircularWavyProgressIndicator()
-                        storeBytes == null -> Text(
+                        totalBytes == null -> Text(
                             text = "-",
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         else -> Text(
-                            text = formatBytes(
-                                storeBytes.toLong() + (state.overview?.thumbnailBytes?.toLong() ?: 0L)
-                            ),
+                            text = formatBytes(totalBytes.toLong()),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -172,6 +171,21 @@ fun MediaCacheScreen(
                     ListItem(
                         headlineContent = {
                             Text(stringResource(Res.string.media_cache_downloaded_media))
+                        },
+                        trailingContent = {
+                            Text(
+                                text = formatBytes(bytes.toLong()),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    )
+                }
+
+                overview.eventBytes?.let { bytes ->
+                    ListItem(
+                        headlineContent = {
+                            Text(stringResource(Res.string.messages))
                         },
                         trailingContent = {
                             Text(

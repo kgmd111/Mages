@@ -615,6 +615,8 @@ pub enum MediaClearScope {
 pub struct MediaCacheOverview {
     pub store_bytes: Option<u64>,
     pub thumbnail_bytes: u64,
+    #[serde(default)]
+    pub event_bytes: Option<u64>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Enum)]
