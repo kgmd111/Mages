@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">_プッシュの問題を修正更新/再起動またはディストリビュータの変更後_</string>
     <string name="setting_copy_unified_push_endpoint_description">_デバッグ用。登録されているエンドポイントを表示</string>
     <string name="setting_block_media_previews_description">サムネイル/プレビューを自動ダウンロードしない</string>
+    <string name="setting_auto_download_photos">写真を自動ダウンロード</string>
+    <string name="setting_auto_download_photos_description">写真をフルサイズで自動ダウンロード</string>
+    <string name="setting_auto_download_audio">音声を自動ダウンロード</string>
+    <string name="setting_auto_download_audio_description">ボイスメッセージと音声を自動ダウンロード</string>
+    <string name="setting_auto_download_video">動画を自動ダウンロード</string>
+    <string name="setting_auto_download_video_description">動画は自動的にダウンロードされます</string>
+    <string name="setting_auto_download_documents">ドキュメントを自動ダウンロード</string>
+    <string name="setting_auto_download_documents_description">添付ファイルは自動的にダウンロードされます</string>
     <string name="setting_media_cache_description">_キャッシュされたメディアの表示と管理</string>
     <string name="setting_start_in_tray_description">_起動時にトレイに最小化</string>
+    <string name="setting_enable_tray">システムトレイを有効にする</string>
+    <string name="setting_enable_tray_description">トレイにアイコンを表示し、クイック操作を使えるようにします。お使いのシステムでトレイがクラッシュする場合はオフにしてください</string>
     <string name="setting_enter_sends_message_description">有効にすると、Enter を押すとメッセージが送信され、Shift、Ctrl、または Cmd Enter を押すと新しい行が挿入されます</string>
     <string name="setting_edit_latest_with_up_arrow">上矢印で最新のメッセージを編集</string>
     <string name="setting_edit_latest_with_up_arrow_description">有効にすると、メッセージ欄が空の状態で上矢印を押すと、編集可能な最新のメッセージまたはキャプションの編集が始まります</string>
@@ -196,6 +206,7 @@
     <string name="app_name">魔術師</string>
     <string name="waiting_for_sso">SSO を待っています...</string>
     <string name="connecting">接続中...</string>
+    <string name="couldnt_reach_server">%1$s に接続できませんでした。アドレスと接続を確認してください。</string>
     <string name="syncing">同期中…</string>
     <string name="add_account">アカウントの追加</string>
     <string name="welcome_to_mages">メイジへようこそ</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">未読</string>
     <string name="loading_unread">未読メッセージを検索中…</string>
     <string name="loading_pinned">固定されたメッセージを検索中…</string>
+    <string name="loading_jump_to_date">日付へ移動中…</string>
     <string name="message_not_found">メッセージが見つかりません</string>
     <string name="timeline_date_today">今日</string>
     <string name="timeline_date_yesterday">昨日</string>
     <string name="jump_to_unread">未読にジャンプ</string>
+    <string name="jump_to_date">日付へ移動</string>
+    <string name="jump_to_date_no_messages">この日付のメッセージは見つかりません</string>
     <string name="scroll_to_top">一番上までスクロール</string>
     <string name="spaces">スペース</string>
+    <string name="rooms_and_spaces">ルームとスペース</string>
+    <string name="sections">セクション</string>
+    <string name="new_section">新しいセクション</string>
+    <string name="rooms_in_count_n">このセクションに %1$d 件</string>
+    <string name="section_name">セクション名</string>
+    <string name="rename_section">セクション名を変更</string>
+    <string name="edit_section">セクションを編集</string>
+    <string name="delete_section">セクションを削除</string>
+    <string name="delete_section_warning_named">%1$s のルームはセクションなしのリストに戻ります。</string>
+    <string name="move_to_section">セクションへ移動</string>
+    <string name="no_section">セクションなし</string>
+    <string name="move_section_up">セクションを上へ</string>
+    <string name="move_section_down">セクションを下へ</string>
+    <string name="give_the_section_a_name">セクションに名前を付けてください</string>
+    <string name="failed_to_save_section">セクションを保存できませんでした</string>
+    <string name="failed_to_create_section">セクションを作成できませんでした</string>
+    <string name="failed_to_delete_section">セクションを削除できませんでした</string>
+    <string name="failed_to_reorder_sections">セクションを並べ替えできませんでした</string>
+    <string name="failed_to_move_into_section">ルームを移動できませんでした</string>
+    <string name="section_created_named">セクション %1$s を作成しました</string>
+    <string name="section_renamed_to_named">セクション名を %1$s に変更しました</string>
+    <string name="section_deleted">セクションを削除しました</string>
+    <string name="moved_into_section">セクションへ移動しました</string>
+    <string name="moved_out_of_a_section">セクションから移動しました</string>
     <string name="settings">設定</string>
     <string name="discover">発見する</string>
     <string name="invites">招待します</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">サムネイル</string>
     <string name="media_cache_previews">プレビュー</string>
     <string name="media_cache_full_media">フルメディア</string>
+    <string name="media_cache_downloaded_media">ダウンロード済みのメディア</string>
     <string name="media_cache_saved">保存されました</string>
     <string name="auto_download_previews">プレビューの自動ダウンロード</string>
     <string name="media_cache_storage_used">使用済みストレージ</string>
     <string name="media_cache_clear_media_cache">メディアキャッシュをクリアする</string>
     <string name="media_cache_clear_confirm_title">メディアキャッシュをクリアしますか?</string>
+    <string name="media_cache_keep_media">メディアの保存期間</string>
+    <string name="media_cache_keep_forever">無期限</string>
+    <string name="media_cache_days">%1$d 日</string>
+    <string name="media_cache_cache_limit">キャッシュサイズの上限</string>
+    <string name="media_cache_max_file">保存する最大ファイルサイズ</string>
+    <string name="media_cache_unlimited">無制限</string>
+    <string name="media_cache_clear_older">古いメディアを削除</string>
+    <string name="media_cache_clear_older_confirm">%1$d 日より古いメディアを削除しますか？</string>
     <string name="media_cache_clear_confirm_body">ローカルにキャッシュされたメディアは削除されます。メッセージはチャットに残り、必要に応じてメディアを再度ダウンロードできます。</string>
     <string name="local_network_permission_title">ローカルネットワークアクセスを許可する</string>
     <string name="local_network_permission_subtitle">ホームサーバーはローカル ネットワーク上にあるようです。 Mages は LAN 上のデバイスに接続する許可を必要とします。</string>
@@ -580,6 +627,11 @@
         <item>常に</item>
         <item>DM のみ</item>
         <item>なし</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>モバイルデータ</item>
+        <item>ローミング</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>常に</item>
@@ -998,6 +1050,9 @@
     <string name="wallpaper_opacity">不透明度</string>
     <string name="wallpaper_blur">ぼかし</string>
     <string name="wallpaper_remove">壁紙を削除</string>
+    <string name="wallpaper_room_none">このチャットの壁紙はありません</string>
+    <string name="wallpaper_reset_to_global">全体の壁紙に戻す</string>
+    <string name="wallpaper_using_global">全体の壁紙を使用中</string>
     <string name="wallpaper_none_title">壁紙が設定されていません</string>
     <string name="wallpaper_none_subtitle">メッセージの背後に表示する画像を選択してください。ホームサーバーに保存されるため、アカウントとともにすべての端末で共有されます。</string>
     <string name="wallpaper_upload_failed">壁紙を設定できませんでした。もう一度お試しください。</string>
@@ -1083,6 +1138,12 @@
     <string name="security_and_access">セキュリティとアクセス</string>
     <string name="select">選択</string>
     <string name="select_all">すべて選択</string>
+    <string name="selected_count">%1$d 件を選択</string>
+    <string name="more_options">その他のオプション</string>
+    <string name="unmute">ミュートを解除</string>
+    <string name="leave_rooms">ルームから退出</string>
+    <string name="leave_rooms_confirm_title">ルームから退出しますか？</string>
+    <string name="leave_rooms_warning">選択したルームからのメッセージを受け取らなくなります。この操作は元に戻せません。</string>
     <string name="select_any_rooms_to_leave_as_well">退出するルームも選択してください。</string>
     <string name="select_at_least_one_room">ルームを1つ以上選択してください</string>
     <string name="select_rooms">ルームを選択</string>
@@ -1348,6 +1409,32 @@
         <item>ピン留め</item>
         <item>コピー</item>
         <item>なし</item>
+    </string-array>
+    <string name="setting_message_double_tap">ダブルタップの操作</string>
+    <string name="setting_message_double_tap_description">メッセージをダブルタップしたときの操作</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>リアクション</item>
+        <item>返信</item>
+        <item>ピン留め</item>
+        <item>コピー</item>
+        <item>なし</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">ダブルタップのリアクション</string>
+    <string name="setting_message_double_tap_reaction_description">操作がリアクションのときに送信するリアクション</string>
+    <string name="notification_keywords">キーワード</string>
+    <string name="notification_keywords_description">「メンションとキーワードのみ」に設定したルームでは、これらのいずれかの単語に一致するメッセージを通知します</string>
+    <string name="notification_keywords_empty">キーワードはまだありません</string>
+    <string name="notification_keywords_add">キーワードを追加</string>
+    <string name="notification_keywords_hint">監視する単語</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">未読を先頭に</string>
     <string name="setting_sort_by_unread_description">各セクションの先頭に未読アクティビティのあるルームを保持</string>

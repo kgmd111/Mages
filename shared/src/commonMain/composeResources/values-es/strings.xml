@@ -3,6 +3,7 @@
 
     <string name="waiting_for_sso">Esperando SSO...</string>
     <string name="connecting">Conectando...</string>
+    <string name="couldnt_reach_server">No se pudo contactar con %1$s. Comprueba la dirección y tu conexión.</string>
     <string name="add_account">Agregar cuenta</string>
     <string name="welcome_to_mages">Bienvenido a Mages</string>
     <string
@@ -48,12 +49,39 @@
     <string name="unread_only">Sin leer</string>
     <string name="loading_unread">Buscando mensajes no leídos…</string>
     <string name="loading_pinned">Buscando mensaje fijado…</string>
+    <string name="loading_jump_to_date">Saltando a la fecha…</string>
     <string name="message_not_found">Mensaje no encontrado</string>
     <string name="timeline_date_today">Hoy</string>
     <string name="timeline_date_yesterday">Ayer</string>
     <string name="jump_to_unread">Ir al primer mensaje no leído</string>
+    <string name="jump_to_date">Ir a la fecha</string>
+    <string name="jump_to_date_no_messages">No se encontraron mensajes para esta fecha</string>
     <string name="scroll_to_top">Ir arriba</string>
     <string name="spaces">Espacios</string>
+    <string name="rooms_and_spaces">Salas y espacios</string>
+    <string name="sections">Secciones</string>
+    <string name="new_section">Nueva sección</string>
+    <string name="rooms_in_count_n">%1$d en esta sección</string>
+    <string name="section_name">Nombre de la sección</string>
+    <string name="rename_section">Cambiar nombre de la sección</string>
+    <string name="edit_section">Editar sección</string>
+    <string name="delete_section">Eliminar sección</string>
+    <string name="delete_section_warning_named">Las salas de %1$s volverán a la lista sin sección.</string>
+    <string name="move_to_section">Mover a una sección</string>
+    <string name="no_section">Sin sección</string>
+    <string name="move_section_up">Subir la sección</string>
+    <string name="move_section_down">Bajar la sección</string>
+    <string name="give_the_section_a_name">Ponle un nombre a la sección</string>
+    <string name="failed_to_save_section">No se pudo guardar la sección</string>
+    <string name="failed_to_create_section">No se pudo crear la sección</string>
+    <string name="failed_to_delete_section">No se pudo eliminar la sección</string>
+    <string name="failed_to_reorder_sections">No se pudieron reordenar las secciones</string>
+    <string name="failed_to_move_into_section">No se pudo mover la sala</string>
+    <string name="section_created_named">Sección %1$s creada</string>
+    <string name="section_renamed_to_named">Sección renombrada a %1$s</string>
+    <string name="section_deleted">Sección eliminada</string>
+    <string name="moved_into_section">Movida a la sección</string>
+    <string name="moved_out_of_a_section">Movida fuera de la sección</string>
     <string name="settings">Configuración</string>
     <string name="discover">Descubrir</string>
     <string name="invites">Invitaciones</string>
@@ -579,10 +607,20 @@
     <string name="setting_copy_unified_push_endpoint_description">Para depuración; muestra qué endpoint está registrado</string>
     <string name="setting_block_media_previews">Bloquear vistas previas de medios</string>
     <string name="setting_block_media_previews_description">No descargar automáticamente miniaturas ni vistas previas</string>
+    <string name="setting_auto_download_photos">Descargar fotos automáticamente</string>
+    <string name="setting_auto_download_photos_description">Descargar automáticamente las fotos a tamaño completo</string>
+    <string name="setting_auto_download_audio">Descargar audio automáticamente</string>
+    <string name="setting_auto_download_audio_description">Descargar automáticamente los mensajes de voz y el audio</string>
+    <string name="setting_auto_download_video">Descargar vídeos automáticamente</string>
+    <string name="setting_auto_download_video_description">Los vídeos se descargan automáticamente</string>
+    <string name="setting_auto_download_documents">Descargar documentos automáticamente</string>
+    <string name="setting_auto_download_documents_description">Los archivos adjuntos se descargan automáticamente</string>
     <string name="setting_media_cache">Caché de medios</string>
     <string name="setting_media_cache_description">Ver y gestionar los medios almacenados en caché</string>
     <string name="setting_start_in_tray">Iniciar en la bandeja</string>
     <string name="setting_start_in_tray_description">Minimizar a la bandeja al iniciar</string>
+    <string name="setting_enable_tray">Activar la bandeja del sistema</string>
+    <string name="setting_enable_tray_description">Mostrar un icono en la bandeja con acciones rápidas. Desactívalo si la bandeja falla en tu sistema</string>
     <string name="setting_enter_sends_message">Enter envía el mensaje</string>
     <string name="setting_enter_sends_message_description">Al activarlo, Enter enviará el mensaje y Shift, Ctrl o Cmd + Enter insertará una nueva línea</string>
     <string name="setting_edit_latest_with_up_arrow">Editar el último mensaje con la flecha hacia arriba</string>
@@ -680,11 +718,20 @@
     <string name="media_cache_thumbnails">Miniaturas</string>
     <string name="media_cache_previews">Vistas previas</string>
     <string name="media_cache_full_media">Medios completos</string>
+    <string name="media_cache_downloaded_media">Medios descargados</string>
     <string name="media_cache_saved">Guardado</string>
     <string name="auto_download_previews">Vistas previas de descarga automática</string>
     <string name="media_cache_storage_used">Almacenamiento utilizado</string>
     <string name="media_cache_clear_media_cache">Borrar caché de medios</string>
     <string name="media_cache_clear_confirm_title">¿Borrar caché de medios?</string>
+    <string name="media_cache_keep_media">Conservar los medios durante</string>
+    <string name="media_cache_keep_forever">Siempre</string>
+    <string name="media_cache_days">%1$d días</string>
+    <string name="media_cache_cache_limit">Límite de tamaño de la caché</string>
+    <string name="media_cache_max_file">Archivo más grande conservado</string>
+    <string name="media_cache_unlimited">Sin límite</string>
+    <string name="media_cache_clear_older">Borrar medios antiguos</string>
+    <string name="media_cache_clear_older_confirm">¿Borrar los medios de más de %1$d días?</string>
     <string name="media_cache_clear_confirm_body">Se eliminarán los medios almacenados en caché local. Sus mensajes permanecen en sus chats y los medios pueden descargarse nuevamente cuando sea necesario.</string>
     <string name="space_child_suggested">Sugerido</string>
     <string name="space_child_not_joined">No te has unido</string>
@@ -696,6 +743,11 @@
         <item>Siempre</item>
         <item>Solo en DMs</item>
         <item>Nunca</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Datos móviles</item>
+        <item>Itinerancia</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Siempre</item>
@@ -1114,11 +1166,15 @@
     <string name="wallpaper_opacity">Opacidad</string>
     <string name="wallpaper_blur">Desenfoque</string>
     <string name="wallpaper_remove">Quitar fondo</string>
+    <string name="wallpaper_room_none">Sin fondo para este chat</string>
+    <string name="wallpaper_reset_to_global">Restablecer al fondo global</string>
+    <string name="wallpaper_using_global">Usando el fondo global</string>
     <string name="wallpaper_none_title">Sin fondo establecido</string>
     <string name="wallpaper_none_subtitle">Elige una imagen para usarla detrás de tus mensajes. Se guarda en tu servidor, así que sigue a tu cuenta en todos los dispositivos.</string>
     <string name="wallpaper_upload_failed">No se pudo establecer el fondo. Inténtalo de nuevo.</string>
     <string name="wallpaper_image_too_large">Esa imagen es demasiado grande para usarla como fondo.</string>
     <string name="wallpaper_pick_image_only">Elige un archivo de imagen.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">a. m.</string>
     <string name="time_pm">p. m.</string>
     <string name="pinned_message">Mensaje fijado</string>
@@ -1198,6 +1254,12 @@
     <string name="security_and_access">Seguridad y acceso</string>
     <string name="select">Seleccionar</string>
     <string name="select_all">Seleccionar todo</string>
+    <string name="selected_count">%1$d seleccionados</string>
+    <string name="more_options">Más opciones</string>
+    <string name="unmute">Reactivar sonido</string>
+    <string name="leave_rooms">Salir de salas</string>
+    <string name="leave_rooms_confirm_title">¿Salir de las salas?</string>
+    <string name="leave_rooms_warning">Dejarás de recibir mensajes de las salas seleccionadas. Esto no se puede deshacer.</string>
     <string name="select_any_rooms_to_leave_as_well">Selecciona las salas de las que también quieres salir.</string>
     <string name="select_at_least_one_room">Selecciona al menos una sala</string>
     <string name="select_rooms">Seleccionar salas</string>
@@ -1464,6 +1526,32 @@
         <item>Fijar</item>
         <item>Copiar</item>
         <item>Nada</item>
+    </string-array>
+    <string name="setting_message_double_tap">Acción del doble toque</string>
+    <string name="setting_message_double_tap_description">Acción que se realiza al tocar dos veces un mensaje</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reaccionar</item>
+        <item>Responder</item>
+        <item>Fijar</item>
+        <item>Copiar</item>
+        <item>Nada</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reacción del doble toque</string>
+    <string name="setting_message_double_tap_reaction_description">Reacción que se envía cuando la acción es Reaccionar</string>
+    <string name="notification_keywords">Palabras clave</string>
+    <string name="notification_keywords_description">Las salas configuradas como solo menciones y palabras clave te avisarán cuando un mensaje coincida con una de estas palabras</string>
+    <string name="notification_keywords_empty">Aún no hay palabras clave</string>
+    <string name="notification_keywords_add">Añadir palabra clave</string>
+    <string name="notification_keywords_hint">Palabra a vigilar</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Ordenar no leídos primero</string>
     <string name="setting_sort_by_unread_description">Mantener las salas con actividad no leída al principio de cada sección</string>

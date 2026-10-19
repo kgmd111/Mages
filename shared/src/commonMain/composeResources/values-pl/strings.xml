@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Napraw problemy z pushem po aktualizacji, restarcie lub zmianie dostawcy</string>
     <string name="setting_copy_unified_push_endpoint_description">Do debugowania; pokazuje zarejestrowany punkt końcowy</string>
     <string name="setting_block_media_previews_description">Nie pobieraj automatycznie miniatur ani podglądów</string>
+    <string name="setting_auto_download_photos">Automatycznie pobieraj zdjęcia</string>
+    <string name="setting_auto_download_photos_description">Automatycznie pobieraj zdjęcia w pełnym rozmiarze</string>
+    <string name="setting_auto_download_audio">Automatycznie pobieraj dźwięk</string>
+    <string name="setting_auto_download_audio_description">Automatycznie pobieraj wiadomości głosowe i dźwięk</string>
+    <string name="setting_auto_download_video">Automatycznie pobieraj filmy</string>
+    <string name="setting_auto_download_video_description">Filmy są pobierane automatycznie</string>
+    <string name="setting_auto_download_documents">Automatycznie pobieraj dokumenty</string>
+    <string name="setting_auto_download_documents_description">Załączniki są pobierane automatycznie</string>
     <string name="setting_media_cache_description">Przeglądaj i zarządzaj multimediami w pamięci podręcznej</string>
     <string name="setting_start_in_tray_description">Przy uruchamianiu minimalizuj do zasobnika</string>
+    <string name="setting_enable_tray">Włącz zasobnik systemowy</string>
+    <string name="setting_enable_tray_description">Pokaż ikonę w zasobniku z szybkimi akcjami. Wyłącz, jeśli zasobnik zawiesza się w twoim systemie</string>
     <string name="setting_enter_sends_message_description">Po włączeniu Enter wysyła wiadomość, a Shift, Ctrl lub Cmd + Enter wstawia nową linię</string>
     <string name="setting_edit_latest_with_up_arrow">Edytuj ostatnią wiadomość strzałką w górę</string>
     <string name="setting_edit_latest_with_up_arrow_description">Po włączeniu naciśnięcie strzałki w górę, gdy pole wiadomości jest puste, zaczyna edytować ostatnią edytowalną wiadomość lub jej podpis</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Magowie</string>
     <string name="waiting_for_sso">Czekam na SSO...</string>
     <string name="connecting">Złączony...</string>
+    <string name="couldnt_reach_server">Nie można połączyć się z %1$s. Sprawdź adres i połączenie.</string>
     <string name="syncing">Synchronizowanie…</string>
     <string name="add_account">Dodaj konto</string>
     <string name="welcome_to_mages">Witamy wśród Magów</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Niewykształcony</string>
     <string name="loading_unread">Znajdowanie nieprzeczytanych wiadomości…</string>
     <string name="loading_pinned">Znajdowanie przypiętej wiadomości…</string>
+    <string name="loading_jump_to_date">Przechodzenie do daty…</string>
     <string name="message_not_found">Nie znaleziono wiadomości</string>
     <string name="timeline_date_today">Dzisiaj</string>
     <string name="timeline_date_yesterday">Wczoraj</string>
     <string name="jump_to_unread">Przejdź do nieprzeczytanych</string>
+    <string name="jump_to_date">Przejdź do daty</string>
+    <string name="jump_to_date_no_messages">Nie znaleziono wiadomości dla tej daty</string>
     <string name="scroll_to_top">Przewiń do góry</string>
     <string name="spaces">Przestrzenie</string>
+    <string name="rooms_and_spaces">Pokoje i przestrzenie</string>
+    <string name="sections">Sekcje</string>
+    <string name="new_section">Nowa sekcja</string>
+    <string name="rooms_in_count_n">%1$d w tej sekcji</string>
+    <string name="section_name">Nazwa sekcji</string>
+    <string name="rename_section">Zmień nazwę sekcji</string>
+    <string name="edit_section">Edytuj sekcję</string>
+    <string name="delete_section">Usuń sekcję</string>
+    <string name="delete_section_warning_named">Pokoje w %1$s wrócą do listy bez sekcji.</string>
+    <string name="move_to_section">Przenieś do sekcji</string>
+    <string name="no_section">Brak sekcji</string>
+    <string name="move_section_up">Przenieś sekcję w górę</string>
+    <string name="move_section_down">Przenieś sekcję w dół</string>
+    <string name="give_the_section_a_name">Nadaj sekcji nazwę</string>
+    <string name="failed_to_save_section">Nie udało się zapisać sekcji</string>
+    <string name="failed_to_create_section">Nie udało się utworzyć sekcji</string>
+    <string name="failed_to_delete_section">Nie udało się usunąć sekcji</string>
+    <string name="failed_to_reorder_sections">Nie udało się zmienić kolejności sekcji</string>
+    <string name="failed_to_move_into_section">Nie udało się przenieść pokoju</string>
+    <string name="section_created_named">Utworzono sekcję %1$s</string>
+    <string name="section_renamed_to_named">Zmieniono nazwę sekcji na %1$s</string>
+    <string name="section_deleted">Sekcja usunięta</string>
+    <string name="moved_into_section">Przeniesiono do sekcji</string>
+    <string name="moved_out_of_a_section">Przeniesiono poza sekcję</string>
     <string name="settings">Ustawienia</string>
     <string name="discover">Odkryć</string>
     <string name="invites">Zaprasza</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniatury</string>
     <string name="media_cache_previews">Podglądy</string>
     <string name="media_cache_full_media">Pełne multimedia</string>
+    <string name="media_cache_downloaded_media">Pobrane multimedia</string>
     <string name="media_cache_saved">Zapisano</string>
     <string name="auto_download_previews">Automatyczne pobieranie podglądów</string>
     <string name="media_cache_storage_used">Używana pamięć</string>
     <string name="media_cache_clear_media_cache">Wyczyść pamięć podręczną multimediów</string>
     <string name="media_cache_clear_confirm_title">Wyczyścić pamięć podręczną multimediów?</string>
+    <string name="media_cache_keep_media">Zachowaj multimedia przez</string>
+    <string name="media_cache_keep_forever">Na zawsze</string>
+    <string name="media_cache_days">%1$d dni</string>
+    <string name="media_cache_cache_limit">Limit rozmiaru pamięci podręcznej</string>
+    <string name="media_cache_max_file">Największy zachowany plik</string>
+    <string name="media_cache_unlimited">Bez limitu</string>
+    <string name="media_cache_clear_older">Wyczyść starsze multimedia</string>
+    <string name="media_cache_clear_older_confirm">Wyczyścić multimedia starsze niż %1$d dni?</string>
     <string name="media_cache_clear_confirm_body">Lokalne media buforowane zostaną usunięte. Twoje wiadomości pozostają na czatach, a w razie potrzeby multimedia można pobrać ponownie.</string>
     <string name="local_network_permission_title">Zezwól na dostęp do sieci lokalnej</string>
     <string name="local_network_permission_subtitle">Wygląda na to, że Twój serwer domowy znajduje się w Twojej sieci lokalnej. Mages potrzebuje pozwolenia na połączenie się z urządzeniami w Twojej sieci LAN.</string>
@@ -580,6 +627,11 @@
         <item>Zawsze</item>
         <item>Tylko w DM-ach</item>
         <item>Nigdy</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Dane komórkowe</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Zawsze</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Nieprzezroczystość</string>
     <string name="wallpaper_blur">Rozmycie</string>
     <string name="wallpaper_remove">Usuń tapetę</string>
+    <string name="wallpaper_room_none">Brak tapety dla tego czatu</string>
+    <string name="wallpaper_reset_to_global">Przywróć tapetę globalną</string>
+    <string name="wallpaper_using_global">Używana jest tapeta globalna</string>
     <string name="wallpaper_none_title">Nie ustawiono tapety</string>
     <string name="wallpaper_none_subtitle">Wybierz obraz, który pojawi się za wiadomościami. Jest przechowywany na twoim serwerze, więc podąża za kontem na wszystkich urządzeniach.</string>
     <string name="wallpaper_upload_failed">Nie udało się ustawić tapety. Spróbuj ponownie.</string>
     <string name="wallpaper_image_too_large">Ten obraz jest za duży na tapetę.</string>
     <string name="wallpaper_pick_image_only">Wybierz plik obrazu.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Przypięta wiadomość</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Bezpieczeństwo i dostęp</string>
     <string name="select">Wybierz</string>
     <string name="select_all">Zaznacz wszystko</string>
+    <string name="selected_count">Wybrano: %1$d</string>
+    <string name="more_options">Więcej opcji</string>
+    <string name="unmute">Wyłącz wyciszenie</string>
+    <string name="leave_rooms">Opuść pokoje</string>
+    <string name="leave_rooms_confirm_title">Opuścić pokoje?</string>
+    <string name="leave_rooms_warning">Przestaniesz otrzymywać wiadomości z wybranych pokoi. Tej operacji nie można cofnąć.</string>
     <string name="select_any_rooms_to_leave_as_well">Zaznacz również pokoje, które chcesz opuścić.</string>
     <string name="select_at_least_one_room">Zaznacz co najmniej jeden pokój</string>
     <string name="select_rooms">Zaznacz pokoje</string>
@@ -1350,6 +1412,32 @@
         <item>Przypnij</item>
         <item>Kopiuj</item>
         <item>Nic</item>
+    </string-array>
+    <string name="setting_message_double_tap">Akcja dwukrotnego dotknięcia</string>
+    <string name="setting_message_double_tap_description">Akcja wykonywana po dwukrotnym dotknięciu wiadomości</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Zareaguj</item>
+        <item>Odpowiedz</item>
+        <item>Przypnij</item>
+        <item>Kopiuj</item>
+        <item>Nic</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reakcja dwukrotnego dotknięcia</string>
+    <string name="setting_message_double_tap_reaction_description">Reakcja wysyłana, gdy akcją jest Zareaguj</string>
+    <string name="notification_keywords">Słowa kluczowe</string>
+    <string name="notification_keywords_description">Pokoje ustawione na tylko wzmianki i słowa kluczowe powiadomią cię, gdy wiadomość pasuje do jednego z tych słów</string>
+    <string name="notification_keywords_empty">Brak słów kluczowych</string>
+    <string name="notification_keywords_add">Dodaj słowo kluczowe</string>
+    <string name="notification_keywords_hint">Słowo do obserwowania</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Nieprzeczytane na górze</string>
     <string name="setting_sort_by_unread_description">Zachowaj pokoje z nieprzeczytaną aktywnością na górze każdej sekcji</string>

@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Perbaiki masalah push setelahnya perbarui/reboot atau perubahan distributor</string>
     <string name="setting_copy_unified_push_endpoint_description">Untuk debugging; menunjukkan titik akhir apa yang didaftarkan</string>
     <string name="setting_block_media_previews_description">Jangan unduh otomatis thumbnail/pratinjau</string>
+    <string name="setting_auto_download_photos">Unduh foto otomatis</string>
+    <string name="setting_auto_download_photos_description">Unduh foto ukuran penuh otomatis</string>
+    <string name="setting_auto_download_audio">Unduh audio otomatis</string>
+    <string name="setting_auto_download_audio_description">Unduh pesan suara dan audio otomatis</string>
+    <string name="setting_auto_download_video">Unduh video otomatis</string>
+    <string name="setting_auto_download_video_description">Video diunduh otomatis</string>
+    <string name="setting_auto_download_documents">Unduh dokumen otomatis</string>
+    <string name="setting_auto_download_documents_description">Lampiran diunduh otomatis</string>
     <string name="setting_media_cache_description">Lihat dan kelola media cache</string>
     <string name="setting_start_in_tray_description">Minimalkan ke baki saat peluncuran</string>
+    <string name="setting_enable_tray">Aktifkan baki sistem</string>
+    <string name="setting_enable_tray_description">Tampilkan ikon di baki dengan aksi cepat. Matikan jika baki bermasalah di sistem Anda</string>
     <string name="setting_enter_sends_message_description">Saat diaktifkan, menekan Enter akan mengirim pesan dan Shift, Ctrl atau Cmd Enter akan menyisipkan baris baru</string>
     <string name="setting_edit_latest_with_up_arrow">Edit pesan terakhir dengan panah ke atas</string>
     <string name="setting_edit_latest_with_up_arrow_description">Jika diaktifkan, menekan panah ke atas saat kotak pesan kosong akan mulai mengedit pesan terakhir yang dapat diedit atau keterangannya</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Penyihir</string>
     <string name="waiting_for_sso">Menunggu SSO...</string>
     <string name="connecting">Menghubungkan...</string>
+    <string name="couldnt_reach_server">Tidak dapat menghubungi %1$s. Periksa alamat dan koneksi Anda.</string>
     <string name="syncing">Menyinkronkan…</string>
     <string name="add_account">Tambahkan Akun</string>
     <string name="welcome_to_mages">Selamat datang di Penyihir</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Belum dibaca</string>
     <string name="loading_unread">Menemukan pesan yang belum dibaca…</string>
     <string name="loading_pinned">Menemukan pesan yang disematkan…</string>
+    <string name="loading_jump_to_date">Melompat ke tanggal…</string>
     <string name="message_not_found">Pesan tidak ditemukan</string>
     <string name="timeline_date_today">Hari ini</string>
     <string name="timeline_date_yesterday">Kemarin</string>
     <string name="jump_to_unread">Lompat ke belum dibaca</string>
+    <string name="jump_to_date">Lompat ke tanggal</string>
+    <string name="jump_to_date_no_messages">Tidak ada pesan untuk tanggal ini</string>
     <string name="scroll_to_top">Gulir ke atas</string>
     <string name="spaces">Ruang Lingkup</string>
+    <string name="rooms_and_spaces">Ruang dan Space</string>
+    <string name="sections">Bagian</string>
+    <string name="new_section">Bagian baru</string>
+    <string name="rooms_in_count_n">%1$d di bagian ini</string>
+    <string name="section_name">Nama bagian</string>
+    <string name="rename_section">Ganti nama bagian</string>
+    <string name="edit_section">Edit bagian</string>
+    <string name="delete_section">Hapus bagian</string>
+    <string name="delete_section_warning_named">Ruang di %1$s akan kembali ke daftar tanpa bagian.</string>
+    <string name="move_to_section">Pindah ke bagian</string>
+    <string name="no_section">Tanpa bagian</string>
+    <string name="move_section_up">Pindah bagian ke atas</string>
+    <string name="move_section_down">Pindah bagian ke bawah</string>
+    <string name="give_the_section_a_name">Beri nama bagian</string>
+    <string name="failed_to_save_section">Tidak dapat menyimpan bagian</string>
+    <string name="failed_to_create_section">Tidak dapat membuat bagian</string>
+    <string name="failed_to_delete_section">Tidak dapat menghapus bagian</string>
+    <string name="failed_to_reorder_sections">Tidak dapat mengurutkan ulang bagian</string>
+    <string name="failed_to_move_into_section">Tidak dapat memindahkan ruang</string>
+    <string name="section_created_named">Bagian %1$s dibuat</string>
+    <string name="section_renamed_to_named">Bagian diganti nama menjadi %1$s</string>
+    <string name="section_deleted">Bagian dihapus</string>
+    <string name="moved_into_section">Dipindahkan ke bagian</string>
+    <string name="moved_out_of_a_section">Dipindahkan keluar dari bagian</string>
     <string name="settings">Pengaturan</string>
     <string name="discover">Jelajahi</string>
     <string name="invites">Undangan</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">gambar mini</string>
     <string name="media_cache_previews">Pratinjau</string>
     <string name="media_cache_full_media">Media Penuh</string>
+    <string name="media_cache_downloaded_media">Media yang diunduh</string>
     <string name="media_cache_saved">Disimpan</string>
     <string name="auto_download_previews">Pratinjau unduh otomatis</string>
     <string name="media_cache_storage_used">Penyimpanan yang digunakan</string>
     <string name="media_cache_clear_media_cache">Hapus cache media</string>
     <string name="media_cache_clear_confirm_title">Hapus cache media?</string>
+    <string name="media_cache_keep_media">Simpan media selama</string>
+    <string name="media_cache_keep_forever">Selamanya</string>
+    <string name="media_cache_days">%1$d hari</string>
+    <string name="media_cache_cache_limit">Batas ukuran tembolok</string>
+    <string name="media_cache_max_file">File terbesar yang disimpan</string>
+    <string name="media_cache_unlimited">Tanpa batas</string>
+    <string name="media_cache_clear_older">Bersihkan media lama</string>
+    <string name="media_cache_clear_older_confirm">Bersihkan media yang lebih lama dari %1$d hari?</string>
     <string name="media_cache_clear_confirm_body">Media cache lokal akan dihapus. Pesan Anda tetap ada di obrolan Anda dan media dapat diunduh lagi bila diperlukan.</string>
     <string name="local_network_permission_title">Izinkan akses jaringan lokal</string>
     <string name="local_network_permission_subtitle">Server rumah Anda tampaknya berada di jaringan lokal Anda. Penyihir memerlukan izin untuk terhubung ke perangkat di LAN Anda.</string>
@@ -580,6 +627,11 @@
         <item>Selalu</item>
         <item>Hanya di DM</item>
         <item>Tidak pernah</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Data seluler</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Selalu</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Opasitas</string>
     <string name="wallpaper_blur">Buram</string>
     <string name="wallpaper_remove">Hapus wallpaper</string>
+    <string name="wallpaper_room_none">Tidak ada wallpaper untuk obrolan ini</string>
+    <string name="wallpaper_reset_to_global">Kembalikan ke wallpaper global</string>
+    <string name="wallpaper_using_global">Memakai wallpaper global</string>
     <string name="wallpaper_none_title">Wallpaper belum diatur</string>
     <string name="wallpaper_none_subtitle">Pilih gambar untuk ditampilkan di belakang pesan Anda. Gambar disimpan di server Anda, sehingga mengikuti akun di semua perangkat.</string>
     <string name="wallpaper_upload_failed">Wallpaper tidak dapat diatur. Coba lagi.</string>
     <string name="wallpaper_image_too_large">Gambar itu terlalu besar untuk wallpaper.</string>
     <string name="wallpaper_pick_image_only">Pilih berkas gambar.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Pesan yang disematkan</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Keamanan &amp; akses</string>
     <string name="select">Pilih</string>
     <string name="select_all">Pilih semua</string>
+    <string name="selected_count">%1$d dipilih</string>
+    <string name="more_options">Opsi lainnya</string>
+    <string name="unmute">Bunyikan lagi</string>
+    <string name="leave_rooms">Keluar dari ruang</string>
+    <string name="leave_rooms_confirm_title">Keluar dari ruang?</string>
+    <string name="leave_rooms_warning">Anda akan berhenti menerima pesan dari ruang yang dipilih. Ini tidak dapat dibatalkan.</string>
     <string name="select_any_rooms_to_leave_as_well">Pilih ruang lain yang ingin Anda tinggalkan.</string>
     <string name="select_at_least_one_room">Pilih setidaknya satu ruang</string>
     <string name="select_rooms">Pilih ruang</string>
@@ -1348,6 +1410,32 @@
         <item>Pin</item>
         <item>Salin</item>
         <item>Tidak ada</item>
+    </string-array>
+    <string name="setting_message_double_tap">Aksi ketuk ganda</string>
+    <string name="setting_message_double_tap_description">Aksi saat pesan diketuk dua kali</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reaksi</item>
+        <item>Balas</item>
+        <item>Pin</item>
+        <item>Salin</item>
+        <item>Tidak ada</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reaksi ketuk ganda</string>
+    <string name="setting_message_double_tap_reaction_description">Reaksi yang dikirim saat aksinya Reaksi</string>
+    <string name="notification_keywords">Kata kunci</string>
+    <string name="notification_keywords_description">Ruang yang diatur ke hanya sebutan &amp; kata kunci akan memberi tahu saat pesan cocok dengan salah satu kata ini</string>
+    <string name="notification_keywords_empty">Belum ada kata kunci</string>
+    <string name="notification_keywords_add">Tambah kata kunci</string>
+    <string name="notification_keywords_hint">Kata yang dipantau</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Urutkan belum dibaca dulu</string>
     <string name="setting_sort_by_unread_description">Pertahankan ruangan dengan aktivitas belum dibaca di atas setiap bagian</string>

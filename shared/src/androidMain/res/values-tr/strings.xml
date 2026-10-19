@@ -41,7 +41,7 @@
     <string name="pick_call">Aramayı kabul et</string>
     <string name="ringing_for">%1$s süredir çalıyor</string>
     <string name="shortcuts_unsupported">Bu başlatıcıda ana ekran kısayolları desteklenmiyor</string>
-    <string name="unlock_mages">Mages\'in kilidini aç</string>
+    <string name="unlock_mages">"Mages'in kilidini aç"</string>
     <plurals name="notif_conversations">
         <item quantity="one">%1$d konuşma</item>
         <item quantity="other">%1$d konuşma</item>

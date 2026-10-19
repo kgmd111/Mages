@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Fixa push-problem efter uppdatering/omstart eller distributörsbyte</string>
     <string name="setting_copy_unified_push_endpoint_description">För felsökning; visar vilken slutpunkt som är registrerad</string>
     <string name="setting_block_media_previews_description">Hämta inte automatiskt miniatyrer/förhandsvisningar</string>
+    <string name="setting_auto_download_photos">Hämta foton automatiskt</string>
+    <string name="setting_auto_download_photos_description">Hämta foton i full storlek automatiskt</string>
+    <string name="setting_auto_download_audio">Hämta ljud automatiskt</string>
+    <string name="setting_auto_download_audio_description">Hämta röstmeddelanden och ljud automatiskt</string>
+    <string name="setting_auto_download_video">Hämta videor automatiskt</string>
+    <string name="setting_auto_download_video_description">Videor hämtas automatiskt</string>
+    <string name="setting_auto_download_documents">Hämta dokument automatiskt</string>
+    <string name="setting_auto_download_documents_description">Bilagor hämtas automatiskt</string>
     <string name="setting_media_cache_description">Visa och hantera cachelagrade media</string>
     <string name="setting_start_in_tray_description">Minimera till fack vid lansering</string>
+    <string name="setting_enable_tray">Aktivera systemfältet</string>
+    <string name="setting_enable_tray_description">Visa en ikon i systemfältet med snabbåtgärder. Stäng av om systemfältet kraschar på ditt system</string>
     <string name="setting_enter_sends_message_description">När aktiverad, trycker du på Retur skickas meddelandet och Shift, Ctrl eller Cmd Enter infogas en ny rad</string>
     <string name="setting_edit_latest_with_up_arrow">Redigera senaste meddelandet med uppåtpilen</string>
     <string name="setting_edit_latest_with_up_arrow_description">När det är aktiverat startar ett tryck på uppåtpilen när meddelandefältet är tomt redigering av det senaste redigerbara meddelandet eller dess bildtext</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Mages</string>
     <string name="waiting_for_sso">Väntar på SSO...</string>
     <string name="connecting">Ansluter...</string>
+    <string name="couldnt_reach_server">Kunde inte nå %1$s. Kontrollera adressen och din anslutning.</string>
     <string name="syncing">Synkroniseras...</string>
     <string name="add_account">Lägg till konto</string>
     <string name="welcome_to_mages">Välkommen till Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Oläst</string>
     <string name="loading_unread">Hittar olästa meddelanden...</string>
     <string name="loading_pinned">Hittar fäst meddelande...</string>
+    <string name="loading_jump_to_date">Hoppar till datum…</string>
     <string name="message_not_found">Meddelandet hittades inte</string>
     <string name="timeline_date_today">I dag</string>
     <string name="timeline_date_yesterday">I går</string>
     <string name="jump_to_unread">Hoppa till oläst</string>
+    <string name="jump_to_date">Hoppa till datum</string>
+    <string name="jump_to_date_no_messages">Inga meddelanden hittades för detta datum</string>
     <string name="scroll_to_top">Bläddra till toppen</string>
     <string name="spaces">Utrymmen</string>
+    <string name="rooms_and_spaces">Rum och utrymmen</string>
+    <string name="sections">Sektioner</string>
+    <string name="new_section">Ny sektion</string>
+    <string name="rooms_in_count_n">%1$d i denna sektion</string>
+    <string name="section_name">Sektionsnamn</string>
+    <string name="rename_section">Byt namn på sektionen</string>
+    <string name="edit_section">Redigera sektionen</string>
+    <string name="delete_section">Radera sektionen</string>
+    <string name="delete_section_warning_named">Rum i %1$s går tillbaka till listan utan sektion.</string>
+    <string name="move_to_section">Flytta till sektion</string>
+    <string name="no_section">Ingen sektion</string>
+    <string name="move_section_up">Flytta sektionen uppåt</string>
+    <string name="move_section_down">Flytta sektionen nedåt</string>
+    <string name="give_the_section_a_name">Ge sektionen ett namn</string>
+    <string name="failed_to_save_section">Sektionen kunde inte sparas</string>
+    <string name="failed_to_create_section">Sektionen kunde inte skapas</string>
+    <string name="failed_to_delete_section">Sektionen kunde inte raderas</string>
+    <string name="failed_to_reorder_sections">Sektionerna kunde inte ordnas om</string>
+    <string name="failed_to_move_into_section">Rummet kunde inte flyttas</string>
+    <string name="section_created_named">Sektionen %1$s skapad</string>
+    <string name="section_renamed_to_named">Sektionen fick namnet %1$s</string>
+    <string name="section_deleted">Sektionen raderad</string>
+    <string name="moved_into_section">Flyttad till sektionen</string>
+    <string name="moved_out_of_a_section">Flyttad ur sektionen</string>
     <string name="settings">Inställningar</string>
     <string name="discover">Upptäcka</string>
     <string name="invites">Inbjuder</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniatyrer</string>
     <string name="media_cache_previews">Förhandsvisningar</string>
     <string name="media_cache_full_media">Full Media</string>
+    <string name="media_cache_downloaded_media">Hämtade medier</string>
     <string name="media_cache_saved">Sparad</string>
     <string name="auto_download_previews">Ladda ned förhandsvisningar automatiskt</string>
     <string name="media_cache_storage_used">Förvaring används</string>
     <string name="media_cache_clear_media_cache">Rensa mediacache</string>
     <string name="media_cache_clear_confirm_title">Rensa mediacacheminnet?</string>
+    <string name="media_cache_keep_media">Behåll media i</string>
+    <string name="media_cache_keep_forever">För alltid</string>
+    <string name="media_cache_days">%1$d dagar</string>
+    <string name="media_cache_cache_limit">Gräns för cachestorlek</string>
+    <string name="media_cache_max_file">Största fil som behålls</string>
+    <string name="media_cache_unlimited">Obegränsat</string>
+    <string name="media_cache_clear_older">Rensa äldre media</string>
+    <string name="media_cache_clear_older_confirm">Rensa media äldre än %1$d dagar?</string>
     <string name="media_cache_clear_confirm_body">Lokalt cachad media kommer att tas bort. Dina meddelanden stannar i dina chattar och media kan laddas ner igen vid behov.</string>
     <string name="local_network_permission_title">Tillåt lokal nätverksåtkomst</string>
     <string name="local_network_permission_subtitle">Din hemmaserver verkar vara på ditt lokala nätverk. Mages behöver tillstånd för att ansluta till enheter på ditt LAN.</string>
@@ -580,6 +627,11 @@
         <item>Alltid</item>
         <item>Endast i DM:er</item>
         <item>Aldrig</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobildata</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Alltid</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Opacitet</string>
     <string name="wallpaper_blur">Oskärpa</string>
     <string name="wallpaper_remove">Ta bort bakgrund</string>
+    <string name="wallpaper_room_none">Ingen bakgrund för denna chatt</string>
+    <string name="wallpaper_reset_to_global">Återställ till global bakgrund</string>
+    <string name="wallpaper_using_global">Använder den globala bakgrunden</string>
     <string name="wallpaper_none_title">Ingen bakgrund angiven</string>
     <string name="wallpaper_none_subtitle">Välj en bild som visas bakom dina meddelanden. Den lagras på din hemserver och följer därför ditt konto på alla enheter.</string>
     <string name="wallpaper_upload_failed">Det gick inte att ange bakgrunden. Försök igen.</string>
     <string name="wallpaper_image_too_large">Bilden är för stor för att användas som bakgrund.</string>
     <string name="wallpaper_pick_image_only">Välj en bildfil.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">fm</string>
     <string name="time_pm">em</string>
     <string name="pinned_message">Fäst meddelande</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Säkerhet och åtkomst</string>
     <string name="select">Välj</string>
     <string name="select_all">Markera alla</string>
+    <string name="selected_count">%1$d markerade</string>
+    <string name="more_options">Fler alternativ</string>
+    <string name="unmute">Slå på ljudet</string>
+    <string name="leave_rooms">Lämna rum</string>
+    <string name="leave_rooms_confirm_title">Lämna rum?</string>
+    <string name="leave_rooms_warning">Du slutar ta emot meddelanden från de valda rummen. Detta kan inte ångras.</string>
     <string name="select_any_rooms_to_leave_as_well">Välj även rum som du vill lämna.</string>
     <string name="select_at_least_one_room">Välj minst ett rum</string>
     <string name="select_rooms">Välj rum</string>
@@ -1348,6 +1410,32 @@
         <item>Fäst</item>
         <item>Kopiera</item>
         <item>Inget</item>
+    </string-array>
+    <string name="setting_message_double_tap">Åtgärd vid dubbeltryck</string>
+    <string name="setting_message_double_tap_description">Åtgärd som utförs när du dubbeltrycker på ett meddelande</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reagera</item>
+        <item>Svara</item>
+        <item>Fäst</item>
+        <item>Kopiera</item>
+        <item>Inget</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reaktion vid dubbeltryck</string>
+    <string name="setting_message_double_tap_reaction_description">Reaktion som skickas när åtgärden är Reagera</string>
+    <string name="notification_keywords">Nyckelord</string>
+    <string name="notification_keywords_description">Rum inställda på endast omnämnanden och nyckelord aviserar dig när ett meddelande matchar ett av dessa ord</string>
+    <string name="notification_keywords_empty">Inga nyckelord än</string>
+    <string name="notification_keywords_add">Lägg till nyckelord</string>
+    <string name="notification_keywords_hint">Ord att hålla koll på</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Olästa först</string>
     <string name="setting_sort_by_unread_description">Behåll rum med oläst aktivitet överst i varje avsnitt</string>

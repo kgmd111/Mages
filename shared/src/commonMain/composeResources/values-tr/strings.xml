@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">_Sonraki push sorunlarını düzeltin güncelleme/yeniden başlatma veya distribütör değişikliği</string>
     <string name="setting_copy_unified_push_endpoint_description">Hata ayıklama için; hangi uç noktanın kayıtlı olduğunu gösterir</string>
     <string name="setting_block_media_previews_description">Küçük resimleri/önizlemeleri otomatik olarak indirme</string>
+    <string name="setting_auto_download_photos">Fotoğrafları otomatik indir</string>
+    <string name="setting_auto_download_photos_description">Fotoğrafları tam boyutta otomatik indir</string>
+    <string name="setting_auto_download_audio">Sesi otomatik indir</string>
+    <string name="setting_auto_download_audio_description">Sesli mesajları ve sesi otomatik indir</string>
+    <string name="setting_auto_download_video">Videoları otomatik indir</string>
+    <string name="setting_auto_download_video_description">Videolar otomatik indirilir</string>
+    <string name="setting_auto_download_documents">Belgeleri otomatik indir</string>
+    <string name="setting_auto_download_documents_description">Ekler otomatik indirilir</string>
     <string name="setting_media_cache_description">Önbelleğe alınmış medyayı görüntüleyin ve yönetin</string>
     <string name="setting_start_in_tray_description">Başlangıçta tepsiye küçültün</string>
+    <string name="setting_enable_tray">Sistem tepsisini etkinleştir</string>
+    <string name="setting_enable_tray_description">Tepside hızlı eylemler içeren bir simge göster. Sistem tepside çöküyorsa kapat</string>
     <string name="setting_enter_sends_message_description">Etkinleştirildiğinde, Enter tuşuna basmak mesajı gönderir ve Shift, Ctrl veya Cmd Enter yeni bir satır ekler</string>
     <string name="setting_edit_latest_with_up_arrow">Son mesajı yukarı ok ile düzenle</string>
     <string name="setting_edit_latest_with_up_arrow_description">Etkinleştirildiğinde, mesaj kutusu boşken yukarı oka basmak düzenlenebilir son mesajın veya altyazısının düzenlenmesini başlatır</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Büyücüler</string>
     <string name="waiting_for_sso">SSO bekleniyor...</string>
     <string name="connecting">Bağlanıyor...</string>
+    <string name="couldnt_reach_server">%1$s adresine ulaşılamadı. Adresi ve bağlantını kontrol et.</string>
     <string name="syncing">Senkronize ediliyor…</string>
     <string name="add_account">Hesap Ekle</string>
     <string name="welcome_to_mages">Mages'e hoş geldiniz</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Okunmamış</string>
     <string name="loading_unread">Okunmamış mesajları bulma…</string>
     <string name="loading_pinned">Sabitlenmiş mesaj bulunuyor…</string>
+    <string name="loading_jump_to_date">Tarihe atlanıyor…</string>
     <string name="message_not_found">Mesaj bulunamadı</string>
     <string name="timeline_date_today">Bugün</string>
     <string name="timeline_date_yesterday">Dün</string>
     <string name="jump_to_unread">Okunmamışlara atla</string>
+    <string name="jump_to_date">Tarihe git</string>
+    <string name="jump_to_date_no_messages">Bu tarih için mesaj bulunamadı</string>
     <string name="scroll_to_top">Yukarıya doğru kaydır</string>
     <string name="spaces">Alanlar</string>
+    <string name="rooms_and_spaces">Odalar ve alanlar</string>
+    <string name="sections">Bölümler</string>
+    <string name="new_section">Yeni bölüm</string>
+    <string name="rooms_in_count_n">Bu bölümde %1$d</string>
+    <string name="section_name">Bölüm adı</string>
+    <string name="rename_section">Bölümü yeniden adlandır</string>
+    <string name="edit_section">Bölümü düzenle</string>
+    <string name="delete_section">Bölümü sil</string>
+    <string name="delete_section_warning_named">%1$s içindeki odalar bölümsüz listeye döner.</string>
+    <string name="move_to_section">Bölüme taşı</string>
+    <string name="no_section">Bölüm yok</string>
+    <string name="move_section_up">Bölümü yukarı taşı</string>
+    <string name="move_section_down">Bölümü aşağı taşı</string>
+    <string name="give_the_section_a_name">Bölüme bir ad ver</string>
+    <string name="failed_to_save_section">Bölüm kaydedilemedi</string>
+    <string name="failed_to_create_section">Bölüm oluşturulamadı</string>
+    <string name="failed_to_delete_section">Bölüm silinemedi</string>
+    <string name="failed_to_reorder_sections">Bölümler yeniden sıralanamadı</string>
+    <string name="failed_to_move_into_section">Oda taşınamadı</string>
+    <string name="section_created_named">%1$s bölümü oluşturuldu</string>
+    <string name="section_renamed_to_named">Bölümün adı %1$s olarak değiştirildi</string>
+    <string name="section_deleted">Bölüm silindi</string>
+    <string name="moved_into_section">Bölüme taşındı</string>
+    <string name="moved_out_of_a_section">Bölümden çıkarıldı</string>
     <string name="settings">Ayarlar</string>
     <string name="discover">Keşfetmek</string>
     <string name="invites">Davetler</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Küçük resimler</string>
     <string name="media_cache_previews">Önizlemeler</string>
     <string name="media_cache_full_media">Tam Medya</string>
+    <string name="media_cache_downloaded_media">İndirilen medya</string>
     <string name="media_cache_saved">Kaydedildi</string>
     <string name="auto_download_previews">Önizlemeleri otomatik olarak indir</string>
     <string name="media_cache_storage_used">Kullanılan depolama</string>
     <string name="media_cache_clear_media_cache">Medya önbelleğini temizle</string>
     <string name="media_cache_clear_confirm_title">Medya önbelleği temizlensin mi?</string>
+    <string name="media_cache_keep_media">Medyayı şu süre sakla</string>
+    <string name="media_cache_keep_forever">Sonsuza kadar</string>
+    <string name="media_cache_days">%1$d gün</string>
+    <string name="media_cache_cache_limit">Önbellek boyutu sınırı</string>
+    <string name="media_cache_max_file">Saklanan en büyük dosya</string>
+    <string name="media_cache_unlimited">Sınırsız</string>
+    <string name="media_cache_clear_older">Eski medyayı temizle</string>
+    <string name="media_cache_clear_older_confirm">%1$d günden eski medya temizlensin mi?</string>
     <string name="media_cache_clear_confirm_body">Yerel önbelleğe alınmış medya kaldırılacak. Mesajlarınız sohbetlerinizde kalır ve gerektiğinde medya tekrar indirilebilir.</string>
     <string name="local_network_permission_title">Yerel ağ erişimine izin ver</string>
     <string name="local_network_permission_subtitle">Ev sunucunuz yerel ağınızda görünüyor. Büyücülerin LAN'ınızdaki cihazlara bağlanmak için izne ihtiyacı var.</string>
@@ -580,6 +627,11 @@
         <item>Her zaman</item>
         <item>Yalnızca DM'lerde</item>
         <item>Asla</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobil veri</item>
+        <item>Dolaşım</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Her zaman</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Opaklık</string>
     <string name="wallpaper_blur">Bulanıklık</string>
     <string name="wallpaper_remove">Duvar kağıdını kaldır</string>
+    <string name="wallpaper_room_none">Bu sohbet için duvar kağıdı yok</string>
+    <string name="wallpaper_reset_to_global">Genel duvar kağıdına sıfırla</string>
+    <string name="wallpaper_using_global">Genel duvar kağıdı kullanılıyor</string>
     <string name="wallpaper_none_title">Duvar kağıdı ayarlanmadı</string>
     <string name="wallpaper_none_subtitle">İletilerinizin arkasında görünecek bir resim seçin. Kendi sunucunuzda saklanır, böylece hesabınızla tüm cihazlarda geçerli olur.</string>
     <string name="wallpaper_upload_failed">Duvar kağıdı ayarlanamadı. Yeniden deneyin.</string>
     <string name="wallpaper_image_too_large">Bu resim duvar kağıdı için çok büyük.</string>
     <string name="wallpaper_pick_image_only">Bir resim dosyası seçin.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">ÖÖ</string>
     <string name="time_pm">ÖS</string>
     <string name="pinned_message">Sabitlenmiş mesaj</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Güvenlik ve Erişim</string>
     <string name="select">Seç</string>
     <string name="select_all">Tümünü seç</string>
+    <string name="selected_count">%1$d seçildi</string>
+    <string name="more_options">Diğer seçenekler</string>
+    <string name="unmute">Sesi aç</string>
+    <string name="leave_rooms">Odalardan ayrıl</string>
+    <string name="leave_rooms_confirm_title">Odalardan ayrılınsın mı?</string>
+    <string name="leave_rooms_warning">Seçili odalardan artık mesaj almayacaksın. Bu geri alınamaz.</string>
     <string name="select_any_rooms_to_leave_as_well">Ayrılmak istediğiniz diğer odaları da seçin.</string>
     <string name="select_at_least_one_room">En az bir oda seçin</string>
     <string name="select_rooms">Odaları seç</string>
@@ -1348,6 +1410,32 @@
         <item>Sabitle</item>
         <item>Kopyala</item>
         <item>Hiçbiri</item>
+    </string-array>
+    <string name="setting_message_double_tap">Çift dokunma eylemi</string>
+    <string name="setting_message_double_tap_description">Bir mesaja çift dokunulduğunda yapılan eylem</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Tepki ver</item>
+        <item>Yanıtla</item>
+        <item>Sabitle</item>
+        <item>Kopyala</item>
+        <item>Hiçbiri</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Çift dokunma tepkisi</string>
+    <string name="setting_message_double_tap_reaction_description">Eylem Tepki ver olduğunda gönderilen tepki</string>
+    <string name="notification_keywords">Anahtar kelimeler</string>
+    <string name="notification_keywords_description">Yalnızca bahsetmeler ve anahtar kelimeler olarak ayarlanan odalar, bir mesaj bu kelimelerden biriyle eşleştiğinde seni bilgilendirir</string>
+    <string name="notification_keywords_empty">Henüz anahtar kelime yok</string>
+    <string name="notification_keywords_add">Anahtar kelime ekle</string>
+    <string name="notification_keywords_hint">İzlenecek kelime</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Okunmamışlar önce</string>
     <string name="setting_sort_by_unread_description">Okunmamış etkinliği olan odaları her bölümün üstünde tut</string>

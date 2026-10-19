@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Усувати проблеми з push після оновлення, перезавантаження або зміни постачальника</string>
     <string name="setting_copy_unified_push_endpoint_description">Для налагодження; показує зареєстровану кінцеву точку</string>
     <string name="setting_block_media_previews_description">Не завантажувати автоматично мініатюри та попередні перегляди</string>
+    <string name="setting_auto_download_photos">Автоматично завантажувати фото</string>
+    <string name="setting_auto_download_photos_description">Автоматично завантажувати фото в повному розмірі</string>
+    <string name="setting_auto_download_audio">Автоматично завантажувати аудіо</string>
+    <string name="setting_auto_download_audio_description">Автоматично завантажувати голосові повідомлення та аудіо</string>
+    <string name="setting_auto_download_video">Автоматично завантажувати відео</string>
+    <string name="setting_auto_download_video_description">Відео завантажуються автоматично</string>
+    <string name="setting_auto_download_documents">Автоматично завантажувати документи</string>
+    <string name="setting_auto_download_documents_description">Вкладення завантажуються автоматично</string>
     <string name="setting_media_cache_description">Переглядати керовані медіафайли в кеші</string>
     <string name="setting_start_in_tray_description">Згортати до трея під час запуску</string>
+    <string name="setting_enable_tray">Увімкнути системний трей</string>
+    <string name="setting_enable_tray_description">Показувати значок у треї зі швидкими діями. Вимкніть, якщо трей падає у вашій системі</string>
     <string name="setting_enter_sends_message_description">Якщо ввімкнено, Enter надсилає повідомлення, а Shift, Ctrl або Cmd + Enter вставляє новий рядок</string>
     <string name="setting_edit_latest_with_up_arrow">Змінити останнє повідомлення стрілкою вгору</string>
     <string name="setting_edit_latest_with_up_arrow_description">Якщо ввімкнено, натискання стрілки вгору, коли поле повідомлення порожнє, починає змінювати останнє повідомлення, доступне для зміни, або його підпис</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Маги</string>
     <string name="waiting_for_sso">Очікування SSO...</string>
     <string name="connecting">Підключення...</string>
+    <string name="couldnt_reach_server">Не вдалося з'єднатися з %1$s. Перевірте адресу та з'єднання.</string>
     <string name="syncing">Синхронізація…</string>
     <string name="add_account">Додати обліковий запис</string>
     <string name="welcome_to_mages">Ласкаво просимо до Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Непрочитаний</string>
     <string name="loading_unread">Пошук непрочитаних повідомлень…</string>
     <string name="loading_pinned">Пошук закріпленого повідомлення…</string>
+    <string name="loading_jump_to_date">Перехід до дати…</string>
     <string name="message_not_found">Повідомлення не знайдено</string>
     <string name="timeline_date_today">Сьогодні</string>
     <string name="timeline_date_yesterday">вчора</string>
     <string name="jump_to_unread">Перейти до непрочитаного</string>
+    <string name="jump_to_date">Перейти до дати</string>
+    <string name="jump_to_date_no_messages">Повідомлень за цю дату не знайдено</string>
     <string name="scroll_to_top">Прокрутіть до верху</string>
     <string name="spaces">Простори</string>
+    <string name="rooms_and_spaces">Кімнати та простори</string>
+    <string name="sections">Розділи</string>
+    <string name="new_section">Новий розділ</string>
+    <string name="rooms_in_count_n">%1$d у цьому розділі</string>
+    <string name="section_name">Назва розділу</string>
+    <string name="rename_section">Перейменувати розділ</string>
+    <string name="edit_section">Змінити розділ</string>
+    <string name="delete_section">Видалити розділ</string>
+    <string name="delete_section_warning_named">Кімнати в %1$s повернуться до списку без розділу.</string>
+    <string name="move_to_section">Перемістити до розділу</string>
+    <string name="no_section">Без розділу</string>
+    <string name="move_section_up">Перемістити розділ вгору</string>
+    <string name="move_section_down">Перемістити розділ вниз</string>
+    <string name="give_the_section_a_name">Дайте розділу назву</string>
+    <string name="failed_to_save_section">Не вдалося зберегти розділ</string>
+    <string name="failed_to_create_section">Не вдалося створити розділ</string>
+    <string name="failed_to_delete_section">Не вдалося видалити розділ</string>
+    <string name="failed_to_reorder_sections">Не вдалося змінити порядок розділів</string>
+    <string name="failed_to_move_into_section">Не вдалося перемістити кімнату</string>
+    <string name="section_created_named">Розділ %1$s створено</string>
+    <string name="section_renamed_to_named">Розділ перейменовано на %1$s</string>
+    <string name="section_deleted">Розділ видалено</string>
+    <string name="moved_into_section">Переміщено до розділу</string>
+    <string name="moved_out_of_a_section">Переміщено з розділу</string>
     <string name="settings">Налаштування</string>
     <string name="discover">Відкрийте для себе</string>
     <string name="invites">Запрошує</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Мініатюри</string>
     <string name="media_cache_previews">Попередній перегляд</string>
     <string name="media_cache_full_media">Повне медіа</string>
+    <string name="media_cache_downloaded_media">Завантажені медіа</string>
     <string name="media_cache_saved">Збережено</string>
     <string name="auto_download_previews">Попередній перегляд автоматичного завантаження</string>
     <string name="media_cache_storage_used">Пам'ять використано</string>
     <string name="media_cache_clear_media_cache">Очистити медіа-кеш</string>
     <string name="media_cache_clear_confirm_title">Очистити медіа-кеш?</string>
+    <string name="media_cache_keep_media">Зберігати медіа протягом</string>
+    <string name="media_cache_keep_forever">Завжди</string>
+    <string name="media_cache_days">%1$d днів</string>
+    <string name="media_cache_cache_limit">Обмеження розміру кешу</string>
+    <string name="media_cache_max_file">Найбільший збережений файл</string>
+    <string name="media_cache_unlimited">Без обмежень</string>
+    <string name="media_cache_clear_older">Очистити старіші медіа</string>
+    <string name="media_cache_clear_older_confirm">Очистити медіа, старші за %1$d днів?</string>
     <string name="media_cache_clear_confirm_body">Локальні кешовані носії буде видалено. Ваші повідомлення залишаються у ваших чатах, а мультимедійні файли можна завантажити знову, коли це буде потрібно.</string>
     <string name="local_network_permission_title">Дозволити доступ до локальної мережі</string>
     <string name="local_network_permission_subtitle">Схоже, ваш домашній сервер у вашій локальній мережі. Mages потрібен дозвіл на підключення до пристроїв у вашій локальній мережі.</string>
@@ -580,6 +627,11 @@
         <item>Завжди</item>
         <item>Тільки в DM</item>
         <item>Ніколи</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Мобільні дані</item>
+        <item>Роумінг</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Завжди</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Непрозорість</string>
     <string name="wallpaper_blur">Розмиття</string>
     <string name="wallpaper_remove">Видалити шпалери</string>
+    <string name="wallpaper_room_none">Для цього чату немає шпалер</string>
+    <string name="wallpaper_reset_to_global">Скинути до глобальних</string>
+    <string name="wallpaper_using_global">Використовуються глобальні шпалери</string>
     <string name="wallpaper_none_title">Шпалери не встановлено</string>
     <string name="wallpaper_none_subtitle">Виберіть зображення, яке відображатиметься за повідомленнями. Воно зберігається на вашому домашньому сервері, тож супроводжує обліковий запис на всіх пристроях.</string>
     <string name="wallpaper_upload_failed">Не вдалося встановити шпалери. Спробуйте ще раз.</string>
     <string name="wallpaper_image_too_large">Це зображення завелике для шпалер.</string>
     <string name="wallpaper_pick_image_only">Виберіть файл зображення.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">дп</string>
     <string name="time_pm">пп</string>
     <string name="pinned_message">Закріплене повідомлення</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Безпека та доступ</string>
     <string name="select">Вибрати</string>
     <string name="select_all">Вибрати все</string>
+    <string name="selected_count">Вибрано: %1$d</string>
+    <string name="more_options">Більше опцій</string>
+    <string name="unmute">Увімкнути звук</string>
+    <string name="leave_rooms">Вийти з кімнат</string>
+    <string name="leave_rooms_confirm_title">Вийти з кімнат?</string>
+    <string name="leave_rooms_warning">Ви перестанете отримувати повідомлення з вибраних кімнат. Цю дію не можна скасувати.</string>
     <string name="select_any_rooms_to_leave_as_well">Виберіть кімнати, з яких також потрібно вийти.</string>
     <string name="select_at_least_one_room">Виберіть щонайменше одну кімнату</string>
     <string name="select_rooms">Вибрати кімнати</string>
@@ -1350,6 +1412,32 @@
         <item>Закріпити</item>
         <item>Копіювати</item>
         <item>Нічого</item>
+    </string-array>
+    <string name="setting_message_double_tap">Дія подвійного дотику</string>
+    <string name="setting_message_double_tap_description">Дія, що виконується при подвійному дотику до повідомлення</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Реакція</item>
+        <item>Відповісти</item>
+        <item>Закріпити</item>
+        <item>Копіювати</item>
+        <item>Нічого</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Реакція подвійного дотику</string>
+    <string name="setting_message_double_tap_reaction_description">Реакція, що надсилається, коли дія — Реакція</string>
+    <string name="notification_keywords">Ключові слова</string>
+    <string name="notification_keywords_description">Кімнати, налаштовані на «лише згадки та ключові слова», сповістять вас, коли повідомлення збігається з одним із цих слів</string>
+    <string name="notification_keywords_empty">Ще немає ключових слів</string>
+    <string name="notification_keywords_add">Додати ключове слово</string>
+    <string name="notification_keywords_hint">Слово для спостереження</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Непрочитані спочатку</string>
     <string name="setting_sort_by_unread_description">Тримати кімнати з непрочитаною активністю вгорі кожного розділу</string>

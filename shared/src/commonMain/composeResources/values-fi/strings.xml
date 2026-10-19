@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Korjaa push-ongelmat päivityksen/uudelleenkäynnistyksen tai jakelijan vaihdon jälkeen</string>
     <string name="setting_copy_unified_push_endpoint_description">Virheenkorjausta varten; näyttää mikä päätepiste on rekisteröity</string>
     <string name="setting_block_media_previews_description">Älä lataa pikkukuvia/esikatseluita automaattisesti</string>
+    <string name="setting_auto_download_photos">Lataa valokuvat automaattisesti</string>
+    <string name="setting_auto_download_photos_description">Lataa valokuvat täysikokoisina automaattisesti</string>
+    <string name="setting_auto_download_audio">Lataa ääni automaattisesti</string>
+    <string name="setting_auto_download_audio_description">Lataa ääniviestit ja ääni automaattisesti</string>
+    <string name="setting_auto_download_video">Lataa videot automaattisesti</string>
+    <string name="setting_auto_download_video_description">Videot ladataan automaattisesti</string>
+    <string name="setting_auto_download_documents">Lataa asiakirjat automaattisesti</string>
+    <string name="setting_auto_download_documents_description">Liitteet ladataan automaattisesti</string>
     <string name="setting_media_cache_description">Tarkastele ja hallinnoi välimuistia</string>
     <string name="setting_start_in_tray_description">Pienennä lokeroon käynnistyksen yhteydessä</string>
+    <string name="setting_enable_tray">Ota järjestelmälokero käyttöön</string>
+    <string name="setting_enable_tray_description">Näytä kuvake lokerossa ja pikatoiminnot. Poista käytöstä, jos lokero kaatuu järjestelmässäsi</string>
     <string name="setting_enter_sends_message_description">Kun tämä on käytössä, Enter-näppäin lähettää viestin ja Shift, Ctrl tai Cmd Enter lisää uuden rivin</string>
     <string name="setting_edit_latest_with_up_arrow">Muokkaa viimeistä viestiä ylänuolella</string>
     <string name="setting_edit_latest_with_up_arrow_description">Kun asetus on käytössä, viestikentän ollessa tyhjä ylänuolen painallus aloittaa viimeisen muokattavan viestin tai sen kuvatekstin muokkaamisen</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Mages</string>
     <string name="waiting_for_sso">SSO:ta odotellessa...</string>
     <string name="connecting">Yhdistetään...</string>
+    <string name="couldnt_reach_server">Yhteyttä kohteeseen %1$s ei saatu. Tarkista osoite ja yhteytesi.</string>
     <string name="syncing">Synkronoidaan…</string>
     <string name="add_account">Lisää tili</string>
     <string name="welcome_to_mages">Tervetuloa Magesille</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Lukematon</string>
     <string name="loading_unread">Etsitään lukemattomia viestejä…</string>
     <string name="loading_pinned">Haetaan kiinnitettyä viestiä…</string>
+    <string name="loading_jump_to_date">Siirrytään päivämäärään…</string>
     <string name="message_not_found">Viestiä ei löydy</string>
     <string name="timeline_date_today">Tänään</string>
     <string name="timeline_date_yesterday">Eilen</string>
     <string name="jump_to_unread">Siirry lukemattomiin</string>
+    <string name="jump_to_date">Siirry päivämäärään</string>
+    <string name="jump_to_date_no_messages">Tälle päivämäärälle ei löytynyt viestejä</string>
     <string name="scroll_to_top">Vieritä ylös</string>
     <string name="spaces">Tilat</string>
+    <string name="rooms_and_spaces">Huoneet ja tilat</string>
+    <string name="sections">Osiot</string>
+    <string name="new_section">Uusi osio</string>
+    <string name="rooms_in_count_n">%1$d tässä osiossa</string>
+    <string name="section_name">Osion nimi</string>
+    <string name="rename_section">Nimeä osio uudelleen</string>
+    <string name="edit_section">Muokkaa osiota</string>
+    <string name="delete_section">Poista osio</string>
+    <string name="delete_section_warning_named">Osion %1$s huoneet palaavat luetteloon ilman osiota.</string>
+    <string name="move_to_section">Siirrä osioon</string>
+    <string name="no_section">Ei osiota</string>
+    <string name="move_section_up">Siirrä osiota ylös</string>
+    <string name="move_section_down">Siirrä osiota alas</string>
+    <string name="give_the_section_a_name">Anna osiolle nimi</string>
+    <string name="failed_to_save_section">Osiota ei voitu tallentaa</string>
+    <string name="failed_to_create_section">Osiota ei voitu luoda</string>
+    <string name="failed_to_delete_section">Osiota ei voitu poistaa</string>
+    <string name="failed_to_reorder_sections">Osioita ei voitu järjestää uudelleen</string>
+    <string name="failed_to_move_into_section">Huonetta ei voitu siirtää</string>
+    <string name="section_created_named">Osio %1$s luotu</string>
+    <string name="section_renamed_to_named">Osio nimetty uudelleen: %1$s</string>
+    <string name="section_deleted">Osio poistettu</string>
+    <string name="moved_into_section">Siirretty osioon</string>
+    <string name="moved_out_of_a_section">Siirretty pois osiosta</string>
     <string name="settings">Asetukset</string>
     <string name="discover">Tutustu</string>
     <string name="invites">Kutsut</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Pikkukuvat</string>
     <string name="media_cache_previews">Esikatselut</string>
     <string name="media_cache_full_media">Täysi media</string>
+    <string name="media_cache_downloaded_media">Ladatut mediat</string>
     <string name="media_cache_saved">Tallennettu</string>
     <string name="auto_download_previews">Lataa esikatselut automaattisesti</string>
     <string name="media_cache_storage_used">Käytetty säilytystila</string>
     <string name="media_cache_clear_media_cache">Tyhjennä mediavälimuisti</string>
     <string name="media_cache_clear_confirm_title">Tyhjennä mediavälimuisti?</string>
+    <string name="media_cache_keep_media">Säilytä media</string>
+    <string name="media_cache_keep_forever">Ikuisesti</string>
+    <string name="media_cache_days">%1$d päivää</string>
+    <string name="media_cache_cache_limit">Välimuistin kokoraja</string>
+    <string name="media_cache_max_file">Suurin säilytettävä tiedosto</string>
+    <string name="media_cache_unlimited">Rajaton</string>
+    <string name="media_cache_clear_older">Tyhjennä vanhemmat mediat</string>
+    <string name="media_cache_clear_older_confirm">Tyhjennetäänkö media, joka on vanhempaa kuin %1$d päivää?</string>
     <string name="media_cache_clear_confirm_body">Paikallinen välimuistimedia poistetaan. Viestisi pysyvät keskusteluissasi ja mediaa voidaan ladata uudelleen tarvittaessa.</string>
     <string name="local_network_permission_title">Salli pääsy paikalliseen verkkoon</string>
     <string name="local_network_permission_subtitle">Kotipalvelimesi näyttää olevan paikallisessa verkossasi. Mages tarvitsee luvan yhdistääkseen lähiverkon laitteisiin.</string>
@@ -580,6 +627,11 @@
         <item>Aina</item>
         <item>Vain DMs:ssä</item>
         <item>Ei koskaan</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobiilidata</item>
+        <item>Verkkovierailu</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Aina</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Peittävyys</string>
     <string name="wallpaper_blur">Sumennus</string>
     <string name="wallpaper_remove">Poista taustakuva</string>
+    <string name="wallpaper_room_none">Ei taustakuvaa tälle keskustelulle</string>
+    <string name="wallpaper_reset_to_global">Palauta yleinen taustakuva</string>
+    <string name="wallpaper_using_global">Käytössä yleinen taustakuva</string>
     <string name="wallpaper_none_title">Taustakuvaa ei ole asetettu</string>
     <string name="wallpaper_none_subtitle">Valitse kuva, joka näkyy viestien taustalla. Se tallennetaan kotipalvelimellesi, joten se seuraa tiliäsi kaikilla laitteilla.</string>
     <string name="wallpaper_upload_failed">Taustakuvan asettaminen ei onnistunut. Yritä uudelleen.</string>
     <string name="wallpaper_image_too_large">Kuva on liian suuri taustakuvaksi.</string>
     <string name="wallpaper_pick_image_only">Valitse kuvatiedosto.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">ap.</string>
     <string name="time_pm">ip.</string>
     <string name="pinned_message">Kiinnitetty viesti</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Turvallisuus ja pääsy</string>
     <string name="select">Valitse</string>
     <string name="select_all">Valitse kaikki</string>
+    <string name="selected_count">%1$d valittu</string>
+    <string name="more_options">Lisää vaihtoehtoja</string>
+    <string name="unmute">Poista mykistys</string>
+    <string name="leave_rooms">Poistu huoneista</string>
+    <string name="leave_rooms_confirm_title">Poistutaanko huoneista?</string>
+    <string name="leave_rooms_warning">Et enää vastaanota viestejä valituista huoneista. Tätä ei voi perua.</string>
     <string name="select_any_rooms_to_leave_as_well">Valitse myös huoneet, joista poistut.</string>
     <string name="select_at_least_one_room">Valitse vähintään yksi huone</string>
     <string name="select_rooms">Valitse huoneet</string>
@@ -1348,6 +1410,32 @@
         <item>Kiinnitä</item>
         <item>Kopioi</item>
         <item>Ei mitään</item>
+    </string-array>
+    <string name="setting_message_double_tap">Kaksoisnapautuksen toiminto</string>
+    <string name="setting_message_double_tap_description">Toiminto, joka tehdään kaksoisnapauttamalla viestiä</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reagoi</item>
+        <item>Vastaa</item>
+        <item>Kiinnitä</item>
+        <item>Kopioi</item>
+        <item>Ei mitään</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Kaksoisnapautuksen reaktio</string>
+    <string name="setting_message_double_tap_reaction_description">Reaktio, joka lähetetään, kun toiminto on Reagoi</string>
+    <string name="notification_keywords">Avainsanat</string>
+    <string name="notification_keywords_description">Huoneet, jotka on asetettu vain mainintoihin ja avainsanoihin, ilmoittavat, kun viesti vastaa jotakin näistä sanoista</string>
+    <string name="notification_keywords_empty">Ei vielä avainsanoja</string>
+    <string name="notification_keywords_add">Lisää avainsana</string>
+    <string name="notification_keywords_hint">Seurattava sana</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Lukemattomat ensin</string>
     <string name="setting_sort_by_unread_description">Pidä lukematonta toimintaa sisältävät huoneet kunkin osion yläosassa</string>

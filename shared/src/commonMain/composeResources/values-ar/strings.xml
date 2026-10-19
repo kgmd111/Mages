@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">إصلاح مشكلات الدفع بعد التحديث/إعادة التشغيل أو تغيير الموزع</string>
     <string name="setting_copy_unified_push_endpoint_description">للتصحيح ؛ يوضح نقطة النهاية المسجلة</string>
     <string name="setting_block_media_previews_description">لا تقم بالتنزيل التلقائي للصور المصغرة/المعاينات</string>
+    <string name="setting_auto_download_photos">تنزيل الصور تلقائيًا</string>
+    <string name="setting_auto_download_photos_description">تنزيل الصور بالحجم الكامل تلقائيًا</string>
+    <string name="setting_auto_download_audio">تنزيل الصوت تلقائيًا</string>
+    <string name="setting_auto_download_audio_description">تنزيل الرسائل الصوتية والصوت تلقائيًا</string>
+    <string name="setting_auto_download_video">تنزيل الفيديو تلقائيًا</string>
+    <string name="setting_auto_download_video_description">تُنزَّل مقاطع الفيديو تلقائيًا</string>
+    <string name="setting_auto_download_documents">تنزيل المستندات تلقائيًا</string>
+    <string name="setting_auto_download_documents_description">تُنزَّل المرفقات تلقائيًا</string>
     <string name="setting_media_cache_description">عرض الوسائط المخزنة مؤقتًا وإدارتها</string>
     <string name="setting_start_in_tray_description">قم بالتصغير إلى الدرج عند الإطلاق</string>
+    <string name="setting_enable_tray">تفعيل درج النظام</string>
+    <string name="setting_enable_tray_description">إظهار أيقونة في الدرج مع إجراءات سريعة. أوقفه إذا تعطّل الدرج على نظامك</string>
     <string name="setting_enter_sends_message_description">عند التمكين، سيؤدي الضغط على Enter إلى إرسال الرسالة وسيقوم Shift أو Ctrl أو Cmd + Enter بإدراج سطر جديد</string>
     <string name="setting_edit_latest_with_up_arrow">تعديل آخر رسالة بالسهم للأعلى</string>
     <string name="setting_edit_latest_with_up_arrow_description">عند تفعيله، يبدأ الضغط على السهم للأعلى عندما يكون مربع الرسالة فارغًا بتعديل آخر رسالة قابلة للتعديل أو التسمية التوضيحية لها</string>
@@ -196,6 +206,7 @@
     <string name="app_name">السحراء</string>
     <string name="waiting_for_sso">في انتظار الدخول الموحّد (SSO)...</string>
     <string name="connecting">جارٍ الاتصال...</string>
+    <string name="couldnt_reach_server">تعذّر الوصول إلى %1$s. تحقق من العنوان واتصالك.</string>
     <string name="syncing">جارٍ المزامنة…</string>
     <string name="add_account">إضافة حساب</string>
     <string name="welcome_to_mages">مرحبا بكم في السحراء</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">غير مقروءة</string>
     <string name="loading_unread">جارٍ البحث عن الرسائل غير المقروءة...</string>
     <string name="loading_pinned">جارٍ البحث عن الرسالة المثبتة…</string>
+    <string name="loading_jump_to_date">جارٍ الانتقال إلى التاريخ…</string>
     <string name="message_not_found">لم يتم العثور على الرسالة</string>
     <string name="timeline_date_today">اليوم</string>
     <string name="timeline_date_yesterday">أمس</string>
     <string name="jump_to_unread">انتقل إلى غير مقروءة</string>
+    <string name="jump_to_date">الانتقال إلى التاريخ</string>
+    <string name="jump_to_date_no_messages">لا توجد رسائل في هذا التاريخ</string>
     <string name="scroll_to_top">قم بالتمرير إلى الأعلى</string>
     <string name="spaces">المساحات</string>
+    <string name="rooms_and_spaces">الغرف والمساحات</string>
+    <string name="sections">الأقسام</string>
+    <string name="new_section">قسم جديد</string>
+    <string name="rooms_in_count_n">%1$d في هذا القسم</string>
+    <string name="section_name">اسم القسم</string>
+    <string name="rename_section">إعادة تسمية القسم</string>
+    <string name="edit_section">تعديل القسم</string>
+    <string name="delete_section">حذف القسم</string>
+    <string name="delete_section_warning_named">ستعود الغرف في %1$s إلى القائمة بدون قسم.</string>
+    <string name="move_to_section">نقل إلى قسم</string>
+    <string name="no_section">بدون قسم</string>
+    <string name="move_section_up">نقل القسم لأعلى</string>
+    <string name="move_section_down">نقل القسم لأسفل</string>
+    <string name="give_the_section_a_name">أعطِ القسم اسمًا</string>
+    <string name="failed_to_save_section">تعذّر حفظ القسم</string>
+    <string name="failed_to_create_section">تعذّر إنشاء القسم</string>
+    <string name="failed_to_delete_section">تعذّر حذف القسم</string>
+    <string name="failed_to_reorder_sections">تعذّر إعادة ترتيب الأقسام</string>
+    <string name="failed_to_move_into_section">تعذّر نقل الغرفة</string>
+    <string name="section_created_named">تم إنشاء القسم %1$s</string>
+    <string name="section_renamed_to_named">تمت إعادة تسمية القسم إلى %1$s</string>
+    <string name="section_deleted">تم حذف القسم</string>
+    <string name="moved_into_section">تم النقل إلى القسم</string>
+    <string name="moved_out_of_a_section">تم النقل خارج القسم</string>
     <string name="settings">إعدادات</string>
     <string name="discover">استكشاف</string>
     <string name="invites">يدعو</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">الصور المصغرة</string>
     <string name="media_cache_previews">معاينات</string>
     <string name="media_cache_full_media">وسائل الإعلام الكاملة</string>
+    <string name="media_cache_downloaded_media">الوسائط المُنزَّلة</string>
     <string name="media_cache_saved">أنقذ</string>
     <string name="auto_download_previews">معاينات التنزيل التلقائي</string>
     <string name="media_cache_storage_used">التخزين المستخدم</string>
     <string name="media_cache_clear_media_cache">مسح ذاكرة التخزين المؤقت للوسائط</string>
     <string name="media_cache_clear_confirm_title">هل تريد مسح ذاكرة التخزين المؤقت للوسائط؟</string>
+    <string name="media_cache_keep_media">الاحتفاظ بالوسائط لمدة</string>
+    <string name="media_cache_keep_forever">إلى الأبد</string>
+    <string name="media_cache_days">%1$d أيام</string>
+    <string name="media_cache_cache_limit">حد حجم ذاكرة التخزين المؤقت</string>
+    <string name="media_cache_max_file">أكبر ملف محتفظ به</string>
+    <string name="media_cache_unlimited">بلا حدود</string>
+    <string name="media_cache_clear_older">مسح الوسائط الأقدم</string>
+    <string name="media_cache_clear_older_confirm">مسح الوسائط الأقدم من %1$d أيام؟</string>
     <string name="media_cache_clear_confirm_body">ستتم إزالة الوسائط المخزنة مؤقتًا المحلية. تظل رسائلك في دردشاتك ويمكن تنزيل الوسائط مرة أخرى عند الحاجة.</string>
     <string name="local_network_permission_title">السماح بالوصول إلى الشبكة المحلية</string>
     <string name="local_network_permission_subtitle">يبدو أن خادمك المنزلي موجود على شبكتك المحلية. يحتاج السحراء إلى إذن للاتصال بالأجهزة الموجودة على شبكة LAN الخاصة بك.</string>
@@ -580,6 +627,11 @@
         <item>دائمًا</item>
         <item>فقط في DMs</item>
         <item>أبدًا</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>بيانات الجوال</item>
+        <item>التجوال</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>دائمًا</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">الشفافية</string>
     <string name="wallpaper_blur">الضبابية</string>
     <string name="wallpaper_remove">إزالة الخلفية</string>
+    <string name="wallpaper_room_none">لا خلفية لهذه الدردشة</string>
+    <string name="wallpaper_reset_to_global">إعادة التعيين إلى الخلفية العامة</string>
+    <string name="wallpaper_using_global">تُستخدم الخلفية العامة</string>
     <string name="wallpaper_none_title">لم يتم تعيين خلفية</string>
     <string name="wallpaper_none_subtitle">اختر صورة لتظهر خلف رسائلك. تُحفظ على خادمك، لذا تتبع حسابك على جميع الأجهزة.</string>
     <string name="wallpaper_upload_failed">تعذّر تعيين الخلفية. حاول مجددًا.</string>
     <string name="wallpaper_image_too_large">هذه الصورة كبيرة جدًا لاستخدامها كخلفية.</string>
     <string name="wallpaper_pick_image_only">اختر ملف صورة.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">ص</string>
     <string name="time_pm">م</string>
     <string name="pinned_message">رسالة مثبتة</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">الأمان والوصول</string>
     <string name="select">تحديد</string>
     <string name="select_all">تحديد الكل</string>
+    <string name="selected_count">تم تحديد %1$d</string>
+    <string name="more_options">مزيد من الخيارات</string>
+    <string name="unmute">إلغاء الكتم</string>
+    <string name="leave_rooms">مغادرة الغرف</string>
+    <string name="leave_rooms_confirm_title">مغادرة الغرف؟</string>
+    <string name="leave_rooms_warning">ستتوقف عن تلقي رسائل من الغرف المحددة. لا يمكن التراجع عن ذلك.</string>
     <string name="select_any_rooms_to_leave_as_well">حدد أي غرف تريد مغادرتها أيضًا.</string>
     <string name="select_at_least_one_room">حدد غرفة واحدة على الأقل</string>
     <string name="select_rooms">تحديد الغرف</string>
@@ -1352,6 +1414,32 @@
         <item>تثبيت</item>
         <item>نسخ</item>
         <item>لا شيء</item>
+    </string-array>
+    <string name="setting_message_double_tap">إجراء النقر المزدوج</string>
+    <string name="setting_message_double_tap_description">الإجراء المُنفَّذ عند النقر مرتين على رسالة</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>تفاعل</item>
+        <item>رد</item>
+        <item>تثبيت</item>
+        <item>نسخ</item>
+        <item>لا شيء</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">تفاعل النقر المزدوج</string>
+    <string name="setting_message_double_tap_reaction_description">التفاعل المُرسَل عندما يكون الإجراء تفاعل</string>
+    <string name="notification_keywords">الكلمات المفتاحية</string>
+    <string name="notification_keywords_description">الغرف المضبوطة على الإشارات والكلمات المفتاحية فقط ستنبّهك عندما تطابق رسالة إحدى هذه الكلمات</string>
+    <string name="notification_keywords_empty">لا توجد كلمات مفتاحية بعد</string>
+    <string name="notification_keywords_add">إضافة كلمة مفتاحية</string>
+    <string name="notification_keywords_hint">كلمة يجب مراقبتها</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">ترتيب غير المقروء أولاً</string>
     <string name="setting_sort_by_unread_description">إبقاء الغرف ذات النشاط غير المقروء في أعلى كل قسم</string>

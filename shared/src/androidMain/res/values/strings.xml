@@ -39,7 +39,7 @@
     <string name="action_answer">Answer</string>
     <string name="action_decline">Decline</string>
     <string name="unlock_mages">Unlock Mages</string>
-    <string name="confirm_its_you">Confirm it\'s you</string>
+    <string name="confirm_its_you">"Confirm it's you"</string>
     <string name="shortcuts_unsupported">Home screen shortcuts are not supported on this launcher</string>
     <string name="location_timed_out_gps">Timed out waiting for a GPS fix</string>
     <plurals name="notif_conversations">

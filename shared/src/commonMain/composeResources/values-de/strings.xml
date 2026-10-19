@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Push-Probleme nach Update, Neustart oder Anbieterwechsel beheben</string>
     <string name="setting_copy_unified_push_endpoint_description">Zum Debuggen; zeigt den registrierten Endpunkt</string>
     <string name="setting_block_media_previews_description">Miniaturansichten und Vorschauen nicht automatisch herunterladen</string>
+    <string name="setting_auto_download_photos">Fotos automatisch herunterladen</string>
+    <string name="setting_auto_download_photos_description">Fotos in voller Größe automatisch herunterladen</string>
+    <string name="setting_auto_download_audio">Audio automatisch herunterladen</string>
+    <string name="setting_auto_download_audio_description">Sprachnachrichten und Audio automatisch herunterladen</string>
+    <string name="setting_auto_download_video">Videos automatisch herunterladen</string>
+    <string name="setting_auto_download_video_description">Videos werden automatisch heruntergeladen</string>
+    <string name="setting_auto_download_documents">Dokumente automatisch herunterladen</string>
+    <string name="setting_auto_download_documents_description">Dateianhänge werden automatisch heruntergeladen</string>
     <string name="setting_media_cache_description">Zwischengespeicherte Medien ansehen und verwalten</string>
     <string name="setting_start_in_tray_description">Beim Start in den Infobereich minimieren</string>
+    <string name="setting_enable_tray">System-Infobereich aktivieren</string>
+    <string name="setting_enable_tray_description">Ein Infobereichs-Symbol mit Schnellaktionen anzeigen. Deaktivieren, wenn der Infobereich auf deinem System abstürzt</string>
     <string name="setting_enter_sends_message_description">Wenn aktiviert, sendet Enter die Nachricht; Shift, Strg oder Cmd + Enter fügt eine neue Zeile ein</string>
     <string name="setting_edit_latest_with_up_arrow">Letzte Nachricht mit Pfeil nach oben bearbeiten</string>
     <string name="setting_edit_latest_with_up_arrow_description">Wenn aktiviert, startet ein Druck auf die Pfeiltaste nach oben im leeren Nachrichtenfeld die Bearbeitung der letzten bearbeitbaren Nachricht oder ihres Untertitels</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Magier</string>
     <string name="waiting_for_sso">Warten auf SSO...</string>
     <string name="connecting">Verbinden...</string>
+    <string name="couldnt_reach_server">%1$s konnte nicht erreicht werden. Prüfe die Adresse und deine Verbindung.</string>
     <string name="syncing">Synchronisierung…</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="welcome_to_mages">Willkommen bei Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Ungelesen</string>
     <string name="loading_unread">Ungelesene Nachrichten finden…</string>
     <string name="loading_pinned">Angeheftete Nachricht wird gefunden…</string>
+    <string name="loading_jump_to_date">Springe zum Datum…</string>
     <string name="message_not_found">Nachricht nicht gefunden</string>
     <string name="timeline_date_today">Heute</string>
     <string name="timeline_date_yesterday">Gestern</string>
     <string name="jump_to_unread">Springe zu „Ungelesen“.</string>
+    <string name="jump_to_date">Zum Datum springen</string>
+    <string name="jump_to_date_no_messages">Für dieses Datum wurden keine Nachrichten gefunden</string>
     <string name="scroll_to_top">Scrollen Sie nach oben</string>
     <string name="spaces">Bereiche</string>
+    <string name="rooms_and_spaces">Räume und Spaces</string>
+    <string name="sections">Abschnitte</string>
+    <string name="new_section">Neuer Abschnitt</string>
+    <string name="rooms_in_count_n">%1$d in diesem Abschnitt</string>
+    <string name="section_name">Name des Abschnitts</string>
+    <string name="rename_section">Abschnitt umbenennen</string>
+    <string name="edit_section">Abschnitt bearbeiten</string>
+    <string name="delete_section">Abschnitt löschen</string>
+    <string name="delete_section_warning_named">Räume in %1$s kehren in die Liste ohne Abschnitt zurück.</string>
+    <string name="move_to_section">In Abschnitt verschieben</string>
+    <string name="no_section">Kein Abschnitt</string>
+    <string name="move_section_up">Abschnitt nach oben verschieben</string>
+    <string name="move_section_down">Abschnitt nach unten verschieben</string>
+    <string name="give_the_section_a_name">Gib dem Abschnitt einen Namen</string>
+    <string name="failed_to_save_section">Abschnitt konnte nicht gespeichert werden</string>
+    <string name="failed_to_create_section">Abschnitt konnte nicht erstellt werden</string>
+    <string name="failed_to_delete_section">Abschnitt konnte nicht gelöscht werden</string>
+    <string name="failed_to_reorder_sections">Abschnitte konnten nicht neu angeordnet werden</string>
+    <string name="failed_to_move_into_section">Der Raum konnte nicht verschoben werden</string>
+    <string name="section_created_named">Abschnitt %1$s erstellt</string>
+    <string name="section_renamed_to_named">Abschnitt in %1$s umbenannt</string>
+    <string name="section_deleted">Abschnitt gelöscht</string>
+    <string name="moved_into_section">In den Abschnitt verschoben</string>
+    <string name="moved_out_of_a_section">Aus dem Abschnitt verschoben</string>
     <string name="settings">Einstellungen</string>
     <string name="discover">Entdecken</string>
     <string name="invites">Lädt ein</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniaturansichten</string>
     <string name="media_cache_previews">Vorschauen</string>
     <string name="media_cache_full_media">Vollständige Medien</string>
+    <string name="media_cache_downloaded_media">Heruntergeladene Medien</string>
     <string name="media_cache_saved">Gespeichert</string>
     <string name="auto_download_previews">Vorschauen automatisch herunterladen</string>
     <string name="media_cache_storage_used">Speicher genutzt</string>
     <string name="media_cache_clear_media_cache">Leeren Sie den Mediencache</string>
     <string name="media_cache_clear_confirm_title">Mediencache leeren?</string>
+    <string name="media_cache_keep_media">Medien aufbewahren für</string>
+    <string name="media_cache_keep_forever">Dauerhaft</string>
+    <string name="media_cache_days">%1$d Tage</string>
+    <string name="media_cache_cache_limit">Maximale Cache-Größe</string>
+    <string name="media_cache_max_file">Größte aufbewahrte Datei</string>
+    <string name="media_cache_unlimited">Unbegrenzt</string>
+    <string name="media_cache_clear_older">Ältere Medien löschen</string>
+    <string name="media_cache_clear_older_confirm">Medien löschen, die älter als %1$d Tage sind?</string>
     <string name="media_cache_clear_confirm_body">Lokal zwischengespeicherte Medien werden entfernt. Ihre Nachrichten bleiben in Ihren Chats und Medien können bei Bedarf erneut heruntergeladen werden.</string>
     <string name="local_network_permission_title">Erlauben Sie den Zugriff auf das lokale Netzwerk</string>
     <string name="local_network_permission_subtitle">Ihr Homeserver scheint sich in Ihrem lokalen Netzwerk zu befinden. Mages benötigt die Erlaubnis, eine Verbindung zu Geräten in Ihrem LAN herzustellen.</string>
@@ -580,6 +627,11 @@
         <item>Immer</item>
         <item>Nur in DMs</item>
         <item>Nie</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>WLAN</item>
+        <item>Mobile Daten</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Immer</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Deckkraft</string>
     <string name="wallpaper_blur">Unschärfe</string>
     <string name="wallpaper_remove">Hintergrundbild entfernen</string>
+    <string name="wallpaper_room_none">Kein Hintergrundbild für diesen Chat</string>
+    <string name="wallpaper_reset_to_global">Auf global zurücksetzen</string>
+    <string name="wallpaper_using_global">Globales Hintergrundbild wird verwendet</string>
     <string name="wallpaper_none_title">Kein Hintergrundbild festgelegt</string>
     <string name="wallpaper_none_subtitle">Wähle ein Bild, das hinter deinen Nachrichten angezeigt wird. Es wird auf deinem Homeserver gespeichert und folgt so deinem Konto über alle Geräte hinweg.</string>
     <string name="wallpaper_upload_failed">Hintergrundbild konnte nicht festgelegt werden. Versuche es erneut.</string>
     <string name="wallpaper_image_too_large">Dieses Bild ist zu groß für ein Hintergrundbild.</string>
     <string name="wallpaper_pick_image_only">Wähle eine Bilddatei.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">vorm.</string>
     <string name="time_pm">nachm.</string>
     <string name="pinned_message">Angeheftete Nachricht</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Sicherheit &amp; Zugriff</string>
     <string name="select">Auswählen</string>
     <string name="select_all">Alle auswählen</string>
+    <string name="selected_count">%1$d ausgewählt</string>
+    <string name="more_options">Weitere Optionen</string>
+    <string name="unmute">Stummschaltung aufheben</string>
+    <string name="leave_rooms">Räume verlassen</string>
+    <string name="leave_rooms_confirm_title">Räume verlassen?</string>
+    <string name="leave_rooms_warning">Du erhältst keine Nachrichten mehr aus den ausgewählten Räumen. Das kann nicht rückgängig gemacht werden.</string>
     <string name="select_any_rooms_to_leave_as_well">Wählen Sie weitere Räume aus, die Sie ebenfalls verlassen möchten.</string>
     <string name="select_at_least_one_room">Wählen Sie mindestens einen Raum aus</string>
     <string name="select_rooms">Räume auswählen</string>
@@ -1348,6 +1410,32 @@
         <item>Anheften</item>
         <item>Kopieren</item>
         <item>Nichts</item>
+    </string-array>
+    <string name="setting_message_double_tap">Aktion bei Doppeltipp</string>
+    <string name="setting_message_double_tap_description">Aktion, die beim Doppeltippen auf eine Nachricht ausgeführt wird</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reagieren</item>
+        <item>Antworten</item>
+        <item>Anheften</item>
+        <item>Kopieren</item>
+        <item>Nichts</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reaktion bei Doppeltipp</string>
+    <string name="setting_message_double_tap_reaction_description">Reaktion, die gesendet wird, wenn die Aktion Reagieren ist</string>
+    <string name="notification_keywords">Schlagwörter</string>
+    <string name="notification_keywords_description">Räume, die auf Nur Erwähnungen &amp; Schlagwörter eingestellt sind, benachrichtigen dich, wenn eine Nachricht einem dieser Wörter entspricht</string>
+    <string name="notification_keywords_empty">Noch keine Schlagwörter</string>
+    <string name="notification_keywords_add">Schlagwort hinzufügen</string>
+    <string name="notification_keywords_hint">Wort, auf das geachtet wird</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Ungelesene zuerst sortieren</string>
     <string name="setting_sort_by_unread_description">Räume mit ungelesener Aktivität oben in jedem Abschnitt behalten</string>

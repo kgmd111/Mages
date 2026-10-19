@@ -3,12 +3,12 @@
     <string name="notif_new_message">Nouveau message</string>
     <string name="action_answer">Répondre</string>
     <string name="action_decline">Refuser</string>
-    <string name="call_slider_for">Curseur d\'appel entrant pour %1$s</string>
-    <string name="confirm_its_you">Confirmer que c\'est vous</string>
+    <string name="call_slider_for">"Curseur d'appel entrant pour %1$s"</string>
+    <string name="confirm_its_you">"Confirmer que c'est vous"</string>
     <string name="connecting">Connexion…</string>
     <string name="incoming_call_title">Appel entrant</string>
     <string name="incoming_voice_call">Appel vocal entrant</string>
-    <string name="location_timed_out_gps">Délai d\'attente dépassé en attendant une position GPS</string>
+    <string name="location_timed_out_gps">"Délai d'attente dépassé en attendant une position GPS"</string>
     <string name="notif_accept">Accepter</string>
     <string name="notif_channel_calls">Appels</string>
     <string name="notif_channel_calls_desc">Appels entrants</string>
@@ -17,7 +17,7 @@
     <string name="notif_channel_fetch">Synchronisation des notifications</string>
     <string name="notif_channel_fetch_desc">Affiché pendant la récupération des notifications</string>
     <string name="notif_channel_invites">Invitations aux salles</string>
-    <string name="notif_channel_invites_desc">Notifications d\'invitation aux salles</string>
+    <string name="notif_channel_invites_desc">"Notifications d'invitation aux salles"</string>
     <string name="notif_channel_live_location">Position en direct</string>
     <string name="notif_channel_live_location_desc">Notification pendant le partage de la position en direct</string>
     <string name="notif_channel_messages">Messages</string>
@@ -25,7 +25,7 @@
     <string name="notif_channel_messages_silent">Messages (silencieux)</string>
     <string name="notif_channel_messages_silent_desc">Notifications de messages (sans son)</string>
     <string name="notif_channel_ongoing">Appel en cours</string>
-    <string name="notif_channel_ongoing_desc">Notifications d\'appels en cours</string>
+    <string name="notif_channel_ongoing_desc">"Notifications d'appels en cours"</string>
     <string name="notif_decline">Refuser</string>
     <string name="notif_end_call">Terminer</string>
     <string name="notif_from_caller">De %1$s</string>
@@ -40,7 +40,7 @@
     <string name="notif_syncing">Synchronisation des notifications…</string>
     <string name="pick_call">Décrocher</string>
     <string name="ringing_for">Sonnerie depuis %1$s</string>
-    <string name="shortcuts_unsupported">Les raccourcis de l\'écran d\'accueil ne sont pas pris en charge par ce lanceur</string>
+    <string name="shortcuts_unsupported">"Les raccourcis de l'écran d'accueil ne sont pas pris en charge par ce lanceur"</string>
     <string name="unlock_mages">Déverrouiller Mages</string>
     <plurals name="notif_conversations">
         <item quantity="one">%1$d conversation</item>

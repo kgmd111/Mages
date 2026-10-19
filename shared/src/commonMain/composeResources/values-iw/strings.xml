@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">פתרון בעיות push לאחר עדכון, הפעלה מחדש או החלפת ספק</string>
     <string name="setting_copy_unified_push_endpoint_description">לצורכי ניפוי; מציג את נקודת הקצה הרשומה</string>
     <string name="setting_block_media_previews_description">הימנעות מהורדת תמונות ממוזערות ותצוגות מקדימות אוטומטית</string>
+    <string name="setting_auto_download_photos">הורדת תמונות אוטומטית</string>
+    <string name="setting_auto_download_photos_description">הורדת תמונות בגודל מלא אוטומטית</string>
+    <string name="setting_auto_download_audio">הורדת שמע אוטומטית</string>
+    <string name="setting_auto_download_audio_description">הורדת הודעות קוליות ושמע אוטומטית</string>
+    <string name="setting_auto_download_video">הורדת סרטונים אוטומטית</string>
+    <string name="setting_auto_download_video_description">סרטונים יורדים אוטומטית</string>
+    <string name="setting_auto_download_documents">הורדת מסמכים אוטומטית</string>
+    <string name="setting_auto_download_documents_description">קבצים מצורפים יורדים אוטומטית</string>
     <string name="setting_media_cache_description">צפייה וניהול מדיה במטמון</string>
     <string name="setting_start_in_tray_description">מזעור למגש המערכת בעת ההפעלה</string>
+    <string name="setting_enable_tray">הפעלת מגש המערכת</string>
+    <string name="setting_enable_tray_description">הצגת סמל במגש המערכת עם פעולות מהירות. כבה אם המגש קורס במערכת שלך</string>
     <string name="setting_enter_sends_message_description">כשהאפשרות פעילה, Enter שולח את ההודעה ו- Shift, Ctrl או Cmd + Enter מוסיף שורה חדשה</string>
     <string name="setting_edit_latest_with_up_arrow">עריכת ההודעה האחרונה עם החץ למעלה</string>
     <string name="setting_edit_latest_with_up_arrow_description">כאשר מופעל, לחיצה על החץ למעלה כשתיבת ההודעה ריקה מתחילה לערוך את ההודעה האחרונה שניתן לערוך או את הכותרת שלה</string>
@@ -196,6 +206,7 @@
     <string name="app_name">קוסמים</string>
     <string name="waiting_for_sso">ממתין ל-SSO...</string>
     <string name="connecting">מְקַשֵׁר...</string>
+    <string name="couldnt_reach_server">לא ניתן להגיע אל %1$s. בדוק את הכתובת והחיבור.</string>
     <string name="syncing">מסנכרן...</string>
     <string name="add_account">הוסף חשבון</string>
     <string name="welcome_to_mages">ברוכים הבאים למאג'ים</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">לא נקרא</string>
     <string name="loading_unread">מוצא הודעות שלא נקראו...</string>
     <string name="loading_pinned">מוצא הודעה מוצמדת...</string>
+    <string name="loading_jump_to_date">קופץ לתאריך…</string>
     <string name="message_not_found">ההודעה לא נמצאה</string>
     <string name="timeline_date_today">הַיוֹם</string>
     <string name="timeline_date_yesterday">אֶתמוֹל</string>
     <string name="jump_to_unread">קפוץ לבלתי נקרא</string>
+    <string name="jump_to_date">קפיצה לתאריך</string>
+    <string name="jump_to_date_no_messages">לא נמצאו הודעות לתאריך זה</string>
     <string name="scroll_to_top">גלול למעלה</string>
     <string name="spaces">רווחים</string>
+    <string name="rooms_and_spaces">חדרים ומרחבים</string>
+    <string name="sections">מקטעים</string>
+    <string name="new_section">מקטע חדש</string>
+    <string name="rooms_in_count_n">%1$d במקטע זה</string>
+    <string name="section_name">שם המקטע</string>
+    <string name="rename_section">שינוי שם המקטע</string>
+    <string name="edit_section">עריכת המקטע</string>
+    <string name="delete_section">מחיקת המקטע</string>
+    <string name="delete_section_warning_named">החדרים ב-%1$s יחזרו לרשימה ללא מקטע.</string>
+    <string name="move_to_section">העברה למקטע</string>
+    <string name="no_section">ללא מקטע</string>
+    <string name="move_section_up">העברת המקטע למעלה</string>
+    <string name="move_section_down">העברת המקטע למטה</string>
+    <string name="give_the_section_a_name">תן שם למקטע</string>
+    <string name="failed_to_save_section">שמירת המקטע נכשלה</string>
+    <string name="failed_to_create_section">יצירת המקטע נכשלה</string>
+    <string name="failed_to_delete_section">מחיקת המקטע נכשלה</string>
+    <string name="failed_to_reorder_sections">סידור המקטעים מחדש נכשל</string>
+    <string name="failed_to_move_into_section">העברת החדר נכשלה</string>
+    <string name="section_created_named">המקטע %1$s נוצר</string>
+    <string name="section_renamed_to_named">שם המקטע שונה ל-%1$s</string>
+    <string name="section_deleted">המקטע נמחק</string>
+    <string name="moved_into_section">הועבר למקטע</string>
+    <string name="moved_out_of_a_section">הועבר מחוץ למקטע</string>
     <string name="settings">הגדרות</string>
     <string name="discover">לְגַלוֹת</string>
     <string name="invites">מזמין</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">תמונות ממוזערות</string>
     <string name="media_cache_previews">תצוגות מקדימות</string>
     <string name="media_cache_full_media">מדיה מלאה</string>
+    <string name="media_cache_downloaded_media">מדיה שהורדה</string>
     <string name="media_cache_saved">נשמר</string>
     <string name="auto_download_previews">הורדה אוטומטית של תצוגות מקדימות</string>
     <string name="media_cache_storage_used">נעשה שימוש באחסון</string>
     <string name="media_cache_clear_media_cache">נקה מטמון מדיה</string>
     <string name="media_cache_clear_confirm_title">לנקות את מטמון המדיה?</string>
+    <string name="media_cache_keep_media">שמירת מדיה למשך</string>
+    <string name="media_cache_keep_forever">לנצח</string>
+    <string name="media_cache_days">%1$d ימים</string>
+    <string name="media_cache_cache_limit">הגבלת גודל המטמון</string>
+    <string name="media_cache_max_file">הקובץ הגדול ביותר שנשמר</string>
+    <string name="media_cache_unlimited">ללא הגבלה</string>
+    <string name="media_cache_clear_older">ניקוי מדיה ישנה יותר</string>
+    <string name="media_cache_clear_older_confirm">לנקות מדיה ישנה מ-%1$d ימים?</string>
     <string name="media_cache_clear_confirm_body">מדיה במטמון מקומית תוסר. ההודעות שלך נשארות בצ'אטים שלך והמדיה יכולה להוריד שוב בעת הצורך.</string>
     <string name="local_network_permission_title">אפשר גישה לרשת מקומית</string>
     <string name="local_network_permission_subtitle">נראה שהשרת הביתי שלך נמצא ברשת המקומית שלך. קוסמים זקוקים להרשאה כדי להתחבר למכשירים ברשת ה-LAN שלך.</string>
@@ -580,6 +627,11 @@
         <item>תמיד</item>
         <item>רק ב-DMs</item>
         <item>לעולם</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>נתונים סלולריים</item>
+        <item>נדידה</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>תמיד</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">אטימות</string>
     <string name="wallpaper_blur">טשטוש</string>
     <string name="wallpaper_remove">הסרת רקע</string>
+    <string name="wallpaper_room_none">אין רקע לצ׳אט הזה</string>
+    <string name="wallpaper_reset_to_global">איפוס לרקע הגלובלי</string>
+    <string name="wallpaper_using_global">משתמש ברקע הגלובלי</string>
     <string name="wallpaper_none_title">לא הוגדר רקע</string>
     <string name="wallpaper_none_subtitle">בחרו תמונה שתוצג מאחורי ההודעות שלכם. היא נשמרת בשרת הבית שלכם, כך שהיא עוקבת אחרי החשבון בכל המכשירים.</string>
     <string name="wallpaper_upload_failed">לא ניתן היה להגדיר את הרקע. נסו שוב.</string>
     <string name="wallpaper_image_too_large">התמונה גדולה מדי לשימוש כרקע.</string>
     <string name="wallpaper_pick_image_only">בחרו קובץ תמונה.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">לפנה״צ</string>
     <string name="time_pm">אחה״צ</string>
     <string name="pinned_message">הודעה מוצמדת</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">אבטחה וגישה</string>
     <string name="select">בחירה</string>
     <string name="select_all">בחירת הכול</string>
+    <string name="selected_count">%1$d נבחרו</string>
+    <string name="more_options">עוד אפשרויות</string>
+    <string name="unmute">ביטול השתקה</string>
+    <string name="leave_rooms">יציאה מחדרים</string>
+    <string name="leave_rooms_confirm_title">לצאת מהחדרים?</string>
+    <string name="leave_rooms_warning">תפסיק לקבל הודעות מהחדרים שנבחרו. לא ניתן לבטל פעולה זו.</string>
     <string name="select_any_rooms_to_leave_as_well">בחר גם חדרים שברצונך לצאת מהם.</string>
     <string name="select_at_least_one_room">בחר לפחות חדר אחד</string>
     <string name="select_rooms">בחירת חדרים</string>
@@ -1350,6 +1412,32 @@
         <item>נעיצה</item>
         <item>העתקה</item>
         <item>כלום</item>
+    </string-array>
+    <string name="setting_message_double_tap">פעולת הקשה כפולה</string>
+    <string name="setting_message_double_tap_description">הפעולה שתתבצע בהקשה כפולה על הודעה</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>תגובה</item>
+        <item>תשובה</item>
+        <item>נעיצה</item>
+        <item>העתקה</item>
+        <item>כלום</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">תגובת הקשה כפולה</string>
+    <string name="setting_message_double_tap_reaction_description">התגובה שתישלח כשהפעולה היא תגובה</string>
+    <string name="notification_keywords">מילות מפתח</string>
+    <string name="notification_keywords_description">חדרים שהוגדרו ל״אזכורים ומילות מפתח בלבד״ יתריעו לך כשההודעה תואמת לאחת המילים האלה</string>
+    <string name="notification_keywords_empty">אין עדיין מילות מפתח</string>
+    <string name="notification_keywords_add">הוספת מילת מפתח</string>
+    <string name="notification_keywords_hint">מילה למעקב</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">לא נקראו תחילה</string>
     <string name="setting_sort_by_unread_description">שמירת חדרים עם פעילות לא נקראת בראש כל קטע</string>

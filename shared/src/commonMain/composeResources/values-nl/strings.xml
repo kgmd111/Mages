@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Push-problemen oplossen na bijwerken/herstarten of distributeur wijzigen</string>
     <string name="setting_copy_unified_push_endpoint_description">Voor foutopsporing; laat zien welk eindpunt is geregistreerd</string>
     <string name="setting_block_media_previews_description">Miniaturen/previews niet automatisch downloaden</string>
+    <string name="setting_auto_download_photos">Foto's automatisch downloaden</string>
+    <string name="setting_auto_download_photos_description">Foto's automatisch op volledige grootte downloaden</string>
+    <string name="setting_auto_download_audio">Audio automatisch downloaden</string>
+    <string name="setting_auto_download_audio_description">Spraakberichten en audio automatisch downloaden</string>
+    <string name="setting_auto_download_video">Video's automatisch downloaden</string>
+    <string name="setting_auto_download_video_description">Video's worden automatisch gedownload</string>
+    <string name="setting_auto_download_documents">Documenten automatisch downloaden</string>
+    <string name="setting_auto_download_documents_description">Bijlagen worden automatisch gedownload</string>
     <string name="setting_media_cache_description">Gecachte media bekijken en beheren</string>
     <string name="setting_start_in_tray_description">Minimaliseren naar lade bij starten</string>
+    <string name="setting_enable_tray">Systeemvak inschakelen</string>
+    <string name="setting_enable_tray_description">Toon een pictogram in het systeemvak met snelle acties. Zet uit als het systeemvak vastloopt op je systeem</string>
     <string name="setting_enter_sends_message_description">Wanneer ingeschakeld, wordt door op Enter te drukken het bericht verzonden en wordt met Shift, Ctrl of Cmd Enter een nieuwe regel ingevoegd</string>
     <string name="setting_edit_latest_with_up_arrow">Laatste bericht bewerken met de pijl omhoog</string>
     <string name="setting_edit_latest_with_up_arrow_description">Indien ingeschakeld, begint het indrukken van de pijl omhoog wanneer het berichtveld leeg is met het bewerken van het laatste bewerkbare bericht of het bijschrift</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Magiërs</string>
     <string name="waiting_for_sso">Wachten op SSO...</string>
     <string name="connecting">Verbinden...</string>
+    <string name="couldnt_reach_server">Kon %1$s niet bereiken. Controleer het adres en je verbinding.</string>
     <string name="syncing">Synchroniseren...</string>
     <string name="add_account">Account toevoegen</string>
     <string name="welcome_to_mages">Welkom bij Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Ongelezen</string>
     <string name="loading_unread">Ongelezen berichten vinden...</string>
     <string name="loading_pinned">Vastgezet bericht zoeken…</string>
+    <string name="loading_jump_to_date">Naar datum springen…</string>
     <string name="message_not_found">Bericht niet gevonden</string>
     <string name="timeline_date_today">Vandaag</string>
     <string name="timeline_date_yesterday">Gisteren</string>
     <string name="jump_to_unread">Ga naar ongelezen</string>
+    <string name="jump_to_date">Naar datum springen</string>
+    <string name="jump_to_date_no_messages">Geen berichten gevonden voor deze datum</string>
     <string name="scroll_to_top">Scroll naar boven</string>
     <string name="spaces">Spaties</string>
+    <string name="rooms_and_spaces">Kamers en spaces</string>
+    <string name="sections">Secties</string>
+    <string name="new_section">Nieuwe sectie</string>
+    <string name="rooms_in_count_n">%1$d in deze sectie</string>
+    <string name="section_name">Naam van de sectie</string>
+    <string name="rename_section">Sectie hernoemen</string>
+    <string name="edit_section">Sectie bewerken</string>
+    <string name="delete_section">Sectie verwijderen</string>
+    <string name="delete_section_warning_named">Kamers in %1$s gaan terug naar de lijst zonder sectie.</string>
+    <string name="move_to_section">Naar sectie verplaatsen</string>
+    <string name="no_section">Geen sectie</string>
+    <string name="move_section_up">Sectie omhoog verplaatsen</string>
+    <string name="move_section_down">Sectie omlaag verplaatsen</string>
+    <string name="give_the_section_a_name">Geef de sectie een naam</string>
+    <string name="failed_to_save_section">Sectie kon niet worden opgeslagen</string>
+    <string name="failed_to_create_section">Sectie kon niet worden aangemaakt</string>
+    <string name="failed_to_delete_section">Sectie kon niet worden verwijderd</string>
+    <string name="failed_to_reorder_sections">Secties konden niet opnieuw worden gerangschikt</string>
+    <string name="failed_to_move_into_section">De kamer kon niet worden verplaatst</string>
+    <string name="section_created_named">Sectie %1$s aangemaakt</string>
+    <string name="section_renamed_to_named">Sectie hernoemd naar %1$s</string>
+    <string name="section_deleted">Sectie verwijderd</string>
+    <string name="moved_into_section">Naar de sectie verplaatst</string>
+    <string name="moved_out_of_a_section">Uit de sectie verplaatst</string>
     <string name="settings">Instellingen</string>
     <string name="discover">Ontdekken</string>
     <string name="invites">Uitnodigingen</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniaturen</string>
     <string name="media_cache_previews">Voorvertoningen</string>
     <string name="media_cache_full_media">Volledige media</string>
+    <string name="media_cache_downloaded_media">Gedownloade media</string>
     <string name="media_cache_saved">Opgeslagen</string>
     <string name="auto_download_previews">Previews automatisch downloaden</string>
     <string name="media_cache_storage_used">Opslag gebruikt</string>
     <string name="media_cache_clear_media_cache">Mediacache wissen</string>
     <string name="media_cache_clear_confirm_title">Mediacache wissen?</string>
+    <string name="media_cache_keep_media">Media bewaren voor</string>
+    <string name="media_cache_keep_forever">Altijd</string>
+    <string name="media_cache_days">%1$d dagen</string>
+    <string name="media_cache_cache_limit">Limiet voor cachegrootte</string>
+    <string name="media_cache_max_file">Grootste bewaarde bestand</string>
+    <string name="media_cache_unlimited">Onbeperkt</string>
+    <string name="media_cache_clear_older">Oudere media wissen</string>
+    <string name="media_cache_clear_older_confirm">Media wissen die ouder is dan %1$d dagen?</string>
     <string name="media_cache_clear_confirm_body">Lokale media in de cache worden verwijderd. Uw berichten blijven in uw chats staan ​​en media kunnen indien nodig opnieuw worden gedownload.</string>
     <string name="local_network_permission_title">Sta lokale netwerktoegang toe</string>
     <string name="local_network_permission_subtitle">Het lijkt erop dat uw homeserver zich op uw lokale netwerk bevindt. Mages heeft toestemming nodig om verbinding te maken met apparaten op uw LAN.</string>
@@ -580,6 +627,11 @@
         <item>Altijd</item>
         <item>Alleen in DMs</item>
         <item>Nooit</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobiele data</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Altijd</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Dekking</string>
     <string name="wallpaper_blur">Vervaging</string>
     <string name="wallpaper_remove">Achtergrond verwijderen</string>
+    <string name="wallpaper_room_none">Geen achtergrond voor deze chat</string>
+    <string name="wallpaper_reset_to_global">Terug naar algemene achtergrond</string>
+    <string name="wallpaper_using_global">Algemene achtergrond wordt gebruikt</string>
     <string name="wallpaper_none_title">Geen achtergrond ingesteld</string>
     <string name="wallpaper_none_subtitle">Kies een afbeelding die achter je berichten wordt weergegeven. Deze wordt op je homeserver opgeslagen en volgt dus je account op al je apparaten.</string>
     <string name="wallpaper_upload_failed">Achtergrond instellen is mislukt. Probeer het opnieuw.</string>
     <string name="wallpaper_image_too_large">Die afbeelding is te groot voor een achtergrond.</string>
     <string name="wallpaper_pick_image_only">Kies een afbeeldingsbestand.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">a.m.</string>
     <string name="time_pm">p.m.</string>
     <string name="pinned_message">Vastgezet bericht</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Beveiliging en toegang</string>
     <string name="select">Selecteren</string>
     <string name="select_all">Alles selecteren</string>
+    <string name="selected_count">%1$d geselecteerd</string>
+    <string name="more_options">Meer opties</string>
+    <string name="unmute">Dempen opheffen</string>
+    <string name="leave_rooms">Kamers verlaten</string>
+    <string name="leave_rooms_confirm_title">Kamers verlaten?</string>
+    <string name="leave_rooms_warning">Je ontvangt geen berichten meer uit de geselecteerde kamers. Dit kan niet ongedaan worden gemaakt.</string>
     <string name="select_any_rooms_to_leave_as_well">Selecteer eventueel ook kamers die u wilt verlaten.</string>
     <string name="select_at_least_one_room">Selecteer minstens één kamer</string>
     <string name="select_rooms">Kamers selecteren</string>
@@ -1348,6 +1410,32 @@
         <item>Vastzetten</item>
         <item>Kopiëren</item>
         <item>Niets</item>
+    </string-array>
+    <string name="setting_message_double_tap">Actie bij dubbeltikken</string>
+    <string name="setting_message_double_tap_description">Actie bij dubbeltikken op een bericht</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reageren</item>
+        <item>Beantwoorden</item>
+        <item>Vastzetten</item>
+        <item>Kopiëren</item>
+        <item>Niets</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reactie bij dubbeltikken</string>
+    <string name="setting_message_double_tap_reaction_description">Reactie die wordt verzonden als de actie Reageren is</string>
+    <string name="notification_keywords">Trefwoorden</string>
+    <string name="notification_keywords_description">Kamers die alleen op vermeldingen en trefwoorden staan, melden je wanneer een bericht bij een van deze woorden past</string>
+    <string name="notification_keywords_empty">Nog geen trefwoorden</string>
+    <string name="notification_keywords_add">Trefwoord toevoegen</string>
+    <string name="notification_keywords_hint">Woord om op te letten</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Ongelezen eerst</string>
     <string name="setting_sort_by_unread_description">Kamers met ongelezen activiteit bovenaan elke sectie houden</string>

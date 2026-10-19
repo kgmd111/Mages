@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Javítsa ki a leküldéssel kapcsolatos problémákat a frissítés/újraindítás vagy a forgalmazó módosítása után</string>
     <string name="setting_copy_unified_push_endpoint_description">Hibakereséshez; megmutatja, hogy melyik végpont van regisztrálva</string>
     <string name="setting_block_media_previews_description">Ne töltse le automatikusan az indexképeket/előnézeteket</string>
+    <string name="setting_auto_download_photos">Fényképek automatikus letöltése</string>
+    <string name="setting_auto_download_photos_description">Fényképek automatikus letöltése teljes méretben</string>
+    <string name="setting_auto_download_audio">Hang automatikus letöltése</string>
+    <string name="setting_auto_download_audio_description">Hangüzenetek és hang automatikus letöltése</string>
+    <string name="setting_auto_download_video">Videók automatikus letöltése</string>
+    <string name="setting_auto_download_video_description">A videók automatikusan letöltődnek</string>
+    <string name="setting_auto_download_documents">Dokumentumok automatikus letöltése</string>
+    <string name="setting_auto_download_documents_description">A mellékletek automatikusan letöltődnek</string>
     <string name="setting_media_cache_description">A gyorsítótárazott média megtekintése és kezelése</string>
     <string name="setting_start_in_tray_description">Indításkor minimalizálja a tálcára</string>
+    <string name="setting_enable_tray">Rendszertálca engedélyezése</string>
+    <string name="setting_enable_tray_description">Tálcaikon megjelenítése gyorsműveletekkel. Kapcsold ki, ha a tálca összeomlik a rendszereden</string>
     <string name="setting_enter_sends_message_description">Ha engedélyezve van, az Enter megnyomása elküldi az üzenetet, a Shift, Ctrl vagy Cmd Enter pedig új sort szúr be</string>
     <string name="setting_edit_latest_with_up_arrow">Utolsó üzenet szerkesztése a felfelé nyíllal</string>
     <string name="setting_edit_latest_with_up_arrow_description">Ha be van kapcsolva, az üzenetmező üres állapotában a felfelé nyíl megnyomása elkezdi szerkeszteni az utolsó szerkeszthető üzenetet vagy annak feliratát</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Mágusok</string>
     <string name="waiting_for_sso">Várakozás az egyszeri bejelentkezésre...</string>
     <string name="connecting">Csatlakozás...</string>
+    <string name="couldnt_reach_server">Nem sikerült elérni a(z) %1$s címet. Ellenőrizd a címet és a kapcsolatot.</string>
     <string name="syncing">Szinkronizálás…</string>
     <string name="add_account">Fiók hozzáadása lehetőségre</string>
     <string name="welcome_to_mages">Üdvözöljük a Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Nem olvasott</string>
     <string name="loading_unread">Olvasatlan üzenetek keresése…</string>
     <string name="loading_pinned">Rögzített üzenet keresése…</string>
+    <string name="loading_jump_to_date">Ugrás a dátumra…</string>
     <string name="message_not_found">Az üzenet nem található</string>
     <string name="timeline_date_today">Ma</string>
     <string name="timeline_date_yesterday">Tegnap</string>
     <string name="jump_to_unread">Ugrás az olvasatlanra</string>
+    <string name="jump_to_date">Ugrás a dátumra</string>
+    <string name="jump_to_date_no_messages">Ehhez a dátumhoz nem találhatók üzenetek</string>
     <string name="scroll_to_top">Görgessen a tetejére</string>
     <string name="spaces">Terek</string>
+    <string name="rooms_and_spaces">Szobák és terek</string>
+    <string name="sections">Szakaszok</string>
+    <string name="new_section">Új szakasz</string>
+    <string name="rooms_in_count_n">%1$d ebben a szakaszban</string>
+    <string name="section_name">Szakasz neve</string>
+    <string name="rename_section">Szakasz átnevezése</string>
+    <string name="edit_section">Szakasz szerkesztése</string>
+    <string name="delete_section">Szakasz törlése</string>
+    <string name="delete_section_warning_named">A(z) %1$s szakasz szobái visszakerülnek a szakasz nélküli listába.</string>
+    <string name="move_to_section">Áthelyezés szakaszba</string>
+    <string name="no_section">Nincs szakasz</string>
+    <string name="move_section_up">Szakasz mozgatása fel</string>
+    <string name="move_section_down">Szakasz mozgatása le</string>
+    <string name="give_the_section_a_name">Adj nevet a szakasznak</string>
+    <string name="failed_to_save_section">A szakaszt nem sikerült menteni</string>
+    <string name="failed_to_create_section">A szakaszt nem sikerült létrehozni</string>
+    <string name="failed_to_delete_section">A szakaszt nem sikerült törölni</string>
+    <string name="failed_to_reorder_sections">A szakaszokat nem sikerült átrendezni</string>
+    <string name="failed_to_move_into_section">A szobát nem sikerült áthelyezni</string>
+    <string name="section_created_named">%1$s szakasz létrehozva</string>
+    <string name="section_renamed_to_named">A szakasz átnevezve: %1$s</string>
+    <string name="section_deleted">Szakasz törölve</string>
+    <string name="moved_into_section">Áthelyezve a szakaszba</string>
+    <string name="moved_out_of_a_section">Áthelyezve a szakaszon kívülre</string>
     <string name="settings">Beállítások elemre</string>
     <string name="discover">Felfedezés</string>
     <string name="invites">Meghívja</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniatűrök</string>
     <string name="media_cache_previews">Előnézetek</string>
     <string name="media_cache_full_media">Teljes média</string>
+    <string name="media_cache_downloaded_media">Letöltött média</string>
     <string name="media_cache_saved">Mentve</string>
     <string name="auto_download_previews">Előnézetek automatikus letöltése</string>
     <string name="media_cache_storage_used">Használt tároló</string>
     <string name="media_cache_clear_media_cache">Média-gyorsítótár törlése</string>
     <string name="media_cache_clear_confirm_title">Törli a média-gyorsítótárat?</string>
+    <string name="media_cache_keep_media">Média megtartása</string>
+    <string name="media_cache_keep_forever">Örökké</string>
+    <string name="media_cache_days">%1$d nap</string>
+    <string name="media_cache_cache_limit">Gyorsítótár mérethatára</string>
+    <string name="media_cache_max_file">Legnagyobb megtartott fájl</string>
+    <string name="media_cache_unlimited">Korlátlan</string>
+    <string name="media_cache_clear_older">Régebbi média törlése</string>
+    <string name="media_cache_clear_older_confirm">Törlöd a(z) %1$d napnál régebbi médiát?</string>
     <string name="media_cache_clear_confirm_body">A helyi gyorsítótárazott média eltávolításra kerül. Üzenetei a csevegésekben maradnak, és a média szükség esetén újra letölthető.</string>
     <string name="local_network_permission_title">Helyi hálózati hozzáférés engedélyezése</string>
     <string name="local_network_permission_subtitle">Úgy tűnik, hogy az otthoni szerver a helyi hálózaton van. A Magesnek engedélyre van szüksége a LAN-on lévő eszközökhöz való csatlakozáshoz.</string>
@@ -580,6 +627,11 @@
         <item>Mindig</item>
         <item>Csak DMs-ben</item>
         <item>Soha</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobiladat</item>
+        <item>Barangolás</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Mindig</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Átlátszatlanság</string>
     <string name="wallpaper_blur">Elmosás</string>
     <string name="wallpaper_remove">Háttérkép eltávolítása</string>
+    <string name="wallpaper_room_none">Nincs háttérkép ehhez a csevegéshez</string>
+    <string name="wallpaper_reset_to_global">Visszaállítás a globális háttérképre</string>
+    <string name="wallpaper_using_global">A globális háttérkép használatban</string>
     <string name="wallpaper_none_title">Nincs beállított háttérkép</string>
     <string name="wallpaper_none_subtitle">Válasszon egy képet, amely az üzenetei mögött jelenik meg. A saját kiszolgálóján tárolódik, így követi a fiókját minden eszközön.</string>
     <string name="wallpaper_upload_failed">Nem sikerült beállítani a háttérképet. Próbálja újra.</string>
     <string name="wallpaper_image_too_large">Ez a kép túl nagy háttérképnek.</string>
     <string name="wallpaper_pick_image_only">Válasszon képfájlt.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">de.</string>
     <string name="time_pm">du.</string>
     <string name="pinned_message">Rögzített üzenet</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Biztonság és hozzáférés</string>
     <string name="select">Kiválasztás</string>
     <string name="select_all">Összes kijelölése</string>
+    <string name="selected_count">%1$d kijelölve</string>
+    <string name="more_options">További lehetőségek</string>
+    <string name="unmute">Némítás feloldása</string>
+    <string name="leave_rooms">Kilépés a szobákból</string>
+    <string name="leave_rooms_confirm_title">Kilépsz a szobákból?</string>
+    <string name="leave_rooms_warning">Nem fogsz többé üzeneteket kapni a kijelölt szobákból. Ez nem vonható vissza.</string>
     <string name="select_any_rooms_to_leave_as_well">Jelölje ki a szobákat, amelyekből szintén kilép.</string>
     <string name="select_at_least_one_room">Jelöljön ki legalább egy szobát</string>
     <string name="select_rooms">Szobák kijelölése</string>
@@ -1348,6 +1410,32 @@
         <item>Kitűzés</item>
         <item>Másolás</item>
         <item>Semmi</item>
+    </string-array>
+    <string name="setting_message_double_tap">Dupla koppintás művelete</string>
+    <string name="setting_message_double_tap_description">Az üzenet dupla koppintásakor végrehajtott művelet</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reakció</item>
+        <item>Válasz</item>
+        <item>Kitűzés</item>
+        <item>Másolás</item>
+        <item>Semmi</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Dupla koppintás reakciója</string>
+    <string name="setting_message_double_tap_reaction_description">A reakció, amely akkor kerül elküldésre, ha a művelet Reakció</string>
+    <string name="notification_keywords">Kulcsszavak</string>
+    <string name="notification_keywords_description">A csak megemlítésekre és kulcsszavakra állított szobák értesítenek, ha egy üzenet megfelel ezen szavak egyikének</string>
+    <string name="notification_keywords_empty">Még nincsenek kulcsszavak</string>
+    <string name="notification_keywords_add">Kulcsszó hozzáadása</string>
+    <string name="notification_keywords_hint">Figyelendő szó</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Olvasatlanok elöl</string>
     <string name="setting_sort_by_unread_description">Az olvasatlan aktivitású szobák maradjanak minden szakasz tetején</string>

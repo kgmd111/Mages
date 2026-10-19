@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Επιδιόρθωση προβλημάτων ώθησης μετά από ενημέρωση/επανεκκίνηση ή αλλαγή διανομέα</string>
     <string name="setting_copy_unified_push_endpoint_description">Για αποσφαλμάτωση. Δείχνει ποιο τελικό σημείο είναι καταχωρημένο</string>
     <string name="setting_block_media_previews_description">Μην κατεβάζετε αυτόματα μικρογραφίες/προεπισκοπήσεις</string>
+    <string name="setting_auto_download_photos">Αυτόματη λήψη φωτογραφιών</string>
+    <string name="setting_auto_download_photos_description">Αυτόματη λήψη φωτογραφιών σε πλήρες μέγεθος</string>
+    <string name="setting_auto_download_audio">Αυτόματη λήψη ήχου</string>
+    <string name="setting_auto_download_audio_description">Αυτόματη λήψη φωνητικών μηνυμάτων και ήχου</string>
+    <string name="setting_auto_download_video">Αυτόματη λήψη βίντεο</string>
+    <string name="setting_auto_download_video_description">Τα βίντεο λαμβάνονται αυτόματα</string>
+    <string name="setting_auto_download_documents">Αυτόματη λήψη εγγράφων</string>
+    <string name="setting_auto_download_documents_description">Τα συνημμένα λαμβάνονται αυτόματα</string>
     <string name="setting_media_cache_description">Προβολή και διαχείριση αποθηκευμένων πολυμέσων</string>
     <string name="setting_start_in_tray_description">Ελαχιστοποίηση στο δίσκο κατά την εκκίνηση</string>
+    <string name="setting_enable_tray">Ενεργοποίηση δίσκου συστήματος</string>
+    <string name="setting_enable_tray_description">Εμφάνιση εικονιδίου στον δίσκο με γρήγορες ενέργειες. Απενεργοποίησε αν ο δίσκος καταρρέει στο σύστημά σου</string>
     <string name="setting_enter_sends_message_description">Όταν είναι ενεργοποιημένο, πατώντας Enter θα στείλει το μήνυμα και Shift, Ctrl ή Cmd + Enter θα εισαγάγει μια νέα γραμμή</string>
     <string name="setting_edit_latest_with_up_arrow">Επεξεργασία τελευταίου μηνύματος με το βελάκι προς τα πάνω</string>
     <string name="setting_edit_latest_with_up_arrow_description">Όταν είναι ενεργοποιημένο, η πίεση του βελακιού προς τα πάνω όταν το πλαίσιο μηνύματος είναι κενό ξεκινά την επεξεργασία του τελευταίου επεξεργάσιμου μηνύματος ή της λεζάντας του</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Μάγκες</string>
     <string name="waiting_for_sso">Αναμονή SSO...</string>
     <string name="connecting">Συνδετικός...</string>
+    <string name="couldnt_reach_server">Δεν ήταν δυνατή η σύνδεση με %1$s. Έλεγξε τη διεύθυνση και τη σύνδεσή σου.</string>
     <string name="syncing">Συγχρονισμός…</string>
     <string name="add_account">Προσθήκη λογαριασμού</string>
     <string name="welcome_to_mages">Καλώς ήρθατε στο Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Αδιάβαστος</string>
     <string name="loading_unread">Εύρεση μη αναγνωσμένων μηνυμάτων…</string>
     <string name="loading_pinned">Εύρεση καρφιτσωμένου μηνύματος…</string>
+    <string name="loading_jump_to_date">Μετάβαση στην ημερομηνία…</string>
     <string name="message_not_found">Το μήνυμα δεν βρέθηκε</string>
     <string name="timeline_date_today">Σήμερα</string>
     <string name="timeline_date_yesterday">Εχθές</string>
     <string name="jump_to_unread">Μετάβαση σε μη αναγνωσμένο</string>
+    <string name="jump_to_date">Μετάβαση στην ημερομηνία</string>
+    <string name="jump_to_date_no_messages">Δεν βρέθηκαν μηνύματα για αυτή την ημερομηνία</string>
     <string name="scroll_to_top">Κάντε κύλιση στην κορυφή</string>
     <string name="spaces">Χώροι</string>
+    <string name="rooms_and_spaces">Δωμάτια και χώροι</string>
+    <string name="sections">Ενότητες</string>
+    <string name="new_section">Νέα ενότητα</string>
+    <string name="rooms_in_count_n">%1$d σε αυτή την ενότητα</string>
+    <string name="section_name">Όνομα ενότητας</string>
+    <string name="rename_section">Μετονομασία ενότητας</string>
+    <string name="edit_section">Επεξεργασία ενότητας</string>
+    <string name="delete_section">Διαγραφή ενότητας</string>
+    <string name="delete_section_warning_named">Τα δωμάτια στο %1$s θα επιστρέψουν στη λίστα χωρίς ενότητα.</string>
+    <string name="move_to_section">Μετακίνηση σε ενότητα</string>
+    <string name="no_section">Χωρίς ενότητα</string>
+    <string name="move_section_up">Μετακίνηση ενότητας πάνω</string>
+    <string name="move_section_down">Μετακίνηση ενότητας κάτω</string>
+    <string name="give_the_section_a_name">Δώσε όνομα στην ενότητα</string>
+    <string name="failed_to_save_section">Δεν ήταν δυνατή η αποθήκευση της ενότητας</string>
+    <string name="failed_to_create_section">Δεν ήταν δυνατή η δημιουργία της ενότητας</string>
+    <string name="failed_to_delete_section">Δεν ήταν δυνατή η διαγραφή της ενότητας</string>
+    <string name="failed_to_reorder_sections">Δεν ήταν δυνατή η αναδιάταξη των ενοτήτων</string>
+    <string name="failed_to_move_into_section">Δεν ήταν δυνατή η μετακίνηση του δωματίου</string>
+    <string name="section_created_named">Δημιουργήθηκε η ενότητα %1$s</string>
+    <string name="section_renamed_to_named">Η ενότητα μετονομάστηκε σε %1$s</string>
+    <string name="section_deleted">Η ενότητα διαγράφηκε</string>
+    <string name="moved_into_section">Μετακινήθηκε στην ενότητα</string>
+    <string name="moved_out_of_a_section">Μετακινήθηκε έξω από την ενότητα</string>
     <string name="settings">Ρυθμίσεις</string>
     <string name="discover">Ανακαλύπτω</string>
     <string name="invites">Προσκαλεί</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Μικρογραφίες</string>
     <string name="media_cache_previews">Προεπισκοπήσεις</string>
     <string name="media_cache_full_media">Πλήρη ΜΜΕ</string>
+    <string name="media_cache_downloaded_media">Ληφθέντα πολυμέσα</string>
     <string name="media_cache_saved">Αποθηκεύτηκε</string>
     <string name="auto_download_previews">Αυτόματη λήψη προεπισκοπήσεων</string>
     <string name="media_cache_storage_used">Χρησιμοποιείται αποθήκευση</string>
     <string name="media_cache_clear_media_cache">Εκκαθάριση της προσωρινής μνήμης πολυμέσων</string>
     <string name="media_cache_clear_confirm_title">Διαγραφή της προσωρινής μνήμης πολυμέσων;</string>
+    <string name="media_cache_keep_media">Διατήρηση πολυμέσων για</string>
+    <string name="media_cache_keep_forever">Για πάντα</string>
+    <string name="media_cache_days">%1$d ημέρες</string>
+    <string name="media_cache_cache_limit">Όριο μεγέθους cache</string>
+    <string name="media_cache_max_file">Μεγαλύτερο αρχείο που διατηρείται</string>
+    <string name="media_cache_unlimited">Χωρίς όριο</string>
+    <string name="media_cache_clear_older">Εκκαθάριση παλαιότερων πολυμέσων</string>
+    <string name="media_cache_clear_older_confirm">Εκκαθάριση πολυμέσων παλαιότερων από %1$d ημέρες;</string>
     <string name="media_cache_clear_confirm_body">Τα τοπικά αποθηκευμένα μέσα στην κρυφή μνήμη θα καταργηθούν. Τα μηνύματά σας παραμένουν στις συνομιλίες σας και τα πολυμέσα μπορούν να ληφθούν ξανά όταν χρειαστεί.</string>
     <string name="local_network_permission_title">Επιτρέψτε την πρόσβαση στο τοπικό δίκτυο</string>
     <string name="local_network_permission_subtitle">Ο διακομιστής σπιτιού σας φαίνεται να βρίσκεται στο τοπικό σας δίκτυο. Το Mages χρειάζεται άδεια για να συνδεθεί με συσκευές στο LAN σας.</string>
@@ -580,6 +627,11 @@
         <item>Πάντα</item>
         <item>Μόνο σε DMs</item>
         <item>Ποτέ</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Δεδομένα κινητής</item>
+        <item>Περιαγωγή</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Πάντα</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Αδιαφάνεια</string>
     <string name="wallpaper_blur">Θόλωμα</string>
     <string name="wallpaper_remove">Αφαίρεση ταπετσαρίας</string>
+    <string name="wallpaper_room_none">Δεν υπάρχει ταπετσαρία για αυτή τη συνομιλία</string>
+    <string name="wallpaper_reset_to_global">Επαναφορά στην καθολική ταπετσαρία</string>
+    <string name="wallpaper_using_global">Χρήση της καθολικής ταπετσαρίας</string>
     <string name="wallpaper_none_title">Δεν έχει οριστεί ταπετσαρία</string>
     <string name="wallpaper_none_subtitle">Επιλέξτε μια εικόνα για να εμφανίζεται πίσω από τα μηνύματά σας. Αποθηκεύεται στον διακομιστή σας, ώστε να ακολουθεί τον λογαριασμό σας σε όλες τις συσκευές.</string>
     <string name="wallpaper_upload_failed">Δεν ήταν δυνατός ο ορισμός της ταπετσαρίας. Δοκιμάστε ξανά.</string>
     <string name="wallpaper_image_too_large">Η εικόνα είναι πολύ μεγάλη για ταπετσαρία.</string>
     <string name="wallpaper_pick_image_only">Επιλέξτε αρχείο εικόνας.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">π.μ.</string>
     <string name="time_pm">μ.μ.</string>
     <string name="pinned_message">Καρφιτσωμένο μήνυμα</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Ασφάλεια &amp; Πρόσβαση</string>
     <string name="select">Επιλογή</string>
     <string name="select_all">Επιλογή όλων</string>
+    <string name="selected_count">%1$d επιλεγμένα</string>
+    <string name="more_options">Περισσότερες επιλογές</string>
+    <string name="unmute">Ενεργοποίηση ήχου</string>
+    <string name="leave_rooms">Αποχώρηση από δωμάτια</string>
+    <string name="leave_rooms_confirm_title">Αποχώρηση από τα δωμάτια;</string>
+    <string name="leave_rooms_warning">Θα σταματήσεις να λαμβάνεις μηνύματα από τα επιλεγμένα δωμάτια. Αυτό δεν μπορεί να αναιρεθεί.</string>
     <string name="select_any_rooms_to_leave_as_well">Επιλέξτε και άλλα δωμάτια από τα οποία θέλετε να αποχωρήσετε.</string>
     <string name="select_at_least_one_room">Επιλέξτε τουλάχιστον ένα δωμάτιο</string>
     <string name="select_rooms">Επιλογή δωματίων</string>
@@ -1348,6 +1410,32 @@
         <item>Καρφίτσωμα</item>
         <item>Αντιγραφή</item>
         <item>Τίποτα</item>
+    </string-array>
+    <string name="setting_message_double_tap">Ενέργεια διπλού αγγίγματος</string>
+    <string name="setting_message_double_tap_description">Ενέργεια που εκτελείται με διπλό άγγιγμα σε ένα μήνυμα</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Αντίδραση</item>
+        <item>Απάντηση</item>
+        <item>Καρφίτσωμα</item>
+        <item>Αντιγραφή</item>
+        <item>Τίποτα</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Αντίδραση διπλού αγγίγματος</string>
+    <string name="setting_message_double_tap_reaction_description">Αντίδραση που αποστέλλεται όταν η ενέργεια είναι Αντίδραση</string>
+    <string name="notification_keywords">Λέξεις-κλειδιά</string>
+    <string name="notification_keywords_description">Τα δωμάτια που έχουν οριστεί σε μόνο αναφορές και λέξεις-κλειδιά θα σε ειδοποιούν όταν ένα μήνυμα ταιριάζει με μία από αυτές τις λέξεις</string>
+    <string name="notification_keywords_empty">Δεν υπάρχουν ακόμη λέξεις-κλειδιά</string>
+    <string name="notification_keywords_add">Προσθήκη λέξης-κλειδιού</string>
+    <string name="notification_keywords_hint">Λέξη που παρακολουθείται</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Τα αδιάβαστα πρώτα</string>
     <string name="setting_sort_by_unread_description">Διατήρηση δωματίων με αδιάβαστη δραστηριότητα στην κορυφή κάθε ενότητας</string>

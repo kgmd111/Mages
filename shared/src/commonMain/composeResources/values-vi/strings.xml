@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Khắc phục sự cố push sau khi cập nhật, khởi động lại hoặc đổi nhà phân phối</string>
     <string name="setting_copy_unified_push_endpoint_description">Để gỡ lỗi; hiển thị điểm cuối đã đăng ký</string>
     <string name="setting_block_media_previews_description">Không tự động tải hình thu nhỏ và bản xem trước</string>
+    <string name="setting_auto_download_photos">Tự động tải ảnh</string>
+    <string name="setting_auto_download_photos_description">Tự động tải ảnh kích thước đầy đủ</string>
+    <string name="setting_auto_download_audio">Tự động tải âm thanh</string>
+    <string name="setting_auto_download_audio_description">Tự động tải tin nhắn thoại và âm thanh</string>
+    <string name="setting_auto_download_video">Tự động tải video</string>
+    <string name="setting_auto_download_video_description">Video được tải xuống tự động</string>
+    <string name="setting_auto_download_documents">Tự động tải tài liệu</string>
+    <string name="setting_auto_download_documents_description">Tệp đính kèm được tải xuống tự động</string>
     <string name="setting_media_cache_description">Xem và quản lý phương tiện đã lưu đệm</string>
     <string name="setting_start_in_tray_description">Thu nhỏ vào khay hệ thống khi khởi động</string>
+    <string name="setting_enable_tray">Bật khay hệ thống</string>
+    <string name="setting_enable_tray_description">Hiện biểu tượng trên khay với thao tác nhanh. Tắt nếu khay bị lỗi trên hệ thống của bạn</string>
     <string name="setting_enter_sends_message_description">Khi bật, Enter gửi tin nhắn và Shift, Ctrl hoặc Cmd + Enter chèn dòng mới</string>
     <string name="setting_edit_latest_with_up_arrow">Chỉnh sửa tin nhắn gần nhất bằng phím mũi tên lên</string>
     <string name="setting_edit_latest_with_up_arrow_description">Khi bật, nhấn mũi tên lên khi khung tin nhắn trống sẽ bắt đầu chỉnh sửa tin nhắn có thể chỉnh sửa gần nhất hoặc chú thích của nó</string>
@@ -196,6 +206,7 @@
     <string name="app_name">pháp sư</string>
     <string name="waiting_for_sso">Đang chờ SSO...</string>
     <string name="connecting">Đang kết nối...</string>
+    <string name="couldnt_reach_server">Không thể kết nối tới %1$s. Kiểm tra địa chỉ và kết nối của bạn.</string>
     <string name="syncing">Đang đồng bộ hóa…</string>
     <string name="add_account">Thêm tài khoản</string>
     <string name="welcome_to_mages">Chào mừng đến với Pháp sư</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Chưa đọc</string>
     <string name="loading_unread">Đang tìm kiếm tin nhắn chưa đọc…</string>
     <string name="loading_pinned">Đang tìm thấy tin nhắn được ghim…</string>
+    <string name="loading_jump_to_date">Đang chuyển đến ngày…</string>
     <string name="message_not_found">Không tìm thấy tin nhắn</string>
     <string name="timeline_date_today">Hôm nay</string>
     <string name="timeline_date_yesterday">Hôm qua</string>
     <string name="jump_to_unread">Chuyển đến chưa đọc</string>
+    <string name="jump_to_date">Chuyển đến ngày</string>
+    <string name="jump_to_date_no_messages">Không tìm thấy tin nhắn cho ngày này</string>
     <string name="scroll_to_top">Cuộn lên trên cùng</string>
     <string name="spaces">Không gian</string>
+    <string name="rooms_and_spaces">Phòng và không gian</string>
+    <string name="sections">Mục</string>
+    <string name="new_section">Mục mới</string>
+    <string name="rooms_in_count_n">%1$d trong mục này</string>
+    <string name="section_name">Tên mục</string>
+    <string name="rename_section">Đổi tên mục</string>
+    <string name="edit_section">Sửa mục</string>
+    <string name="delete_section">Xóa mục</string>
+    <string name="delete_section_warning_named">Các phòng trong %1$s sẽ trở lại danh sách không có mục.</string>
+    <string name="move_to_section">Chuyển vào mục</string>
+    <string name="no_section">Không có mục</string>
+    <string name="move_section_up">Chuyển mục lên</string>
+    <string name="move_section_down">Chuyển mục xuống</string>
+    <string name="give_the_section_a_name">Đặt tên cho mục</string>
+    <string name="failed_to_save_section">Không lưu được mục</string>
+    <string name="failed_to_create_section">Không tạo được mục</string>
+    <string name="failed_to_delete_section">Không xóa được mục</string>
+    <string name="failed_to_reorder_sections">Không sắp xếp lại được các mục</string>
+    <string name="failed_to_move_into_section">Không chuyển được phòng</string>
+    <string name="section_created_named">Đã tạo mục %1$s</string>
+    <string name="section_renamed_to_named">Đã đổi tên mục thành %1$s</string>
+    <string name="section_deleted">Đã xóa mục</string>
+    <string name="moved_into_section">Đã chuyển vào mục</string>
+    <string name="moved_out_of_a_section">Đã chuyển ra khỏi mục</string>
     <string name="settings">Cài đặt</string>
     <string name="discover">Khám phá</string>
     <string name="invites">Lời mời</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Hình thu nhỏ</string>
     <string name="media_cache_previews">Xem trước</string>
     <string name="media_cache_full_media">đầy đủ phương tiện truyền thông</string>
+    <string name="media_cache_downloaded_media">Phương tiện đã tải xuống</string>
     <string name="media_cache_saved">Đã lưu</string>
     <string name="auto_download_previews">Tự động tải xuống bản xem trước</string>
     <string name="media_cache_storage_used">Dung lượng đã sử dụng</string>
     <string name="media_cache_clear_media_cache">Xóa bộ nhớ đệm phương tiện</string>
     <string name="media_cache_clear_confirm_title">Xóa bộ nhớ đệm phương tiện?</string>
+    <string name="media_cache_keep_media">Giữ phương tiện trong</string>
+    <string name="media_cache_keep_forever">Mãi mãi</string>
+    <string name="media_cache_days">%1$d ngày</string>
+    <string name="media_cache_cache_limit">Giới hạn kích thước bộ đệm</string>
+    <string name="media_cache_max_file">Tệp lớn nhất được giữ</string>
+    <string name="media_cache_unlimited">Không giới hạn</string>
+    <string name="media_cache_clear_older">Xóa phương tiện cũ hơn</string>
+    <string name="media_cache_clear_older_confirm">Xóa phương tiện cũ hơn %1$d ngày?</string>
     <string name="media_cache_clear_confirm_body">Phương tiện được lưu trong bộ nhớ đệm cục bộ sẽ bị xóa. Tin nhắn của bạn vẫn còn trong cuộc trò chuyện và phương tiện có thể tải xuống lại khi cần.</string>
     <string name="local_network_permission_title">Cho phép truy cập mạng cục bộ</string>
     <string name="local_network_permission_subtitle">Máy chủ chủ của bạn dường như nằm trên mạng cục bộ của bạn. Các pháp sư cần có quyền kết nối với các thiết bị trong mạng LAN của bạn.</string>
@@ -580,6 +627,11 @@
         <item>Luôn</item>
         <item>Chỉ trong DM</item>
         <item>Không bao giờ</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Dữ liệu di động</item>
+        <item>Chuyển vùng</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Luôn</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Độ mờ đục</string>
     <string name="wallpaper_blur">Độ mờ</string>
     <string name="wallpaper_remove">Xóa hình nền</string>
+    <string name="wallpaper_room_none">Không có hình nền cho cuộc trò chuyện này</string>
+    <string name="wallpaper_reset_to_global">Đặt lại về hình nền chung</string>
+    <string name="wallpaper_using_global">Đang dùng hình nền chung</string>
     <string name="wallpaper_none_title">Chưa đặt hình nền</string>
     <string name="wallpaper_none_subtitle">Chọn ảnh để hiển thị phía sau tin nhắn. Ảnh được lưu trên máy chủ của bạn nên sẽ đi kèm tài khoản trên mọi thiết bị.</string>
     <string name="wallpaper_upload_failed">Không thể đặt hình nền. Hãy thử lại.</string>
     <string name="wallpaper_image_too_large">Ảnh đó quá lớn để làm hình nền.</string>
     <string name="wallpaper_pick_image_only">Hãy chọn một tệp ảnh.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">SA</string>
     <string name="time_pm">CH</string>
     <string name="pinned_message">Tin nhắn được ghim</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Bảo mật &amp; Quyền truy cập</string>
     <string name="select">Chọn</string>
     <string name="select_all">Chọn tất cả</string>
+    <string name="selected_count">Đã chọn %1$d</string>
+    <string name="more_options">Thêm tùy chọn</string>
+    <string name="unmute">Bỏ tắt tiếng</string>
+    <string name="leave_rooms">Rời phòng</string>
+    <string name="leave_rooms_confirm_title">Rời các phòng?</string>
+    <string name="leave_rooms_warning">Bạn sẽ không nhận tin nhắn từ các phòng đã chọn nữa. Không thể hoàn tác.</string>
     <string name="select_any_rooms_to_leave_as_well">Chọn các phòng muốn rời cùng.</string>
     <string name="select_at_least_one_room">Chọn ít nhất một phòng</string>
     <string name="select_rooms">Chọn phòng</string>
@@ -1348,6 +1410,32 @@
         <item>Ghim</item>
         <item>Sao chép</item>
         <item>Không có</item>
+    </string-array>
+    <string name="setting_message_double_tap">Hành động nhấn đúp</string>
+    <string name="setting_message_double_tap_description">Hành động khi nhấn đúp vào tin nhắn</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Bày tỏ</item>
+        <item>Trả lời</item>
+        <item>Ghim</item>
+        <item>Sao chép</item>
+        <item>Không có</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Cảm xúc khi nhấn đúp</string>
+    <string name="setting_message_double_tap_reaction_description">Cảm xúc được gửi khi hành động là Bày tỏ</string>
+    <string name="notification_keywords">Từ khóa</string>
+    <string name="notification_keywords_description">Phòng được đặt thành chỉ đề cập và từ khóa sẽ thông báo khi tin nhắn khớp với một trong các từ này</string>
+    <string name="notification_keywords_empty">Chưa có từ khóa</string>
+    <string name="notification_keywords_add">Thêm từ khóa</string>
+    <string name="notification_keywords_hint">Từ cần theo dõi</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Chưa đọc lên trước</string>
     <string name="setting_sort_by_unread_description">Giữ các phòng có hoạt động chưa đọc ở đầu mỗi mục</string>

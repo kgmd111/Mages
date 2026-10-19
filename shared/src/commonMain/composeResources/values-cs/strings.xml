@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Opravte problémy s odesíláním po aktualizaci/restartu nebo změně distributora</string>
     <string name="setting_copy_unified_push_endpoint_description">Pro ladění; ukazuje, jaký koncový bod je registrován</string>
     <string name="setting_block_media_previews_description">Nestahovat automaticky miniatury/náhledy</string>
+    <string name="setting_auto_download_photos">Automaticky stahovat fotografie</string>
+    <string name="setting_auto_download_photos_description">Automaticky stahovat fotografie v plném rozlišení</string>
+    <string name="setting_auto_download_audio">Automaticky stahovat zvuk</string>
+    <string name="setting_auto_download_audio_description">Automaticky stahovat hlasové zprávy a zvuk</string>
+    <string name="setting_auto_download_video">Automaticky stahovat videa</string>
+    <string name="setting_auto_download_video_description">Videa se stahují automaticky</string>
+    <string name="setting_auto_download_documents">Automaticky stahovat dokumenty</string>
+    <string name="setting_auto_download_documents_description">Přílohy se stahují automaticky</string>
     <string name="setting_media_cache_description">Zobrazení a správa médií uložených v mezipaměti</string>
     <string name="setting_start_in_tray_description">Minimalizovat do zásobníku při spuštění</string>
+    <string name="setting_enable_tray">Zapnout systémový zásobník</string>
+    <string name="setting_enable_tray_description">Zobrazit ikonu v zásobníku s rychlými akcemi. Vypněte, pokud zásobník na vašem systému padá</string>
     <string name="setting_enter_sends_message_description">Pokud je povoleno, stisknutím klávesy Enter odešlete zprávu a Shift, Ctrl nebo Cmd + Enter vloží nový řádek</string>
     <string name="setting_edit_latest_with_up_arrow">Upravit poslední zprávu šipkou nahoru</string>
     <string name="setting_edit_latest_with_up_arrow_description">Když je zapnuto, stisknutí šipky nahoru při prázdném poli zprávy začne upravovat poslední upravitelnou zprávu nebo její popisek</string>
@@ -196,6 +206,7 @@
     <string name="app_name">Mágové</string>
     <string name="waiting_for_sso">Čekání na jednotné přihlášení...</string>
     <string name="connecting">Spojovací...</string>
+    <string name="couldnt_reach_server">Nepodařilo se připojit k %1$s. Zkontroluj adresu a připojení.</string>
     <string name="syncing">Synchronizace…</string>
     <string name="add_account">Přidat účet</string>
     <string name="welcome_to_mages">Vítejte v Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Nepřečtený</string>
     <string name="loading_unread">Hledání nepřečtených zpráv…</string>
     <string name="loading_pinned">Hledání připnuté zprávy…</string>
+    <string name="loading_jump_to_date">Přeskakuji na datum…</string>
     <string name="message_not_found">Zpráva nenalezena</string>
     <string name="timeline_date_today">Dnes</string>
     <string name="timeline_date_yesterday">Včera</string>
     <string name="jump_to_unread">Přejít na nepřečtené</string>
+    <string name="jump_to_date">Přejít na datum</string>
+    <string name="jump_to_date_no_messages">Pro toto datum nebyly nalezeny žádné zprávy</string>
     <string name="scroll_to_top">Přejděte nahoru</string>
     <string name="spaces">Prostory</string>
+    <string name="rooms_and_spaces">Místnosti a prostory</string>
+    <string name="sections">Sekce</string>
+    <string name="new_section">Nová sekce</string>
+    <string name="rooms_in_count_n">%1$d v této sekci</string>
+    <string name="section_name">Název sekce</string>
+    <string name="rename_section">Přejmenovat sekci</string>
+    <string name="edit_section">Upravit sekci</string>
+    <string name="delete_section">Vymazat sekci</string>
+    <string name="delete_section_warning_named">Místnosti v %1$s se vrátí do seznamu bez sekce.</string>
+    <string name="move_to_section">Přesunout do sekce</string>
+    <string name="no_section">Žádná sekce</string>
+    <string name="move_section_up">Přesunout sekci nahoru</string>
+    <string name="move_section_down">Přesunout sekci dolů</string>
+    <string name="give_the_section_a_name">Zadejte název sekce</string>
+    <string name="failed_to_save_section">Sekci se nepodařilo uložit</string>
+    <string name="failed_to_create_section">Sekci se nepodařilo vytvořit</string>
+    <string name="failed_to_delete_section">Sekci se nepodařilo vymazat</string>
+    <string name="failed_to_reorder_sections">Sekce se nepodařilo přeuspořádat</string>
+    <string name="failed_to_move_into_section">Místnost se nepodařilo přesunout</string>
+    <string name="section_created_named">Sekce %1$s vytvořena</string>
+    <string name="section_renamed_to_named">Sekce přejmenována na %1$s</string>
+    <string name="section_deleted">Sekce vymazána</string>
+    <string name="moved_into_section">Přesunuto do sekce</string>
+    <string name="moved_out_of_a_section">Přesunuto mimo sekci</string>
     <string name="settings">Nastavení</string>
     <string name="discover">Objevit</string>
     <string name="invites">Pozvánky</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Miniatury</string>
     <string name="media_cache_previews">Náhledy</string>
     <string name="media_cache_full_media">Full Media</string>
+    <string name="media_cache_downloaded_media">Stažená média</string>
     <string name="media_cache_saved">Uloženo</string>
     <string name="auto_download_previews">Automatické stahování náhledů</string>
     <string name="media_cache_storage_used">Použité úložiště</string>
     <string name="media_cache_clear_media_cache">Vymažte mezipaměť médií</string>
     <string name="media_cache_clear_confirm_title">Vymazat mezipaměť médií?</string>
+    <string name="media_cache_keep_media">Ponechat média po dobu</string>
+    <string name="media_cache_keep_forever">Navždy</string>
+    <string name="media_cache_days">%1$d dní</string>
+    <string name="media_cache_cache_limit">Limit velikosti mezipaměti</string>
+    <string name="media_cache_max_file">Největší ponechaný soubor</string>
+    <string name="media_cache_unlimited">Neomezeně</string>
+    <string name="media_cache_clear_older">Vymazat starší média</string>
+    <string name="media_cache_clear_older_confirm">Vymazat média starší než %1$d dní?</string>
     <string name="media_cache_clear_confirm_body">Místní média uložená v mezipaměti budou odstraněna. Vaše zprávy zůstanou ve vašich chatech a média se mohou v případě potřeby znovu stáhnout.</string>
     <string name="local_network_permission_title">Povolit přístup k místní síti</string>
     <string name="local_network_permission_subtitle">Zdá se, že váš domácí server je ve vaší místní síti. Mages potřebuje oprávnění k připojení k zařízením ve vaší LAN.</string>
@@ -580,6 +627,11 @@
         <item>Vždy</item>
         <item>Pouze v DMs</item>
         <item>Nikdy</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobilní data</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Vždy</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Neprůhlednost</string>
     <string name="wallpaper_blur">Rozmazání</string>
     <string name="wallpaper_remove">Odebrat tapetu</string>
+    <string name="wallpaper_room_none">Pro tento chat není tapeta</string>
+    <string name="wallpaper_reset_to_global">Obnovit globální tapetu</string>
+    <string name="wallpaper_using_global">Používá se globální tapeta</string>
     <string name="wallpaper_none_title">Tapeta není nastavena</string>
     <string name="wallpaper_none_subtitle">Vyberte obrázek, který se zobrazí za zprávami. Ukládá se na váš domovský server, takže následuje váš účet na všech zařízeních.</string>
     <string name="wallpaper_upload_failed">Tapetu se nepodařilo nastavit. Zkuste to znovu.</string>
     <string name="wallpaper_image_too_large">Tento obrázek je pro tapetu příliš velký.</string>
     <string name="wallpaper_pick_image_only">Vyberte obrázkový soubor.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">dop.</string>
     <string name="time_pm">odp.</string>
     <string name="pinned_message">Připnutá zpráva</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Zabezpečení a přístup</string>
     <string name="select">Vybrat</string>
     <string name="select_all">Vybrat vše</string>
+    <string name="selected_count">Vybráno %1$d</string>
+    <string name="more_options">Další možnosti</string>
+    <string name="unmute">Zrušit ztlumení</string>
+    <string name="leave_rooms">Opustit místnosti</string>
+    <string name="leave_rooms_confirm_title">Opustit místnosti?</string>
+    <string name="leave_rooms_warning">Přestanete dostávat zprávy z vybraných místností. Tuto akci nelze vrátit zpět.</string>
     <string name="select_any_rooms_to_leave_as_well">Vyberte také místnosti, které chcete opustit.</string>
     <string name="select_at_least_one_room">Vyberte alespoň jednu místnost</string>
     <string name="select_rooms">Vybrat místnosti</string>
@@ -1350,6 +1412,32 @@
         <item>Připnout</item>
         <item>Kopírovat</item>
         <item>Nic</item>
+    </string-array>
+    <string name="setting_message_double_tap">Akce dvojitého klepnutí</string>
+    <string name="setting_message_double_tap_description">Akce provedená při dvojitém klepnutí na zprávu</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reagovat</item>
+        <item>Odpovědět</item>
+        <item>Připnout</item>
+        <item>Kopírovat</item>
+        <item>Nic</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reakce dvojitého klepnutí</string>
+    <string name="setting_message_double_tap_reaction_description">Reakce odeslaná, když je akcí Reagovat</string>
+    <string name="notification_keywords">Klíčová slova</string>
+    <string name="notification_keywords_description">Místnosti nastavené na pouze zmínky a klíčová slova tě upozorní, když zpráva odpovídá některému z těchto slov</string>
+    <string name="notification_keywords_empty">Zatím žádná klíčová slova</string>
+    <string name="notification_keywords_add">Přidat klíčové slovo</string>
+    <string name="notification_keywords_hint">Slovo ke sledování</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Řadit nepřečtené nejdřív</string>
     <string name="setting_sort_by_unread_description">Ponechat místnosti s nepřečtenou aktivitou nahoře v každé sekci</string>

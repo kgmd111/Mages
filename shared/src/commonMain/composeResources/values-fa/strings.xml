@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">رفع مشکلات push پس از به‌روزرسانی، راه‌اندازی مجدد یا تغییر توزیع‌کننده</string>
     <string name="setting_copy_unified_push_endpoint_description">برای اشکال‌زدایی؛ نشانی ثبت‌شده را نشان می‌دهد</string>
     <string name="setting_block_media_previews_description">از دانلود خودکار بندانگشتی‌ها و پیش‌نمایش‌ها خودداری کن</string>
+    <string name="setting_auto_download_photos">دانلود خودکار تصاویر</string>
+    <string name="setting_auto_download_photos_description">دانلود خودکار تصاویر در اندازه کامل</string>
+    <string name="setting_auto_download_audio">دانلود خودکار صدا</string>
+    <string name="setting_auto_download_audio_description">دانلود خودکار پیام‌های صوتی و صدا</string>
+    <string name="setting_auto_download_video">دانلود خودکار ویدیوها</string>
+    <string name="setting_auto_download_video_description">ویدیوها به‌صورت خودکار دانلود می‌شوند</string>
+    <string name="setting_auto_download_documents">دانلود خودکار اسناد</string>
+    <string name="setting_auto_download_documents_description">پیوست‌ها به‌صورت خودکار دانلود می‌شوند</string>
     <string name="setting_media_cache_description">مشاهده و مدیریت رسانه‌های کش‌شده</string>
     <string name="setting_start_in_tray_description">هنگام شروع به سینی سیستم کمینه شو</string>
+    <string name="setting_enable_tray">فعال کردن سینی سیستم</string>
+    <string name="setting_enable_tray_description">نمایش نماد در سینی همراه با کنش‌های سریع. اگر سینی در سیستم شما از کار می‌افتد خاموش کنید</string>
     <string name="setting_enter_sends_message_description">اگر فعال باشد، Enter پیام را می‌فرستد و Shift، Ctrl یا Cmd + Enter خط جدید درج می‌کند</string>
     <string name="setting_edit_latest_with_up_arrow">ویرایش آخرین پیام با فلش بالا</string>
     <string name="setting_edit_latest_with_up_arrow_description">در صورت فعال بودن، فشردن فلش بالا هنگامی که کادر پیام خالی است، ویرایش آخرین پیام قابل ویرایش یا عنوان آن را آغاز می‌کند</string>
@@ -196,6 +206,7 @@
     <string name="app_name">جادوگران</string>
     <string name="waiting_for_sso">در انتظار SSO...</string>
     <string name="connecting">در حال اتصال...</string>
+    <string name="couldnt_reach_server">دسترسی به %1$s ممکن نشد. نشانی و اتصال خود را بررسی کنید.</string>
     <string name="syncing">در حال همگام سازی…</string>
     <string name="add_account">افزودن حساب</string>
     <string name="welcome_to_mages">به Mages خوش آمدید</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">خوانده نشده</string>
     <string name="loading_unread">در حال یافتن پیام‌های خوانده نشده…</string>
     <string name="loading_pinned">در حال یافتن پیام پین شده…</string>
+    <string name="loading_jump_to_date">پرش به تاریخ…</string>
     <string name="message_not_found">پیام یافت نشد</string>
     <string name="timeline_date_today">امروز</string>
     <string name="timeline_date_yesterday">دیروز</string>
     <string name="jump_to_unread">پرش به خوانده نشده</string>
+    <string name="jump_to_date">پرش به تاریخ</string>
+    <string name="jump_to_date_no_messages">برای این تاریخ پیامی یافت نشد</string>
     <string name="scroll_to_top">به بالا بروید</string>
     <string name="spaces">فضاها</string>
+    <string name="rooms_and_spaces">اتاق‌ها و فضاها</string>
+    <string name="sections">بخش‌ها</string>
+    <string name="new_section">بخش جدید</string>
+    <string name="rooms_in_count_n">%1$d در این بخش</string>
+    <string name="section_name">نام بخش</string>
+    <string name="rename_section">تغییر نام بخش</string>
+    <string name="edit_section">ویرایش بخش</string>
+    <string name="delete_section">حذف بخش</string>
+    <string name="delete_section_warning_named">اتاق‌های موجود در %1$s به فهرست بدون بخش بازمی‌گردند.</string>
+    <string name="move_to_section">انتقال به بخش</string>
+    <string name="no_section">بدون بخش</string>
+    <string name="move_section_up">انتقال بخش به بالا</string>
+    <string name="move_section_down">انتقال بخش به پایین</string>
+    <string name="give_the_section_a_name">به بخش یک نام بدهید</string>
+    <string name="failed_to_save_section">ذخیره بخش ممکن نشد</string>
+    <string name="failed_to_create_section">ایجاد بخش ممکن نشد</string>
+    <string name="failed_to_delete_section">حذف بخش ممکن نشد</string>
+    <string name="failed_to_reorder_sections">مرتب‌سازی دوباره بخش‌ها ممکن نشد</string>
+    <string name="failed_to_move_into_section">انتقال اتاق ممکن نشد</string>
+    <string name="section_created_named">بخش %1$s ایجاد شد</string>
+    <string name="section_renamed_to_named">نام بخش به %1$s تغییر کرد</string>
+    <string name="section_deleted">بخش حذف شد</string>
+    <string name="moved_into_section">به بخش منتقل شد</string>
+    <string name="moved_out_of_a_section">از بخش خارج شد</string>
     <string name="settings">تنظیمات</string>
     <string name="discover">کشف کنید</string>
     <string name="invites">دعوت می کند</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">ریز عکسها</string>
     <string name="media_cache_previews">پیش نمایش ها</string>
     <string name="media_cache_full_media">رسانه کامل</string>
+    <string name="media_cache_downloaded_media">رسانه‌های دانلودشده</string>
     <string name="media_cache_saved">ذخیره شد</string>
     <string name="auto_download_previews">دانلود خودکار پیش نمایش ها</string>
     <string name="media_cache_storage_used">ذخیره سازی استفاده شده</string>
     <string name="media_cache_clear_media_cache">حافظه پنهان رسانه را پاک کنید</string>
     <string name="media_cache_clear_confirm_title">حافظه پنهان رسانه پاک شود؟</string>
+    <string name="media_cache_keep_media">نگهداری رسانه برای</string>
+    <string name="media_cache_keep_forever">همیشه</string>
+    <string name="media_cache_days">%1$d روز</string>
+    <string name="media_cache_cache_limit">حد اندازه حافظه نهان</string>
+    <string name="media_cache_max_file">بزرگ‌ترین فایل نگه‌داشته‌شده</string>
+    <string name="media_cache_unlimited">بی‌حد</string>
+    <string name="media_cache_clear_older">پاک کردن رسانه‌های قدیمی‌تر</string>
+    <string name="media_cache_clear_older_confirm">رسانه‌های قدیمی‌تر از %1$d روز پاک شوند؟</string>
     <string name="media_cache_clear_confirm_body">رسانه ذخیره شده محلی حذف خواهد شد. پیام‌های شما در چت‌های شما باقی می‌مانند و رسانه‌ها می‌توانند در صورت نیاز دوباره دانلود شوند.</string>
     <string name="local_network_permission_title">اجازه دسترسی به شبکه محلی</string>
     <string name="local_network_permission_subtitle">به نظر می رسد که سرور خانه شما در شبکه محلی شما قرار دارد. Mages برای اتصال به دستگاه‌های موجود در شبکه محلی شما به مجوز نیاز دارد.</string>
@@ -580,6 +627,11 @@
         <item>همیشه</item>
         <item>فقط در DMs</item>
         <item>هرگز</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>داده همراه</item>
+        <item>وام‌روی</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>همیشه</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">شفافیت</string>
     <string name="wallpaper_blur">محو</string>
     <string name="wallpaper_remove">حذف پس‌زمینه</string>
+    <string name="wallpaper_room_none">برای این گفتگو پس‌زمینه‌ای نیست</string>
+    <string name="wallpaper_reset_to_global">بازنشانی به پس‌زمینه عمومی</string>
+    <string name="wallpaper_using_global">از پس‌زمینه عمومی استفاده می‌شود</string>
     <string name="wallpaper_none_title">پس‌زمینه‌ای تنظیم نشده</string>
     <string name="wallpaper_none_subtitle">تصویری را انتخاب کنید که پشت پیام‌هایتان نمایش داده شود. در سرور شما ذخیره می‌شود، بنابراین همراه حساب شما در همه دستگاه‌ها است.</string>
     <string name="wallpaper_upload_failed">تنظیم پس‌زمینه ممکن نشد. دوباره تلاش کنید.</string>
     <string name="wallpaper_image_too_large">این تصویر برای پس‌زمینه بیش از حد بزرگ است.</string>
     <string name="wallpaper_pick_image_only">یک فایل تصویری انتخاب کنید.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">ق.ظ</string>
     <string name="time_pm">ب.ظ</string>
     <string name="pinned_message">پیام سنجاق‌شده</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">امنیت و دسترسی</string>
     <string name="select">انتخاب</string>
     <string name="select_all">انتخاب همه</string>
+    <string name="selected_count">%1$d انتخاب‌شده</string>
+    <string name="more_options">گزینه‌های بیشتر</string>
+    <string name="unmute">لغو بی‌صدا</string>
+    <string name="leave_rooms">ترک اتاق‌ها</string>
+    <string name="leave_rooms_confirm_title">اتاق‌ها ترک شوند؟</string>
+    <string name="leave_rooms_warning">دیگر پیامی از اتاق‌های انتخاب‌شده دریافت نمی‌کنید. این کار قابل بازگشت نیست.</string>
     <string name="select_any_rooms_to_leave_as_well">هر اتاق دیگری که می‌خواهید ترک کنید را نیز انتخاب کنید.</string>
     <string name="select_at_least_one_room">دست‌کم یک اتاق را انتخاب کنید</string>
     <string name="select_rooms">انتخاب اتاق‌ها</string>
@@ -1348,6 +1410,32 @@
         <item>سنجاق</item>
         <item>رونوشت</item>
         <item>هیچ‌کدام</item>
+    </string-array>
+    <string name="setting_message_double_tap">کنش دوبار لمس</string>
+    <string name="setting_message_double_tap_description">کنشی که با دوبار لمس یک پیام انجام می‌شود</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>واکنش</item>
+        <item>پاسخ</item>
+        <item>سنجاق</item>
+        <item>رونوشت</item>
+        <item>هیچ‌کدام</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">واکنش دوبار لمس</string>
+    <string name="setting_message_double_tap_reaction_description">واکنشی که وقتی کنش واکنش باشد فرستاده می‌شود</string>
+    <string name="notification_keywords">کلیدواژه‌ها</string>
+    <string name="notification_keywords_description">اتاق‌هایی که روی فقط اشاره‌ها و کلیدواژه‌ها تنظیم شده‌اند، وقتی پیامی با یکی از این واژه‌ها مطابقت داشته باشد به شما اعلان می‌دهند</string>
+    <string name="notification_keywords_empty">هنوز کلیدواژه‌ای نیست</string>
+    <string name="notification_keywords_add">افزودن کلیدواژه</string>
+    <string name="notification_keywords_hint">واژه‌ای که باید پیگیری شود</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">خوانده‌نشده‌ها اول</string>
     <string name="setting_sort_by_unread_description">نگه داشتن اتاق‌های دارای فعالیت خوانده‌نشده در بالای هر بخش</string>

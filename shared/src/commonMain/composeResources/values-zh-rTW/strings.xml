@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">在更新、重新啟動或更換分發器後修正推送問題</string>
     <string name="setting_copy_unified_push_endpoint_description">用於偵錯；顯示已註冊的端點</string>
     <string name="setting_block_media_previews_description">不自動下載縮圖和預覽</string>
+    <string name="setting_auto_download_photos">自動下載照片</string>
+    <string name="setting_auto_download_photos_description">自動下載原始尺寸照片</string>
+    <string name="setting_auto_download_audio">自動下載音訊</string>
+    <string name="setting_auto_download_audio_description">自動下載語音訊息和音訊</string>
+    <string name="setting_auto_download_video">自動下載影片</string>
+    <string name="setting_auto_download_video_description">影片會自動下載</string>
+    <string name="setting_auto_download_documents">自動下載文件</string>
+    <string name="setting_auto_download_documents_description">附件會自動下載</string>
     <string name="setting_media_cache_description">查看及管理快取媒體</string>
     <string name="setting_start_in_tray_description">啟動時最小化到系統匣</string>
+    <string name="setting_enable_tray">啟用系統匣</string>
+    <string name="setting_enable_tray_description">在系統匣中顯示圖示和快速操作。如果系統匣在你的系統上當掉，請關閉此項</string>
     <string name="setting_enter_sends_message_description">啟用後，Enter 傳送訊息，Shift、Ctrl 或 Cmd + Enter 插入新行</string>
     <string name="setting_edit_latest_with_up_arrow">用上方向鍵編輯最新訊息</string>
     <string name="setting_edit_latest_with_up_arrow_description">啟用後，在訊息框為空時按上方向鍵即可開始編輯最新的可編輯訊息或其標題</string>
@@ -196,6 +206,7 @@
     <string name="app_name">法師</string>
     <string name="waiting_for_sso">正在等待單一登入...</string>
     <string name="connecting">正在連接...</string>
+    <string name="couldnt_reach_server">無法連線至 %1$s。請檢查位址和網路連線。</string>
     <string name="syncing">正在同步...</string>
     <string name="add_account">新增帳戶</string>
     <string name="welcome_to_mages">歡迎來到法師</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">未讀</string>
     <string name="loading_unread">尋找未讀訊息...</string>
     <string name="loading_pinned">正在查找固定訊息...</string>
+    <string name="loading_jump_to_date">正在跳至日期…</string>
     <string name="message_not_found">未找到訊息</string>
     <string name="timeline_date_today">今天</string>
     <string name="timeline_date_yesterday">昨天</string>
     <string name="jump_to_unread">跳轉至未讀</string>
+    <string name="jump_to_date">跳至日期</string>
+    <string name="jump_to_date_no_messages">找不到此日期的訊息</string>
     <string name="scroll_to_top">捲動到頂部</string>
     <string name="spaces">空間</string>
+    <string name="rooms_and_spaces">房間和空間</string>
+    <string name="sections">分組</string>
+    <string name="new_section">新增分組</string>
+    <string name="rooms_in_count_n">此分組中有 %1$d 個</string>
+    <string name="section_name">分組名稱</string>
+    <string name="rename_section">重新命名分組</string>
+    <string name="edit_section">編輯分組</string>
+    <string name="delete_section">刪除分組</string>
+    <string name="delete_section_warning_named">%1$s 中的房間將回到未分組清單。</string>
+    <string name="move_to_section">移至分組</string>
+    <string name="no_section">未分組</string>
+    <string name="move_section_up">上移分組</string>
+    <string name="move_section_down">下移分組</string>
+    <string name="give_the_section_a_name">為分組命名</string>
+    <string name="failed_to_save_section">無法儲存分組</string>
+    <string name="failed_to_create_section">無法建立分組</string>
+    <string name="failed_to_delete_section">無法刪除分組</string>
+    <string name="failed_to_reorder_sections">無法重新排序分組</string>
+    <string name="failed_to_move_into_section">無法移動房間</string>
+    <string name="section_created_named">已建立分組 %1$s</string>
+    <string name="section_renamed_to_named">分組已重新命名為 %1$s</string>
+    <string name="section_deleted">分組已刪除</string>
+    <string name="moved_into_section">已移至分組</string>
+    <string name="moved_out_of_a_section">已移出分組</string>
     <string name="settings">設定</string>
     <string name="discover">發現</string>
     <string name="invites">邀請</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">縮圖</string>
     <string name="media_cache_previews">預覽</string>
     <string name="media_cache_full_media">全媒體</string>
+    <string name="media_cache_downloaded_media">已下載的媒體</string>
     <string name="media_cache_saved">已儲存</string>
     <string name="auto_download_previews">自動下載預覽</string>
     <string name="media_cache_storage_used">使用的儲存空間</string>
     <string name="media_cache_clear_media_cache">清除媒體快取</string>
     <string name="media_cache_clear_confirm_title">清除媒體快取？</string>
+    <string name="media_cache_keep_media">媒體保留時間</string>
+    <string name="media_cache_keep_forever">永久</string>
+    <string name="media_cache_days">%1$d 天</string>
+    <string name="media_cache_cache_limit">快取大小上限</string>
+    <string name="media_cache_max_file">保留的最大檔案</string>
+    <string name="media_cache_unlimited">無限制</string>
+    <string name="media_cache_clear_older">清除較舊的媒體</string>
+    <string name="media_cache_clear_older_confirm">清除超過 %1$d 天的媒體？</string>
     <string name="media_cache_clear_confirm_body">本機快取媒體將被刪除。您的訊息保留在聊天中，並且可以在需要時再次下載媒體。</string>
     <string name="local_network_permission_title">允許本地網路存取</string>
     <string name="local_network_permission_subtitle">您的家庭伺服器似乎位於您的本地網路上。法師需要取得連接到 LAN 上的設備的權限。</string>
@@ -580,6 +627,11 @@
         <item>一律</item>
         <item>僅在私訊中</item>
         <item>永不</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>行動數據</item>
+        <item>漫遊</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>一律</item>
@@ -998,6 +1050,9 @@
     <string name="wallpaper_opacity">不透明度</string>
     <string name="wallpaper_blur">模糊</string>
     <string name="wallpaper_remove">移除桌布</string>
+    <string name="wallpaper_room_none">此聊天沒有桌布</string>
+    <string name="wallpaper_reset_to_global">重設為全域桌布</string>
+    <string name="wallpaper_using_global">正在使用全域桌布</string>
     <string name="wallpaper_none_title">尚未設定桌布</string>
     <string name="wallpaper_none_subtitle">選擇一張圖片顯示在訊息後方。圖片儲存在你的主伺服器上，因此會跟隨帳號同步到所有裝置。</string>
     <string name="wallpaper_upload_failed">無法設定桌布。請再試一次。</string>
@@ -1083,6 +1138,12 @@
     <string name="security_and_access">安全性與存取</string>
     <string name="select">選取</string>
     <string name="select_all">全選</string>
+    <string name="selected_count">已選取 %1$d 項</string>
+    <string name="more_options">更多選項</string>
+    <string name="unmute">取消靜音</string>
+    <string name="leave_rooms">離開房間</string>
+    <string name="leave_rooms_confirm_title">要離開這些房間嗎？</string>
+    <string name="leave_rooms_warning">你將不再收到所選房間的訊息。此操作無法復原。</string>
     <string name="select_any_rooms_to_leave_as_well">同時選取想一併離開的房間。</string>
     <string name="select_at_least_one_room">請至少選取一個房間</string>
     <string name="select_rooms">選取房間</string>
@@ -1348,6 +1409,32 @@
         <item>置頂</item>
         <item>複製</item>
         <item>無</item>
+    </string-array>
+    <string name="setting_message_double_tap">雙擊操作</string>
+    <string name="setting_message_double_tap_description">雙擊訊息時執行的操作</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>表情回應</item>
+        <item>回覆</item>
+        <item>置頂</item>
+        <item>複製</item>
+        <item>無</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">雙擊回應</string>
+    <string name="setting_message_double_tap_reaction_description">當操作為表情回應時傳送的回應</string>
+    <string name="notification_keywords">關鍵字</string>
+    <string name="notification_keywords_description">設為僅提及和關鍵字的房間會在訊息符合其中任一詞語時通知你</string>
+    <string name="notification_keywords_empty">尚無關鍵字</string>
+    <string name="notification_keywords_add">新增關鍵字</string>
+    <string name="notification_keywords_hint">要留意的詞語</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">未讀優先排序</string>
     <string name="setting_sort_by_unread_description">將有未讀活動的房間保持在各分區頂部</string>

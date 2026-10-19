@@ -131,8 +131,18 @@
     <string name="setting_re_register_unified_push_description">Rješavanje problema s pushom nakon ažuriranja/ponovnog pokretanja ili promjene distributera</string>
     <string name="setting_copy_unified_push_endpoint_description">Za otklanjanje pogrešaka; pokazuje koja je krajnja točka registrirana</string>
     <string name="setting_block_media_previews_description">Nemoj automatski preuzimati minijature/preglede</string>
+    <string name="setting_auto_download_photos">Automatski preuzimaj fotografije</string>
+    <string name="setting_auto_download_photos_description">Automatski preuzimaj fotografije u punoj veličini</string>
+    <string name="setting_auto_download_audio">Automatski preuzimaj zvuk</string>
+    <string name="setting_auto_download_audio_description">Automatski preuzimaj glasovne poruke i zvuk</string>
+    <string name="setting_auto_download_video">Automatski preuzimaj videozapise</string>
+    <string name="setting_auto_download_video_description">Videozapisi se preuzimaju automatski</string>
+    <string name="setting_auto_download_documents">Automatski preuzimaj dokumente</string>
+    <string name="setting_auto_download_documents_description">Privici se preuzimaju automatski</string>
     <string name="setting_media_cache_description">Pregledaj i upravljaj predmemoriranim medijima</string>
     <string name="setting_start_in_tray_description">Minimiziraj u ladicu pri pokretanju</string>
+    <string name="setting_enable_tray">Omogući sistemsku traku</string>
+    <string name="setting_enable_tray_description">Prikaži ikonu u sistemskoj traci s brzim radnjama. Isključi ako se traka ruši na tvom sustavu</string>
     <string name="setting_enter_sends_message_description">Kada je omogućeno, pritiskom na Enter poslat će se poruka, a Shift, Ctrl ili Cmd Enter će umetnuti novi red</string>
     <string name="setting_edit_latest_with_up_arrow">Uredi posljednju poruku strelicom prema gore</string>
     <string name="setting_edit_latest_with_up_arrow_description">Kada je uključeno, pritisak strelice prema gore dok je okvir poruke prazan počinje uređivati posljednju poruku koju je moguće urediti ili njezin natpis</string>
@@ -196,6 +206,7 @@
     <string name="app_name">magovi</string>
     <string name="waiting_for_sso">Čeka se SSO...</string>
     <string name="connecting">Povezivanje...</string>
+    <string name="couldnt_reach_server">Nije moguće dosegnuti %1$s. Provjeri adresu i vezu.</string>
     <string name="syncing">Sinkronizacija…</string>
     <string name="add_account">Dodaj račun</string>
     <string name="welcome_to_mages">Dobrodošli u Mages</string>
@@ -231,12 +242,39 @@
     <string name="unread_only">Nepročitano</string>
     <string name="loading_unread">Traženje nepročitanih poruka…</string>
     <string name="loading_pinned">Traženje prikvačene poruke…</string>
+    <string name="loading_jump_to_date">Skoči na datum…</string>
     <string name="message_not_found">Poruka nije pronađena</string>
     <string name="timeline_date_today">Danas</string>
     <string name="timeline_date_yesterday">Jučer</string>
     <string name="jump_to_unread">Skoči na nepročitano</string>
+    <string name="jump_to_date">Idi na datum</string>
+    <string name="jump_to_date_no_messages">Nema poruka za taj datum</string>
     <string name="scroll_to_top">Pomaknite se na vrh</string>
     <string name="spaces">Prostori</string>
+    <string name="rooms_and_spaces">Sobe i prostori</string>
+    <string name="sections">Sekcije</string>
+    <string name="new_section">Nova sekcija</string>
+    <string name="rooms_in_count_n">%1$d u ovoj sekciji</string>
+    <string name="section_name">Naziv sekcije</string>
+    <string name="rename_section">Preimenuj sekciju</string>
+    <string name="edit_section">Uredi sekciju</string>
+    <string name="delete_section">Izbriši sekciju</string>
+    <string name="delete_section_warning_named">Sobe u %1$s vratit će se na popis bez sekcije.</string>
+    <string name="move_to_section">Premjesti u sekciju</string>
+    <string name="no_section">Bez sekcije</string>
+    <string name="move_section_up">Pomakni sekciju gore</string>
+    <string name="move_section_down">Pomakni sekciju dolje</string>
+    <string name="give_the_section_a_name">Daj sekciji naziv</string>
+    <string name="failed_to_save_section">Sekciju nije moguće spremiti</string>
+    <string name="failed_to_create_section">Sekciju nije moguće stvoriti</string>
+    <string name="failed_to_delete_section">Sekciju nije moguće izbrisati</string>
+    <string name="failed_to_reorder_sections">Sekcije nije moguće presložiti</string>
+    <string name="failed_to_move_into_section">Sobu nije moguće premjestiti</string>
+    <string name="section_created_named">Sekcija %1$s stvorena</string>
+    <string name="section_renamed_to_named">Sekcija preimenovana u %1$s</string>
+    <string name="section_deleted">Sekcija izbrisana</string>
+    <string name="moved_into_section">Premješteno u sekciju</string>
+    <string name="moved_out_of_a_section">Premješteno izvan sekcije</string>
     <string name="settings">postavke</string>
     <string name="discover">Otkriti</string>
     <string name="invites">poziva</string>
@@ -515,11 +553,20 @@
     <string name="media_cache_thumbnails">Sličice</string>
     <string name="media_cache_previews">Pregledi</string>
     <string name="media_cache_full_media">Puni mediji</string>
+    <string name="media_cache_downloaded_media">Preuzeti mediji</string>
     <string name="media_cache_saved">Spremljeno</string>
     <string name="auto_download_previews">Pregledi automatskog preuzimanja</string>
     <string name="media_cache_storage_used">Iskorišten prostor za pohranu</string>
     <string name="media_cache_clear_media_cache">Očisti medijsku predmemoriju</string>
     <string name="media_cache_clear_confirm_title">Očistiti medijsku predmemoriju?</string>
+    <string name="media_cache_keep_media">Zadrži medije za</string>
+    <string name="media_cache_keep_forever">Zauvijek</string>
+    <string name="media_cache_days">%1$d dana</string>
+    <string name="media_cache_cache_limit">Ograničenje veličine predmemorije</string>
+    <string name="media_cache_max_file">Najveća zadržana datoteka</string>
+    <string name="media_cache_unlimited">Neograničeno</string>
+    <string name="media_cache_clear_older">Izbriši starije medije</string>
+    <string name="media_cache_clear_older_confirm">Izbrisati medije starije od %1$d dana?</string>
     <string name="media_cache_clear_confirm_body">Lokalni predmemorirani mediji bit će uklonjeni. Vaše poruke ostaju u vašim chatovima, a mediji se mogu ponovno preuzeti kada je to potrebno.</string>
     <string name="local_network_permission_title">Dopusti pristup lokalnoj mreži</string>
     <string name="local_network_permission_subtitle">Čini se da je vaš kućni poslužitelj na vašoj lokalnoj mreži. Mages treba dopuštenje za povezivanje s uređajima na vašem LAN-u.</string>
@@ -580,6 +627,11 @@
         <item>Uvijek</item>
         <item>Samo u DM-ovima</item>
         <item>Nikad</item>
+    </string-array>
+    <string-array name="setting_auto_download_networks_options">
+        <item>Wi-Fi</item>
+        <item>Mobilni podaci</item>
+        <item>Roaming</item>
     </string-array>
     <string-array name="setting_link_previews_options">
         <item>Uvijek</item>
@@ -998,11 +1050,15 @@
     <string name="wallpaper_opacity">Neprozirnost</string>
     <string name="wallpaper_blur">Zamućenje</string>
     <string name="wallpaper_remove">Ukloni pozadinu</string>
+    <string name="wallpaper_room_none">Nema pozadine za ovaj razgovor</string>
+    <string name="wallpaper_reset_to_global">Vrati na globalnu pozadinu</string>
+    <string name="wallpaper_using_global">Koristi se globalna pozadina</string>
     <string name="wallpaper_none_title">Pozadina nije postavljena</string>
     <string name="wallpaper_none_subtitle">Odaberite sliku koja će se prikazivati iza vaših poruka. Pohranjuje se na vašem poslužitelju pa prati vaš račun na svim uređajima.</string>
     <string name="wallpaper_upload_failed">Pozadinu nije moguće postaviti. Pokušajte ponovno.</string>
     <string name="wallpaper_image_too_large">Ta je slika prevelika za pozadinu.</string>
     <string name="wallpaper_pick_image_only">Odaberite datoteku slike.</string>
+    <string name="time_12h_format">%1$d:%2$s %3$s</string>
     <string name="time_am">AM</string>
     <string name="time_pm">PM</string>
     <string name="pinned_message">Prikvačena poruka</string>
@@ -1082,6 +1138,12 @@
     <string name="security_and_access">Sigurnost i pristup</string>
     <string name="select">Odaberi</string>
     <string name="select_all">Odaberi sve</string>
+    <string name="selected_count">Odabrano: %1$d</string>
+    <string name="more_options">Više mogućnosti</string>
+    <string name="unmute">Isključi utišavanje</string>
+    <string name="leave_rooms">Napusti sobe</string>
+    <string name="leave_rooms_confirm_title">Napustiti sobe?</string>
+    <string name="leave_rooms_warning">Prestat ćeš primati poruke iz odabranih soba. To se ne može poništiti.</string>
     <string name="select_any_rooms_to_leave_as_well">Odaberite i druge sobe koje želite napustiti.</string>
     <string name="select_at_least_one_room">Odaberite barem jednu sobu</string>
     <string name="select_rooms">Odaberi sobe</string>
@@ -1349,6 +1411,32 @@
         <item>Prikvači</item>
         <item>Kopiraj</item>
         <item>Ništa</item>
+    </string-array>
+    <string name="setting_message_double_tap">Radnja dvostrukog dodira</string>
+    <string name="setting_message_double_tap_description">Radnja koja se izvodi dvostrukim dodirom poruke</string>
+    <string-array name="setting_message_double_tap_options">
+        <item>Reagiraj</item>
+        <item>Odgovori</item>
+        <item>Prikvači</item>
+        <item>Kopiraj</item>
+        <item>Ništa</item>
+    </string-array>
+    <string name="setting_message_double_tap_reaction">Reakcija dvostrukog dodira</string>
+    <string name="setting_message_double_tap_reaction_description">Reakcija koja se šalje kada je radnja Reagiraj</string>
+    <string name="notification_keywords">Ključne riječi</string>
+    <string name="notification_keywords_description">Sobe postavljene na samo spominjanja i ključne riječi obavijestit će te kada poruka odgovara nekoj od ovih riječi</string>
+    <string name="notification_keywords_empty">Još nema ključnih riječi</string>
+    <string name="notification_keywords_add">Dodaj ključnu riječ</string>
+    <string name="notification_keywords_hint">Riječ koju treba pratiti</string>
+    <string-array name="setting_message_double_tap_reaction_options">
+        <item>❤️</item>
+        <item>👍</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🎉</item>
+        <item>🔥</item>
+        <item>💯</item>
     </string-array>
     <string name="setting_sort_by_unread">Nepročitane prvo</string>
     <string name="setting_sort_by_unread_description">Zadrži sobe s nepročitanom aktivnošću na vrhu svake sekcije</string>
