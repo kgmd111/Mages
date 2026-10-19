@@ -426,6 +426,7 @@ data class RoomUiState(
     val showPinnedMessagesSheet: Boolean = false,
     val pinnedResolvedEvents: Map<String, MessageEvent> = emptyMap(),
     val seekingEventId: String? = null,
+    val seekingDate: Boolean = false,
 
     // Report dialog
     val showReportDialog: Boolean = false,

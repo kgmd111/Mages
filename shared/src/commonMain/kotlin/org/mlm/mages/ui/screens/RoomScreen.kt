@@ -288,7 +288,7 @@ fun RoomScreen(
     var isDragging by remember { mutableStateOf(false) }
     var sheetEvent by remember { mutableStateOf<MessageEvent?>(null) }
     var openedImageKey by remember { mutableStateOf<String?>(null) }
-    var showJumpToDatePicker by remember { mutableStateOf(false) }
+    var jumpPickerDateMs by remember { mutableStateOf<Long?>(null) }
 
     var didInitialScroll by rememberSaveable { mutableStateOf(false) }
 
@@ -541,7 +541,7 @@ fun RoomScreen(
         }
     }
 
-    val seekingJump = state.seekingEventId != null
+    val seekingJump = state.seekingEventId != null || state.seekingDate
     val markReadTrigger = settings.autoMarkReadTrigger
     LaunchedEffect(events.lastOrNull()?.itemId, isNearBottom, seekingUnread, seekingJump, didInitialScroll) {
         if (markReadTrigger != AutoMarkReadTrigger.WhileOpen) return@LaunchedEffect
@@ -832,7 +832,7 @@ fun RoomScreen(
                                                     sheetEvent = bubbleItem.event
                                                     viewModel.showMessageActions(bubbleItem.event)
                                                 },
-                                                onDateClick = { showJumpToDatePicker = true },
+                                                onDateClick = { jumpPickerDateMs = bubbleItem.event.timestampMs },
                                                 onReply = { viewModel.startReply(bubbleItem.event) },
                                                 onOpenActions = {
                                                     sheetEvent = bubbleItem.event
@@ -943,7 +943,7 @@ fun RoomScreen(
                             }
                         }
 
-                        if (seekingUnread || state.seekingEventId != null) {
+                        if (seekingUnread || state.seekingEventId != null || state.seekingDate) {
                             Surface(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -962,8 +962,11 @@ fun RoomScreen(
                                     )
                                     Text(
                                         text = stringResource(
-                                            if (seekingUnread) Res.string.loading_unread
-                                            else Res.string.loading_pinned
+                                            when {
+                                                seekingUnread -> Res.string.loading_unread
+                                                state.seekingDate -> Res.string.loading_jump_to_date
+                                                else -> Res.string.loading_pinned
+                                            }
                                         ),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -978,7 +981,7 @@ fun RoomScreen(
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .padding(top = 12.dp),
-                            onClick = { showJumpToDatePicker = true },
+                            onClick = { jumpPickerDateMs = topVisibleEventTimestamp ?: nowMs() },
                         )
                     }
                 }
@@ -1301,18 +1304,18 @@ fun RoomScreen(
         )
     }
 
-    if (showJumpToDatePicker) {
+    if (jumpPickerDateMs != null) {
         val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = events.lastOrNull()?.timestampMs ?: nowMs(),
+            initialSelectedDateMillis = jumpPickerDateMs,
         )
         val pickerZone = remember { TimeZone.currentSystemDefault() }
         DatePickerDialog(
-            onDismissRequest = { showJumpToDatePicker = false },
+            onDismissRequest = { jumpPickerDateMs = null },
             confirmButton = {
                 TextButton(
                     onClick = {
                         val selected = datePickerState.selectedDateMillis
-                        showJumpToDatePicker = false
+                        jumpPickerDateMs = null
                         if (selected != null) {
                             val date = Instant.fromEpochMilliseconds(selected)
                                 .toLocalDateTime(TimeZone.UTC)
@@ -1329,7 +1332,7 @@ fun RoomScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showJumpToDatePicker = false }) {
+                TextButton(onClick = { jumpPickerDateMs = null }) {
                     Text(stringResource(Res.string.cancel))
                 }
             },

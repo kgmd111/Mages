@@ -48,6 +48,7 @@
     <string name="unread_only">Unread</string>
     <string name="loading_unread">Finding unread messages…</string>
     <string name="loading_pinned">Finding pinned message…</string>
+    <string name="loading_jump_to_date">Jumping to date…</string>
     <string name="message_not_found">Message not found</string>
     <string name="timeline_date_today">Today</string>
     <string name="timeline_date_yesterday">Yesterday</string>

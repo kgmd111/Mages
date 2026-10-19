@@ -2247,7 +2247,7 @@ class RoomViewModel(
     fun seekEvent(eventId: String) {
         if (eventId.isBlank()) return
         jumpSeekJob?.cancel()
-        _state.update { it.copy(jumpHitStart = false, seekingEventId = eventId) }
+        _state.update { it.copy(jumpHitStart = false, seekingEventId = eventId, seekingDate = false) }
         jumpSeekJob = launch {
             when (val result = awaitJumpTarget(eventId)) {
                 is JumpTargetResolution.Jump -> {
@@ -2273,20 +2273,24 @@ class RoomViewModel(
     fun jumpToDate(dayStartMs: Long, dayEndMs: Long) {
         if (dayEndMs <= dayStartMs) return
         jumpSeekJob?.cancel()
-        _state.update { it.copy(jumpHitStart = false) }
+        _state.update { it.copy(jumpHitStart = false, seekingEventId = null, seekingDate = true) }
         jumpSeekJob = launch {
             when (val result = resolveDateTarget(dayStartMs, dayEndMs)) {
                 is JumpTargetResolution.Jump -> {
+                    currentState.events.getOrNull(result.index)?.let { setJumpHighlight(it.eventId) }
                     clearJumpHighlightDelayed()
+                    _state.update { it.copy(seekingDate = false) }
                     _events.send(Event.JumpToEventScrolled(result.index))
                     _events.send(Event.JumpSeekEnded)
                 }
                 JumpTargetResolution.NotFound -> {
                     clearJumpHighlight()
+                    _state.update { it.copy(seekingDate = false) }
                     _events.send(Event.ShowError(getString(Res.string.jump_to_date_no_messages)))
                     _events.send(Event.JumpSeekEnded)
                 }
                 null -> {
+                    _state.update { it.copy(seekingDate = false) }
                     _events.send(Event.JumpSeekEnded)
                 }
             }
