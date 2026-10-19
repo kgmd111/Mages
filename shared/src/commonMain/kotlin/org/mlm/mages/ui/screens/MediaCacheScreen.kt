@@ -38,7 +38,9 @@ import mages.shared.generated.resources.media_cache
 import mages.shared.generated.resources.media_cache_clear_confirm_body
 import mages.shared.generated.resources.media_cache_clear_confirm_title
 import mages.shared.generated.resources.media_cache_clear_media_cache
+import mages.shared.generated.resources.media_cache_downloaded_media
 import mages.shared.generated.resources.media_cache_storage_used
+import mages.shared.generated.resources.media_cache_thumbnails
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mlm.mages.ui.components.dialogs.ConfirmationDialog
@@ -119,6 +121,37 @@ fun MediaCacheScreen(
                     }
                 }
             )
+
+            val overview = state.overview
+            if (!state.isLoading && overview != null) {
+                overview.storeBytes?.let { bytes ->
+                    ListItem(
+                        headlineContent = {
+                            Text(stringResource(Res.string.media_cache_downloaded_media))
+                        },
+                        trailingContent = {
+                            Text(
+                                text = formatBytes(bytes.toLong()),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    )
+                }
+
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(Res.string.media_cache_thumbnails))
+                    },
+                    trailingContent = {
+                        Text(
+                            text = formatBytes(overview.thumbnailBytes.toLong()),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                )
+            }
 
             HorizontalDivider()
 

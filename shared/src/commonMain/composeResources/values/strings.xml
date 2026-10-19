@@ -453,6 +453,7 @@
     <string name="media_cache_thumbnails">Thumbnails</string>
     <string name="media_cache_previews">Previews</string>
     <string name="media_cache_full_media">Full Media</string>
+    <string name="media_cache_downloaded_media">Downloaded media</string>
     <string name="media_cache_saved">Saved</string>
     <string name="auto_download_previews">Auto-download previews</string>
     <string name="media_cache_storage_used">Storage used</string>

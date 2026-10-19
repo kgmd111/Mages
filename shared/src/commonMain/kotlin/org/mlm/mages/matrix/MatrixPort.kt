@@ -1483,8 +1483,11 @@ interface MatrixPort {
 
 @Serializable
 data class MediaCacheOverview(
-    val totalBytes: ULong,
-)
+    val storeBytes: ULong? = null,
+    val thumbnailBytes: ULong = 0u,
+) {
+    val totalBytes: ULong get() = (storeBytes ?: 0u) + thumbnailBytes
+}
 
 expect fun createMatrixPort(): MatrixPort
 

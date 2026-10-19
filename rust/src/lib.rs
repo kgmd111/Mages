@@ -3051,7 +3051,7 @@ impl Client {
 
     pub fn media_cache_overview(&self) -> MediaCacheOverview {
         let dir = cache_dir(&self.store_dir);
-        let total_bytes = if dir.exists() {
+        let thumbnail_bytes = if dir.exists() {
             std::fs::read_dir(&dir)
                 .map(|entries| {
                     entries
@@ -3065,7 +3065,21 @@ impl Client {
         } else {
             0
         };
-        MediaCacheOverview { total_bytes }
+
+        #[cfg(target_family = "wasm")]
+        let store_bytes = None;
+        #[cfg(not(target_family = "wasm"))]
+        let store_bytes = RT
+            .block_on(async {
+                let guard = self.core.sdk.media_store().lock().await.ok()?;
+                guard.get_size().await.ok().flatten()
+            })
+            .map(|bytes| bytes as u64);
+
+        MediaCacheOverview {
+            store_bytes,
+            thumbnail_bytes,
+        }
     }
 
     pub fn clear_media_cache(&self) -> Result<(), FfiError> {
@@ -3074,11 +3088,32 @@ impl Client {
             std::fs::remove_dir_all(&dir).ffi()?;
             std::fs::create_dir_all(&dir).ffi()?;
         }
-        Ok(())
+
+        #[cfg(target_family = "wasm")]
+        return Ok(());
+
+        #[cfg(not(target_family = "wasm"))]
+        RT.block_on(async {
+            use matrix_sdk::media::MediaRetentionPolicy;
+
+            let media = self.core.sdk.media();
+            let previous = media.media_retention_policy().await.ffi()?;
+            let wipe = MediaRetentionPolicy::empty().with_max_cache_size(Some(0));
+            media.set_media_retention_policy(wipe).await.ffi()?;
+            let cleaned = media.clean().await;
+            let restored = media.set_media_retention_policy(previous).await;
+            cleaned.ffi()?;
+            restored.ffi()?;
+            Ok(())
+        })
     }
 
     pub fn run_media_cache_maintenance(&self) -> Result<(), FfiError> {
-        self.clear_media_cache()
+        #[cfg(target_family = "wasm")]
+        return Ok(());
+
+        #[cfg(not(target_family = "wasm"))]
+        RT.block_on(async { self.core.sdk.media().clean().await.ffi() })
     }
 
     pub fn start_device_verification(
