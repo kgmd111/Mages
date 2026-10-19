@@ -1,3 +1,8 @@
+## v5.2.0
+
+- feat: chat wallpaper
+
+
 ## v5.1.6
 
 - feat: bookmarks, draft preview and 24h clock

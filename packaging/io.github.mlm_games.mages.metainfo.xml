@@ -46,6 +46,13 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.2.0" date="2026-10-19" type="stable">
+      <description>
+        <ul>
+          <li>feat: chat wallpaper</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.1.6" date="2026-10-17" type="stable">
       <description>
         <ul>
