@@ -79,6 +79,7 @@ import org.koin.android.ext.android.inject
 import org.mlm.mages.MatrixService
 import org.mlm.mages.matrix.MatrixPort
 import org.mlm.mages.ui.ForwardableRoom
+import org.mlm.mages.ui.loadForwardableRooms
 import org.mlm.mages.ui.theme.MainTheme
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.components.sheets.RoomSelectionList
@@ -309,24 +310,7 @@ private fun ShareReceiverScreen(
     var transientMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
-        rooms = withContext(Dispatchers.IO) {
-            val port = service.portOrNull ?: return@withContext emptyList()
-            try {
-                port.listRooms()
-                    .map { room ->
-                        ForwardableRoom(
-                            roomId = room.id,
-                            name = room.name,
-                            avatarUrl = room.avatarUrl,
-                            isDm = room.isDm,
-                            lastActivity = 0L
-                        )
-                    }
-                    .sortedBy { it.name.lowercase() }
-            } catch (_: Exception) {
-                emptyList()
-            }
-        }
+        rooms = loadForwardableRooms(service).sortedBy { it.name.lowercase() }
         isLoading = false
     }
 

@@ -7,6 +7,7 @@ import kotlin.math.max
 import org.mlm.mages.MatrixService
 import org.mlm.mages.MessageEvent
 import org.mlm.mages.ui.ForwardableRoom
+import org.mlm.mages.ui.loadForwardableRooms
 import org.jetbrains.compose.resources.getString
 import mages.shared.generated.resources.Res
 
@@ -126,53 +127,8 @@ class ForwardPickerViewModel(
 
     private fun loadRooms() {
         launch {
-            val cached = runSafe { service.port.loadRoomListCache() } ?: emptyList()
-
-            val forwardable: List<ForwardableRoom> =
-                if (cached.isNotEmpty()) {
-                    cached
-                        .filter { it.roomId != sourceRoomId }
-                        .map { entry ->
-                            ForwardableRoom(
-                                roomId = entry.roomId,
-                                name = entry.name,
-                                avatarUrl = entry.avatarUrl,
-                                isDm = entry.isDm,
-                                lastActivity = entry.lastTs.toLong()
-                            )
-                        }
-                        .sortedByDescending { it.lastActivity }
-                } else {
-                    val rooms = runSafe { service.port.listRooms() } ?: emptyList()
-                    rooms
-                        .filter { it.id != sourceRoomId }
-                        .map { room ->
-                            ForwardableRoom(
-                                roomId = room.id,
-                                name = room.name,
-                                avatarUrl = room.avatarUrl,
-                                isDm = room.isDm,
-                                lastActivity = 0L
-                            )
-                        }
-                        .sortedBy { it.name.lowercase() }
-                }
-
+            val forwardable = loadForwardableRooms(service, excludeRoomId = sourceRoomId)
             updateState { copy(isLoading = false, rooms = forwardable) }
-
-            forwardable.forEach { room ->
-                resolveAvatar(service, room.avatarUrl, 64) { path ->
-                    copy(
-                        rooms = rooms.map { existing ->
-                            if (existing.roomId == room.roomId) {
-                                existing.copy(avatarUrl = path)
-                            } else {
-                                existing
-                            }
-                        }
-                    )
-                }
-            }
         }
     }
 

@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.mlm.mages.ui.ForwardableRoom
-import org.mlm.mages.ui.components.core.Avatar
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
 import org.mlm.mages.ui.components.snackbar.rememberErrorPoster
 import org.mlm.mages.ui.components.snackbar.snackbarHost
@@ -262,11 +261,7 @@ private fun RoomForwardItem(
                 onCheckedChange = if (enabled) ({ onClick() }) else null
             )
 
-            Avatar(
-                name = room.name,
-                avatarPath = room.avatarUrl,
-                size = 48.dp
-            )
+            RoomAvatar(room = room, size = 48.dp)
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(

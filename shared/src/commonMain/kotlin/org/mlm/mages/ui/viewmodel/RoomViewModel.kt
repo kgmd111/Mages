@@ -37,6 +37,7 @@ import org.mlm.mages.ui.ActionPresentationUi
 import org.mlm.mages.ui.toUi
 import org.mlm.mages.matrix.ActionPresentation
 import org.mlm.mages.ui.ForwardableRoom
+import org.mlm.mages.ui.loadForwardableRooms
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.MessageActionStateUi
 import org.mlm.mages.ui.MentionProfileUi
@@ -2381,7 +2382,10 @@ class RoomViewModel(
                 forwardSearchQuery = ""
             )
         }
-        loadForwardableRooms()
+        launch {
+            val rooms = loadForwardableRooms(service, excludeRoomId = currentState.roomId)
+            updateState { copy(forwardableRooms = rooms, isLoadingForwardRooms = false) }
+        }
     }
 
     fun cancelForward() {
@@ -2695,28 +2699,6 @@ class RoomViewModel(
         } catch (e: Exception) {
             e.printStackTrace()
             false
-        }
-    }
-
-    private fun loadForwardableRooms() {
-        launch {
-            val rooms = runSafe {
-                service.port.listRooms()
-            }?.filter {
-                it.id != currentState.roomId
-            }?.map { room ->
-                ForwardableRoom(
-                    roomId = room.id,
-                    name = room.name,
-                    avatarUrl = room.avatarUrl,
-                    isDm = room.isDm,
-                    lastActivity = 0L
-                )
-            }?.sortedByDescending { it.lastActivity } ?: emptyList()
-
-            updateState {
-                copy(forwardableRooms = rooms, isLoadingForwardRooms = false)
-            }
         }
     }
 

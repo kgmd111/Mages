@@ -3,7 +3,6 @@ package org.mlm.mages.ui.components.sheets
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ForwardToInbox
 import androidx.compose.material.icons.filled.*
@@ -196,24 +195,7 @@ private fun RoomPickerItem(room: ForwardableRoom, onClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth().padding(Spacing.md),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Surface(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = CircleShape,
-                modifier = Modifier.size(48.dp)
-            ) {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    if (room.isDm) {
-                        Icon(Icons.Default.Person, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
-                    } else {
-                        Text(
-                            room.name.take(2).uppercase(),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
-            }
+            RoomAvatar(room = room, size = 48.dp)
 
             Spacer(Modifier.width(Spacing.md))
 
