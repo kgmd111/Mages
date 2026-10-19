@@ -23,6 +23,7 @@ import org.mlm.mages.ui.components.snackbar.rememberErrorPoster
 import org.mlm.mages.ui.components.snackbar.snackbarHost
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.viewmodel.*
+import org.mlm.mages.ui.components.sheets.RoomAvatar
 import org.mlm.mages.ui.components.sheets.RoomSelectionList
 import org.mlm.mages.ui.components.sheets.SelectedRoomsRow
 import org.mlm.mages.ui.components.sheets.SelectableRoomItem
