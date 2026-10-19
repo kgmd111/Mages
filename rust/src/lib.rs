@@ -3169,8 +3169,8 @@ impl Client {
         #[cfg(not(target_family = "wasm"))]
         let event_bytes = RT
             .block_on(async {
-                let guard = self.core.sdk.event_cache_store().lock().await.ok()?;
-                guard.get_size().await.ok().flatten()
+                let state = self.core.sdk.event_cache_store().lock().await.ok()?;
+                state.as_clean()?.get_size().await.ok().flatten()
             })
             .map(|bytes| bytes as u64);
 

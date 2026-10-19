@@ -2468,15 +2468,16 @@ impl WasmClient {
                 .map(|bytes| bytes as u64),
             Err(_) => None,
         };
-        let event_bytes = match state.client().event_cache_store().lock().await {
-            Ok(store) => store
+        let event_bytes = async {
+            let lock = state.client().event_cache_store().lock().await.ok()?;
+            lock.as_clean()?
                 .get_size()
                 .await
                 .ok()
                 .flatten()
-                .map(|bytes| bytes as u64),
-            Err(_) => None,
-        };
+                .map(|bytes| bytes as u64)
+        }
+        .await;
         webffi_value(Ok::<_, crate::FfiError>(MediaCacheOverview {
             store_bytes,
             thumbnail_bytes: 0,
