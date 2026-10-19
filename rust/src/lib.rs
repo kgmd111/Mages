@@ -4275,6 +4275,63 @@ async fn map_event_id_via_timeline(
     map_timeline_event(&item, rid.as_str(), Some(&item_id), &me)
 }
 
+fn search_hit_from_event(
+    ev: &matrix_sdk_base::deserialized_responses::TimelineEvent,
+    room_id: &str,
+) -> Option<SearchHit> {
+    let event: AnySyncTimelineEvent = ev.raw().deserialize().ok()?;
+    let body = match event {
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomMessage(message)) => {
+            room_message_search_body(&message.as_original()?.content.msgtype)
+        }
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(sticker)) => {
+            let body = sticker.as_original()?.content.body.trim().to_owned();
+            (!body.is_empty()).then_some(body)
+        }
+        _ => None,
+    }?;
+    let timestamp_ms: u64 = ev.timestamp().map(|ts| ts.0.into()).unwrap_or(0);
+    Some(SearchHit {
+        room_id: room_id.to_owned(),
+        event_id: ev.event_id().map(|id| id.to_string()).unwrap_or_default(),
+        sender: ev.sender().map(|user| user.to_string()).unwrap_or_default(),
+        body,
+        timestamp_ms,
+    })
+}
+
+fn room_message_search_body(
+    msgtype: &matrix_sdk::ruma::events::room::message::MessageType,
+) -> Option<String> {
+    use matrix_sdk::ruma::events::room::message::MessageType;
+
+    let body = match msgtype {
+        MessageType::Text(content) => content.body.clone(),
+        MessageType::Emote(content) => content.body.clone(),
+        MessageType::Notice(content) => content.body.clone(),
+        MessageType::ServerNotice(content) => content.body.clone(),
+        MessageType::Location(content) => content.body.clone(),
+        MessageType::Image(content) => media_search_label(content.filename(), content.caption()),
+        MessageType::Video(content) => media_search_label(content.filename(), content.caption()),
+        MessageType::Audio(content) => media_search_label(content.filename(), content.caption()),
+        MessageType::File(content) => media_search_label(content.filename(), content.caption()),
+        _ => return None,
+    };
+    let trimmed = body.trim();
+    if trimmed.is_empty() {
+        None
+    } else {
+        Some(trimmed.to_owned())
+    }
+}
+
+fn media_search_label(filename: &str, caption: Option<&str>) -> String {
+    match caption.map(str::trim) {
+        Some(caption) if !caption.is_empty() => format!("{filename} {caption}"),
+        _ => filename.to_owned(),
+    }
+}
+
 fn render_timeline_text(ev: &EventTimelineItem) -> String {
     #[allow(unreachable_patterns)]
     match ev.content() {

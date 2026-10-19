@@ -77,7 +77,7 @@ use crate::{
     SpaceUnread, SuccessorRoomInfo, ThreadPage, ThreadSummary, UnreadStats,
     VerificationInboxObserver, build_unstable_poll_content, latest_room_event_for,
     map_event_id_via_timeline, map_timeline_event, paginate_backwards_visible,
-    timeline_event_filter,
+    search_hit_from_event, timeline_event_filter,
 };
 
 const REACTION_NOTIFY_RULE_ID: &str = "org.mlm.mages.reaction.notify";
@@ -89,6 +89,8 @@ const MSC4027_SHORTCODE_MAX_BYTES: usize = 100;
 /// MSC4027's unstable field name for the reaction shortcode, which sits at the
 /// root of the event content rather than inside `m.relates_to`.
 const MSC4027_SHORTCODE_FIELD: &str = "com.beeper.reaction.shortcode";
+
+const SEARCH_HIT_LOAD_CONCURRENCY: usize = 8;
 
 use crate::{
     RoomProfile,
@@ -4847,12 +4849,13 @@ impl CoreClient {
             .search(query.trim(), limit_usize, offset.map(|o| o as usize))
             .await
             .ffi()?;
-        let mut hits = Vec::new();
-        for (_score, eid) in event_ids.iter() {
+        let mut slots: Vec<Option<SearchHit>> = vec![None; event_ids.len()];
+        let mut pending: Vec<(usize, OwnedEventId)> = Vec::new();
+        for (index, (_score, eid)) in event_ids.iter().enumerate() {
             if let Some(mev) =
                 map_event_id_via_timeline(&self.timeline_mgr, &self.sdk, &rid, eid).await
             {
-                hits.push(SearchHit {
+                slots[index] = Some(SearchHit {
                     room_id: rid.to_string(),
                     event_id: mev.event_id.clone(),
                     sender: mev.sender.clone(),
@@ -4860,17 +4863,31 @@ impl CoreClient {
                     timestamp_ms: mev.timestamp_ms,
                 });
             } else {
-                hits.push(SearchHit {
-                    room_id: rid.to_string(),
-                    event_id: eid.to_string(),
-                    sender: "".into(),
-                    body: "".into(),
-                    timestamp_ms: 0,
-                });
+                pending.push((index, eid.clone()));
             }
         }
-        let next_offset = if hits.len() == limit_usize {
-            Some(offset.unwrap_or(0).saturating_add(hits.len() as u32))
+        if !pending.is_empty() {
+            let rid_text = rid.to_string();
+            let resolved = futures_util::stream::iter(pending.into_iter().map(|(index, eid)| {
+                let room = room.clone();
+                let rid_text = rid_text.clone();
+                async move {
+                    let event = room.load_or_fetch_event(&eid, None).await.ok()?;
+                    search_hit_from_event(&event, &rid_text).map(|hit| (index, hit))
+                }
+            }))
+            .buffered(SEARCH_HIT_LOAD_CONCURRENCY)
+            .filter_map(|hit| async move { hit })
+            .collect::<Vec<(usize, SearchHit)>>()
+            .await;
+            for (index, hit) in resolved {
+                slots[index] = Some(hit);
+            }
+        }
+        let hits: Vec<SearchHit> = slots.into_iter().flatten().collect();
+        let consumed = event_ids.len();
+        let next_offset = if consumed == limit_usize {
+            Some(offset.unwrap_or(0).saturating_add(consumed as u32))
         } else {
             None
         };
