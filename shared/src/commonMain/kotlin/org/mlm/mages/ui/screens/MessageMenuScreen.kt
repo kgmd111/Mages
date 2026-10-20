@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Deselect
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.filled.Share
@@ -83,6 +82,7 @@ import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.MessageMenuAction
 import org.mlm.mages.settings.encodeMessageMenuOrder
 import org.mlm.mages.settings.parseMessageMenuOrder
+import org.mlm.mages.ui.icons.ThreadIcon
 import org.mlm.mages.ui.theme.Spacing
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -259,7 +259,7 @@ private fun MessageMenuAction.label(): String = when (this) {
 
 private fun MessageMenuAction.icon(): ImageVector = when (this) {
     MessageMenuAction.Reply -> Icons.AutoMirrored.Filled.Reply
-    MessageMenuAction.ReplyInThread -> Icons.Default.Forum
+    MessageMenuAction.ReplyInThread -> ThreadIcon
     MessageMenuAction.Edit -> Icons.Default.Edit
     MessageMenuAction.Copy -> Icons.Default.ContentCopy
     MessageMenuAction.Forward -> Icons.AutoMirrored.Filled.Forward

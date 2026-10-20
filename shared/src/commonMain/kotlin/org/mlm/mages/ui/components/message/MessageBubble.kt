@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Call
@@ -51,6 +50,7 @@ import org.mlm.mages.ui.components.core.Avatar
 import org.mlm.mages.ui.components.core.FormattedBodyText
 import org.mlm.mages.ui.components.core.MentionRef
 import org.mlm.mages.ui.components.rememberBlurHashImage
+import org.mlm.mages.ui.icons.ThreadIcon
 import org.mlm.mages.ui.theme.Sizes
 import org.mlm.mages.ui.components.voice.VoiceMessageBubble
 import org.mlm.mages.ui.theme.Spacing
@@ -1072,7 +1072,7 @@ private fun ThreadIndicator(count: Int, onClick: () -> Unit, modifier: Modifier 
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.Forum,
+                imageVector = ThreadIcon,
                 contentDescription = null,
                 modifier = Modifier.size(14.dp)
             )
