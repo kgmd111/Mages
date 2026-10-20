@@ -22,9 +22,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
@@ -86,7 +84,7 @@ private sealed interface SecuritySheet {
 private const val TIME_ZONE_FIELD = "m.tz"
 private const val SETTINGS_TAB_INDEX = 2
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecurityScreen(
     viewModel: SecurityViewModel,
@@ -155,8 +153,6 @@ fun SecurityScreen(
     LaunchedEffect(state.selectedTab) {
         if (state.selectedTab != SETTINGS_TAB_INDEX) closeSearch()
     }
-
-    BackHandler(enabled = searchOpen) { closeSearch() }
 
     Scaffold(
         modifier = Modifier.onPreviewKeyEvent { event ->
