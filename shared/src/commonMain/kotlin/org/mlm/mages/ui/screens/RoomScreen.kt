@@ -115,6 +115,7 @@ import org.mlm.mages.settings.AutoMarkReadTrigger
 import org.mlm.mages.settings.MessageDoubleTapAction
 import org.mlm.mages.settings.MessageRightClickAction
 import org.mlm.mages.settings.MessageSwipeAction
+import org.mlm.mages.settings.parseMessageMenuOrder
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.isEditableBy
 import org.mlm.mages.ui.PinnedMessageUi
@@ -1176,6 +1177,7 @@ fun RoomScreen(
             canPin = msgActions?.pin?.isEnabled ?: state.pinAction.isEnabled,
             isPinned = isPinned,
             isBookmarked = isBookmarked,
+            menuOrder = parseMessageMenuOrder(settings.messageMenuOrder),
             onDismiss = { sheetEvent = null; viewModel.clearSelectedMessageActions() },
             onReply = { viewModel.startReply(event); sheetEvent = null },
             onEdit = { viewModel.startEdit(event); sheetEvent = null },

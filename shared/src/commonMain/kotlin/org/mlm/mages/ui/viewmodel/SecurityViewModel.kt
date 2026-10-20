@@ -17,6 +17,7 @@ import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.CopyUnifiedPushEndpointAction
 import org.mlm.mages.settings.OpenBubbleSettingsAction
 import org.mlm.mages.settings.OpenMediaCacheAction
+import org.mlm.mages.settings.OpenMessageMenuSettingsAction
 import org.mlm.mages.settings.OpenWallpaperAction
 import org.mlm.mages.settings.OpenNotificationRulesAction
 import org.mlm.mages.settings.OpenSystemNotificationSettingsAction
@@ -46,6 +47,7 @@ class SecurityViewModel(
         data object NavigateToNotificationRules : Event()
         data object NavigateToMediaCache : Event()
         data object NavigateToWallpaper : Event()
+        data object NavigateToMessageMenu : Event()
     }
 
     private val _events = Channel<Event>(Channel.BUFFERED)
@@ -71,6 +73,7 @@ class SecurityViewModel(
         ActionRegistry.registerAction(CopyUnifiedPushEndpointAction::class, CopyUnifiedPushEndpointAction)
         ActionRegistry.registerAction(OpenMediaCacheAction::class, OpenMediaCacheAction)
         ActionRegistry.registerAction(OpenWallpaperAction::class, OpenWallpaperAction)
+        ActionRegistry.registerAction(OpenMessageMenuSettingsAction::class, OpenMessageMenuSettingsAction)
 
         viewModelScope.launch {
             service.activeAccount.collectLatest { account ->
@@ -441,6 +444,10 @@ class SecurityViewModel(
         }
         if (actionClass == OpenWallpaperAction::class) {
             _events.send(Event.NavigateToWallpaper)
+            return
+        }
+        if (actionClass == OpenMessageMenuSettingsAction::class) {
+            _events.send(Event.NavigateToMessageMenu)
             return
         }
         ActionRegistry.execute(actionClass)

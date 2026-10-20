@@ -634,6 +634,10 @@ private fun AppContent(
                                         SecurityViewModel.Event.NavigateToWallpaper -> {
                                             backStack.add(Route.Wallpaper)
                                         }
+
+                                        SecurityViewModel.Event.NavigateToMessageMenu -> {
+                                            backStack.add(Route.MessageMenu)
+                                        }
                                     }
                                 }
                             }
@@ -998,6 +1002,12 @@ private fun AppContent(
 
                         entry<Route.Wallpaper> {
                             WallpaperRoute(
+                                onBack = backStack::popBack
+                            )
+                        }
+
+                        entry<Route.MessageMenu> {
+                            MessageMenuRoute(
                                 onBack = backStack::popBack
                             )
                         }

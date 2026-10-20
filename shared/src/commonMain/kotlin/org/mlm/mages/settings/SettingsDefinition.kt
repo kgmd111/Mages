@@ -577,6 +577,20 @@ data class AppSettings(
     val messageRightClickAction: MessageRightClickAction = MessageRightClickAction.Menu,
 
     @Setting(
+        title = "Message menu",
+        titleKey = MagesSettingsKeys.MESSAGE_MENU_ORDER,
+        description = "Choose the order of actions in the message menu",
+        descriptionKey = MagesSettingsKeys.MESSAGE_MENU_ORDER_DESCRIPTION,
+        category = Timeline::class,
+        type = Button::class,
+    )
+    @ActionHandler(OpenMessageMenuSettingsAction::class)
+    val openMessageMenuSettings: Unit = Unit,
+
+    @Persisted
+    val messageMenuOrder: String = "",
+
+    @Setting(
         title = "Split panes",
         titleKey = MagesSettingsKeys.SPLIT_PANES,
         description = "Show the room list and conversation side by side on wide screens",
@@ -1233,6 +1247,7 @@ object CopyUnifiedPushEndpointAction : SettingAction
 
 object OpenBubbleSettingsAction : SettingAction
 object OpenWallpaperAction : SettingAction
+object OpenMessageMenuSettingsAction : SettingAction
 object OpenNotificationRulesAction : SettingAction
 object OpenMediaCacheAction : SettingAction
 object RequestNotificationPermissionAction : SettingAction

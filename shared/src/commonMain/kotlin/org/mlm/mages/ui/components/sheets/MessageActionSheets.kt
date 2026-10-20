@@ -33,6 +33,7 @@ import org.mlm.mages.MessageEvent
 import org.mlm.mages.matrix.EventType
 import org.mlm.mages.matrix.ImagePackSummary
 import org.mlm.mages.matrix.SendState
+import org.mlm.mages.settings.MessageMenuAction
 import org.mlm.mages.ui.displayPreview
 import org.mlm.mages.ui.hasCaption
 import org.mlm.mages.ui.isForwardable
@@ -72,6 +73,7 @@ fun MessageActionSheet(
     reactionImagePacks: List<ImagePackSummary> = emptyList(),
     isEncryptedRoom: Boolean = false,
     resolveReactionPreview: suspend (thumbnailMxcUri: String?, mxcUrl: String) -> String? = { _, _ -> null },
+    menuOrder: List<MessageMenuAction> = MessageMenuAction.entries,
 ) {
     val clipboardManager = LocalClipboardManager.current
     val isRedacted = event.isRedacted
@@ -101,8 +103,8 @@ fun MessageActionSheet(
     }
 
     ModalBottomSheet(
-        modifier = Modifier.fillMaxHeight(),
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
         Column(
             Modifier
@@ -112,97 +114,164 @@ fun MessageActionSheet(
         ) {
             MessagePreview(event)
             if (!isRedacted) {
-                Spacer(Modifier.height(Spacing.lg))
+                Spacer(Modifier.height(Spacing.sm))
                 QuickReactionsRow(
                     onReact = { emoji -> onReact(emoji); onDismiss() },
                     onOpenPicker = { showEmojiPicker = true },
                     onOpenImagePicker = { showImagePicker = true }
                 )
             }
-            Spacer(Modifier.height(Spacing.lg))
-            HorizontalDivider(Modifier.padding(horizontal = Spacing.lg))
             Spacer(Modifier.height(Spacing.sm))
+            HorizontalDivider(Modifier.padding(horizontal = Spacing.lg))
+            Spacer(Modifier.height(Spacing.xs))
 
-            if (onShowMessageInfo != null) {
-                ActionItem(Icons.Default.Info, stringResource(Res.string.message_info)) {
-                    onShowMessageInfo()
-                    onDismiss()
+            val actions = buildList {
+                if (isMine && event.sendState == SendState.Failed && onRetry != null) {
+                    add(MenuEntry(Icons.Default.Refresh, stringResource(Res.string.retry)) { onRetry(); onDismiss() })
+                }
+                menuOrder.forEach { action ->
+                    when (action) {
+                        MessageMenuAction.Reply -> if (!isRedacted) {
+                            add(MenuEntry(Icons.AutoMirrored.Filled.Reply, stringResource(Res.string.reply_action)) { onReply(); onDismiss() })
+                        }
+
+                        MessageMenuAction.ReplyInThread -> if (!isRedacted && onReplyInThread != null) {
+                            add(MenuEntry(Icons.Default.Forum, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() })
+                        }
+
+                        MessageMenuAction.Edit -> if (isMine && !isRedacted && event.sendState != SendState.Failed && event.eventId.isNotBlank()) {
+                            if (event.pollData != null) {
+                                if (event.pollData?.isEnded == false && onEditPoll != null) {
+                                    add(MenuEntry(Icons.Default.Poll, stringResource(Res.string.edit_poll)) { onEditPoll(); onDismiss() })
+                                }
+                            } else if (event.attachment != null) {
+                                if (onEditCaption != null) {
+                                    add(
+                                        MenuEntry(
+                                            Icons.Default.Edit,
+                                            if (event.hasCaption()) stringResource(Res.string.edit_caption) else stringResource(Res.string.add_caption)
+                                        ) { onEditCaption(); onDismiss() }
+                                    )
+                                }
+                                if (event.hasCaption() && onRemoveCaption != null) {
+                                    add(
+                                        MenuEntry(
+                                            Icons.Default.Close,
+                                            stringResource(Res.string.remove_caption),
+                                            MaterialTheme.colorScheme.error
+                                        ) { onRemoveCaption(); onDismiss() }
+                                    )
+                                }
+                            } else if (event.sticker == null &&
+                                event.eventType != EventType.Location &&
+                                event.eventType != EventType.LiveLocation
+                            ) {
+                                add(MenuEntry(Icons.Default.Edit, stringResource(Res.string.edit)) { onEdit(); onDismiss() })
+                            }
+                        }
+
+                        MessageMenuAction.Copy -> add(
+                            MenuEntry(Icons.Default.ContentCopy, stringResource(Res.string.copy)) {
+                                clipboardManager.setText(AnnotatedString(event.body))
+                                onDismiss()
+                            }
+                        )
+
+                        MessageMenuAction.Forward -> if (onForward != null && event.isForwardable()) {
+                            add(MenuEntry(Icons.AutoMirrored.Filled.Forward, stringResource(Res.string.forward)) { onForward(); onDismiss() })
+                        }
+
+                        MessageMenuAction.Share -> if (onShare != null) {
+                            add(
+                                MenuEntry(
+                                    Icons.Default.Share,
+                                    if (currentPlatform == SettingPlatform.WEB) {
+                                        stringResource(Res.string.download)
+                                    } else {
+                                        stringResource(Res.string.share)
+                                    }
+                                ) { onShare(); onDismiss() }
+                            )
+                        }
+
+                        MessageMenuAction.Pin -> if (canPin && event.eventId.isNotBlank() && (!isRedacted || isPinned)) {
+                            if (isPinned && onUnpin != null) {
+                                add(MenuEntry(Icons.Default.PushPin, stringResource(Res.string.unpin)) { onUnpin(); onDismiss() })
+                            } else if (!isPinned && onPin != null) {
+                                add(MenuEntry(Icons.Default.PushPin, stringResource(Res.string.pin)) { onPin(); onDismiss() })
+                            }
+                        }
+
+                        MessageMenuAction.Bookmark -> if (onBookmark != null && !isRedacted && event.eventId.isNotBlank()) {
+                            add(
+                                MenuEntry(
+                                    if (isBookmarked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                                    stringResource(if (isBookmarked) Res.string.remove_bookmark else Res.string.bookmark)
+                                ) { onBookmark(); onDismiss() }
+                            )
+                        }
+
+                        MessageMenuAction.MarkRead -> add(
+                            MenuEntry(Icons.Default.Done, stringResource(Res.string.mark_as_read_here)) {
+                                onMarkReadHere()
+                                onDismiss()
+                            }
+                        )
+
+                        MessageMenuAction.Select -> add(
+                            MenuEntry(Icons.Default.Deselect, stringResource(Res.string.select)) {
+                                onSelect()
+                                onDismiss()
+                            }
+                        )
+
+                        MessageMenuAction.Info -> if (onShowMessageInfo != null) {
+                            add(MenuEntry(Icons.Default.Info, stringResource(Res.string.message_info)) {
+                                onShowMessageInfo()
+                                onDismiss()
+                            })
+                        }
+                    }
                 }
             }
-            ActionItem(Icons.Default.ContentCopy, stringResource(Res.string.copy)) {
-                clipboardManager.setText(AnnotatedString(event.body))
-                onDismiss()
-            }
-            if (onShare != null) {
-                ActionItem(Icons.Default.Share,
-                    if (currentPlatform == SettingPlatform.WEB) stringResource(Res.string.download) else stringResource(Res.string.share)) { onShare(); onDismiss() }
-            }
-            if (onForward != null && event.isForwardable()) {
-                ActionItem(Icons.AutoMirrored.Filled.Forward, stringResource(Res.string.forward)) { onForward(); onDismiss() }
-            }
-            if (!isRedacted) {
-                ActionItem(Icons.AutoMirrored.Filled.Reply, stringResource(Res.string.reply_action)) { onReply(); onDismiss() }
-                if (onReplyInThread != null) {
-                    ActionItem(Icons.Default.Forum, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() }
-                }
-            }
-            if (isMine && event.sendState == SendState.Failed && onRetry != null) {
-                ActionItem(Icons.Default.Refresh, stringResource(Res.string.retry)) { onRetry(); onDismiss() }
-            }
-            if (onBookmark != null && !isRedacted && event.eventId.isNotBlank()) {
+
+            actions.forEach { entry ->
                 ActionItem(
-                    if (isBookmarked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                    stringResource(if (isBookmarked) Res.string.remove_bookmark else Res.string.bookmark)
-                ) {
-                    onBookmark()
-                    onDismiss()
-                }
+                    icon = entry.icon,
+                    text = entry.label,
+                    color = entry.color ?: MaterialTheme.colorScheme.onSurface,
+                    onClick = entry.onClick,
+                )
             }
-            ActionItem(Icons.Default.Done, stringResource(Res.string.mark_as_read_here)) { onMarkReadHere(); onDismiss() }
-            if (isMine && !isRedacted && event.sendState != SendState.Failed && event.eventId.isNotBlank()) {
-                if (event.pollData != null) {
-                    if (event.pollData?.isEnded == false && onEditPoll != null) {
-                        ActionItem(Icons.Default.Poll, stringResource(Res.string.edit_poll)) { onEditPoll(); onDismiss() }
+
+            val canDelete = isMine || (canDeleteOthers && event.eventId.isNotBlank())
+            val canReport = onReport != null && event.eventId.isNotBlank()
+            if (canDelete || canReport) {
+                HorizontalDivider(Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.xs))
+                if (canDelete) {
+                    ActionItem(Icons.Default.Delete, stringResource(Res.string.delete), MaterialTheme.colorScheme.error) {
+                        onDelete()
+                        onDismiss()
                     }
-                } else if (event.attachment != null) {
-                    if (onEditCaption != null) {
-                        ActionItem(
-                            Icons.Default.Edit,
-                            if (event.hasCaption()) stringResource(Res.string.edit_caption) else stringResource(Res.string.add_caption),
-                        ) { onEditCaption(); onDismiss() }
-                    }
-                    if (event.hasCaption() && onRemoveCaption != null) {
-                        ActionItem(
-                            Icons.Default.Close,
-                            stringResource(Res.string.remove_caption),
-                            MaterialTheme.colorScheme.error,
-                        ) { onRemoveCaption(); onDismiss() }
-                    }
-                } else if (event.sticker == null &&
-                    event.eventType != EventType.Location &&
-                    event.eventType != EventType.LiveLocation
-                ) {
-                    ActionItem(Icons.Default.Edit, stringResource(Res.string.edit)) { onEdit(); onDismiss() }
                 }
-            }
-            if (isMine || (canDeleteOthers && event.eventId.isNotBlank())) {
-                ActionItem(Icons.Default.Delete, stringResource(Res.string.delete), MaterialTheme.colorScheme.error) { onDelete(); onDismiss() }
-            }
-            if (canPin && event.eventId.isNotBlank() && (!isRedacted || isPinned)) {
-                if (isPinned && onUnpin != null) {
-                    ActionItem(Icons.Default.PushPin, stringResource(Res.string.unpin)) { onUnpin(); onDismiss() }
-                } else if (!isPinned && onPin != null) {
-                    ActionItem(Icons.Default.PushPin, stringResource(Res.string.pin)) { onPin(); onDismiss() }
+                val report = onReport
+                if (report != null && event.eventId.isNotBlank()) {
+                    ActionItem(Icons.Default.Flag, stringResource(Res.string.report), MaterialTheme.colorScheme.error) {
+                        report()
+                        onDismiss()
+                    }
                 }
-            }
-            ActionItem(Icons.Default.Deselect, stringResource(Res.string.select)) { onSelect(); onDismiss() }
-            HorizontalDivider(Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.sm))
-            if (onReport != null && event.eventId.isNotBlank()) {
-                ActionItem(Icons.Default.Flag, stringResource(Res.string.report), MaterialTheme.colorScheme.error) { onReport(); onDismiss() }
             }
         }
     }
 }
+
+private class MenuEntry(
+    val icon: ImageVector,
+    val label: String,
+    val color: Color? = null,
+    val onClick: () -> Unit,
+)
 
 @Composable
 private fun MessagePreview(event: MessageEvent) {
@@ -218,7 +287,7 @@ private fun MessagePreview(event: MessageEvent) {
                 )
             }
             Spacer(Modifier.height(Spacing.xs))
-            Text(event.displayPreview().take(Limits.previewCharsLong), style = MaterialTheme.typography.bodyMedium, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            Text(event.displayPreview().take(Limits.previewCharsLong), style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
     }
 }

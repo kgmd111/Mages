@@ -69,6 +69,7 @@ import mages.shared.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import io.github.mlmgames.settings.core.SettingsRepository
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.parseMessageMenuOrder
 import mages.shared.generated.resources.Res
 import org.jetbrains.compose.resources.pluralStringResource
 
@@ -505,6 +506,7 @@ fun ThreadScreen(
         MessageActionSheet(
             event = ev,
             isMine = isMine,
+            menuOrder = parseMessageMenuOrder(settings.messageMenuOrder),
             onDismiss = { sheetEvent = null },
             onReply = {
                 onStartReply(ev)
