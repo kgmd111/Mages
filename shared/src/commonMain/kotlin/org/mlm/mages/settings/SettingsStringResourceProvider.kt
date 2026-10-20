@@ -130,6 +130,7 @@ private val titleResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT to Res.string.setting_message_swipe_left,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP to Res.string.setting_message_double_tap,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION to Res.string.setting_message_double_tap_reaction,
+    MagesSettingsKeys.MESSAGE_RIGHT_CLICK to Res.string.setting_message_right_click,
     MagesSettingsKeys.SPLIT_PANES to Res.string.setting_split_panes,
     MagesSettingsKeys.SPLIT_ROOM_LIST_PERCENT to Res.string.setting_split_room_list_percent,
     MagesSettingsKeys.SORT_BY_UNREAD to Res.string.setting_sort_by_unread,
@@ -227,6 +228,7 @@ private val descriptionResources: Map<String, StringResource> = mapOf(
     MagesSettingsKeys.MESSAGE_SWIPE_LEFT_DESCRIPTION to Res.string.setting_message_swipe_left_description,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP_DESCRIPTION to Res.string.setting_message_double_tap_description,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION_DESCRIPTION to Res.string.setting_message_double_tap_reaction_description,
+    MagesSettingsKeys.MESSAGE_RIGHT_CLICK_DESCRIPTION to Res.string.setting_message_right_click_description,
     MagesSettingsKeys.SPLIT_PANES_DESCRIPTION to Res.string.setting_split_panes_description,
     MagesSettingsKeys.SPLIT_ROOM_LIST_PERCENT_DESCRIPTION to Res.string.setting_split_room_list_percent_description,
     MagesSettingsKeys.SORT_BY_UNREAD_DESCRIPTION to Res.string.setting_sort_by_unread_description,
@@ -256,6 +258,7 @@ private val arrayResources: Map<String, StringArrayResource> = mapOf(
     MagesSettingsKeys.MESSAGE_SWIPE_OPTIONS to Res.array.setting_message_swipe_options,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP_OPTIONS to Res.array.setting_message_double_tap_options,
     MagesSettingsKeys.MESSAGE_DOUBLE_TAP_REACTION_OPTIONS to Res.array.setting_message_double_tap_reaction_options,
+    MagesSettingsKeys.MESSAGE_RIGHT_CLICK_OPTIONS to Res.array.setting_message_right_click_options,
     MagesSettingsKeys.AUTO_MARK_READ_TRIGGER_OPTIONS to Res.array.setting_auto_mark_read_trigger_options,
 )
 

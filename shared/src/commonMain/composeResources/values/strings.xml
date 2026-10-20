@@ -662,6 +662,15 @@
     </string-array>
     <string name="setting_message_double_tap_reaction">Double-tap reaction</string>
     <string name="setting_message_double_tap_reaction_description">Reaction sent when the double-tap action is React</string>
+    <string name="setting_message_right_click">Right-click action</string>
+    <string name="setting_message_right_click_description">Action performed when right-clicking a message</string>
+    <string-array name="setting_message_right_click_options">
+        <item>Open message menu</item>
+        <item>Copy</item>
+        <item>Reply</item>
+        <item>Pin</item>
+        <item>Nothing</item>
+    </string-array>
     <string name="notification_keywords">Keywords</string>
     <string name="notification_keywords_description">Rooms set to mentions &amp; keywords only will notify you when a message matches one of these words</string>
     <string name="notification_keywords_empty">No keywords yet</string>

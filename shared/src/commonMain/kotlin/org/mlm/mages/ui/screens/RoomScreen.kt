@@ -113,6 +113,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.settings.AutoMarkReadTrigger
 import org.mlm.mages.settings.MessageDoubleTapAction
+import org.mlm.mages.settings.MessageRightClickAction
 import org.mlm.mages.settings.MessageSwipeAction
 import org.mlm.mages.ui.AttachmentUploadStage
 import org.mlm.mages.ui.isEditableBy
@@ -883,7 +884,8 @@ fun RoomScreen(
                                                 swipeRightAction = listSettings.messageSwipeRightAction,
                                                 swipeLeftAction = listSettings.messageSwipeLeftAction,
                                                 doubleTapAction = listSettings.messageDoubleTapAction,
-                                                doubleTapReaction = listSettings.messageDoubleTapReaction
+                                                doubleTapReaction = listSettings.messageDoubleTapReaction,
+                                                rightClickAction = listSettings.messageRightClickAction
                                             )
                                         },
                                         staticLocation = { locItem ->
@@ -1772,6 +1774,7 @@ private fun MessageItem(
     swipeLeftAction: MessageSwipeAction = MessageSwipeAction.Nothing,
     doubleTapAction: MessageDoubleTapAction = MessageDoubleTapAction.React,
     doubleTapReaction: String = "👍",
+    rightClickAction: MessageRightClickAction = MessageRightClickAction.Menu,
 ) {
     Column {
         val timestamp = event.timestampMs
@@ -1866,6 +1869,23 @@ private fun MessageItem(
             else onLongPress()
         }
 
+        val onRowSecondaryClick: () -> Unit = {
+            if (state.isSelectionMode) {
+                viewModel.toggleSelected(event.eventId)
+            } else {
+                when (rightClickAction) {
+                    MessageRightClickAction.Menu -> onLongPress()
+                    MessageRightClickAction.Copy ->
+                        clipboardManager.setText(AnnotatedString(event.body))
+                    MessageRightClickAction.Reply -> onReply()
+                    MessageRightClickAction.Pin ->
+                        if (event.eventId in pinnedEventIdSet) viewModel.unpinEvent(event.eventId)
+                        else viewModel.pinEvent(event)
+                    MessageRightClickAction.Nothing -> Unit
+                }
+            }
+        }
+
         Box(
             modifier = Modifier
                 .then(if (enableBubbleAnimations) Modifier.animateContentSize() else Modifier)
@@ -1899,7 +1919,7 @@ private fun MessageItem(
                         }
                     }
                 )
-                .secondaryClick(onRowLongPress)
+                .secondaryClick(onRowSecondaryClick)
                 .then(
                     if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f))
                     else Modifier
@@ -2033,6 +2053,7 @@ private fun MessageItem(
                     MessageBubble(
                         model = bubbleModel,
                         onLongPress = onLongPress,
+                        onSecondaryClick = onRowSecondaryClick,
                         onReact = onReact,
                         onOpenAttachment = onOpenAttachment,
                         onVote = { optionId ->

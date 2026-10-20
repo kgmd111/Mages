@@ -80,6 +80,7 @@ fun MessageBubble(
     modifier: Modifier = Modifier,
     onMentionClick: ((String) -> Unit)? = null,
     onLongPress: (() -> Unit)? = null,
+    onSecondaryClick: (() -> Unit)? = onLongPress,
     onReact: ((String) -> Unit)? = null,
     onOpenAttachment: (() -> Unit)? = null,
     onVote: ((String) -> Unit)? = null,
@@ -98,6 +99,7 @@ fun MessageBubble(
         StickerMessage(
             model = model,
             onLongPress = onLongPress,
+            onSecondaryClick = onSecondaryClick,
             onReact = onReact,
             onOpen = onOpenAttachment,
             onReplyPreviewClick = onReplyPreviewClick,
@@ -185,7 +187,7 @@ fun MessageBubble(
                 tonalElevation = if (isRedacted) 0.dp else if (isMine) 3.dp else 1.dp,
                 modifier = Modifier
                     .combinedClickable(onClick = {}, onLongClick = onLongPress)
-                    .secondaryClick(onLongPress)
+                    .secondaryClick(onSecondaryClick)
             ) {
                 val timestampContent = @Composable {
                     MessageTimeAndStatus(
@@ -925,6 +927,7 @@ private fun VideoAttachmentBubble(
 private fun StickerMessage(
     model: MessageBubbleModel,
     onLongPress: (() -> Unit)?,
+    onSecondaryClick: (() -> Unit)? = onLongPress,
     onReact: ((String) -> Unit)?,
     onOpen: (() -> Unit)?,
     onReplyPreviewClick: (() -> Unit)?,
@@ -1008,7 +1011,7 @@ private fun StickerMessage(
                         onClick = { onOpen?.invoke() },
                         onLongClick = onLongPress,
                     )
-                    .secondaryClick(onLongPress)
+                    .secondaryClick(onSecondaryClick)
             ) {
                 if (sticker.thumbPath != null) {
                     AsyncImage(

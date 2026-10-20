@@ -72,6 +72,9 @@ enum class MessageSwipeAction { Reply, React, Pin, Copy, Nothing }
 enum class MessageDoubleTapAction { React, Reply, Pin, Copy, Nothing }
 
 @Serializable
+enum class MessageRightClickAction { Menu, Copy, Reply, Pin, Nothing }
+
+@Serializable
 enum class AutoMarkReadTrigger { OnSend, WhileOpen, OnRoomClose, Never }
 
 @Serializable
@@ -559,6 +562,19 @@ data class AppSettings(
         dependsOnValue = "React",
     )
     val messageDoubleTapReaction: String = "👍",
+
+    @Setting(
+        title = "Right-click action",
+        titleKey = MagesSettingsKeys.MESSAGE_RIGHT_CLICK,
+        description = "Action performed when right-clicking a message",
+        descriptionKey = MagesSettingsKeys.MESSAGE_RIGHT_CLICK_DESCRIPTION,
+        category = Timeline::class,
+        type = Dropdown::class,
+        options = ["Open message menu", "Copy", "Reply", "Pin", "Nothing"],
+        optionsKey = MagesSettingsKeys.MESSAGE_RIGHT_CLICK_OPTIONS,
+        platforms = [SettingPlatform.JVM, SettingPlatform.WEB],
+    )
+    val messageRightClickAction: MessageRightClickAction = MessageRightClickAction.Menu,
 
     @Setting(
         title = "Split panes",
