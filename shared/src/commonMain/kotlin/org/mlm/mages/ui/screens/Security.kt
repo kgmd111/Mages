@@ -1,20 +1,43 @@
 package org.mlm.mages.ui.screens
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -61,8 +84,9 @@ private sealed interface SecuritySheet {
 }
 
 private const val TIME_ZONE_FIELD = "m.tz"
+private const val SETTINGS_TAB_INDEX = 2
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SecurityScreen(
     viewModel: SecurityViewModel,
@@ -82,6 +106,13 @@ fun SecurityScreen(
     var showVerifyUserDialog by remember { mutableStateOf(false) }
     var activeSheet by remember { mutableStateOf<SecuritySheet?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    var searchOpen by rememberSaveable { mutableStateOf(false) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    val closeSearch: () -> Unit = {
+        searchOpen = false
+        searchQuery = ""
+    }
 
     val pickScope = rememberCoroutineScope()
     var pendingAvatarPick by remember { mutableStateOf<((String, String) -> Unit)?>(null) }
@@ -121,60 +152,103 @@ fun SecurityScreen(
         viewModel.loadSecurityData()
     }
 
+    LaunchedEffect(state.selectedTab) {
+        if (state.selectedTab != SETTINGS_TAB_INDEX) closeSearch()
+    }
+
+    BackHandler(enabled = searchOpen) { closeSearch() }
+
     Scaffold(
+        modifier = Modifier.onPreviewKeyEvent { event ->
+            if (searchOpen && event.type == KeyEventType.KeyDown && event.key == Key.Escape) {
+                closeSearch()
+                true
+            } else {
+                false
+            }
+        },
         topBar = {
             Column {
                 TopAppBar(
                     title = {
-                        Text(
-                            stringResource(Res.string.security_settings),
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        AnimatedContent(
+                            targetState = searchOpen,
+                            label = "SettingsSearchTitle"
+                        ) { searching ->
+                            if (searching) {
+                                SettingsSearchField(
+                                    query = searchQuery,
+                                    onQueryChange = { searchQuery = it }
+                                )
+                            } else {
+                                Text(
+                                    stringResource(Res.string.security_settings),
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { backStack.popBack() }) {
+                        IconButton(
+                            onClick = {
+                                if (searchOpen) closeSearch() else backStack.popBack()
+                            }
+                        ) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(Res.string.back))
                         }
                     },
                     actions = {
-                        if (!settings.showSwitchAccountButton) {
-                            IconButton(onClick = onOpenAccountSwitcher) {
-                                Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
+                        AnimatedVisibility(visible = !searchOpen) {
+                            if (!settings.showSwitchAccountButton) {
+                                IconButton(onClick = onOpenAccountSwitcher) {
+                                    Icon(Icons.Default.SwitchAccount, stringResource(Res.string.account))
+                                }
+                            }
+                        }
+                        AnimatedVisibility(
+                            visible = state.selectedTab == SETTINGS_TAB_INDEX && !searchOpen,
+                            enter = fadeIn() + scaleIn(initialScale = 0.6f) + expandHorizontally(),
+                            exit = fadeOut() + scaleOut(targetScale = 0.6f) + shrinkHorizontally()
+                        ) {
+                            IconButton(onClick = { searchOpen = true }) {
+                                Icon(Icons.Default.Search, stringResource(Res.string.search_settings))
                             }
                         }
                     }
                 )
 
-                PrimaryTabRow(selectedTabIndex = state.selectedTab) {
-                    Tab(
-                        selected = state.selectedTab == 0,
-                        onClick = { viewModel.setSelectedTab(0) },
-                        text = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                Text(stringResource(Res.string.devices))
-//                                if (state.recoveryState == MatrixPort.RecoveryState.Incomplete) {
-//                                    Spacer(Modifier.width(2.dp))
-//                                    Badge { Text("!") }
-//                                }
-                            }
-                        },
-                        icon = { Icon(Icons.Default.Devices, null) }
-                    )
-                    Tab(
-                        selected = state.selectedTab == 1,
-                        onClick = { viewModel.setSelectedTab(1) },
-                        text = { Text(stringResource(Res.string.profile)) },
-                        icon = { Icon(Icons.Default.Person, null) }
-                    )
-                    Tab(
-                        selected = state.selectedTab == 2,
-                        onClick = { viewModel.setSelectedTab(2) },
-                        text = { Text(stringResource(Res.string.settings_tab)) },
-                        icon = { Icon(Icons.Default.Settings, null) }
-                    )
+                AnimatedVisibility(visible = !searchOpen) {
+                    PrimaryTabRow(selectedTabIndex = state.selectedTab) {
+                        Tab(
+                            selected = state.selectedTab == 0,
+                            onClick = { viewModel.setSelectedTab(0) },
+                            text = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Text(stringResource(Res.string.devices))
+//                                    if (state.recoveryState == MatrixPort.RecoveryState.Incomplete) {
+//                                        Spacer(Modifier.width(2.dp))
+//                                        Badge { Text("!") }
+//                                    }
+                                }
+                            },
+                            icon = { Icon(Icons.Default.Devices, null) }
+                        )
+                        Tab(
+                            selected = state.selectedTab == 1,
+                            onClick = { viewModel.setSelectedTab(1) },
+                            text = { Text(stringResource(Res.string.profile)) },
+                            icon = { Icon(Icons.Default.Person, null) }
+                        )
+                        Tab(
+                            selected = state.selectedTab == 2,
+                            onClick = { viewModel.setSelectedTab(2) },
+                            text = { Text(stringResource(Res.string.settings_tab)) },
+                            icon = { Icon(Icons.Default.Settings, null) }
+                        )
+                    }
                 }
             }
         },
@@ -231,6 +305,7 @@ fun SecurityScreen(
                 2 -> SettingsTab(
                     settings = settings,
                     schema = viewModel.settingsSchema,
+                    searchQuery = searchQuery,
                     onSettingChange = viewModel::updateSetting,
                     onSettingAction = viewModel::executeSettingAction,
                     snackbarHostState = settingsSnackbarHostState,
@@ -992,6 +1067,7 @@ private fun DeviceCard(
 private fun SettingsTab(
     settings: AppSettings,
     schema: SettingsSchema<AppSettings>,
+    searchQuery: String,
     onSettingChange: (String, Any?) -> Unit,
     onSettingAction: suspend (KClass<out SettingAction>) -> Unit,
     snackbarHostState: SnackbarHostState,
@@ -999,17 +1075,83 @@ private fun SettingsTab(
 ) {
     val stringResourceProvider = rememberSettingsStringResourceProvider()
     ProvideStringResources(stringResourceProvider) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            AutoSettingsScreen(
-                schema = schema,
-                value = settings,
-                onSet = onSettingChange,
-                onAction = onSettingAction,
-                modifier = Modifier.fillMaxSize(),
-                snackbarHostState = snackbarHostState,
-                remoteStates = remoteStates,
-            )
+        val query = searchQuery.trim()
+        val shownSchema = remember(schema, query, stringResourceProvider) {
+            if (query.isEmpty()) schema else schema.filteredForSearch(query, stringResourceProvider)
+        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (query.isNotEmpty() && shownSchema.fields.isEmpty()) {
+                EmptyState(
+                    icon = Icons.Default.SearchOff,
+                    title = stringResource(Res.string.no_settings_found),
+                    subtitle = stringResource(Res.string.try_different_search),
+                )
+            } else {
+                key(query) {
+                    AutoSettingsScreen(
+                        schema = shownSchema,
+                        value = settings,
+                        onSet = onSettingChange,
+                        onAction = onSettingAction,
+                        modifier = Modifier.fillMaxSize(),
+                        snackbarHostState = snackbarHostState,
+                        remoteStates = remoteStates,
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun SettingsSearchField(
+    query: String,
+    onQueryChange: (String) -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        keyboard?.show()
+    }
+    DisposableEffect(Unit) {
+        onDispose { keyboard?.hide() }
+    }
+    BasicTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
+        textStyle = MaterialTheme.typography.titleMedium.copy(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Medium,
+        ),
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() }),
+        decorationBox = { innerTextField ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.weight(1f)) {
+                    if (query.isEmpty()) {
+                        Text(
+                            text = stringResource(Res.string.search_settings),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    innerTextField()
+                }
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Default.Clear, stringResource(Res.string.clear_search))
+                    }
+                }
+            }
+        },
+    )
 }
 

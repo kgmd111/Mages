@@ -115,6 +115,7 @@
     <string name="search_no_results_found">No results found</string>
     <string name="search_results_count">%1$d results</string>
     <string name="search_in_this_room">Search in this room…</string>
+    <string name="search_settings">Search settings</string>
 
     <string name="no_pending_invites">No pending invites</string>
     <string name="decline">Decline</string>
@@ -1171,6 +1172,7 @@
     <string name="no_rooms_available">No rooms available</string>
     <string name="no_rooms_in_this_space_yet">No rooms in this space yet</string>
     <string name="no_rooms_match_your_search">No rooms match your search</string>
+    <string name="no_settings_found">No settings found</string>
     <string name="no_spaces_available_join_or_create_a_space_first_then_set_this_access_level">No spaces available. Join or create a space first, then set this access level.</string>
     <string name="not_enabled">Not enabled</string>
     <string name="not_logged_in">Not logged in</string>
