@@ -35,7 +35,6 @@ import org.mlm.mages.matrix.ImagePackSummary
 import org.mlm.mages.matrix.SendState
 import org.mlm.mages.settings.MessageMenuAction
 import org.mlm.mages.ui.displayPreview
-import org.mlm.mages.ui.icons.ThreadIcon
 import org.mlm.mages.ui.hasCaption
 import org.mlm.mages.ui.isForwardable
 import org.mlm.mages.ui.theme.Spacing
@@ -137,7 +136,7 @@ fun MessageActionSheet(
                         }
 
                         MessageMenuAction.ReplyInThread -> if (!isRedacted && onReplyInThread != null) {
-                            add(MenuEntry(ThreadIcon, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() })
+                            add(MenuEntry(Icons.Default.Forum, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() })
                         }
 
                         MessageMenuAction.Edit -> if (isMine && !isRedacted && event.sendState != SendState.Failed && event.eventId.isNotBlank()) {
