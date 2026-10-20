@@ -650,10 +650,14 @@ class RoomViewModel(
     fun setInput(value: String) {
         updateState { copy(input = value) }
 
-        draftJob?.cancel()
-        draftJob = launch {
-            delay(Durations.draftSaveDebounce)
-            saveDraft(currentState.roomId, value)
+        // Text typed for an edit belongs to that message, never to the room draft.
+        val composingEdit = currentState.editing != null || currentState.editingPoll != null
+        if (!composingEdit) {
+            draftJob?.cancel()
+            draftJob = launch {
+                delay(Durations.draftSaveDebounce)
+                saveDraft(currentState.roomId, value)
+            }
         }
 
         // only network typing notices are gated
