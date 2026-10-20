@@ -69,6 +69,7 @@ import mages.shared.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import io.github.mlmgames.settings.core.SettingsRepository
 import org.mlm.mages.settings.AppSettings
+import org.mlm.mages.settings.MessageMenuAction
 import org.mlm.mages.settings.parseMessageMenuOrder
 import mages.shared.generated.resources.Res
 import org.jetbrains.compose.resources.pluralStringResource
@@ -142,6 +143,7 @@ fun ThreadRoute(
         },
         emoteSuggestions = viewModel.emoteSuggestions,
         resolveEmotePreview = { thumbnail, mxc -> viewModel.emotePreview(thumbnail, mxc) },
+        menuOrder = parseMessageMenuOrder(settings.messageMenuOrder),
         reactionShortcodes = viewModel.reactionShortcodes,
         onReactionImages = { chips -> viewModel.ensureReactionImages(chips) },
     )
@@ -203,6 +205,7 @@ fun ThreadScreen(
     resolveEmotePreview: suspend (thumbnailMxcUri: String?, mxcUrl: String) -> String? = { _, _ -> null },
     reactionShortcodes: Map<String, String> = emptyMap(),
     onReactionImages: (List<ReactionSummary>) -> Unit = {},
+    menuOrder: List<MessageMenuAction> = MessageMenuAction.entries,
 ) {
     val scope = rememberCoroutineScope()
     var sheetEvent by remember { mutableStateOf<MessageEvent?>(null) }
@@ -506,7 +509,7 @@ fun ThreadScreen(
         MessageActionSheet(
             event = ev,
             isMine = isMine,
-            menuOrder = parseMessageMenuOrder(settings.messageMenuOrder),
+            menuOrder = menuOrder,
             onDismiss = { sheetEvent = null },
             onReply = {
                 onStartReply(ev)
