@@ -136,7 +136,7 @@ fun MessageActionSheet(
                         }
 
                         MessageMenuAction.ReplyInThread -> if (!isRedacted && onReplyInThread != null) {
-                            add(MenuEntry(Icons.Default.Forum, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() })
+                            add(MenuEntry(Icons.Default.Gesture, stringResource(Res.string.reply_in_thread)) { onReplyInThread(); onDismiss() })
                         }
 
                         MessageMenuAction.Edit -> if (isMine && !isRedacted && event.sendState != SendState.Failed && event.eventId.isNotBlank()) {
