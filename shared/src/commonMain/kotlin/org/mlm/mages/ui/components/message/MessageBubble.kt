@@ -218,7 +218,7 @@ fun MessageBubble(
                         Column(horizontalAlignment = horizontalAlignment) {
                             when (val attachment = model.attachment) {
                                 is MessageAttachmentUi.File -> {
-                                    FileAttachmentBubble(attachment, isMine, onOpenAttachment)
+                                    FileAttachmentBubble(attachment, isMine, onOpenAttachment, onLongPress)
                                     if (!attachment.caption.isNullOrBlank()) {
                                         Spacer(Modifier.height(Spacing.xs))
                                         TimestampLayout(
@@ -253,6 +253,7 @@ fun MessageBubble(
                                         attachment = attachment,
                                         isMine = isMine,
                                         onOpen = onOpenAttachment,
+                                        onLongPress = onLongPress,
                                         timestamp = timestampContent,
                                         containerColor = bubbleContainerColor,
                                         emotePaths = emotePaths,
@@ -266,6 +267,7 @@ fun MessageBubble(
                                         attachment = attachment,
                                         isMine = isMine,
                                         onOpen = onOpenAttachment,
+                                        onLongPress = onLongPress,
                                         timestamp = timestampContent,
                                         containerColor = bubbleContainerColor,
                                         emotePaths = emotePaths,
@@ -284,7 +286,7 @@ fun MessageBubble(
                                             isMine = isMine,
                                         )
                                     } else {
-                                        AudioFileBubble(attachment, isMine, onOpenAttachment)
+                                        AudioFileBubble(attachment, isMine, onOpenAttachment, onLongPress)
                                     }
                                     if (!attachment.caption.isNullOrBlank()) {
                                         Spacer(Modifier.height(Spacing.xs))
@@ -570,6 +572,7 @@ private fun FileAttachmentBubble(
     attachment: MessageAttachmentUi.File,
     isMine: Boolean,
     onOpen: (() -> Unit)?,
+    onLongPress: (() -> Unit)?,
 ) {
     val contentColor = if (isMine) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSecondaryContainer
@@ -582,7 +585,11 @@ private fun FileAttachmentBubble(
             .clip(RoundedCornerShape(10.dp))
             .background(contentColor.copy(alpha = 0.08f))
             .border(1.dp, contentColor.copy(alpha = 0.2f), RoundedCornerShape(10.dp))
-            .clickable(enabled = onOpen != null) { onOpen?.invoke() }
+            .combinedClickable(
+                enabled = onOpen != null,
+                onClick = { onOpen?.invoke() },
+                onLongClick = onLongPress,
+            )
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -635,6 +642,7 @@ private fun AudioFileBubble(
     attachment: MessageAttachmentUi.Audio,
     isMine: Boolean,
     onOpen: (() -> Unit)?,
+    onLongPress: (() -> Unit)?,
 ) {
     val contentColor = if (isMine) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSecondaryContainer
@@ -651,7 +659,11 @@ private fun AudioFileBubble(
             .clip(RoundedCornerShape(10.dp))
             .background(contentColor.copy(alpha = 0.08f))
             .border(1.dp, contentColor.copy(alpha = 0.2f), RoundedCornerShape(10.dp))
-            .clickable(enabled = onOpen != null) { onOpen?.invoke() }
+            .combinedClickable(
+                enabled = onOpen != null,
+                onClick = { onOpen?.invoke() },
+                onLongClick = onLongPress,
+            )
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -704,6 +716,7 @@ private fun ImageAttachmentBubble(
     attachment: MessageAttachmentUi.Image,
     isMine: Boolean,
     onOpen: (() -> Unit)?,
+    onLongPress: (() -> Unit)? = null,
     timestamp: @Composable () -> Unit,
     containerColor: Color,
     emotePaths: Map<String, String> = emptyMap(),
@@ -737,7 +750,11 @@ private fun ImageAttachmentBubble(
                     )
                     .clip(RoundedCornerShape(8.dp))
                     .blurHashBackground(blurhashImage)
-                    .clickable(enabled = onOpen != null) { onOpen?.invoke() }
+                    .combinedClickable(
+                        enabled = onOpen != null,
+                        onClick = { onOpen?.invoke() },
+                        onLongClick = onLongPress,
+                    )
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalPlatformContext.current)
@@ -797,6 +814,7 @@ private fun VideoAttachmentBubble(
     attachment: MessageAttachmentUi.Video,
     isMine: Boolean,
     onOpen: (() -> Unit)?,
+    onLongPress: (() -> Unit)? = null,
     timestamp: @Composable () -> Unit,
     containerColor: Color,
     emotePaths: Map<String, String> = emptyMap(),
@@ -830,7 +848,11 @@ private fun VideoAttachmentBubble(
                     )
                     .clip(RoundedCornerShape(8.dp))
                     .blurHashBackground(blurhashImage)
-                    .clickable(enabled = onOpen != null) { onOpen?.invoke() }
+                    .combinedClickable(
+                        enabled = onOpen != null,
+                        onClick = { onOpen?.invoke() },
+                        onLongClick = onLongPress,
+                    )
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalPlatformContext.current)

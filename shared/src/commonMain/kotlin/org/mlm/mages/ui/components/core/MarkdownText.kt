@@ -1,6 +1,5 @@
 package org.mlm.mages.ui.components.core
 
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -54,38 +53,36 @@ fun MarkdownText(
         // immediate = !settings.bubbleAnimations
     )
 
-    SelectionContainer {
-        Markdown(
-            markdownState,
-            modifier = modifier,
-            colors = markdownColor(
-                text = color,
-                codeBackground = color.copy(alpha = 0.1f),
-                inlineCodeBackground = color.copy(alpha = 0.1f)
-            ),
-            typography = markdownTypography(
-                h1 = baseStyle.copy(fontSize = (fontSize.value * 2.0f).sp, fontWeight = FontWeight.Bold),
-                h2 = baseStyle.copy(fontSize = (fontSize.value * 1.8f).sp, fontWeight = FontWeight.Bold),
-                h3 = baseStyle.copy(fontSize = (fontSize.value * 1.6f).sp, fontWeight = FontWeight.Bold),
-                h4 = baseStyle.copy(fontSize = (fontSize.value * 1.4f).sp, fontWeight = FontWeight.Bold),
-                h5 = baseStyle.copy(fontSize = (fontSize.value * 1.2f).sp, fontWeight = FontWeight.Bold),
-                h6 = baseStyle.copy(fontSize = (fontSize.value * 1.1f).sp, fontWeight = FontWeight.Bold),
-                text = baseStyle,
-                paragraph = baseStyle,
-                bullet = baseStyle,
-                ordered = baseStyle,
-                list = baseStyle,
-                quote = baseStyle,
-                table = baseStyle,
-                inlineCode = codeStyle,
-                code = codeStyle,
-                textLink = TextLinkStyles(
-                    style = baseStyle.copy(
-                        fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
-                    ).toSpanStyle()
-                )
+    Markdown(
+        markdownState,
+        modifier = modifier,
+        colors = markdownColor(
+            text = color,
+            codeBackground = color.copy(alpha = 0.1f),
+            inlineCodeBackground = color.copy(alpha = 0.1f)
+        ),
+        typography = markdownTypography(
+            h1 = baseStyle.copy(fontSize = (fontSize.value * 2.0f).sp, fontWeight = FontWeight.Bold),
+            h2 = baseStyle.copy(fontSize = (fontSize.value * 1.8f).sp, fontWeight = FontWeight.Bold),
+            h3 = baseStyle.copy(fontSize = (fontSize.value * 1.6f).sp, fontWeight = FontWeight.Bold),
+            h4 = baseStyle.copy(fontSize = (fontSize.value * 1.4f).sp, fontWeight = FontWeight.Bold),
+            h5 = baseStyle.copy(fontSize = (fontSize.value * 1.2f).sp, fontWeight = FontWeight.Bold),
+            h6 = baseStyle.copy(fontSize = (fontSize.value * 1.1f).sp, fontWeight = FontWeight.Bold),
+            text = baseStyle,
+            paragraph = baseStyle,
+            bullet = baseStyle,
+            ordered = baseStyle,
+            list = baseStyle,
+            quote = baseStyle,
+            table = baseStyle,
+            inlineCode = codeStyle,
+            code = codeStyle,
+            textLink = TextLinkStyles(
+                style = baseStyle.copy(
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline
+                ).toSpanStyle()
             )
         )
-    }
+    )
 }
