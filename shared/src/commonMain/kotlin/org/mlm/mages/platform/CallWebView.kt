@@ -12,7 +12,7 @@ interface CallWebViewController {
 expect fun CallWebViewHost(
     widgetUrl: String,
     onMessageFromWidget: (String) -> Unit,
-    onClosed: () -> Unit,
+    onClosed: (widgetEnded: Boolean) -> Unit,
     onMinimizeRequested: () -> Unit,
     minimized: Boolean,
     widgetBaseUrl: String?,

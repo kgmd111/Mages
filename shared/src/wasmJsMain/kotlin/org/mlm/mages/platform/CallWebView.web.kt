@@ -22,7 +22,7 @@ private val ELEMENT_SPECIFIC_ACTIONS = setOf(
 actual fun CallWebViewHost(
     widgetUrl: String,
     onMessageFromWidget: (String) -> Unit,
-    onClosed: () -> Unit,
+    onClosed: (widgetEnded: Boolean) -> Unit,
     onMinimizeRequested: () -> Unit,
     minimized: Boolean,
     widgetBaseUrl: String?,
@@ -39,7 +39,7 @@ actual fun CallWebViewHost(
             }
 
             override fun close() {
-                onClosed()
+                onClosed(false)
             }
         }
     }
@@ -55,7 +55,7 @@ actual fun CallWebViewHost(
                 
                 when (action) {
                     "io.element.close", "im.vector.hangup" -> {
-                        onClosed()
+                        onClosed(true)
                     }
                     "minimize" -> {
                         onMinimizeRequested()

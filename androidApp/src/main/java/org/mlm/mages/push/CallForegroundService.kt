@@ -11,6 +11,7 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import co.touchlab.kermit.Logger
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
@@ -33,10 +34,13 @@ class CallForegroundService : Service() {
         val action = intent?.action
         if (action == ACTION_END_CALL) {
             scope.launch {
-                runCatching {
-                    GlobalContext.getOrNull()
-                        ?.get<CallManager>()
-                        ?.endCall()
+                val callManager = runCatching {
+                    GlobalContext.getOrNull()?.get<CallManager>()
+                }.getOrNull()
+                if (callManager == null) {
+                    Logger.w("Cannot end call: call manager unavailable")
+                } else {
+                    callManager.endCall()
                 }
                 stopSelf()
             }

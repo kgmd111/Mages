@@ -54,6 +54,13 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
                     ACTION_DISMISS_CALL -> {
                         if (roomId != null) {
+                            if (eventId != null) {
+                                runCatching { service.initFromDisk() }
+                                val port = service.portOrNull
+                                if (port != null && service.isLoggedIn()) {
+                                    runCatching { port.declineCall(roomId, eventId) }
+                                }
+                            }
                             AndroidNotificationHelper.dismissCallUi(
                                 context, roomId, silent = true
                             )

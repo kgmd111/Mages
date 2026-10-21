@@ -62,7 +62,7 @@ private fun escapeNonBmp(json: String): String {
 actual fun CallWebViewHost(
     widgetUrl: String,
     onMessageFromWidget: (String) -> Unit,
-    onClosed: () -> Unit,
+    onClosed: (widgetEnded: Boolean) -> Unit,
     onMinimizeRequested: () -> Unit,
     minimized: Boolean,
     widgetBaseUrl: String?,
@@ -76,7 +76,7 @@ actual fun CallWebViewHost(
     val controller = remember {
         JcefCallWebViewController(
             onMessageFromWidget = { latestOnMessage(it) },
-            onClosed = { latestOnClosed() },
+            onClosed = { widgetEnded -> latestOnClosed(widgetEnded) },
             onMinimizeRequested = { latestOnMinimize() }
         )
     }
@@ -101,7 +101,7 @@ actual fun CallWebViewHost(
 
 private class JcefCallWebViewController(
     private val onMessageFromWidget: (String) -> Unit,
-    private val onClosed: () -> Unit,
+    private val onClosed: (widgetEnded: Boolean) -> Unit,
     private val onMinimizeRequested: () -> Unit,
 ) : CallWebViewController {
 
@@ -120,6 +120,8 @@ private class JcefCallWebViewController(
 
     suspend fun load(url: String) {
         if (urlLoaded.get() == url || disposed.get()) return
+
+        closedCallbackFired.set(false)
 
         // if first time
         val needsDownload = !JcefRuntime.isInitialized()
@@ -204,8 +206,8 @@ private class JcefCallWebViewController(
         }
     }
 
-    private fun fireClosedOnce() {
-        if (closedCallbackFired.compareAndSet(false, true)) onClosed()
+    private fun fireClosedOnce(widgetEnded: Boolean) {
+        if (closedCallbackFired.compareAndSet(false, true)) onClosed(widgetEnded)
     }
 
     private fun handleWidgetMessage(message: String) {
@@ -217,7 +219,7 @@ private class JcefCallWebViewController(
                 if (!json.has("response")) sendElementActionResponse(message)
 
                 when (action) {
-                    "io.element.close", "im.vector.hangup" -> fireClosedOnce()
+                    "io.element.close", "im.vector.hangup" -> fireClosedOnce(true)
                     "minimize" -> onMinimizeRequested()
                 }
                 return
@@ -345,7 +347,7 @@ private class JcefCallWebViewController(
 
         jframe.addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent?) {
-                fireClosedOnce()
+                fireClosedOnce(false)
             }
 
             override fun windowActivated(e: WindowEvent?) {

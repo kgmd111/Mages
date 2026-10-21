@@ -122,9 +122,14 @@ object NotifierImpl {
         // Notif close -> cleanup mapping
         runCatching {
             c.addSigHandler(Notifications.NotificationClosed::class.java) { sig ->
+                val ctx = notifCtx[sig.id]
+                val dismissedCall = ctx != null && callNotifIdByRoom.values.contains(sig.id)
                 notifCtx.remove(sig.id)
                 notifIdByRoom.entries.removeIf { it.value == sig.id }
                 callNotifIdByRoom.entries.removeIf { it.value == sig.id }
+                if (dismissedCall && ctx != null) {
+                    DesktopNotifActions.declineCall(ctx.first, ctx.second)
+                }
                 publishUnread()
             }
         }

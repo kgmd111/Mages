@@ -1,12 +1,21 @@
 package org.mlm.mages.calls
 
+import co.touchlab.kermit.Logger
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.mlm.mages.MatrixService
 import org.mlm.mages.matrix.CallIntent
 import org.mlm.mages.matrix.CallWidgetObserver
 import org.mlm.mages.platform.CallWebViewController
+import kotlin.random.Random
 import kotlin.time.Clock
 
 data class GlobalCallState(
@@ -25,6 +34,10 @@ data class GlobalCallState(
 
 )
 
+private const val HANGUP_GRACE_MS = 1500L
+private const val WIDGET_ENDED_GRACE_MS = 250L
+private const val WIDGET_HANGUP_ACTION = "im.vector.hangup"
+
 class CallManager(
     private val service: MatrixService
 ) {
@@ -34,12 +47,16 @@ class CallManager(
     private val _externalHost = MutableStateFlow(false)
     val externalHost: StateFlow<Boolean> = _externalHost.asStateFlow()
 
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
     fun setExternalHost(hosted: Boolean) {
         _externalHost.value = hosted
     }
 
     private var controller: CallWebViewController? = null
     private val pendingToWidget = ArrayDeque<String>()
+    private var hangupRequested = false
+    private var hangupSignal: CompletableDeferred<Unit>? = null
 
     var onCallStateChanged: ((isActive: Boolean, roomName: String?) -> Unit)? = null
 
@@ -92,9 +109,12 @@ class CallManager(
         val current = _call.value
         if (current != null) {
             if (current.roomId == roomId) return true
-            runCatching { port.stopElementCall(current.sessionId) }
-            pendingToWidget.clear()
-            controller = null
+            val signal = CompletableDeferred<Unit>()
+            hangupSignal = signal
+            hangupRequested = true
+            val requested = requestWidgetHangup(current)
+            if (requested) withTimeoutOrNull(HANGUP_GRACE_MS) { signal.await() }
+            teardown(current)
         }
 
         val session = port.startElementCall(
@@ -125,13 +145,67 @@ class CallManager(
         return true
     }
 
+    /**
+     * Host-initiated end: the Element Call widget owns the call session, so it has to be
+     * asked to leave first, otherwise the room keeps the call alive for everyone else.
+     */
     fun endCall() {
         val s = _call.value ?: return
-        val port = service.portOrNull
-        runCatching { port?.stopElementCall(s.sessionId) }
+        if (hangupRequested) return
+        hangupRequested = true
+        val signal = CompletableDeferred<Unit>()
+        hangupSignal = signal
+        if (!requestWidgetHangup(s)) {
+            hangupSignal = null
+            teardown(s)
+            return
+        }
+        scope.launch {
+            withTimeoutOrNull(HANGUP_GRACE_MS) { signal.await() }
+            teardown(s)
+        }
+    }
+
+    /**
+     * The call view went away. [widgetEnded] is true when the widget reported the end itself
+     * (it already left the call server-side), false when the host closed the view.
+     */
+    fun onCallEnded(sessionId: ULong, widgetEnded: Boolean) {
+        val s = _call.value ?: return
+        if (s.sessionId != sessionId) return
+        val signal = hangupSignal
+        if (signal != null) {
+            signal.complete(Unit)
+            return
+        }
+        if (widgetEnded) {
+            scope.launch {
+                delay(WIDGET_ENDED_GRACE_MS)
+                teardown(s)
+            }
+        } else {
+            endCall()
+        }
+    }
+
+    private fun requestWidgetHangup(s: GlobalCallState): Boolean {
+        val c = controller ?: return false
+        val requestId = "${Random.nextLong().toULong().toString(16)}-${Clock.System.now().toEpochMilliseconds()}"
+        val message = "{\"api\":\"toWidget\",\"widgetId\":\"mages-ecall-${s.sessionId}\"," +
+            "\"requestId\":\"$requestId\",\"action\":\"$WIDGET_HANGUP_ACTION\",\"data\":{}}"
+        c.sendToWidget(message)
+        return true
+    }
+
+    private fun teardown(s: GlobalCallState) {
+        runCatching { service.portOrNull?.stopElementCall(s.sessionId) }
+            .onFailure { Logger.w("Failed to stop element call session ${s.sessionId}: ${it.message}") }
+        if (_call.value?.sessionId != s.sessionId) return
         pendingToWidget.clear()
         controller = null
         _call.value = null
+        hangupRequested = false
+        hangupSignal = null
         onCallStateChanged?.invoke(false, null)
     }
 }

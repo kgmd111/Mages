@@ -112,7 +112,7 @@ fun GlobalCallOverlay(
             onMessageFromWidget = { msg ->
                 widgetMsgs.trySend(msg)
             },
-            onClosed = { callManager.endCall() },
+            onClosed = { widgetEnded -> callManager.onCallEnded(s.sessionId, widgetEnded) },
             onMinimizeRequested = { onMinimize() },
             onAttachController = { callManager.attachController(it) }
         )
@@ -143,18 +143,17 @@ fun GlobalCallOverlay(
                             modifier = Modifier.size(18.dp)
                         )
                     }
-//                    TODO: Need to insert toWidget event
-//                    IconButton(
-//                        onClick = { callManager.endCall() },
-//                        modifier = Modifier.size(32.dp)
-//                    ) {
-//                        Icon(
-//                            Icons.Default.CallEnd,
-//                            contentDescription = stringResource(Res.string.end_call),
-//                            tint = MaterialTheme.colorScheme.error,
-//                            modifier = Modifier.size(18.dp)
-//                        )
-//                    }
+                    IconButton(
+                        onClick = { callManager.endCall() },
+                        modifier = Modifier.size(32.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.CallEnd,
+                            contentDescription = stringResource(Res.string.end_call),
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
                 }
             }
 

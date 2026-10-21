@@ -524,7 +524,7 @@ private class AudioDeviceBridge(
 actual fun CallWebViewHost(
     widgetUrl: String,
     onMessageFromWidget: (String) -> Unit,
-    onClosed: () -> Unit,
+    onClosed: (widgetEnded: Boolean) -> Unit,
     onMinimizeRequested: () -> Unit,
     minimized: Boolean,
     widgetBaseUrl: String?,
@@ -584,7 +584,7 @@ actual fun CallWebViewHost(
                 if (!json.has("response")) sendElementActionResponse(webView, message)
 
                 when (action) {
-                    "io.element.close", "im.vector.hangup" -> onClosed()
+                    "io.element.close", "im.vector.hangup" -> onClosed(true)
                     "minimize" -> onMinimizeRequested()
                     else -> {}
                 }
