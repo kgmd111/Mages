@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Call
@@ -1072,7 +1072,7 @@ private fun ThreadIndicator(count: Int, onClick: () -> Unit, modifier: Modifier 
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.Forum,
+                imageVector = Icons.Default.Gesture,
                 contentDescription = null,
                 modifier = Modifier.size(14.dp)
             )
