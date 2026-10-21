@@ -1,3 +1,8 @@
+## v5.2.3
+
+- No user-facing changes were mentioned since previous release
+
+
 ## v5.2.2
 
 - verified badges, double tap action setting and per-chat wallpaper options
