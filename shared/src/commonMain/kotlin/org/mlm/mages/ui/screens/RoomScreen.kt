@@ -1888,7 +1888,8 @@ private fun MessageItem(
             }
         }
 
-        // The bubble swallows, hence double- tap action has to be wired here too, to work on a message.
+        // The bubble consumes taps before the row's clickable sees them, so the double tap
+        // action is wired into the bubble as well for it to work on the message itself.
         val onDoubleTapAction: (() -> Unit)? = if (doubleTapAction == MessageDoubleTapAction.Nothing) {
             null
         } else {
