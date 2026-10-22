@@ -37,6 +37,7 @@ import org.mlm.mages.ui.displayPreview
 import org.mlm.mages.ui.components.composer.EmoteSuggestion
 import org.mlm.mages.ui.components.composer.MessageComposer
 import org.mlm.mages.ui.components.core.Avatar
+import org.mlm.mages.ui.components.core.FormattedBodyText
 import org.mlm.mages.ui.components.core.LoadMoreButton
 import org.mlm.mages.ui.components.core.StatusBanner
 import org.mlm.mages.ui.components.core.BannerType
@@ -696,15 +697,17 @@ private fun ThreadRootMessage(
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    event.displayPreview(),
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(Spacing.md),
-                    color = if (isMine)
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                    else
-                        MaterialTheme.colorScheme.onSurface
-                )
+                Box(modifier = Modifier.padding(Spacing.md)) {
+                    FormattedBodyText(
+                        formattedBody = event.formattedBody,
+                        fallbackBody = event.body,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (isMine)
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        else
+                            MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
 
             if (reactionSummaries.isNotEmpty()) {
