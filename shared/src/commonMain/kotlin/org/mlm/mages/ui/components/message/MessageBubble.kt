@@ -1,15 +1,17 @@
 package org.mlm.mages.ui.components.message
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material.icons.automirrored.filled.ReplyAll
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Call
@@ -31,6 +33,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -118,6 +122,7 @@ fun MessageBubble(
     val showSenderAvatar = showSenderInfo && showMessageAvatars && !model.sender.id.isNullOrBlank()
 
     val isRedacted = model.isRedacted
+    val threadCount = model.thread?.count?.takeIf { it > 0 }
 
     val bubbleContainerColor = if (isRedacted) {
         MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
@@ -427,6 +432,16 @@ fun MessageBubble(
                     }
                 }
             }
+            if (threadCount != null && onOpenThread != null) {
+                ThreadBadge(
+                    count = threadCount,
+                    onClick = onOpenThread,
+                    bubbleColor = bubbleContainerColor,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(y = 8.dp)
+                )
+            }
         }
 
         footerContent?.invoke(this)
@@ -445,20 +460,11 @@ fun MessageBubble(
                     shortcodes = model.reactionShortcodes,
                     showAvatars = model.showReactionAvatars,
                     onClick = onReact,
-                    modifier = Modifier.padding(horizontal = Spacing.xs)
-                )
-            }
-
-            model.thread?.let { thread ->
-                if (thread.count > 0 && onOpenThread != null) {
-                    if (model.reactions.isNotEmpty()) {
-                        Spacer(Modifier.height((-2).dp))
-                    }
-                    ThreadIndicator(
-                        count = thread.count,
-                        onClick = onOpenThread
+                    modifier = Modifier.padding(
+                        start = Spacing.xs,
+                        end = if (threadCount != null && onOpenThread != null) 26.dp else Spacing.xs
                     )
-                }
+                )
             }
         }
     }
@@ -1060,27 +1066,51 @@ private fun StickerMessage(
 }
 
 @Composable
-private fun ThreadIndicator(count: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun ThreadBadge(
+    count: Int,
+    onClick: () -> Unit,
+    bubbleColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    val a11yLabel = pluralStringResource(Res.plurals.reply_count, count, count)
     Surface(
         onClick = onClick,
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = RoundedCornerShape(12.dp),
-        modifier = modifier
+        color = MaterialTheme.colorScheme.primary,
+        shape = if (count > 1) RoundedCornerShape(50) else CircleShape,
+        border = BorderStroke(2.dp, bubbleColor),
+        modifier = modifier.semantics { contentDescription = a11yLabel }
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.Gesture,
-                contentDescription = null,
-                modifier = Modifier.size(14.dp)
-            )
-            Spacer(Modifier.width(4.dp))
-            Text(
-                text = if (count == 1) stringResource(Res.string.reply_action) else pluralStringResource(Res.plurals.reply_count, count, count),
-                style = MaterialTheme.typography.labelSmall
-            )
+        if (count > 1) {
+            Row(
+                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ReplyAll,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(13.dp)
+                )
+                Spacer(Modifier.width(3.dp))
+                Text(
+                    text = count.toString(),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier.size(22.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ReplyAll,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(13.dp)
+                )
+            }
         }
     }
 }
@@ -1209,9 +1239,9 @@ fun MediaPlaceholderBubble(
 fun BubbleWidthWrapper(
     modifier: Modifier = Modifier,
     fractionOfParent: Float = 0.8f,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
-    Layout(content = content, modifier = modifier) { measurables, constraints ->
+    Layout(content = { Box(content = content) }, modifier = modifier) { measurables, constraints ->
         val maxAllowed = (constraints.maxWidth * fractionOfParent).toInt()
         val childConstraints = constraints.copy(
             minWidth = 0,
