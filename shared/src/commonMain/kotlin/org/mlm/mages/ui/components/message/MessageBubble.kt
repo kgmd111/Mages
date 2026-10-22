@@ -1279,11 +1279,11 @@ fun BubbleWidthWrapper(
         )
         layout(totalWidth, totalHeight) {
             var x = 0
-            leadingPlaceable.placeRelative(x, totalHeight - leadingPlaceable.height)
+            leadingPlaceable.placeRelative(x, (totalHeight - leadingPlaceable.height) / 2)
             x += leadingPlaceable.width
             mainPlaceable.placeRelative(x, 0)
             x += mainPlaceable.width
-            trailingPlaceable.placeRelative(x, totalHeight - trailingPlaceable.height)
+            trailingPlaceable.placeRelative(x, (totalHeight - trailingPlaceable.height) / 2)
         }
     }
 }
