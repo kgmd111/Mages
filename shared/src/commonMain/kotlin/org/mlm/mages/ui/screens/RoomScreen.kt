@@ -1888,6 +1888,29 @@ private fun MessageItem(
             }
         }
 
+        // The bubble swallows, hence double- tap action has to be wired here too, to work on a message.
+        val onDoubleTapAction: (() -> Unit)? = if (doubleTapAction == MessageDoubleTapAction.Nothing) {
+            null
+        } else {
+            {
+                if (!state.isSelectionMode) {
+                    when (doubleTapAction) {
+                        MessageDoubleTapAction.React ->
+                            if (state.sendReactionAction.isEnabled) {
+                                viewModel.react(event, doubleTapReaction)
+                            }
+                        MessageDoubleTapAction.Reply -> onReply()
+                        MessageDoubleTapAction.Pin ->
+                            if (event.eventId in pinnedEventIdSet) viewModel.unpinEvent(event.eventId)
+                            else viewModel.pinEvent(event)
+                        MessageDoubleTapAction.Copy ->
+                            clipboardManager.setText(AnnotatedString(event.body))
+                        MessageDoubleTapAction.Nothing -> Unit
+                    }
+                }
+            }
+        }
+
         Box(
             modifier = Modifier
                 .then(if (enableBubbleAnimations) Modifier.animateContentSize() else Modifier)
@@ -1899,27 +1922,7 @@ private fun MessageItem(
                         }
                     },
                     onLongClick = onRowLongPress,
-                    onDoubleClick = if (doubleTapAction == MessageDoubleTapAction.Nothing) {
-                        null
-                    } else {
-                        {
-                            if (!state.isSelectionMode) {
-                                when (doubleTapAction) {
-                                    MessageDoubleTapAction.React ->
-                                        if (state.sendReactionAction.isEnabled) {
-                                            viewModel.react(event, doubleTapReaction)
-                                        }
-                                    MessageDoubleTapAction.Reply -> onReply()
-                                    MessageDoubleTapAction.Pin ->
-                                        if (event.eventId in pinnedEventIdSet) viewModel.unpinEvent(event.eventId)
-                                        else viewModel.pinEvent(event)
-                                    MessageDoubleTapAction.Copy ->
-                                        clipboardManager.setText(AnnotatedString(event.body))
-                                    MessageDoubleTapAction.Nothing -> Unit
-                                }
-                            }
-                        }
-                    }
+                    onDoubleClick = onDoubleTapAction
                 )
                 .secondaryClick(onRowSecondaryClick)
                 .then(
@@ -2070,6 +2073,7 @@ private fun MessageItem(
                             }
                         },
                         onOpenThread = onOpenThread,
+                        onDoubleClick = onDoubleTapAction,
                         onSenderClick = if (!isMine && !state.isSelectionMode) {
                             { viewModel.selectMemberForAction(event.sender) }
                         } else null,

@@ -85,6 +85,7 @@ fun MessageBubble(
     onMentionClick: ((String) -> Unit)? = null,
     onLongPress: (() -> Unit)? = null,
     onSecondaryClick: (() -> Unit)? = onLongPress,
+    onDoubleClick: (() -> Unit)? = null,
     onReact: ((String) -> Unit)? = null,
     onOpenAttachment: (() -> Unit)? = null,
     onVote: ((String) -> Unit)? = null,
@@ -104,6 +105,7 @@ fun MessageBubble(
             model = model,
             onLongPress = onLongPress,
             onSecondaryClick = onSecondaryClick,
+            onDoubleClick = onDoubleClick,
             onReact = onReact,
             onOpen = onOpenAttachment,
             onReplyPreviewClick = onReplyPreviewClick,
@@ -191,7 +193,11 @@ fun MessageBubble(
                 shape = bubbleShape(isMine, grouping.groupedWithPrev, grouping.groupedWithNext),
                 tonalElevation = if (isRedacted) 0.dp else if (isMine) 3.dp else 1.dp,
                 modifier = Modifier
-                    .combinedClickable(onClick = {}, onLongClick = onLongPress)
+                    .combinedClickable(
+                        onClick = {},
+                        onLongClick = onLongPress,
+                        onDoubleClick = onDoubleClick
+                    )
                     .secondaryClick(onSecondaryClick)
             ) {
                 val timestampContent = @Composable {
@@ -934,6 +940,7 @@ private fun StickerMessage(
     model: MessageBubbleModel,
     onLongPress: (() -> Unit)?,
     onSecondaryClick: (() -> Unit)? = onLongPress,
+    onDoubleClick: (() -> Unit)?,
     onReact: ((String) -> Unit)?,
     onOpen: (() -> Unit)?,
     onReplyPreviewClick: (() -> Unit)?,
@@ -1016,6 +1023,7 @@ private fun StickerMessage(
                     .combinedClickable(
                         onClick = { onOpen?.invoke() },
                         onLongClick = onLongPress,
+                        onDoubleClick = onDoubleClick,
                     )
                     .secondaryClick(onSecondaryClick)
             ) {
