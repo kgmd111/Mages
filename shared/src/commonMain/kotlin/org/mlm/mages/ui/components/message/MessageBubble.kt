@@ -1,6 +1,5 @@
 package org.mlm.mages.ui.components.message
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,8 +9,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.ReplyAll
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Call
@@ -30,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.semantics.contentDescription
@@ -38,6 +36,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -186,7 +185,25 @@ fun MessageBubble(
         headerContent?.invoke(this)
 
         BubbleWidthWrapper(
-            fractionOfParent = 0.9f
+            fractionOfParent = 0.9f,
+            leading = {
+                if (isMine && threadCount != null && onOpenThread != null) {
+                    ThreadBadge(
+                        count = threadCount,
+                        onClick = onOpenThread,
+                        modifier = Modifier.padding(end = Spacing.xs)
+                    )
+                }
+            },
+            trailing = {
+                if (!isMine && threadCount != null && onOpenThread != null) {
+                    ThreadBadge(
+                        count = threadCount,
+                        onClick = onOpenThread,
+                        modifier = Modifier.padding(start = Spacing.xs)
+                    )
+                }
+            }
         ) {
             Surface(
                 color = bubbleContainerColor,
@@ -438,16 +455,6 @@ fun MessageBubble(
                     }
                 }
             }
-            if (threadCount != null && onOpenThread != null) {
-                ThreadBadge(
-                    count = threadCount,
-                    onClick = onOpenThread,
-                    bubbleColor = bubbleContainerColor,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .offset(y = 8.dp)
-                )
-            }
         }
 
         footerContent?.invoke(this)
@@ -466,10 +473,7 @@ fun MessageBubble(
                     shortcodes = model.reactionShortcodes,
                     showAvatars = model.showReactionAvatars,
                     onClick = onReact,
-                    modifier = Modifier.padding(
-                        start = Spacing.xs,
-                        end = if (threadCount != null && onOpenThread != null) 26.dp else Spacing.xs
-                    )
+                    modifier = Modifier.padding(horizontal = Spacing.xs)
                 )
             }
         }
@@ -1077,7 +1081,6 @@ private fun StickerMessage(
 private fun ThreadBadge(
     count: Int,
     onClick: () -> Unit,
-    bubbleColor: Color,
     modifier: Modifier = Modifier,
 ) {
     val a11yLabel = pluralStringResource(Res.plurals.reply_count, count, count)
@@ -1085,7 +1088,6 @@ private fun ThreadBadge(
         onClick = onClick,
         color = MaterialTheme.colorScheme.primary,
         shape = if (count > 1) RoundedCornerShape(50) else CircleShape,
-        border = BorderStroke(2.dp, bubbleColor),
         modifier = modifier.semantics { contentDescription = a11yLabel }
     ) {
         if (count > 1) {
@@ -1094,12 +1096,12 @@ private fun ThreadBadge(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ReplyAll,
+                    imageVector = Icons.Default.Gesture,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(13.dp)
+                    modifier = Modifier.size(15.dp)
                 )
-                Spacer(Modifier.width(3.dp))
+                Spacer(Modifier.width(4.dp))
                 Text(
                     text = count.toString(),
                     style = MaterialTheme.typography.labelSmall,
@@ -1109,14 +1111,14 @@ private fun ThreadBadge(
             }
         } else {
             Box(
-                modifier = Modifier.size(22.dp),
+                modifier = Modifier.size(24.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ReplyAll,
+                    imageVector = Icons.Default.Gesture,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(13.dp)
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
@@ -1247,17 +1249,40 @@ fun MediaPlaceholderBubble(
 fun BubbleWidthWrapper(
     modifier: Modifier = Modifier,
     fractionOfParent: Float = 0.8f,
+    leading: @Composable BoxScope.() -> Unit = {},
+    trailing: @Composable BoxScope.() -> Unit = {},
     content: @Composable BoxScope.() -> Unit
 ) {
-    Layout(content = { Box(content = content) }, modifier = modifier) { measurables, constraints ->
+    Layout(
+        content = {
+            Box(content = leading)
+            Box(content = content)
+            Box(content = trailing)
+        },
+        modifier = modifier
+    ) { measurables, constraints ->
         val maxAllowed = (constraints.maxWidth * fractionOfParent).toInt()
+        val leadingPlaceable = measurables[0].measure(Constraints())
+        val trailingPlaceable = measurables[2].measure(Constraints())
+        val sideWidth = leadingPlaceable.width + trailingPlaceable.width
         val childConstraints = constraints.copy(
             minWidth = 0,
-            maxWidth = min(maxAllowed, constraints.maxWidth)
+            maxWidth = (min(maxAllowed, constraints.maxWidth) - sideWidth).coerceAtLeast(0)
         )
-        val placeable = measurables.first().measure(childConstraints)
-        layout(placeable.width, placeable.height) {
-            placeable.place(0, 0)
+        val mainPlaceable = measurables[1].measure(childConstraints)
+        val totalWidth = sideWidth + mainPlaceable.width
+        val totalHeight = maxOf(
+            mainPlaceable.height,
+            leadingPlaceable.height,
+            trailingPlaceable.height
+        )
+        layout(totalWidth, totalHeight) {
+            var x = 0
+            leadingPlaceable.placeRelative(x, totalHeight - leadingPlaceable.height)
+            x += leadingPlaceable.width
+            mainPlaceable.placeRelative(x, 0)
+            x += mainPlaceable.width
+            trailingPlaceable.placeRelative(x, totalHeight - trailingPlaceable.height)
         }
     }
 }
