@@ -297,6 +297,7 @@ private class WebViewAudioManager(
     private fun onAudioPlaybackStarted() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (!isInCallMode.get() || hasRegisteredCallbacks) return@postDelayed
+            setAvailableAudioDevices()
             audioManager.registerAudioDeviceCallback(audioDeviceCallback, null)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 val executor = Executors.newSingleThreadExecutor()
@@ -307,7 +308,6 @@ private class WebViewAudioManager(
                     Log.w("AudioBridge", "Failed to add communication device listener", e)
                 }
             }
-            setAvailableAudioDevices()
             hasRegisteredCallbacks = true
         }, 2000)
     }
