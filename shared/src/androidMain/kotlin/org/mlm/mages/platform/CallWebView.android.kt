@@ -37,7 +37,6 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -213,7 +212,7 @@ private class WebViewAudioManager(
     private val bridge: AndroidWebViewAudioBridge = AndroidWebViewAudioBridge(
         onAudioDeviceSelected = { id -> onAudioDeviceSelected(id) },
         onAudioPlaybackStarted = { onAudioPlaybackStarted() },
-        onBridgeReadyCallback = { scope.launch(Dispatchers.Main) { setAvailableAudioDevices() } },
+        onBridgeReadyCallback = { },
     )
 
     init {
@@ -688,7 +687,6 @@ actual fun CallWebViewHost(
 
                         audioManagerRef.get()?.let {
                             it.onCallStarted()
-                            it.installBridgeCallbacks()
                         }
                     }
                 }
