@@ -46,6 +46,13 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.2.4" date="2026-10-23" type="stable">
+      <description>
+        <ul>
+          <li>fix call audio routing and call type handling</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.2.3" date="2026-10-21" type="stable">
       <description>
         <ul>

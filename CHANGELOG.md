@@ -1,3 +1,8 @@
+## v5.2.4
+
+- fix call audio routing and call type handling
+
+
 ## v5.2.3
 
 - No user-facing changes were mentioned since previous release
