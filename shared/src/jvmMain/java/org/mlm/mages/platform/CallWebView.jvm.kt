@@ -67,7 +67,8 @@ actual fun CallWebViewHost(
     minimized: Boolean,
     widgetBaseUrl: String?,
     modifier: Modifier,
-    onAttachController: (CallWebViewController?) -> Unit
+    onAttachController: (CallWebViewController) -> Unit,
+    onDetachController: (CallWebViewController) -> Unit
 ): CallWebViewController {
 
     val latestOnMessage by rememberUpdatedState(onMessageFromWidget)
@@ -91,7 +92,7 @@ actual fun CallWebViewHost(
 
     DisposableEffect(Unit) {
         onDispose {
-            onAttachController(null)
+            onDetachController(controller)
             controller.close()
         }
     }

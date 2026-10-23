@@ -280,7 +280,8 @@ data class CallInvite(
 @Serializable
 data class RoomCallState(
     val hasActiveCall: Boolean = false,
-    val activeParticipants: List<String> = emptyList()
+    val activeParticipants: List<String> = emptyList(),
+    val callIsAudio: Boolean? = null
 )
 
 @Serializable
@@ -453,6 +454,7 @@ data class RenderedNotification(
     val tsMs: Long,
     val isDm: Boolean,
     val kind: NotificationKind,
+    val callIsAudio: Boolean? = null,
     val expiresAtMs: Long? = null,
     val senderAvatarUrl: String? = null,
     val roomAvatarUrl: String? = null,

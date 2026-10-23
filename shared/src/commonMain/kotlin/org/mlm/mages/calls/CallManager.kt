@@ -5,6 +5,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +28,8 @@ data class GlobalCallState(
     val parentUrl: String?,
     val minimized: Boolean = false,
     val startedAtMs: Long = 0L,
+    val isAudio: Boolean = false,
+    val incoming: Boolean = false,
     val pipX: Float = 24f,
     val pipY: Float = 120f,
     val pipW: Float = 220f,
@@ -54,11 +57,11 @@ class CallManager(
     }
 
     private var controller: CallWebViewController? = null
-    private val pendingToWidget = ArrayDeque<String>()
+    private val pendingToWidget = Channel<String>(Channel.UNLIMITED)
     private var hangupRequested = false
     private var hangupSignal: CompletableDeferred<Unit>? = null
 
-    var onCallStateChanged: ((isActive: Boolean, roomName: String?) -> Unit)? = null
+    var onCallStateChanged: ((GlobalCallState?) -> Unit)? = null
 
     fun isInCall(): Boolean = _call.value != null
     fun isInCall(roomId: String): Boolean = _call.value?.roomId == roomId
@@ -75,13 +78,16 @@ class CallManager(
         _call.value = _call.value?.copy(pipW = wDp, pipH = hDp)
     }
 
-    fun attachController(c: CallWebViewController?) {
+    fun attachController(c: CallWebViewController) {
         controller = c
-        if (c != null) {
-            val drained = pendingToWidget.toList()
-            pendingToWidget.clear()
-            drained.forEach { c.sendToWidget(it) }
+        while (true) {
+            val message = pendingToWidget.tryReceive().getOrNull() ?: break
+            c.sendToWidget(message)
         }
+    }
+
+    fun detachController(c: CallWebViewController) {
+        if (controller === c) controller = null
     }
 
     suspend fun onMessageFromWidget(message: String) {
@@ -90,9 +96,10 @@ class CallManager(
         port.callWidgetFromWebview(s.sessionId, message)
     }
 
-    fun onToWidgetFromSdk(message: String) {
+    private fun onToWidgetFromSdk(sessionId: ULong, message: String) {
+        if (_call.value?.sessionId != sessionId) return
         val c = controller
-        if (c != null) c.sendToWidget(message) else pendingToWidget.addLast(message)
+        if (c != null) c.sendToWidget(message) else pendingToWidget.trySend(message)
     }
 
     suspend fun startOrJoinCall(
@@ -103,6 +110,7 @@ class CallManager(
         parentUrl: String?,
         languageTag: String?,
         theme: String?,
+        incoming: Boolean = false,
     ): Boolean {
         val port = service.portOrNull ?: return false
 
@@ -117,6 +125,7 @@ class CallManager(
             teardown(current)
         }
 
+        val observerSessionId = MutableStateFlow<ULong?>(null)
         val session = port.startElementCall(
             roomId = roomId,
             intent = intent,
@@ -126,10 +135,11 @@ class CallManager(
             theme = theme,
             observer = object : CallWidgetObserver {
                 override fun onToWidget(message: String) {
-                    onToWidgetFromSdk(message)
+                    observerSessionId.value?.let { onToWidgetFromSdk(it, message) }
                 }
             }
         ) ?: return false
+        observerSessionId.value = session.sessionId
 
         _call.value = GlobalCallState(
             roomId = roomId,
@@ -139,9 +149,11 @@ class CallManager(
             widgetBaseUrl = session.widgetBaseUrl,
             parentUrl = session.parentUrl,
             minimized = false,
-            startedAtMs = Clock.System.now().toEpochMilliseconds()
+            startedAtMs = Clock.System.now().toEpochMilliseconds(),
+            isAudio = intent.isAudioCall(),
+            incoming = incoming
         )
-        onCallStateChanged?.invoke(true, roomName)
+        onCallStateChanged?.invoke(_call.value)
         return true
     }
 
@@ -201,11 +213,18 @@ class CallManager(
         runCatching { service.portOrNull?.stopElementCall(s.sessionId) }
             .onFailure { Logger.w("Failed to stop element call session ${s.sessionId}: ${it.message}") }
         if (_call.value?.sessionId != s.sessionId) return
-        pendingToWidget.clear()
+        while (pendingToWidget.tryReceive().isSuccess) {
+        }
         controller = null
         _call.value = null
+        _externalHost.value = false
         hangupRequested = false
         hangupSignal = null
-        onCallStateChanged?.invoke(false, null)
+        onCallStateChanged?.invoke(null)
     }
+}
+
+private fun CallIntent.isAudioCall(): Boolean = when (this) {
+    CallIntent.StartCallVoiceDm, CallIntent.JoinExistingVoiceDm -> true
+    CallIntent.StartCall, CallIntent.JoinExisting -> false
 }

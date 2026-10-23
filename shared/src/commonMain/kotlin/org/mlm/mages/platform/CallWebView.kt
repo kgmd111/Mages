@@ -17,5 +17,6 @@ expect fun CallWebViewHost(
     minimized: Boolean,
     widgetBaseUrl: String?,
     modifier: Modifier = Modifier,
-    onAttachController: (CallWebViewController?) -> Unit
+    onAttachController: (CallWebViewController) -> Unit,
+    onDetachController: (CallWebViewController) -> Unit
 ): CallWebViewController

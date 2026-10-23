@@ -71,7 +71,7 @@ object AndroidNotificationHelper : KoinComponent {
             expiresAtMs = expiresAtMs,
         )
 
-        val joinIntent = createCallJoinIntent(ctx, roomId, eventId, notifId)
+        val joinIntent = createCallJoinIntent(ctx, roomId, eventId, notifId, isVoiceOnly)
         val declineIntent = createCallDeclineIntent(ctx, roomId, eventId, notifId)
         val deleteIntent = createCallDeleteIntent(ctx, roomId, notifId, eventId, callerName, roomName, isVoiceOnly)
 
@@ -254,7 +254,7 @@ object AndroidNotificationHelper : KoinComponent {
             }
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            createCallJoinIntentRaw(ctx, roomId, eventId)
+            createCallJoinIntentRaw(ctx, roomId, eventId, isVoiceOnly)
         }
 
         return PendingIntent.getActivity(
@@ -289,12 +289,19 @@ object AndroidNotificationHelper : KoinComponent {
         )
     }
 
-    private fun createCallJoinIntentRaw(ctx: Context, roomId: String, eventId: String?): Intent {
+    private fun createCallJoinIntentRaw(
+        ctx: Context,
+        roomId: String,
+        eventId: String?,
+        isVoiceOnly: Boolean
+    ): Intent {
         val uriBuilder = Uri.Builder()
             .scheme("mages")
             .authority("room")
             .appendQueryParameter("id", roomId)
             .appendQueryParameter("join_call", "1")
+            .appendQueryParameter("incoming", "1")
+            .appendQueryParameter("voice_only", if (isVoiceOnly) "1" else "0")
 
         eventId?.let { uriBuilder.appendQueryParameter("event", it) }
 
@@ -308,13 +315,16 @@ object AndroidNotificationHelper : KoinComponent {
         ctx: Context,
         roomId: String,
         eventId: String?,
-        requestCode: Int
+        requestCode: Int,
+        isVoiceOnly: Boolean
     ): PendingIntent {
         val uri = Uri.Builder()
             .scheme("mages")
             .authority("room")
             .appendQueryParameter("id", roomId)
             .appendQueryParameter("join_call", "1")
+            .appendQueryParameter("incoming", "1")
+            .appendQueryParameter("voice_only", if (isVoiceOnly) "1" else "0")
             .apply { eventId?.let { appendQueryParameter("event", it) } }
             .build()
 

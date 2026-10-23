@@ -146,6 +146,7 @@ fun RoomScreen(
     onRequestLocationPermissions: ((() -> Unit) -> Unit)? = null,
     onStartCall: () -> Unit,
     onStartVoiceCall: () -> Unit,
+    onJoinCall: (isAudio: Boolean) -> Unit,
     onOpenForwardPicker: (sourceRoomId: String, eventIds: List<String>) -> Unit,
     isBubbleMode: Boolean = false,
 ) {
@@ -612,6 +613,8 @@ fun RoomScreen(
                     isOffline = state.isOffline,
                     isSyncing = state.isCatchingUp && state.hasTimelineSnapshot,
                     hasActiveCall = state.hasActiveCallForRoom,
+                    activeCallIsAudio = state.activeCallIsAudioForRoom,
+                    isDm = state.isDm,
                     voiceCallAction = state.voiceCallAction,
                     videoCallAction = state.videoCallAction,
                     pinnedMessages = state.pinnedMessages,
@@ -622,6 +625,7 @@ fun RoomScreen(
                     onOpenSearch = viewModel::showRoomSearch,
                     onStartCall = onStartCall,
                     onStartVoiceCall = onStartVoiceCall,
+                    onJoinCall = onJoinCall,
                 )
             }
         },
@@ -1403,6 +1407,8 @@ private fun RoomTopBar(
     isOffline: Boolean,
     isSyncing: Boolean,
     hasActiveCall: Boolean,
+    activeCallIsAudio: Boolean?,
+    isDm: Boolean,
     voiceCallAction: ActionAvailabilityUi,
     videoCallAction: ActionAvailabilityUi,
     pinnedMessages: List<PinnedMessageUi>,
@@ -1413,6 +1419,7 @@ private fun RoomTopBar(
     onOpenSearch: () -> Unit,
     onStartCall: () -> Unit,
     onStartVoiceCall: () -> Unit,
+    onJoinCall: (isAudio: Boolean) -> Unit,
 ) {
     Surface(color = MaterialTheme.colorScheme.surfaceContainerLow, shadowElevation = 2.dp) {
         Column {
@@ -1498,14 +1505,14 @@ private fun RoomTopBar(
                 },
                 actions = {
                     if (hasActiveCall) {
-                        IconButton(onClick = onStartCall) {
+                        IconButton(onClick = { onJoinCall(activeCallIsAudio == true) }) {
                             Icon(
                                 Icons.AutoMirrored.Filled.CallMerge,
                                 contentDescription = stringResource(Res.string.join_call)
                             )
                         }
                     } else {
-                        if (voiceCallAction.presentation != ActionPresentationUi.Hidden) {
+                        if (isDm && voiceCallAction.presentation != ActionPresentationUi.Hidden) {
                             IconButton(
                                 onClick = onStartVoiceCall,
                                 enabled = voiceCallAction.isEnabled,

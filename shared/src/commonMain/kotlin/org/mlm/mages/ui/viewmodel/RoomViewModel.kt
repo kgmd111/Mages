@@ -224,6 +224,8 @@ class RoomViewModel(
     private var lastRoomAvatarMxc: String? = null
     private var localCallActiveForRoom = false
     private var remoteCallActiveForRoom = false
+    private var localCallIsAudioForRoom: Boolean? = null
+    private var remoteCallIsAudioForRoom: Boolean? = null
     private var dmPeer: String? = null
     private var uploadJob: Job? = null
     private var uploadTxnId: String? = null
@@ -455,14 +457,25 @@ class RoomViewModel(
         launch {
             callManager.call.collect { callState ->
                 localCallActiveForRoom = callState?.roomId == currentState.roomId
+                localCallIsAudioForRoom = callState
+                    ?.takeIf { it.roomId == currentState.roomId }
+                    ?.isAudio
                 recomputeActiveCall()
             }
         }
     }
 
     private fun recomputeActiveCall() {
+        val activeIsAudio = when {
+            localCallActiveForRoom -> localCallIsAudioForRoom
+            remoteCallActiveForRoom -> remoteCallIsAudioForRoom
+            else -> null
+        }
         updateState {
-            copy(hasActiveCallForRoom = localCallActiveForRoom || remoteCallActiveForRoom)
+            copy(
+                hasActiveCallForRoom = localCallActiveForRoom || remoteCallActiveForRoom,
+                activeCallIsAudioForRoom = activeIsAudio
+            )
         }
     }
 
@@ -2632,7 +2645,12 @@ class RoomViewModel(
     }
 
     fun startVoiceCall(languageTag: String?, theme: String?) {
-        val intent = if (currentState.isDm) CallIntent.StartCallVoiceDm else CallIntent.StartCall
+        if (!currentState.isDm) return
+        startCall(CallIntent.StartCallVoiceDm, languageTag, theme)
+    }
+
+    fun joinActiveCall(isAudio: Boolean, languageTag: String?, theme: String?) {
+        val intent = if (isAudio) CallIntent.JoinExistingVoiceDm else CallIntent.JoinExisting
         startCall(intent, languageTag, theme)
     }
 
@@ -2844,12 +2862,14 @@ class RoomViewModel(
             roomCallStateToken?.let { runCatching { service.portOrNull?.unobserveRoomCallState(it) } }
             roomCallStateToken = null
             remoteCallActiveForRoom = false
+            remoteCallIsAudioForRoom = null
             recomputeActiveCall()
             roomCallStateToken = service.port.observeRoomCallState(
                 currentState.roomId,
                 object : RoomCallStateObserver {
                     override fun onUpdate(state: RoomCallState) {
                         remoteCallActiveForRoom = state.hasActiveCall
+                        remoteCallIsAudioForRoom = state.callIsAudio
                         recomputeActiveCall()
                     }
                 }
@@ -2897,6 +2917,7 @@ class RoomViewModel(
                                 )
                             }
                             remoteCallActiveForRoom = snapshot.callState.hasActiveCall
+                            remoteCallIsAudioForRoom = snapshot.callState.callIsAudio
                             recomputeActiveCall()
                             onPinnedEventsChanged(snapshot.pinnedEventIds)
                         }

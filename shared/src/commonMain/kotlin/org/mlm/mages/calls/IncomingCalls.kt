@@ -19,6 +19,7 @@ data class IncomingCall(
     val roomName: String,
     val expiresAtMs: Long,
     val tsMs: Long,
+    val isVoiceOnly: Boolean = false,
 ) {
     companion object
 }
@@ -96,24 +97,34 @@ fun IncomingCall.Companion.ringing(n: RenderedNotification): IncomingCall = Inco
     callerName = n.sender,
     roomName = n.roomName,
     expiresAtMs = n.expiresAtMs ?: (n.tsMs + INCOMING_CALL_TIMEOUT_MS),
-    tsMs = n.tsMs
+    tsMs = n.tsMs,
+    isVoiceOnly = n.callIsAudio == true,
 )
 
 fun answerIncomingCall(
     tracker: IncomingCallTracker,
     roomId: String,
     eventId: String,
+    isVoiceOnly: Boolean = false,
     onJoin: (DeepLinkAction) -> Unit,
 ) {
     tracker.dismiss(roomId, eventId)
-    onJoin(DeepLinkAction(roomId = roomId, eventId = eventId, joinCall = true))
+    onJoin(
+        DeepLinkAction(
+            roomId = roomId,
+            eventId = eventId,
+            joinCall = true,
+            voiceOnly = isVoiceOnly,
+            incoming = true,
+        )
+    )
 }
 
 fun answerIncomingCall(
     tracker: IncomingCallTracker,
     call: IncomingCall,
     onJoin: (DeepLinkAction) -> Unit,
-) = answerIncomingCall(tracker, call.roomId, call.eventId, onJoin)
+) = answerIncomingCall(tracker, call.roomId, call.eventId, call.isVoiceOnly, onJoin)
 
 /** Shared Decline path: hang up server-side, then drop the invite. */
 suspend fun declineIncomingCall(

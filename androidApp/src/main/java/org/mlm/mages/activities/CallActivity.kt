@@ -87,7 +87,9 @@ class CallActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        callManager.setExternalHost(false)
+        if (!isChangingConfigurations) {
+            callManager.setExternalHost(false)
+        }
         super.onDestroy()
     }
 }

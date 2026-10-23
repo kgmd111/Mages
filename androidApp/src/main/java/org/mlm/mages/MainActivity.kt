@@ -349,6 +349,7 @@ class MainActivity : AppCompatActivity() {
         val eventId = uri.getQueryParameter("event")
         val joinCall = uri.getQueryParameter("join_call") == "1"
         val voiceOnly = uri.getQueryParameter("voice_only") == "1"
+        val incoming = uri.getQueryParameter("incoming") == "1"
 
         if (roomId.isNullOrBlank()) return
 
@@ -373,6 +374,7 @@ class MainActivity : AppCompatActivity() {
                 eventId = eventId,
                 joinCall = joinCall,
                 voiceOnly = voiceOnly,
+                incoming = incoming,
             )
         )
     }

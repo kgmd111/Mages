@@ -2083,6 +2083,7 @@ impl CoreClient {
                 .iter()
                 .map(ToString::to_string)
                 .collect(),
+            call_is_audio: room_call_is_audio(room),
         }
     }
 
@@ -5168,5 +5169,16 @@ pub(crate) fn map_send_queue_update(
             })
         }
         _ => None,
+    }
+}
+
+pub(crate) fn room_call_is_audio(room: &matrix_sdk::Room) -> Option<bool> {
+    match room.active_room_call_consensus_intent() {
+        matrix_sdk::CallIntentConsensus::Full(intent)
+        | matrix_sdk::CallIntentConsensus::Partial { intent, .. } => Some(matches!(
+            intent,
+            matrix_sdk::ruma::events::rtc::notification::CallIntent::Audio
+        )),
+        matrix_sdk::CallIntentConsensus::None => None,
     }
 }

@@ -143,10 +143,12 @@ class MagesApp : Application() {
             @Suppress("UNCHECKED_CAST")
             val callManager = koin.get<CallManager>()
             var lastTelecomRoomId = ""
-            callManager.onCallStateChanged = { active, roomName ->
-                if (active && roomName != null) {
-                    val roomId = callManager.call.value?.roomId.orEmpty()
+            callManager.onCallStateChanged = { state ->
+                if (state != null) {
+                    val roomId = state.roomId
+                    val roomName = state.roomName
                     CallForegroundService.start(this, roomName, roomId)
+                    callManager.setExternalHost(true)
                     runCatching {
                         startActivity(
                             Intent(this, CallActivity::class.java).apply {
@@ -154,12 +156,16 @@ class MagesApp : Application() {
                                     Intent.FLAG_ACTIVITY_SINGLE_TOP
                             }
                         )
+                    }.onFailure {
+                        callManager.setExternalHost(false)
                     }
                     if (roomId.isNotBlank()) {
                         lastTelecomRoomId = roomId
                         chainTelecom {
                             MagesTelecomCalls.addOngoingCallSync(
                                 this, roomId, roomName,
+                                isVideo = !state.isAudio,
+                                isIncoming = state.incoming,
                                 onRemoteDisconnect = {
                                     runCatching { callManager.endCall() }
                                 }
@@ -167,9 +173,7 @@ class MagesApp : Application() {
                         }
                     }
                     runCatching {
-                        callManager.call.value?.roomId?.let { roomId ->
-                            AndroidNotificationHelper.dismissCallUi(this, roomId, silent = true)
-                        }
+                        AndroidNotificationHelper.dismissCallUi(this, roomId, silent = true)
                     }
                 } else {
                     CallForegroundService.stop(this)

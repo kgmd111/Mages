@@ -575,7 +575,8 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                     observer.onUpdate(
                         RoomCallState(
                             hasActiveCall = state.hasActiveCall,
-                            activeParticipants = state.activeParticipants
+                            activeParticipants = state.activeParticipants,
+                            callIsAudio = state.callIsAudio
                         )
                     )
                 }
@@ -640,7 +641,8 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
         actionState = actionState.toModel(),
         callState = RoomCallState(
             hasActiveCall = callState.hasActiveCall,
-            activeParticipants = callState.activeParticipants
+            activeParticipants = callState.activeParticipants,
+            callIsAudio = callState.callIsAudio
         ),
         membership = membership.toKotlin(),
         joinRule = joinRule?.toKotlin(),
@@ -1096,6 +1098,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                             senderUserId = n.senderUserId,
                             tsMs = n.tsMs.toLong(),
                             isDm = n.isDm,
+                            callIsAudio = n.callIsAudio,
                             kind = n.kind.toKotlin(),
                             expiresAtMs = n.expiresAtMs?.toLong()
                         )
@@ -1130,6 +1133,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                     senderUserId = n.senderUserId,
                     tsMs = n.tsMs.toLong(),
                     isDm = n.isDm,
+                    callIsAudio = n.callIsAudio,
                     kind = n.kind.toKotlin(),
                     expiresAtMs = n.expiresAtMs?.toLong()
                 )

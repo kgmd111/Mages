@@ -104,18 +104,21 @@ fun GlobalCallOverlay(
         }
 
         // WebView
-        CallWebViewHost(
-            widgetUrl = s.widgetUrl,
-            minimized = isMin,
-            widgetBaseUrl = s.widgetBaseUrl,
-            modifier = webViewModifier,
-            onMessageFromWidget = { msg ->
-                widgetMsgs.trySend(msg)
-            },
-            onClosed = { widgetEnded -> callManager.onCallEnded(s.sessionId, widgetEnded) },
-            onMinimizeRequested = { onMinimize() },
-            onAttachController = { callManager.attachController(it) }
-        )
+        key(s.sessionId) {
+            CallWebViewHost(
+                widgetUrl = s.widgetUrl,
+                minimized = isMin,
+                widgetBaseUrl = s.widgetBaseUrl,
+                modifier = webViewModifier,
+                onMessageFromWidget = { msg ->
+                    widgetMsgs.trySend(msg)
+                },
+                onClosed = { widgetEnded -> callManager.onCallEnded(s.sessionId, widgetEnded) },
+                onMinimizeRequested = { onMinimize() },
+                onAttachController = { callManager.attachController(it) },
+                onDetachController = { callManager.detachController(it) }
+            )
+        }
 
         // Minimized PiP controls
         if (isMin) {

@@ -48,6 +48,7 @@ fun parseMagesRoomLink(rawLink: String): DeepLinkAction? {
             eventId = uri.getQueryParameter("event")?.takeIf { it.isNotBlank() },
             joinCall = uri.getQueryParameter("join_call") == "1",
             voiceOnly = uri.getQueryParameter("voice_only") == "1",
+            incoming = uri.getQueryParameter("incoming") == "1",
         )
     }.getOrNull()
 }

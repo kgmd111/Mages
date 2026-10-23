@@ -401,6 +401,7 @@ data class RoomUiState(
     val isRoomSearching: Boolean = false,
     val hasRoomSearched: Boolean = false,
     val hasActiveCallForRoom: Boolean = false,
+    val activeCallIsAudioForRoom: Boolean? = null,
 
     // Room action availability states
     val voiceCallAction: ActionAvailabilityUi = ActionAvailabilityUi(),

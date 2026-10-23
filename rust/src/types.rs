@@ -456,6 +456,7 @@ pub struct RenderedNotification {
     pub ts_ms: u64,
     pub is_dm: bool,
     pub kind: NotificationKind,
+    pub call_is_audio: Option<bool>,
     pub expires_at_ms: Option<u64>,
     pub sender_avatar_url: Option<String>,
     pub room_avatar_url: Option<String>,
@@ -1275,6 +1276,7 @@ pub trait CallObserver: Send + Sync {
 pub struct RoomCallState {
     pub has_active_call: bool,
     pub active_participants: Vec<String>,
+    pub call_is_audio: Option<bool>,
 }
 
 #[export(callback_interface)]

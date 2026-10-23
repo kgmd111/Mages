@@ -2245,10 +2245,18 @@ impl Client {
                 }
             };
             let item = nc.get_notification(&rid, &eid).await.ffi()?;
+            let call_is_audio = self
+                .core
+                .sdk
+                .get_room(&rid)
+                .and_then(|room| crate::core::room_call_is_audio(&room));
             match item {
-                NotificationStatus::Event(notif) => {
-                    Ok(map_notification_item_to_rendered(&rid, &eid, &notif))
-                }
+                NotificationStatus::Event(notif) => Ok(map_notification_item_to_rendered(
+                    &rid,
+                    &eid,
+                    &notif,
+                    call_is_audio,
+                )),
                 _ => Ok(None),
             }
         })
@@ -2909,6 +2917,7 @@ impl Client {
                 .take(max_rooms as usize)
             {
                 let rid = room.room_id().to_owned();
+                let call_is_audio = crate::core::room_call_is_audio(&room);
                 let Ok(tl) = room.timeline().await else {
                     continue;
                 };
@@ -2933,7 +2942,9 @@ impl Client {
                         continue;
                     };
                     let eid = eid_ref.to_owned();
-                    if let Some(rendered) = map_notification_item_to_rendered(&rid, &eid, &item) {
+                    if let Some(rendered) =
+                        map_notification_item_to_rendered(&rid, &eid, &item, call_is_audio)
+                    {
                         out.push(rendered);
                         if out.len() as u32 >= max_events {
                             return Ok(out);
@@ -5668,6 +5679,7 @@ pub fn map_notification_item_to_rendered(
     rid: &ruma::OwnedRoomId,
     eid: &ruma::OwnedEventId,
     item: &NotificationItem,
+    call_is_audio: Option<bool>,
 ) -> Option<RenderedNotification> {
     let room_name = item.room_computed_display_name.clone();
     let sender_user_id = item.event.sender().to_string();
@@ -5718,6 +5730,7 @@ pub fn map_notification_item_to_rendered(
         is_dm,
         ts_ms,
         kind,
+        call_is_audio,
         expires_at_ms,
         sender_avatar_url: item.sender_avatar_url.clone(),
         room_avatar_url: item.room_avatar_url.clone(),

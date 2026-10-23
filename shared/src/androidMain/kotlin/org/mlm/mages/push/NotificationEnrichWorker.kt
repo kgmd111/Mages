@@ -171,6 +171,7 @@ class NotificationEnrichWorker(
                     roomName = rendered.roomName,
                     callerAvatarPath = callerAvatarPath,
                     callerUserId = rendered.senderUserId,
+                    isVoiceOnly = rendered.callIsAudio == true,
                     isDm = rendered.isDm,
                     expiresAtMs = rendered.expiresAtMs,
                 )

@@ -1269,6 +1269,21 @@ private fun RoomEntryContent(
                 theme = widgetTheme
             )
         },
+        onJoinCall = { isAudio ->
+            val requestPermissions =
+                if (isAudio) onRequestVoiceCallPermissions else onRequestVideoCallPermissions
+            requestPermissions?.invoke {
+                viewModel.joinActiveCall(
+                    isAudio = isAudio,
+                    languageTag = languageTag,
+                    theme = widgetTheme
+                )
+            } ?: viewModel.joinActiveCall(
+                isAudio = isAudio,
+                languageTag = languageTag,
+                theme = widgetTheme
+            )
+        },
         onOpenForwardPicker = { roomId, eventIds ->
             backStack.add(Route.ForwardPicker(roomId, eventIds))
         }

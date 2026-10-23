@@ -162,7 +162,8 @@ class IncomingCallActivity : ComponentActivity() {
                         onAccept = {
                             acceptCall(
                                 roomId = state.roomId,
-                                eventId = state.eventId
+                                eventId = state.eventId,
+                                isVoiceOnly = state.isVoiceOnly
                             )
                         },
                         onDecline = {
@@ -207,7 +208,7 @@ class IncomingCallActivity : ComponentActivity() {
         uiState = newState
     }
 
-    private fun acceptCall(roomId: String, eventId: String?) {
+    private fun acceptCall(roomId: String, eventId: String?, isVoiceOnly: Boolean) {
         lifecycleScope.launch {
             AndroidNotificationHelper.dismissCallUi(
                 this@IncomingCallActivity, roomId, eventId, silent = true
@@ -218,6 +219,8 @@ class IncomingCallActivity : ComponentActivity() {
                 .authority("room")
                 .appendQueryParameter("id", roomId)
                 .appendQueryParameter("join_call", "1")
+                .appendQueryParameter("incoming", "1")
+                .appendQueryParameter("voice_only", if (isVoiceOnly) "1" else "0")
                 .apply {
                     eventId?.let { appendQueryParameter("event", it) }
                 }

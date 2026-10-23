@@ -52,6 +52,7 @@ object MagesTelecomCalls {
         roomId: String,
         roomName: String,
         isVideo: Boolean = true,
+        isIncoming: Boolean = false,
         onRemoteDisconnect: (() -> Unit)? = null,
     ) {
         setupMutex.withLock {
@@ -70,7 +71,7 @@ object MagesTelecomCalls {
             }
             if (jobs.containsKey(roomId)) return
             jobs[roomId] = scope.launch {
-                runOngoingCall(appContext, roomId, roomName, isVideo, onRemoteDisconnect)
+                runOngoingCall(appContext, roomId, roomName, isVideo, isIncoming, onRemoteDisconnect)
             }
         }
     }
@@ -98,6 +99,7 @@ object MagesTelecomCalls {
         roomId: String,
         roomName: String,
         isVideo: Boolean,
+        isIncoming: Boolean,
         onRemoteDisconnect: (() -> Unit)?,
     ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -111,7 +113,8 @@ object MagesTelecomCalls {
         val attrs = CallAttributesCompat(
             displayName = roomName,
             address = Uri.parse("mages:$roomId"),
-            direction = CallAttributesCompat.DIRECTION_OUTGOING,
+            direction = if (isIncoming) CallAttributesCompat.DIRECTION_INCOMING
+            else CallAttributesCompat.DIRECTION_OUTGOING,
             callType = if (isVideo) CallAttributesCompat.CALL_TYPE_VIDEO_CALL
             else CallAttributesCompat.CALL_TYPE_AUDIO_CALL,
             callCapabilities = CallAttributesCompat.SUPPORTS_SET_INACTIVE,

@@ -27,7 +27,8 @@ actual fun CallWebViewHost(
     minimized: Boolean,
     widgetBaseUrl: String?,
     modifier: Modifier,
-    onAttachController: (CallWebViewController?) -> Unit
+    onAttachController: (CallWebViewController) -> Unit,
+    onDetachController: (CallWebViewController) -> Unit
 ): CallWebViewController {
     val controller = remember(widgetUrl) {
         object : CallWebViewController {
@@ -85,7 +86,7 @@ actual fun CallWebViewHost(
             try {
                 removeElementCallIframe()
             } catch (_: Exception) { }
-            onAttachController(null)
+            onDetachController(controller)
         }
     }
 

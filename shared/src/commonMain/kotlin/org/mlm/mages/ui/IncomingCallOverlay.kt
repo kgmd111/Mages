@@ -88,10 +88,13 @@ fun IncomingCallOverlay(
                         overflow = TextOverflow.Ellipsis,
                         color = scheme.onSurface
                     )
+                    val callLabel = stringResource(
+                        if (call.isVoiceOnly) Res.string.incoming_voice_call else Res.string.incoming_call
+                    )
                     val subtitle = if (call.roomName.isNotBlank() && call.roomName != call.callerName) {
-                        "${stringResource(Res.string.incoming_call)} • ${call.roomName}"
+                        "$callLabel • ${call.roomName}"
                     } else {
-                        stringResource(Res.string.incoming_call)
+                        callLabel
                     }
                     Text(
                         text = subtitle,

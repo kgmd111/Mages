@@ -2179,6 +2179,7 @@ impl WasmClient {
             rooms_checked += 1;
 
             let rid = room.room_id().to_owned();
+            let call_is_audio = crate::core::room_call_is_audio(&room);
             let Ok(tl) = room.timeline().await else {
                 continue;
             };
@@ -2203,7 +2204,8 @@ impl WasmClient {
                     continue;
                 };
                 let eid = eid_ref.to_owned();
-                if let Some(rendered) = crate::map_notification_item_to_rendered(&rid, &eid, &item)
+                if let Some(rendered) =
+                    crate::map_notification_item_to_rendered(&rid, &eid, &item, call_is_audio)
                 {
                     out.push(rendered);
                     if out.len() as u32 >= max_events {
@@ -2953,7 +2955,11 @@ impl WasmClient {
         };
         match nc.get_notification(&rid, &eid).await {
             Ok(NotificationStatus::Event(item)) => {
-                match crate::map_notification_item_to_rendered(&rid, &eid, &item) {
+                let call_is_audio = state
+                    .client()
+                    .get_room(&rid)
+                    .and_then(|room| crate::core::room_call_is_audio(&room));
+                match crate::map_notification_item_to_rendered(&rid, &eid, &item, call_is_audio) {
                     Some(v) => to_json(&v),
                     None => JsValue::NULL,
                 }

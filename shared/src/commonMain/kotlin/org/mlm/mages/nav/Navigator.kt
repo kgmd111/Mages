@@ -86,7 +86,8 @@ data class DeepLinkAction(
     val roomId: String,
     val eventId: String? = null,
     val joinCall: Boolean = false,
-    val voiceOnly: Boolean = false
+    val voiceOnly: Boolean = false,
+    val incoming: Boolean = false
 )
 
 // Deep links: push Room keys when links arrive
@@ -139,7 +140,8 @@ fun BindDeepLinks(
                                     elementCallUrl = elementCallUrl,
                                     parentUrl = parentCallUrl,
                                     languageTag = languageTag,
-                                    theme = widgetTheme
+                                    theme = widgetTheme,
+                                    incoming = action.incoming
                                 )
                             }.getOrDefault(false)
 

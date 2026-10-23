@@ -117,6 +117,7 @@ class BubbleConversationActivity : ComponentActivity() {
                         onNavigateToThread = { _, _, _, _ -> },
                         onStartCall = { },
                         onStartVoiceCall = { },
+                        onJoinCall = { },
                         onOpenForwardPicker = { _, _ -> },
                         isBubbleMode = true,
                     )
