@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -67,6 +68,7 @@ fun SearchScreen(
                 scopedRoomName = state.scopedRoomName,
                 isSearching = isActuallySearching,
                 onQueryChange = viewModel::setQuery,
+                onSubmit = { viewModel.recordSearch(state.query) },
                 onBack = onBack,
                 focusRequester = focusRequester
             )
@@ -81,7 +83,11 @@ fun SearchScreen(
                 state.query.length < 2 -> {
                     SearchPlaceholder(
                         isScoped = state.scopedRoomId != null,
-                        onOpenBookmarks = onOpenBookmarks
+                        history = state.history,
+                        onOpenBookmarks = onOpenBookmarks,
+                        onSelectHistory = viewModel::setQuery,
+                        onRemoveHistory = viewModel::removeHistory,
+                        onClearHistory = viewModel::clearHistory
                     )
                 }
 
@@ -160,6 +166,7 @@ private fun SearchTopBar(
     scopedRoomName: String?,
     isSearching: Boolean,
     onQueryChange: (String) -> Unit,
+    onSubmit: () -> Unit,
     onBack: () -> Unit,
     focusRequester: FocusRequester
 ) {
@@ -185,7 +192,7 @@ private fun SearchTopBar(
         SearchBarDefaults.InputField(
             query = query,
             onQueryChange = onQueryChange,
-            onSearch = {},
+            onSearch = { onSubmit() },
             expanded = false,
             onExpandedChange = {},
             modifier = Modifier
@@ -227,7 +234,14 @@ private fun SearchTopBar(
 }
 
 @Composable
-private fun SearchPlaceholder(isScoped: Boolean, onOpenBookmarks: () -> Unit) {
+private fun SearchPlaceholder(
+    isScoped: Boolean,
+    history: List<String>,
+    onOpenBookmarks: () -> Unit,
+    onSelectHistory: (String) -> Unit,
+    onRemoveHistory: (String) -> Unit,
+    onClearHistory: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize()) {
         if (!isScoped) {
             ListItem(
@@ -243,12 +257,57 @@ private fun SearchPlaceholder(isScoped: Boolean, onOpenBookmarks: () -> Unit) {
             )
             HorizontalDivider()
         }
-        EmptyState(
-            icon = Icons.Default.Search,
-            title = if (isScoped) stringResource(Res.string.search_this_room) else stringResource(Res.string.search_all_messages),
-            subtitle = stringResource(Res.string.search_min_chars),
-            modifier = Modifier.weight(1f)
-        )
+
+        if (!isScoped && history.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(Res.string.recent_searches),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                TextButton(onClick = onClearHistory) {
+                    Text(stringResource(Res.string.clear))
+                }
+            }
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                items(history, key = { it }) { query ->
+                    ListItem(
+                        headlineContent = {
+                            Text(query, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        },
+                        leadingContent = {
+                            Icon(
+                                Icons.Default.History,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(onClick = { onRemoveHistory(query) }) {
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = stringResource(Res.string.remove)
+                                )
+                            }
+                        },
+                        modifier = Modifier.clickable { onSelectHistory(query) }
+                    )
+                }
+            }
+            HorizontalDivider()
+        } else {
+            EmptyState(
+                icon = Icons.Default.Search,
+                title = if (isScoped) stringResource(Res.string.search_this_room) else stringResource(Res.string.search_all_messages),
+                subtitle = stringResource(Res.string.search_min_chars),
+                modifier = Modifier.weight(1f)
+            )
+        }
     }
 }
 

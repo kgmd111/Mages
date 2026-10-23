@@ -78,7 +78,7 @@ actual object Notifier {
         currentRoomId = roomId
         if (roomId != null) {
             val ctx = appContextOrNull() ?: return
-            AndroidNotificationHelper.cancelRoomNotification(ctx, roomId)
+            AndroidNotificationHelper.cancelRoomNotification(ctx, roomId, includeThreads = false)
             CoroutineScope(Dispatchers.IO).launch {
                 val settingsRepo = SettingsProvider.get(ctx)
                 val settings = settingsRepo.flow.first()
@@ -99,6 +99,11 @@ actual object Notifier {
         if (senderIsMe) return false
         if (currentRoomId == roomId) return false
         return true
+    }
+
+    actual fun clearThreadNotification(roomId: String, threadId: String) {
+        val ctx = appContextOrNull() ?: return
+        AndroidNotificationHelper.cancelThreadNotification(ctx, roomId, threadId)
     }
 }
 

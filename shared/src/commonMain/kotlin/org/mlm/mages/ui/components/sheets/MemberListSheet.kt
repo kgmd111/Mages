@@ -26,6 +26,7 @@ fun MemberListSheet(
     bannedMembers: List<MemberSummary>,
     isLoading: Boolean,
     myUserId: String?,
+    activeCallParticipants: Set<String> = emptySet(),
     onDismiss: () -> Unit,
     onMemberClick: (MemberSummary) -> Unit,
     onInvite: () -> Unit
@@ -75,6 +76,7 @@ fun MemberListSheet(
                         MemberListItem(
                             member = member,
                             isMe = member.userId == myUserId,
+                            isInCall = member.userId in activeCallParticipants,
                             onClick = { onMemberClick(member) }
                         )
                     }
@@ -94,6 +96,7 @@ fun MemberListSheet(
                             MemberListItem(
                                 member = member,
                                 isMe = member.userId == myUserId,
+                                isInCall = false,
                                 onClick = { onMemberClick(member) }
                             )
                         }
@@ -108,6 +111,7 @@ fun MemberListSheet(
 private fun MemberListItem(
     member: MemberSummary,
     isMe: Boolean,
+    isInCall: Boolean,
     onClick: () -> Unit
 ) {
     ListItem(
@@ -147,10 +151,44 @@ private fun MemberListItem(
             )
         },
         trailingContent = {
-            MembershipBadge(member.membership)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                if (isInCall) {
+                    InCallBadge()
+                }
+                MembershipBadge(member.membership)
+            }
         },
         modifier = Modifier.clickable(enabled = !isMe) { onClick() }
     )
+}
+
+@Composable
+private fun InCallBadge() {
+    Surface(
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+        shape = MaterialTheme.shapes.small
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+            Icon(
+                Icons.Default.Call,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                stringResource(Res.string.in_call),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
 }
 
 @Composable

@@ -16,8 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +35,7 @@ import mages.shared.generated.resources.recovery_key_instructions
 import mages.shared.generated.resources.save_recovery_key_warning
 import mages.shared.generated.resources.setup_recovery_title
 import org.jetbrains.compose.resources.stringResource
+import org.mlm.mages.platform.rememberClipboardCopy
 import org.mlm.mages.ui.theme.Spacing
 import org.mlm.mages.ui.viewmodel.SecurityViewModel
 
@@ -50,7 +49,7 @@ fun SetupRecoverySheet(
     val generatedKey = state.generatedRecoveryKey
     val isWorking = state.isEnablingRecovery
     val progress = state.recoveryProgress
-    val clipboardManager = LocalClipboardManager.current
+    val copyToClipboard = rememberClipboardCopy()
     var copied by remember { mutableStateOf(false) }
 
     Column(
@@ -106,7 +105,7 @@ fun SetupRecoverySheet(
 
                         OutlinedButton(
                             onClick = {
-                                clipboardManager.setText(AnnotatedString(key))
+                                copyToClipboard(key, true)
                                 copied = true
                             },
                             modifier = Modifier.fillMaxWidth()

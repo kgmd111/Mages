@@ -21,6 +21,8 @@ data class MessageEvent(
     var mentionsRoom: Boolean = false,
     var timestampMs: Long,
     var sendState: SendState? = null,
+    var editSendState: SendState? = null,
+    var redactionSendState: SendState? = null,
     var txnId: String? = null,
     var replyToEventId: String? = null,
     var replyToSender: String? = null,

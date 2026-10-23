@@ -1078,6 +1078,11 @@ impl CoreClient {
             .ok_or_else(|| FfiError::Msg("room not found".into()))?;
         let eid =
             EventId::parse(&event_id).map_err(|_| FfiError::Msg("invalid event id".into()))?;
+        if let Some(tl) = self.timeline(&room_id).await {
+            if let Some(item) = tl.item_by_event_id(&eid).await {
+                return tl.redact(&item.identifier(), reason.as_deref()).await.ffi();
+            }
+        }
         room.redact(&eid, reason.as_deref(), None)
             .await
             .ffi()
@@ -1211,6 +1216,33 @@ impl CoreClient {
             ReceiptType::ReadPrivate
         };
         room.send_single_receipt(receipt_type, ReceiptThread::Unthreaded, eid.to_owned())
+            .await
+            .ffi()
+    }
+
+    pub async fn mark_thread_read_at(
+        &self,
+        room_id: String,
+        thread_root_event_id: String,
+        event_id: String,
+        send_public_receipt: bool,
+    ) -> Result<(), FfiError> {
+        let rid = OwnedRoomId::try_from(room_id.as_str())
+            .map_err(|_| FfiError::Msg("invalid room id".into()))?;
+        let thread_id = EventId::parse(&thread_root_event_id)
+            .map_err(|_| FfiError::Msg("invalid thread root event id".into()))?;
+        let eid =
+            EventId::parse(&event_id).map_err(|_| FfiError::Msg("invalid event id".into()))?;
+        let room = self
+            .sdk
+            .get_room(&rid)
+            .ok_or_else(|| FfiError::Msg("room not found".into()))?;
+        let receipt_type = if send_public_receipt {
+            ReceiptType::Read
+        } else {
+            ReceiptType::ReadPrivate
+        };
+        room.send_single_receipt(receipt_type, ReceiptThread::Thread(thread_id.to_owned()), eid)
             .await
             .ffi()
     }

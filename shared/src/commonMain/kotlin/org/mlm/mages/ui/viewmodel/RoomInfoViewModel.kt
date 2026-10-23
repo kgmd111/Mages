@@ -80,6 +80,7 @@ data class RoomInfoUiState(
     val myUserId: String? = null,
     val dmPartner: MemberSummary? = null,
     val dmPartnerVerified: Boolean = false,
+    val activeCallParticipants: Set<String> = emptySet(),
     val showMembers: Boolean = false,
     val selectedMemberForAction: MemberSummary? = null,
     val selectedMemberDmAction: ActionAvailabilityUi = ActionAvailabilityUi(),
@@ -151,6 +152,7 @@ class RoomInfoViewModel(
                 canInvite = actionState.invite.isEnabled,
                 canRedact = actionState.redactOthers.isEnabled,
                 canKick = myPowerLevel >= powerLevels.kick,
+                activeCallParticipants = snapshot.callState.activeParticipants.toSet(),
             )
         }
         if (lastAvatarMxc != snapshot.profile.avatarUrl) {

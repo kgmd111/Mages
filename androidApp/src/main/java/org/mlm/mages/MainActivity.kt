@@ -347,6 +347,7 @@ class MainActivity : AppCompatActivity() {
     private suspend fun handleRoomIntent(uri: Uri) {
         val roomId = uri.getQueryParameter("id")
         val eventId = uri.getQueryParameter("event")
+        val threadId = uri.getQueryParameter("thread")
         val joinCall = uri.getQueryParameter("join_call") == "1"
         val voiceOnly = uri.getQueryParameter("voice_only") == "1"
         val incoming = uri.getQueryParameter("incoming") == "1"
@@ -372,6 +373,7 @@ class MainActivity : AppCompatActivity() {
             DeepLinkAction(
                 roomId = roomId,
                 eventId = eventId,
+                threadId = threadId,
                 joinCall = joinCall,
                 voiceOnly = voiceOnly,
                 incoming = incoming,

@@ -85,6 +85,7 @@ fun <T : NavKey> NavBackStack<T>.openRoom(key: T) {
 data class DeepLinkAction(
     val roomId: String,
     val eventId: String? = null,
+    val threadId: String? = null,
     val joinCall: Boolean = false,
     val voiceOnly: Boolean = false,
     val incoming: Boolean = false
@@ -108,21 +109,45 @@ fun BindDeepLinks(
     LaunchedEffect(deepLinks) {
         deepLinks?.collectLatest { action ->
             val top = backStack.lastOrNull()
-            val alreadyThere = top is Route.Room && top.roomId == action.roomId
-            if (alreadyThere) {
-                if (action.eventId != null) {
-                    backStack.replaceTop(Route.Room(
+            val threadId = action.threadId
+            if (threadId != null) {
+                if (top is Route.Thread &&
+                    top.roomId == action.roomId &&
+                    top.rootEventId == threadId
+                ) {
+                    if (action.eventId != null) {
+                        backStack.replaceTop(top.copy(focusedEventId = action.eventId))
+                    }
+                } else {
+                    val threadRoute = Route.Thread(
                         roomId = action.roomId,
-                        name = action.roomId,
+                        rootEventId = threadId,
+                        roomName = action.roomId,
+                        focusedEventId = action.eventId
+                    )
+                    if (top is Route.Room && top.roomId == action.roomId) {
+                        backStack.add(threadRoute)
+                    } else {
+                        backStack.openRoom(threadRoute)
+                    }
+                }
+            } else {
+                val alreadyThere = top is Route.Room && top.roomId == action.roomId
+                if (alreadyThere) {
+                    if (action.eventId != null) {
+                        backStack.replaceTop(Route.Room(
+                            roomId = action.roomId,
+                            name = action.roomId,
+                            eventId = action.eventId
+                        ))
+                    }
+                } else {
+                    backStack.openRoom(Route.Room(
+                        roomId = action.roomId,
+                        name = action.roomId, // Will be updated by RoomViewModel
                         eventId = action.eventId
                     ))
                 }
-            } else {
-                backStack.openRoom(Route.Room(
-                    roomId = action.roomId,
-                    name = action.roomId, // Will be updated by RoomViewModel
-                    eventId = action.eventId
-                ))
             }
 
             val callIntent = if (action.voiceOnly) CallIntent.JoinExistingVoiceDm

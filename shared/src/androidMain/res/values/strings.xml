@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mages</string>
     <string name="notif_new_message">New message</string>
+    <string name="notif_thread_title">%1$s · Thread</string>
     <string name="notif_channel_messages">Messages</string>
     <string name="notif_channel_messages_desc">Message notifications</string>
     <string name="notif_channel_messages_silent">Messages (silent)</string>

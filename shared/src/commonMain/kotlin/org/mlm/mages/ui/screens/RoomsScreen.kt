@@ -133,6 +133,7 @@ fun RoomsScreen(
                     unreadGroupsCount = state.unreadGroupsCount,
                     unreadDmsCount = state.unreadDmsCount,
                     spacesUnreadCount = state.spacesUnreadCount,
+                    totalUnreadCount = state.totalUnreadCount,
                     showSwitchAccountButton = settings.showSwitchAccountButton,
                     onOpenSpaces = onOpenSpaces,
                     onOpenSecurity = onOpenSecurity,
@@ -531,6 +532,7 @@ private fun RoomsTopBar(
     unreadGroupsCount: Int,
     unreadDmsCount: Int,
     spacesUnreadCount: Int,
+    totalUnreadCount: Int,
     showSwitchAccountButton: Boolean,
     onSearchChange: (String) -> Unit,
     onToggleUnreadOnly: () -> Unit,
@@ -543,7 +545,20 @@ private fun RoomsTopBar(
 ) {
     Column {
         TopAppBar(
-            title = { Text(stringResource(Res.string.rooms), fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(Res.string.rooms), fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    if (totalUnreadCount > 0) {
+                        Spacer(Modifier.width(Spacing.sm))
+                        Badge {
+                            Text(
+                                if (totalUnreadCount > Limits.unreadBadgeCap) "${Limits.unreadBadgeCap}+" else totalUnreadCount.toString(),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                    }
+                }
+            },
             actions = {
                 IconButton(onClick = onOpenSpaces) {
                     Box {

@@ -667,6 +667,7 @@ fun RoomInfoScreen(
                 bannedMembers = state.bannedMembers,
                 isLoading = false,
                 myUserId = state.myUserId,
+                activeCallParticipants = state.activeCallParticipants,
                 onDismiss = onHideMembers,
                 onMemberClick = onSelectMember,
                 onInvite = onShowInviteDialog

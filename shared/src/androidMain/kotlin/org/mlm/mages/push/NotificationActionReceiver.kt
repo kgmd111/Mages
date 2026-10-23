@@ -35,6 +35,7 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
             val roomId = intent.getStringExtra(EXTRA_ROOM_ID)
             val eventId = intent.getStringExtra(EXTRA_EVENT_ID)
+            val threadId = intent.getStringExtra(EXTRA_THREAD_ID)
             val notifId = intent.getIntExtra(EXTRA_NOTIF_ID, 0)
 
             try {
@@ -107,9 +108,27 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
                         val port = service.portOrNull
 
                         if (port != null && service.isLoggedIn()) {
-                            port.markFullyReadAt(roomId, eventId, settingsRepo.flow.first().sendReadReceipts)
+                            if (threadId != null) {
+                                port.markThreadReadAt(
+                                    roomId,
+                                    threadId,
+                                    eventId,
+                                    settingsRepo.flow.first().sendReadReceipts
+                                )
+                            } else {
+                                port.markFullyReadAt(
+                                    roomId,
+                                    eventId,
+                                    settingsRepo.flow.first().sendReadReceipts
+                                )
+                            }
                         }
-                        if (notifId != 0) {
+                        if (threadId != null) {
+                            if (notifId != 0) {
+                                nm.cancel(notifId)
+                                Notifier.updateSummaryNotification(context)
+                            }
+                        } else if (notifId != 0) {
                             AndroidNotificationHelper.cancelRoomNotification(context, roomId, force = true)
                         }
                     }
@@ -131,13 +150,30 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
                         runCatching { port.enterForeground() }
 
-                        val ok = port.reply(roomId, eventId, text)
-                            .recoverCatching { port.send(roomId, text).getOrThrow() }
-                            .isSuccess
+                        val ok = if (threadId != null) {
+                            port.sendThreadText(roomId, threadId, text).isSuccess
+                        } else {
+                            port.reply(roomId, eventId, text)
+                                .recoverCatching { port.send(roomId, text).getOrThrow() }
+                                .isSuccess
+                        }
 
                         if (!ok) return@launch
 
-                        port.markFullyReadAt(roomId, eventId, settingsRepo.flow.first().sendReadReceipts)
+                        if (threadId != null) {
+                            port.markThreadReadAt(
+                                roomId,
+                                threadId,
+                                eventId,
+                                settingsRepo.flow.first().sendReadReceipts
+                            )
+                        } else {
+                            port.markFullyReadAt(
+                                roomId,
+                                eventId,
+                                settingsRepo.flow.first().sendReadReceipts
+                            )
+                        }
 
                         val roomName = intent.getStringExtra(EXTRA_ROOM_NAME) ?: ""
                         val contactName = intent.getStringExtra(EXTRA_SENDER_NAME) ?: ""
@@ -180,13 +216,17 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
                             Intent(Intent.ACTION_VIEW,
                                 Uri.Builder().scheme("mages").authority("room")
                                     .appendQueryParameter("id", roomId)
-                                    .appendQueryParameter("event", eventId).build()
+                                    .appendQueryParameter("event", eventId)
+                                    .apply {
+                                        threadId?.let { appendQueryParameter("thread", it) }
+                                    }
+                                    .build()
                             ).setPackage(context.packageName)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                         )
 
-                        val isDm = contactName.isNotEmpty()
+                        val isDm = intent.getBooleanExtra(EXTRA_IS_DM, false)
 
                         val existingNotification = if (notifId != 0) {
                             nm.activeNotifications?.find { it.id == notifId }?.notification
@@ -211,6 +251,7 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
                             bubbleActivityClass = bubbleActivityClass,
                             fullOpenIntent = fullOpenIntent,
                             isDm = isDm,
+                            threadId = threadId,
                         )
                     }
                 }
@@ -230,6 +271,8 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
         const val EXTRA_ROOM_ID = "roomId"
         const val EXTRA_EVENT_ID = "eventId"
+        const val EXTRA_THREAD_ID = "threadId"
+        const val EXTRA_IS_DM = "isDm"
         const val EXTRA_NOTIF_ID = "notifId"
         const val EXTRA_ROOM_NAME = "roomName"
         const val EXTRA_CALLER_NAME = "callerName"

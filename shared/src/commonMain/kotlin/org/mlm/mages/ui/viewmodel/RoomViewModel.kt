@@ -104,6 +104,7 @@ class RoomViewModel(
             updateState {
                 copy(
                     isDm = profile.isDm,
+                    memberCount = profile.memberCount,
                     roomAvatarUrl = profile.avatarUrl,
                     roomName = profile.name
                 )
@@ -226,6 +227,7 @@ class RoomViewModel(
     private var remoteCallActiveForRoom = false
     private var localCallIsAudioForRoom: Boolean? = null
     private var remoteCallIsAudioForRoom: Boolean? = null
+    private var remoteCallParticipants: List<String> = emptyList()
     private var dmPeer: String? = null
     private var uploadJob: Job? = null
     private var uploadTxnId: String? = null
@@ -474,6 +476,8 @@ class RoomViewModel(
         updateState {
             copy(
                 hasActiveCallForRoom = localCallActiveForRoom || remoteCallActiveForRoom,
+                isLocalCallActiveForRoom = localCallActiveForRoom,
+                callParticipantsForRoom = remoteCallParticipants,
                 activeCallIsAudioForRoom = activeIsAudio
             )
         }
@@ -2626,6 +2630,9 @@ class RoomViewModel(
     }
 
     fun startCall(intent: CallIntent = CallIntent.StartCall, languageTag: String?, theme: String?) {
+        val state = currentState
+        val startingCall = intent == CallIntent.StartCall || intent == CallIntent.StartCallVoiceDm
+        if (startingCall && state.isDm && state.memberCount <= 1) return
         launch {
             val elementCallUrl = settings.value.elementCallUrl.trim()
                 .ifBlank { platformEmbeddedElementCallUrlOrNull() }
@@ -2645,7 +2652,8 @@ class RoomViewModel(
     }
 
     fun startVoiceCall(languageTag: String?, theme: String?) {
-        if (!currentState.isDm) return
+        val state = currentState
+        if (!state.isDm || state.memberCount <= 1) return
         startCall(CallIntent.StartCallVoiceDm, languageTag, theme)
     }
 
@@ -2863,6 +2871,7 @@ class RoomViewModel(
             roomCallStateToken = null
             remoteCallActiveForRoom = false
             remoteCallIsAudioForRoom = null
+            remoteCallParticipants = emptyList()
             recomputeActiveCall()
             roomCallStateToken = service.port.observeRoomCallState(
                 currentState.roomId,
@@ -2870,6 +2879,7 @@ class RoomViewModel(
                     override fun onUpdate(state: RoomCallState) {
                         remoteCallActiveForRoom = state.hasActiveCall
                         remoteCallIsAudioForRoom = state.callIsAudio
+                        remoteCallParticipants = state.activeParticipants
                         recomputeActiveCall()
                     }
                 }
@@ -2903,6 +2913,7 @@ class RoomViewModel(
                                 copy(
                                     roomName = snapshot.profile.name.takeIf { it.isNotBlank() } ?: roomName,
                                     isDm = snapshot.profile.isDm,
+                                    memberCount = snapshot.profile.memberCount,
                                     identityKnown = true,
                                     voiceCallAction = actionState.voiceCall.toUi(),
                                     videoCallAction = actionState.videoCall.toUi(),
@@ -2918,6 +2929,7 @@ class RoomViewModel(
                             }
                             remoteCallActiveForRoom = snapshot.callState.hasActiveCall
                             remoteCallIsAudioForRoom = snapshot.callState.callIsAudio
+                            remoteCallParticipants = snapshot.callState.activeParticipants
                             recomputeActiveCall()
                             onPinnedEventsChanged(snapshot.pinnedEventIds)
                         }

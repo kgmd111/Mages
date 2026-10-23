@@ -705,6 +705,15 @@ class WebStubMatrixPort : MatrixPort, VerificationService {
     override suspend fun markReadAt(roomId: String, eventId: String, sendPublicReceipt: Boolean): Result<Unit> =
         requireClient().markReadAt(roomId, eventId, sendPublicReceipt).awaitUnitResult()
 
+    override suspend fun markThreadReadAt(
+        roomId: String,
+        threadRootEventId: String,
+        eventId: String,
+        sendPublicReceipt: Boolean,
+    ): Result<Unit> = requireClient()
+        .markThreadReadAt(roomId, threadRootEventId, eventId, sendPublicReceipt)
+        .awaitUnitResult()
+
     override suspend fun setMarkUnread(roomId: String, unread: Boolean): Result<Unit> =
         requireClient().setMarkUnread(roomId, unread).awaitUnitResult()
 

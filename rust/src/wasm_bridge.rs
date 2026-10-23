@@ -504,6 +504,7 @@ wasm_delegate! { |b: bool| webffi_bool(Ok::<_, crate::FfiError>(b));
 wasm_delegate! { webffi_unit;
     "markRead"             => mark_read(room_id: String, send_public_receipt: bool);
     "markReadAt"           => mark_read_at(room_id: String, event_id: String, send_public_receipt: bool);
+    "markThreadReadAt"     => mark_thread_read_at(room_id: String, thread_root_event_id: String, event_id: String, send_public_receipt: bool);
     "markFullyReadAt"      => mark_fully_read_at(room_id: String, event_id: String, send_public_receipt: bool);
     "setTyping"            => set_typing(room_id: String, typing: bool);
     "setRoomFavourite"     => set_room_favourite(room_id: String, fav: bool);

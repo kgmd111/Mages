@@ -61,6 +61,8 @@ actual object Notifier {
         if (roomId == currentRoomId && windowFocused) return false
         return true
     }
+
+    actual fun clearThreadNotification(roomId: String, threadId: String) = Unit
 }
 
 @Composable

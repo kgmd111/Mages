@@ -1182,6 +1182,9 @@ data class AppSettings(
     @Persisted
     val roomDraftsJson: String = "",
 
+    @Persisted
+    val searchHistoryJson: String = "",
+
     @Setting(
         title = "Enter sends message",
         titleKey = MagesSettingsKeys.ENTER_SENDS_MESSAGE,

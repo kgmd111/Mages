@@ -116,6 +116,7 @@
     <string name="search_results_count">%1$d results</string>
     <string name="search_in_this_room">Search in this room…</string>
     <string name="search_settings">Search settings</string>
+    <string name="recent_searches">Recent searches</string>
 
     <string name="no_pending_invites">No pending invites</string>
     <string name="decline">Decline</string>
@@ -259,6 +260,8 @@
     <string name="sending">Sending…</string>
     <string name="queued">Queued</string>
     <string name="failed_to_send">Failed to send</string>
+    <string name="failed_to_save_edit">Failed to save edit</string>
+    <string name="saving_edit">Saving edit…</string>
     <string name="seen">Seen %1$s</string>
     <string name="delivered">Delivered</string>
     <string name="start_call">Start call</string>
@@ -268,6 +271,7 @@
     <string name="incoming_voice_call">Incoming voice call</string>
     <string name="ongoing_call">Ongoing call</string>
     <string name="tap_to_return">Tap to return</string>
+    <string name="in_call">In call</string>
     <string name="notifications_room">Notifications</string>
     <string name="members_room">Members</string>
     <string name="room_info_short">Room info</string>
@@ -1516,6 +1520,10 @@
     <string name="upload_failed_named">Upload failed: %1$s</string>
     <string name="verification_inbox_error">Verification inbox: %1$s</string>
     <string name="voice_message_with_duration">Voice message (%1$s)</string>
+    <plurals name="call_participant_count">
+        <item quantity="one">%1$d person in call</item>
+        <item quantity="other">%1$d people in call</item>
+    </plurals>
     <plurals name="forward_item_count">
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>

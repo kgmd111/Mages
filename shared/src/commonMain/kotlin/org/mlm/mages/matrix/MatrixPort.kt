@@ -455,6 +455,7 @@ data class RenderedNotification(
     val isDm: Boolean,
     val kind: NotificationKind,
     val callIsAudio: Boolean? = null,
+    val threadId: String? = null,
     val expiresAtMs: Long? = null,
     val senderAvatarUrl: String? = null,
     val roomAvatarUrl: String? = null,
@@ -989,6 +990,12 @@ interface MatrixPort {
     suspend fun paginateForward(roomId: String, count: Int): Result<Boolean>
     suspend fun markRead(roomId: String, sendPublicReceipt: Boolean = false): Result<Unit>
     suspend fun markReadAt(roomId: String, eventId: String, sendPublicReceipt: Boolean = false): Result<Unit>
+    suspend fun markThreadReadAt(
+        roomId: String,
+        threadRootEventId: String,
+        eventId: String,
+        sendPublicReceipt: Boolean = false,
+    ): Result<Unit>
     suspend fun setMarkUnread(roomId: String, unread: Boolean): Result<Unit>
     /**
      * Toggles a reaction keyed by [key]. When [key] is an mxc URI, [shortcode]

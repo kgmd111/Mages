@@ -122,6 +122,7 @@ class NotificationReconcileWorker(
     companion object {
         const val EXTRA_MATRIX_ROOM_ID = "org.mlm.mages.notification.ROOM_ID"
         const val EXTRA_MATRIX_EVENT_ID = "org.mlm.mages.notification.EVENT_ID"
+        const val EXTRA_MATRIX_THREAD_ID = "org.mlm.mages.notification.THREAD_ID"
         const val EXTRA_MATRIX_ACCOUNT_ID = "org.mlm.mages.notification.ACCOUNT_ID"
 
         const val KEY_ROOM_ID = "reconcileRoomId"

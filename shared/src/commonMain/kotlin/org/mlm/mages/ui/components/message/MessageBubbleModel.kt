@@ -134,6 +134,8 @@ data class MessageBubbleModel(
     val reactionShortcodes: Map<String, String> = emptyMap(),
     val reply: MessageReplyUi? = null,
     val sendState: SendState? = null,
+    val editSendState: SendState? = null,
+    val redactionSendState: SendState? = null,
     val attachment: MessageAttachmentUi? = null,
     val sticker: MessageStickerUi? = null,
     val isSticker: Boolean = false,

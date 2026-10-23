@@ -105,6 +105,7 @@ val viewModelModule = module {
     viewModel { (scopedRoomId: String?, scopedRoomName: String?) ->
         SearchViewModel(
             service = get(),
+            settingsRepository = get(),
             scopedRoomId = scopedRoomId,
             scopedRoomName = scopedRoomName
         )

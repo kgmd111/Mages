@@ -100,6 +100,7 @@ data class RoomsUiState(
     val unreadGroupsCount: Int = 0,
     val unreadDmsCount: Int = 0,
     val spacesUnreadCount: Int = 0,
+    val totalUnreadCount: Int = 0,
 )
 
 enum class RoomTypeFilter {
@@ -334,6 +335,7 @@ data class RoomUiState(
     val lastReadTs: Long? = null,
     val hasLoadedLastRead: Boolean = false,
     val isDm: Boolean = false,
+    val memberCount: Long = 0,
     val allUsersVerified: Boolean = false,
     val identityKnown: Boolean = false,
     val lastIncomingFromOthersTs: Long? = null,
@@ -401,6 +403,8 @@ data class RoomUiState(
     val isRoomSearching: Boolean = false,
     val hasRoomSearched: Boolean = false,
     val hasActiveCallForRoom: Boolean = false,
+    val isLocalCallActiveForRoom: Boolean = false,
+    val callParticipantsForRoom: List<String> = emptyList(),
     val activeCallIsAudioForRoom: Boolean? = null,
 
     // Room action availability states
@@ -767,6 +771,7 @@ data class SpaceBadgeUi(
 data class SearchUiState(
     val query: String = "",
     val error: String? = null,
+    val history: List<String> = emptyList(),
 
     // For scoped search
     val scopedRoomId: String? = null,

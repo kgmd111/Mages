@@ -141,16 +141,51 @@ object AndroidNotificationHelper : KoinComponent {
         CallTelecomBridge.sendCallDismissed(ctx, roomId, eventId, silent)
     }
 
-    fun cancelRoomNotification(ctx: Context, roomId: String, force: Boolean = false) {
-        if (BubbleActivityTracker.isBubbleOpen(roomId)) return
+    // Room receipts exclude threads, so a room-level clear must keep them by default.
+    fun cancelRoomNotification(
+        ctx: Context,
+        roomId: String,
+        force: Boolean = false,
+        includeThreads: Boolean = false,
+    ) {
         val mgr = ctx.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val id = roomId.hashCode()
-        val keptAsBubble = !force &&
-            BubbleEligibilityEvaluator.canBubble(ctx, roomId) &&
-            suppressBubbledNotification(ctx, mgr, id)
-        if (!keptAsBubble) {
-            mgr.cancel(id)
+        val messageIds = mgr.activeNotifications
+            .filter {
+                it.notification.extras
+                    .getString(NotificationReconcileWorker.EXTRA_MATRIX_ROOM_ID) == roomId &&
+                    (it.notification.channelId == AppNotificationChannels.CHANNEL_MESSAGES ||
+                        it.notification.channelId == AppNotificationChannels.CHANNEL_MESSAGES_SILENT) &&
+                    (includeThreads || it.notification.extras
+                        .getString(NotificationReconcileWorker.EXTRA_MATRIX_THREAD_ID) == null)
+            }
+            .map { it.id }
+            .toMutableSet()
+            .apply { add(id) }
+
+        if (BubbleActivityTracker.isBubbleOpen(roomId)) {
+            messageIds.remove(id)
+        } else {
+            val keptAsBubble = !force &&
+                BubbleEligibilityEvaluator.canBubble(ctx, roomId) &&
+                suppressBubbledNotification(ctx, mgr, id)
+            if (keptAsBubble) messageIds.remove(id)
         }
+
+        messageIds.forEach { mgr.cancel(it) }
+        Notifier.updateSummaryNotification(ctx)
+    }
+
+    fun cancelThreadNotification(ctx: Context, roomId: String, threadId: String) {
+        val mgr = ctx.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        mgr.activeNotifications
+            .filter {
+                it.notification.extras
+                    .getString(NotificationReconcileWorker.EXTRA_MATRIX_ROOM_ID) == roomId &&
+                    it.notification.extras
+                        .getString(NotificationReconcileWorker.EXTRA_MATRIX_THREAD_ID) == threadId
+            }
+            .forEach { mgr.cancel(it.id) }
         Notifier.updateSummaryNotification(ctx)
     }
 
@@ -523,6 +558,9 @@ object Notifier {
     internal fun groupKey(context: Context) = "${context.packageName}.NOTIFICATIONS"
     private val SUMMARY_NOTIFICATION_ID = "org.mlm.mages.NOTIFICATIONS.summary".hashCode()
 
+    fun messageNotificationId(roomId: String, threadId: String? = null): Int =
+        if (threadId == null) roomId.hashCode() else "$roomId:$threadId".hashCode()
+
     private const val REQUEST_BUBBLE = 2000
     private const val REQUEST_CONTENT = 3000
     private const val REQUEST_REPLY = 4000
@@ -544,16 +582,18 @@ object Notifier {
         senderAvatar: AvatarResult,
         roomAvatar: AvatarResult,
         isDm: Boolean = false,
+        threadId: String? = null,
         playSound: Boolean = true,
         mediaPath: String? = null,
         caption: String = "",
     ) {
+        val isThread = threadId != null
         val channelId = if (playSound) {
             AppNotificationChannels.CHANNEL_MESSAGES
         } else {
             AppNotificationChannels.CHANNEL_MESSAGES_SILENT
         }
-        if (bubbleActivityClass != null) {
+        if (bubbleActivityClass != null && !isThread) {
             ConversationShortcutPublisher.publishOrUpdate(
                 context, roomId, roomName, senderName, roomAvatar.icon, bubbleActivityClass
             )
@@ -583,8 +623,14 @@ object Notifier {
         }
 
         val style = existingStyle ?: NotificationCompat.MessagingStyle(sender)
-            .setConversationTitle(if (isDm) null else roomName)
-            .setGroupConversation(!isDm)
+            .setConversationTitle(
+                when {
+                    isThread -> context.getString(R.string.notif_thread_title, roomName)
+                    isDm -> null
+                    else -> roomName
+                }
+            )
+            .setGroupConversation(!isDm || isThread)
 
         // An image message must carry non-empty text or SystemUI drops the image, and
         // that text is not rendered once the image shows, so a caption rides along as
@@ -616,7 +662,8 @@ object Notifier {
                 .putExtra(NotificationActionReceiver.EXTRA_ROOM_NAME, roomName)
                 .putExtra(NotificationActionReceiver.EXTRA_SENDER_NAME, senderName)
                 .putExtra(NotificationActionReceiver.EXTRA_SENDER_USER_ID, senderUserId)
-                .putExtra(NotificationActionReceiver.EXTRA_MESSAGE_BODY, messageBody),
+                .putExtra(NotificationActionReceiver.EXTRA_MESSAGE_BODY, messageBody)
+                .apply { threadId?.let { putExtra(NotificationActionReceiver.EXTRA_THREAD_ID, it) } },
             PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val replyAction = NotificationCompat.Action.Builder(
@@ -633,7 +680,8 @@ object Notifier {
                 .putExtra(NotificationActionReceiver.EXTRA_NOTIF_ID, notificationId)
                 .putExtra(NotificationActionReceiver.EXTRA_ROOM_NAME, roomName)
                 .putExtra(NotificationActionReceiver.EXTRA_SENDER_NAME, senderName)
-                .putExtra(NotificationActionReceiver.EXTRA_MESSAGE_BODY, messageBody),
+                .putExtra(NotificationActionReceiver.EXTRA_MESSAGE_BODY, messageBody)
+                .apply { threadId?.let { putExtra(NotificationActionReceiver.EXTRA_THREAD_ID, it) } },
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val markReadAction = NotificationCompat.Action.Builder(
@@ -643,7 +691,6 @@ object Notifier {
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notif_status_bar)
             .setStyle(style)
-            .setShortcutId(ConversationShortcutPublisher.shortcutId(roomId))
             .setContentIntent(fullOpenIntent)
             .addAction(replyAction)
             .addAction(markReadAction)
@@ -652,11 +699,16 @@ object Notifier {
             .setCategory(Notification.CATEGORY_MESSAGE)
             .setGroup(groupKey(context))
             .setGroupSummary(false)
+            .apply {
+                if (!isThread) {
+                    setShortcutId(ConversationShortcutPublisher.shortcutId(roomId))
+                }
+            }
 
         val largeIconBitmap = if (isDm) senderAvatar.bitmap else roomAvatar.bitmap
         builder.setLargeIcon(largeIconBitmap)
 
-        if (bubbleActivityClass != null && BubbleEligibilityEvaluator.canBubble(context, roomId)) {
+        if (bubbleActivityClass != null && !isThread && BubbleEligibilityEvaluator.canBubble(context, roomId)) {
             val bubblePendingIntent = PendingIntent.getActivity(
                 context,
                 REQUEST_BUBBLE + notificationId,
@@ -677,6 +729,10 @@ object Notifier {
             Bundle().apply {
                 putString(NotificationReconcileWorker.EXTRA_MATRIX_ROOM_ID, roomId)
                 putString(NotificationReconcileWorker.EXTRA_MATRIX_EVENT_ID, eventId)
+                putBoolean(NotificationActionReceiver.EXTRA_IS_DM, isDm)
+                threadId?.let {
+                    putString(NotificationReconcileWorker.EXTRA_MATRIX_THREAD_ID, it)
+                }
             }
         )
 
@@ -706,7 +762,11 @@ object Notifier {
                  it.notification.channelId == AppNotificationChannels.CHANNEL_CALLS_SILENT) &&
                 !isSuppressedBubble(it.notification)
             }
-            .map { it.id }
+            .map {
+                it.notification.extras
+                    .getString(NotificationReconcileWorker.EXTRA_MATRIX_ROOM_ID)
+                    ?: it.id.toString()
+            }
             .distinct()
 
         if (roomNotifIds.size < 2) {
@@ -748,7 +808,9 @@ object Notifier {
         bubbleActivityClass: Class<*>?,
         fullOpenIntent: PendingIntent,
         isDm: Boolean,
+        threadId: String? = null,
     ) {
+        val isThread = threadId != null
         val channelId = AppNotificationChannels.CHANNEL_MESSAGES_SILENT
 
         val me = Person.Builder()
@@ -770,8 +832,14 @@ object Notifier {
             ?.let { NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it) }
 
         val style = (existingStyle ?: NotificationCompat.MessagingStyle(me)
-            .setConversationTitle(if (isDm) null else roomName)
-            .setGroupConversation(!isDm))
+            .setConversationTitle(
+                when {
+                    isThread -> context.getString(R.string.notif_thread_title, roomName)
+                    isDm -> null
+                    else -> roomName
+                }
+            )
+            .setGroupConversation(!isDm || isThread))
 
         if (originalMessage.isNotEmpty() && existingStyle == null) {
             style.addMessage(originalMessage, System.currentTimeMillis() - 2000, contact)
@@ -793,7 +861,8 @@ object Notifier {
                 .putExtra(NotificationActionReceiver.EXTRA_ROOM_NAME, roomName)
                 .putExtra(NotificationActionReceiver.EXTRA_SENDER_NAME, contactName)
                 .putExtra(NotificationActionReceiver.EXTRA_MESSAGE_BODY, replyText)
-                .putExtra(NotificationActionReceiver.EXTRA_LAST_MESSAGE_FROM_ME, true),
+                .putExtra(NotificationActionReceiver.EXTRA_LAST_MESSAGE_FROM_ME, true)
+                .apply { threadId?.let { putExtra(NotificationActionReceiver.EXTRA_THREAD_ID, it) } },
             PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val replyAction = NotificationCompat.Action.Builder(
@@ -807,7 +876,8 @@ object Notifier {
                 .setAction(NotificationActionReceiver.ACTION_MARK_READ)
                 .putExtra(NotificationActionReceiver.EXTRA_ROOM_ID, roomId)
                 .putExtra(NotificationActionReceiver.EXTRA_EVENT_ID, eventId)
-                .putExtra(NotificationActionReceiver.EXTRA_NOTIF_ID, notificationId),
+                .putExtra(NotificationActionReceiver.EXTRA_NOTIF_ID, notificationId)
+                .apply { threadId?.let { putExtra(NotificationActionReceiver.EXTRA_THREAD_ID, it) } },
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val markReadAction = NotificationCompat.Action.Builder(
@@ -817,7 +887,6 @@ object Notifier {
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notif_status_bar)
             .setStyle(style)
-            .setShortcutId(ConversationShortcutPublisher.shortcutId(roomId))
             .setContentIntent(fullOpenIntent)
             .addAction(replyAction)
             .addAction(markReadAction)
@@ -826,6 +895,11 @@ object Notifier {
             .setCategory(Notification.CATEGORY_MESSAGE)
             .setGroup(groupKey(context))
             .setGroupSummary(false)
+            .apply {
+                if (!isThread) {
+                    setShortcutId(ConversationShortcutPublisher.shortcutId(roomId))
+                }
+            }
 
         if (isDm) {
             builder.setLargeIcon(myAvatar.bitmap)
@@ -833,7 +907,7 @@ object Notifier {
             builder.setLargeIcon(contactAvatar.bitmap)
         }
 
-        if (bubbleActivityClass != null && BubbleEligibilityEvaluator.canBubble(context, roomId)) {
+        if (bubbleActivityClass != null && !isThread && BubbleEligibilityEvaluator.canBubble(context, roomId)) {
             val bubblePendingIntent = PendingIntent.getActivity(
                 context,
                 REQUEST_BUBBLE + notificationId,
@@ -850,6 +924,17 @@ object Notifier {
                 .build()
             builder.setBubbleMetadata(bubbleMetadata)
         }
+
+        builder.addExtras(
+            Bundle().apply {
+                putString(NotificationReconcileWorker.EXTRA_MATRIX_ROOM_ID, roomId)
+                putString(NotificationReconcileWorker.EXTRA_MATRIX_EVENT_ID, eventId)
+                putBoolean(NotificationActionReceiver.EXTRA_IS_DM, isDm)
+                threadId?.let {
+                    putString(NotificationReconcileWorker.EXTRA_MATRIX_THREAD_ID, it)
+                }
+            }
+        )
 
         if (nm.areNotificationsEnabled()) {
             nm.notify(notificationId, builder.build())

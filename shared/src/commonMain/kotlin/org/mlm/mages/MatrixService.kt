@@ -160,6 +160,13 @@ class MatrixService(
     suspend fun markReadAt(roomId: String, eventId: String, sendPublicReceipt: Boolean = true): Result<Unit> =
         port.markReadAt(roomId, eventId, sendPublicReceipt)
 
+    suspend fun markThreadReadAt(
+        roomId: String,
+        threadRootEventId: String,
+        eventId: String,
+        sendPublicReceipt: Boolean = true,
+    ): Result<Unit> = port.markThreadReadAt(roomId, threadRootEventId, eventId, sendPublicReceipt)
+
     suspend fun markFullyReadAt(roomId: String, eventId: String, sendPublicReceipt: Boolean = true): Result<Unit> =
         port.markFullyReadAt(roomId, eventId, sendPublicReceipt)
 

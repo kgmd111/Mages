@@ -411,8 +411,18 @@ fun MessageBubble(
                                 )
                             }
 
-                            if (isMine && model.sendState == SendState.Failed) {
-                                FailedIndicator()
+                            if (isMine) {
+                                when {
+                                    model.sendState == SendState.Failed -> FailedIndicator(
+                                        stringResource(Res.string.failed_to_send_check_your_internet)
+                                    )
+                                    model.editSendState == SendState.Failed -> FailedIndicator(
+                                        stringResource(Res.string.failed_to_save_edit)
+                                    )
+                                    model.redactionSendState == SendState.Failed -> FailedIndicator(
+                                        stringResource(Res.string.failed_to_delete_message)
+                                    )
+                                }
                             }
                         }
                     }
@@ -1143,7 +1153,7 @@ private fun DurationBadge(ms: Long, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun FailedIndicator() {
+private fun FailedIndicator(text: String) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = Spacing.xs)) {
         Icon(
             imageVector = Icons.Default.Error,
@@ -1153,7 +1163,7 @@ private fun FailedIndicator() {
         )
         Spacer(Modifier.width(6.dp))
         Text(
-            text = stringResource(Res.string.failed_to_send_check_your_internet),
+            text = text,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.error
         )

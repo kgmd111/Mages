@@ -439,6 +439,19 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
             runWithFfiResult { withClient { it.markReadAt(roomId, eventId, sendPublicReceipt) } }
         }
 
+    override suspend fun markThreadReadAt(
+        roomId: String,
+        threadRootEventId: String,
+        eventId: String,
+        sendPublicReceipt: Boolean,
+    ): Result<Unit> = withContext(matrixDispatcher) {
+        runWithFfiResult {
+            withClient {
+                it.markThreadReadAt(roomId, threadRootEventId, eventId, sendPublicReceipt)
+            }
+        }
+    }
+
     override suspend fun setMarkUnread(roomId: String, unread: Boolean): Result<Unit> =
         withContext(matrixDispatcher) {
             runWithFfiResult { withClient { it.setMarkUnread(roomId, unread) } }
@@ -1107,6 +1120,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                             tsMs = n.tsMs.toLong(),
                             isDm = n.isDm,
                             callIsAudio = n.callIsAudio,
+                            threadId = n.threadId,
                             kind = n.kind.toKotlin(),
                             expiresAtMs = n.expiresAtMs?.toLong()
                         )
@@ -1142,6 +1156,7 @@ class RustMatrixPort(private val isProbe: Boolean = false) : MatrixPort, Verific
                     tsMs = n.tsMs.toLong(),
                     isDm = n.isDm,
                     callIsAudio = n.callIsAudio,
+                    threadId = n.threadId,
                     kind = n.kind.toKotlin(),
                     expiresAtMs = n.expiresAtMs?.toLong()
                 )
@@ -2473,6 +2488,8 @@ private fun mages.MessageEvent.toModel() = MessageEvent(
     mentionsRoom = mentionsRoom,
     timestampMs = timestampMs.toLong(),
     sendState = sendState?.toKotlin(),
+    editSendState = editSendState?.toKotlin(),
+    redactionSendState = redactionSendState?.toKotlin(),
     txnId = txnId,
     replyToEventId = replyToEventId,
     replyToSender = replyToSender,

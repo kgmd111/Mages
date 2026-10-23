@@ -58,10 +58,9 @@ class NotificationEnrichWorker(
         val roomId = inputData.getString(KEY_ROOM_ID) ?: return Result.failure()
         val eventId = inputData.getString(KEY_EVENT_ID) ?: return Result.failure()
 
-        // One notification per room, holding every unread message in its MessagingStyle.
+        // One notification per room/thread, holding every unread message in its MessagingStyle.
         // Cancelling it therefore drops the whole conversation's history, so a decision
         // to withhold *this* event must never cancel: it just skips the event.
-        val notifId = (roomId).hashCode()
 
         val settingsRepo = SettingsProvider.get(applicationContext)
         val settings = settingsRepo.flow.first()
@@ -75,7 +74,12 @@ class NotificationEnrichWorker(
         // Notifications off entirely, or no session to attribute them to: nothing
         // this room is showing is still wanted, so the room is cleared.
         if (!settings.notificationsEnabled) {
-            AndroidNotificationHelper.cancelRoomNotification(applicationContext, roomId, force = true)
+            AndroidNotificationHelper.cancelRoomNotification(
+                applicationContext,
+                roomId,
+                force = true,
+                includeThreads = true
+            )
             return Result.success()
         }
 
@@ -83,7 +87,12 @@ class NotificationEnrichWorker(
 
         val port = service.portOrNull
         if (port == null || !service.isLoggedIn()) {
-            AndroidNotificationHelper.cancelRoomNotification(applicationContext, roomId, force = true)
+            AndroidNotificationHelper.cancelRoomNotification(
+                applicationContext,
+                roomId,
+                force = true,
+                includeThreads = true
+            )
             return Result.success()
         }
 
@@ -247,12 +256,18 @@ class NotificationEnrichWorker(
                     caption = presentation.bodyWithMedia,
                     eventId = eventId,
                     timestamp = rendered.tsMs,
-                    notificationId = notifId,
+                    notificationId = Notifier.messageNotificationId(roomId, rendered.threadId),
                     bubbleActivityClass = bubbleActivityClass,
-                    fullOpenIntent = buildFullOpenIntent(applicationContext, roomId, eventId),
+                    fullOpenIntent = buildFullOpenIntent(
+                        applicationContext,
+                        roomId,
+                        eventId,
+                        rendered.threadId
+                    ),
                     senderAvatar = senderAvatar,
                     roomAvatar = roomAvatar,
                     isDm = rendered.isDm,
+                    threadId = rendered.threadId,
                     playSound = playSound,
                     mediaPath = media,
                 )
@@ -281,19 +296,27 @@ private fun isInQuietHours(settings: AppSettings): Boolean {
     }
 }
 
-private fun buildFullOpenIntent(context: Context, roomId: String, eventId: String? = null): PendingIntent {
+private fun buildFullOpenIntent(
+    context: Context,
+    roomId: String,
+    eventId: String? = null,
+    threadId: String? = null,
+): PendingIntent {
     val uri = Uri.Builder()
         .scheme("mages")
         .authority("room")
         .appendQueryParameter("id", roomId)
-        .apply { eventId?.let { appendQueryParameter("event", it) } }
+        .apply {
+            eventId?.let { appendQueryParameter("event", it) }
+            threadId?.let { appendQueryParameter("thread", it) }
+        }
         .build()
     val intent = Intent(Intent.ACTION_VIEW, uri).apply {
         setPackage(context.packageName)
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     return PendingIntent.getActivity(
-        context, roomId.hashCode(),
+        context, Notifier.messageNotificationId(roomId, threadId),
         intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
 }

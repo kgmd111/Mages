@@ -146,6 +146,7 @@ delegate! { unit;
                      formatted_body: Option<String>);
     mark_read(room_id: String, send_public_receipt: bool);
     mark_read_at(room_id: String, event_id: String, send_public_receipt: bool);
+    mark_thread_read_at(room_id: String, thread_root_event_id: String, event_id: String, send_public_receipt: bool);
     mark_fully_read_at(room_id: String, event_id: String, send_public_receipt: bool);
     set_mark_unread(room_id: String, unread: bool);
     ban_user(room_id: String, user_id: String, reason: Option<String>);
@@ -3797,6 +3798,14 @@ fn map_reply_preview(
 
 const UNSUPPORTED_EVENT_BODY: &str = "Unsupported event";
 
+fn pending_send_state(state: Option<&EventSendState>) -> Option<SendState> {
+    state.map(|state| match state {
+        EventSendState::NotSentYet { .. } => SendState::Sending,
+        EventSendState::SendingFailed { .. } => SendState::Failed,
+        EventSendState::Sent { .. } => SendState::Sent,
+    })
+}
+
 fn map_timeline_event(
     ev: &EventTimelineItem,
     room_id: &str,
@@ -3812,6 +3821,9 @@ fn map_timeline_event(
         let _ = serde_json::to_string(&*j).map(|s| buf = s);
         if buf.is_empty() { None } else { Some(buf) }
     });
+
+    let edit_send_state = pending_send_state(ev.edit_send_state());
+    let redaction_send_state = pending_send_state(ev.redaction_send_state());
 
     let sdk_send_state = ev.send_state();
     let (send_state, event_id_from_send_state) = match sdk_send_state {
@@ -4046,6 +4058,8 @@ fn map_timeline_event(
         mentions_room,
         timestamp_ms: ts,
         send_state,
+        edit_send_state,
+        redaction_send_state,
         txn_id,
         reply_to_event_id,
         reply_to_sender,
@@ -5675,6 +5689,15 @@ fn classify_notification_content(
     }
 }
 
+fn notification_thread_id(item: &NotificationItem) -> Option<String> {
+    let content = raw_notification_content(item)?;
+    let relates = content.get("m.relates_to")?;
+    if relates.get("rel_type")?.as_str()? != "m.thread" {
+        return None;
+    }
+    relates.get("event_id")?.as_str().map(ToOwned::to_owned)
+}
+
 pub fn map_notification_item_to_rendered(
     rid: &ruma::OwnedRoomId,
     eid: &ruma::OwnedEventId,
@@ -5731,6 +5754,7 @@ pub fn map_notification_item_to_rendered(
         ts_ms,
         kind,
         call_is_audio,
+        thread_id: notification_thread_id(item),
         expires_at_ms,
         sender_avatar_url: item.sender_avatar_url.clone(),
         room_avatar_url: item.room_avatar_url.clone(),

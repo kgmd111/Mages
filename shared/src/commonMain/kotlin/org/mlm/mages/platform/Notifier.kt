@@ -10,6 +10,7 @@ expect object Notifier {
     fun setCurrentRoom(roomId: String?)
     fun setWindowFocused(focused: Boolean)
     fun shouldNotify(roomId: String, senderIsMe: Boolean): Boolean
+    fun clearThreadNotification(roomId: String, threadId: String)
 }
 
 @Composable

@@ -679,6 +679,7 @@ class RoomsViewModel(
                 item.hasUnread()
             }
         }
+        val totalUnreadCount = s.unread.values.sum()
 
         val favourites  = sortUnread(list.filter { it.isFavourite })
         val lowPriority = sortUnread(list.filter { it.isLowPriority })
@@ -696,6 +697,7 @@ class RoomsViewModel(
                 unreadGroupsCount = unreadGroupsCount,
                 unreadDmsCount = unreadDmsCount,
                 spacesUnreadCount = spacesUnreadCount,
+                totalUnreadCount = totalUnreadCount,
             )
         }
         loadParentSpaces()

@@ -65,6 +65,7 @@ import org.mlm.mages.ui.components.location.TimelineLocationItem
 import org.mlm.mages.ui.components.location.parseGeoUri
 import org.mlm.mages.ui.components.message.MessageBubble
 import org.mlm.mages.ui.components.message.MessageStatusLine
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import mages.shared.generated.resources.Res
 import org.mlm.mages.ui.components.message.SystemMessageItem
@@ -615,6 +616,7 @@ fun RoomScreen(
                     hasActiveCall = state.hasActiveCallForRoom,
                     activeCallIsAudio = state.activeCallIsAudioForRoom,
                     isDm = state.isDm,
+                    memberCount = state.memberCount,
                     voiceCallAction = state.voiceCallAction,
                     videoCallAction = state.videoCallAction,
                     pinnedMessages = state.pinnedMessages,
@@ -816,6 +818,15 @@ fun RoomScreen(
                             contentPadding = PaddingValues(vertical = 8.dp),
                             reverseLayout = true
                         ) {
+                            if (state.hasActiveCallForRoom && !state.isLocalCallActiveForRoom) {
+                                item(key = "active_call_tile") {
+                                    ActiveCallTile(
+                                        participantCount = state.callParticipantsForRoom.size,
+                                        onJoin = { onJoinCall(state.activeCallIsAudioForRoom == true) }
+                                    )
+                                }
+                            }
+
                             if (events.isEmpty()) {
                                 item(key = "empty_state") {
                                     Box(
@@ -1409,6 +1420,7 @@ private fun RoomTopBar(
     hasActiveCall: Boolean,
     activeCallIsAudio: Boolean?,
     isDm: Boolean,
+    memberCount: Long,
     voiceCallAction: ActionAvailabilityUi,
     videoCallAction: ActionAvailabilityUi,
     pinnedMessages: List<PinnedMessageUi>,
@@ -1512,7 +1524,7 @@ private fun RoomTopBar(
                             )
                         }
                     } else {
-                        if (isDm && voiceCallAction.presentation != ActionPresentationUi.Hidden) {
+                        if (isDm && memberCount > 1 && voiceCallAction.presentation != ActionPresentationUi.Hidden) {
                             IconButton(
                                 onClick = onStartVoiceCall,
                                 enabled = voiceCallAction.isEnabled,
@@ -1524,14 +1536,16 @@ private fun RoomTopBar(
                             }
                         }
 //                        if (videoCallAction.presentation != ActionPresentationUi.Hidden) { // TODO: Broken, Allow for rooms with high enough perms, when mod perm for it are added.?
-                        IconButton(
-                            onClick = onStartCall,
+                        if (!isDm || memberCount > 1) {
+                            IconButton(
+                                onClick = onStartCall,
 //                                enabled = videoCallAction.isEnabled,
-                        ) {
-                            Icon(
-                                Icons.Default.Videocam,
-                                contentDescription = stringResource(Res.string.video_call)
-                            )
+                            ) {
+                                Icon(
+                                    Icons.Default.Videocam,
+                                    contentDescription = stringResource(Res.string.video_call)
+                                )
+                            }
                         }
 //                        }
                     }
@@ -1706,6 +1720,62 @@ private fun RoomBottomBar(
             resolveEmotePreview = resolveEmotePreview,
             isEncryptedRoom = state.isRoomEncrypted,
         )
+    }
+}
+
+@Composable
+private fun ActiveCallTile(
+    participantCount: Int,
+    onJoin: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        shape = MaterialTheme.shapes.large,
+        tonalElevation = 3.dp
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = Spacing.md, vertical = Spacing.sm),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = CircleShape,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Icon(
+                        Icons.Default.Call,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+            Spacer(Modifier.width(Spacing.md))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    stringResource(Res.string.ongoing_call),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                if (participantCount > 0) {
+                    Text(
+                        pluralStringResource(
+                            Res.plurals.call_participant_count,
+                            participantCount,
+                            participantCount
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            Button(onClick = onJoin) {
+                Text(stringResource(Res.string.join_call))
+            }
+        }
     }
 }
 
@@ -2093,43 +2163,54 @@ private fun MessageItem(
 
         Spacer(Modifier.height(1.dp))
 
-        when (event.sendState) {
-            SendState.Sending, SendState.Retrying -> {
+        when {
+            event.editSendState == SendState.Sending || event.editSendState == SendState.Retrying -> {
                 Spacer(Modifier.height(2.dp))
-                MessageStatusLine(text = stringResource(Res.string.sending), isMine = true)
+                MessageStatusLine(text = stringResource(Res.string.saving_edit), isMine = true)
             }
-            SendState.Enqueued -> {
+            event.redactionSendState == SendState.Sending || event.redactionSendState == SendState.Retrying -> {
                 Spacer(Modifier.height(2.dp))
-                MessageStatusLine(text = stringResource(Res.string.queued), isMine = true)
+                MessageStatusLine(text = stringResource(Res.string.deleting), isMine = true)
             }
-            SendState.Failed -> Unit
-            SendState.Sent, null -> {
-                if (isLastOutgoing) {
+            event.editSendState == SendState.Failed || event.redactionSendState == SendState.Failed -> Unit
+            else -> when (event.sendState) {
+                SendState.Sending, SendState.Retrying -> {
                     Spacer(Modifier.height(2.dp))
-                    val isSeen = state.lastOutgoingRead || state.seenByEntries.isNotEmpty()
-                    when {
-                        isSeen -> {
-                            if (state.isDm) {
-                                MessageStatusLine(
-                                    text = stringResource(Res.string.seen, formatTime(event.timestampMs)),
-                                    isMine = true
-                                )
-                            } else if (state.seenByEntries.isNotEmpty()) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = Spacing.lg, vertical = Spacing.xs),
-                                    horizontalArrangement = Arrangement.End
-                                ) {
-                                    SeenByChip(
-                                        entries = state.seenByEntries,
-                                        onClick = { viewModel.showReadReceiptsSheet(state.seenByEntries) }
+                    MessageStatusLine(text = stringResource(Res.string.sending), isMine = true)
+                }
+                SendState.Enqueued -> {
+                    Spacer(Modifier.height(2.dp))
+                    MessageStatusLine(text = stringResource(Res.string.queued), isMine = true)
+                }
+                SendState.Failed -> Unit
+                SendState.Sent, null -> {
+                    if (isLastOutgoing) {
+                        Spacer(Modifier.height(2.dp))
+                        val isSeen = state.lastOutgoingRead || state.seenByEntries.isNotEmpty()
+                        when {
+                            isSeen -> {
+                                if (state.isDm) {
+                                    MessageStatusLine(
+                                        text = stringResource(Res.string.seen, formatTime(event.timestampMs)),
+                                        isMine = true
                                     )
+                                } else if (state.seenByEntries.isNotEmpty()) {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = Spacing.lg, vertical = Spacing.xs),
+                                        horizontalArrangement = Arrangement.End
+                                    ) {
+                                        SeenByChip(
+                                            entries = state.seenByEntries,
+                                            onClick = { viewModel.showReadReceiptsSheet(state.seenByEntries) }
+                                        )
+                                    }
                                 }
                             }
-                        }
-                        else -> {
-                            MessageStatusLine(text = stringResource(Res.string.delivered), isMine = true)
+                            else -> {
+                                MessageStatusLine(text = stringResource(Res.string.delivered), isMine = true)
+                            }
                         }
                     }
                 }

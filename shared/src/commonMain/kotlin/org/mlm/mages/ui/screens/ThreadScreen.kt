@@ -28,6 +28,7 @@ import org.mlm.mages.ui.util.dragToScrollIfEnabled
 import org.mlm.mages.LinkPreview
 import org.mlm.mages.MatrixService
 import org.mlm.mages.MessageEvent
+import org.mlm.mages.matrix.SendState
 import org.mlm.mages.thumbKey
 import org.mlm.mages.matrix.MemberSummary
 import org.mlm.mages.matrix.ReactionSummary
@@ -46,6 +47,7 @@ import org.mlm.mages.ui.components.location.TimelineLocationItem
 import org.mlm.mages.ui.components.message.MessageBubble
 import org.mlm.mages.ui.components.message.MessageBubbleRenderContext
 import org.mlm.mages.ui.components.message.MessageBubbleVariant
+import org.mlm.mages.ui.components.message.MessageStatusLine
 import org.mlm.mages.ui.components.message.ReactionChipsRow
 import org.mlm.mages.ui.components.message.toBubbleModel
 import org.mlm.mages.ui.components.timeline.TimelineContent
@@ -854,6 +856,8 @@ private fun ThreadReplyMessage(
                 )
             ).copy(
                 sendState = event.sendState,
+                editSendState = event.editSendState,
+                redactionSendState = event.redactionSendState,
                 isEdited = event.isEdited,
             )
             MessageBubble(
@@ -864,6 +868,24 @@ private fun ThreadReplyMessage(
                 onOpenAttachment = onOpenAttachment,
                 emotePaths = emotePaths
             )
+            if (isMine) {
+                when {
+                    event.editSendState == SendState.Sending ||
+                            event.editSendState == SendState.Retrying -> {
+                        MessageStatusLine(
+                            text = stringResource(Res.string.saving_edit),
+                            isMine = true
+                        )
+                    }
+                    event.redactionSendState == SendState.Sending ||
+                            event.redactionSendState == SendState.Retrying -> {
+                        MessageStatusLine(
+                            text = stringResource(Res.string.deleting),
+                            isMine = true
+                        )
+                    }
+                }
+            }
         }
     }
 }

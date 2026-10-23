@@ -46,6 +46,7 @@ import org.mlm.mages.ui.components.message.mxcReactionKeys
 import org.mlm.mages.ui.components.message.reactionShortcodesFrom
 import org.mlm.mages.ui.util.downloadNameHint
 import org.mlm.mages.matrix.ReactionSummary
+import org.mlm.mages.platform.Notifier
 import org.mlm.mages.AttachmentKind
 import kotlin.getValue
 import org.jetbrains.compose.resources.getString
@@ -82,6 +83,7 @@ class ThreadViewModel(
     // Track all events we've seen for this thread (for deduplication)
     private val seenItemIds = mutableSetOf<String>()
     private val replyThumbnailFetchInFlight = mutableSetOf<String>()
+    private var lastMarkedReadEventId: String? = null
 
     private val settingsRepo: SettingsRepository<AppSettings> by inject()
 
@@ -92,7 +94,16 @@ class ThreadViewModel(
 
 
     init {
+        Notifier.clearThreadNotification(roomId, rootEventId)
         preloadRoomMembers()
+        launch {
+            val profile = runSafe { service.port.roomProfile(roomId) } ?: return@launch
+            if (profile.name.isNotBlank() &&
+                (currentState.roomName.isBlank() || currentState.roomName == roomId)
+            ) {
+                updateState { copy(roomName = profile.name) }
+            }
+        }
         loadImagePacks()
         loadRoomEncryption()
         observeTimeline()
@@ -296,6 +307,27 @@ class ThreadViewModel(
                 isLoading = false,
                 error = null
             )
+        }
+        markLatestRead(newEvents)
+    }
+
+    private fun markLatestRead(events: List<MessageEvent>) {
+        val latest = events
+            .filter { it.eventId.isNotBlank() && it.threadRootEventId == rootEventId }
+            .maxByOrNull { it.timestampMs }
+            ?: return
+        if (latest.eventId == lastMarkedReadEventId) return
+        lastMarkedReadEventId = latest.eventId
+        launch {
+            val result = service.markThreadReadAt(
+                roomId = roomId,
+                threadRootEventId = rootEventId,
+                eventId = latest.eventId,
+                sendPublicReceipt = prefs.value.sendReadReceipts
+            )
+            if (result.isFailure) {
+                lastMarkedReadEventId = null
+            }
         }
     }
 

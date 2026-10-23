@@ -61,6 +61,8 @@ actual object Notifier {
         return true
     }
 
+    actual fun clearThreadNotification(roomId: String, threadId: String) = Unit
+
     fun shouldPlaySound(roomId: String, soundEnabled: Boolean, oncePerRoomEnabled: Boolean): Boolean {
         if (!soundEnabled) return false
         if (!oncePerRoomEnabled) return true
