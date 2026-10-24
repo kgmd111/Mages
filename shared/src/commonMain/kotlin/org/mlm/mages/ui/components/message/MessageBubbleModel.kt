@@ -49,6 +49,7 @@ sealed interface MessageAttachmentUi {
         val caption: String?,
         val captionFormattedBody: String? = null,
         val blurhash: String? = null,
+        val previewBlocked: Boolean = false,
     ) : MessageAttachmentUi
 
     data class Video(
@@ -59,6 +60,7 @@ sealed interface MessageAttachmentUi {
         val caption: String?,
         val captionFormattedBody: String? = null,
         val blurhash: String? = null,
+        val previewBlocked: Boolean = false,
     ) : MessageAttachmentUi
 
     data class Audio(
@@ -106,6 +108,7 @@ data class MessageBubbleRenderContext(
     val threadCount: Int? = null,
     val variant: MessageBubbleVariant = MessageBubbleVariant.Timeline,
     val resolvedPreviewPath: String? = null,
+    val previewBlocked: Boolean = false,
     val resolvedReplyPreviewPath: String? = null,
     val resolvedAudioPath: String? = null,
     val resolvedAudioWaveform: List<Float> = emptyList(),

@@ -89,6 +89,7 @@ fun MessageBubble(
     onDoubleClick: (() -> Unit)? = null,
     onReact: ((String) -> Unit)? = null,
     onOpenAttachment: (() -> Unit)? = null,
+    onShowPreview: (() -> Unit)? = null,
     onVote: ((String) -> Unit)? = null,
     onEndPoll: (() -> Unit)? = null,
     onReplyPreviewClick: (() -> Unit)? = null,
@@ -285,6 +286,7 @@ fun MessageBubble(
                                         attachment = attachment,
                                         isMine = isMine,
                                         onOpen = onOpenAttachment,
+                                        onShowPreview = onShowPreview,
                                         onLongPress = onLongPress,
                                         timestamp = timestampContent,
                                         containerColor = bubbleContainerColor,
@@ -299,6 +301,7 @@ fun MessageBubble(
                                         attachment = attachment,
                                         isMine = isMine,
                                         onOpen = onOpenAttachment,
+                                        onShowPreview = onShowPreview,
                                         onLongPress = onLongPress,
                                         timestamp = timestampContent,
                                         containerColor = bubbleContainerColor,
@@ -516,9 +519,13 @@ internal fun ReplyPreview(
     Surface(
         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
         shape = RoundedCornerShape(8.dp),
-        modifier = if (onClick != null) Modifier.clickable { onClick() } else Modifier
     ) {
-        Row(modifier = Modifier.padding(Spacing.sm), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .padding(Spacing.sm)
+                .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             if (showAccent) {
                 Box(
                     modifier = Modifier
@@ -753,6 +760,7 @@ private fun ImageAttachmentBubble(
     mentionRefs: Map<String, MentionRef> = emptyMap(),
     mentionsRoom: Boolean = false,
     onMentionClick: ((String) -> Unit)? = null,
+    onShowPreview: (() -> Unit)? = null,
 ) {
     val contentColor = if (isMine) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSecondaryContainer
@@ -763,6 +771,7 @@ private fun ImageAttachmentBubble(
     val isShortCaption = hasCaption && (attachment.caption!!.length < 30)
     val blurhashImage = rememberBlurHashImage(attachment.blurhash)
     val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
+    val previewBlocked = attachment.previewBlocked && previewPath == null
 
     Column(horizontalAlignment = horizontalAlignment) {
         MediaTile(
@@ -771,26 +780,43 @@ private fun ImageAttachmentBubble(
             maxWidth = maxMediaWidth,
             blurhashImage = blurhashImage,
             onOpen = onOpen,
+            onShowPreview = onShowPreview,
+            previewBlocked = previewBlocked,
+            previewPath = previewPath,
             onLongPress = onLongPress,
         ) {
-            if (previewPath != null) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                        .data(previewPath)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 120.dp, max = 268.dp)
-                )
-            } else {
-                MediaTilePlaceholder(
-                    label = stringResource(Res.string.image),
-                    icon = Icons.Default.Image,
-                    contentColor = contentColor,
-                )
+            Box(modifier = Modifier.matchParentSize()) {
+                if (previewPath != null) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalPlatformContext.current)
+                            .data(previewPath)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 120.dp, max = 268.dp)
+                    )
+                } else {
+                    MediaTilePlaceholder(
+                        label = stringResource(Res.string.image),
+                        icon = Icons.Default.Image,
+                        contentColor = contentColor,
+                    )
+                }
+                if (previewBlocked) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(Color(0xFF000000).copy(alpha = 0.55f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        TextButton(onClick = { onShowPreview?.invoke() }) {
+                            Text(stringResource(Res.string.show))
+                        }
+                    }
+                }
             }
             if (!hasCaption) {
                 TimestampBadge(timestamp)
@@ -823,6 +849,9 @@ private fun MediaTile(
     maxWidth: Dp,
     blurhashImage: ImageBitmap?,
     onOpen: (() -> Unit)?,
+    onShowPreview: (() -> Unit)?,
+    previewBlocked: Boolean,
+    previewPath: String?,
     onLongPress: (() -> Unit)?,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -830,6 +859,7 @@ private fun MediaTile(
         width!!.toFloat() / height!!.toFloat()
     } else null
 
+    val showPreview = previewBlocked && previewPath == null && onShowPreview != null
     Box(
         modifier = Modifier
             .widthIn(max = maxWidth)
@@ -841,8 +871,14 @@ private fun MediaTile(
             .clip(RoundedCornerShape(8.dp))
             .blurHashBackground(blurhashImage)
             .combinedClickable(
-                enabled = onOpen != null,
-                onClick = { onOpen?.invoke() },
+                enabled = onOpen != null || showPreview,
+                onClick = {
+                    if (showPreview) {
+                        onShowPreview?.invoke()
+                    } else {
+                        onOpen?.invoke()
+                    }
+                },
                 onLongClick = onLongPress,
             ),
         content = content,
@@ -906,6 +942,7 @@ private fun VideoAttachmentBubble(
     mentionRefs: Map<String, MentionRef> = emptyMap(),
     mentionsRoom: Boolean = false,
     onMentionClick: ((String) -> Unit)? = null,
+    onShowPreview: (() -> Unit)? = null,
 ) {
     val contentColor = if (isMine) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSecondaryContainer
@@ -916,6 +953,7 @@ private fun VideoAttachmentBubble(
     val isShortCaption = hasCaption && (attachment.caption!!.length < 30)
     val blurhashImage = rememberBlurHashImage(attachment.blurhash)
     val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
+    val previewBlocked = attachment.previewBlocked && previewPath == null
 
     Column(horizontalAlignment = horizontalAlignment) {
         MediaTile(
@@ -924,26 +962,43 @@ private fun VideoAttachmentBubble(
             maxWidth = maxMediaWidth,
             blurhashImage = blurhashImage,
             onOpen = onOpen,
+            onShowPreview = onShowPreview,
+            previewBlocked = previewBlocked,
+            previewPath = previewPath,
             onLongPress = onLongPress,
         ) {
-            if (previewPath != null) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                        .data(previewPath)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 120.dp, max = 268.dp)
-                )
-            } else {
-                MediaTilePlaceholder(
-                    label = stringResource(Res.string.video),
-                    icon = Icons.Default.Videocam,
-                    contentColor = contentColor,
-                )
+            Box(modifier = Modifier.matchParentSize()) {
+                if (previewPath != null) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalPlatformContext.current)
+                            .data(previewPath)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 120.dp, max = 268.dp)
+                    )
+                } else {
+                    MediaTilePlaceholder(
+                        label = stringResource(Res.string.video),
+                        icon = Icons.Default.Videocam,
+                        contentColor = contentColor,
+                    )
+                }
+                if (previewBlocked) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(Color(0xFF000000).copy(alpha = 0.55f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        TextButton(onClick = { onShowPreview?.invoke() }) {
+                            Text(stringResource(Res.string.show))
+                        }
+                    }
+                }
             }
 
             attachment.durationMs?.let { duration ->

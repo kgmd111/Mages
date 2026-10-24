@@ -24,6 +24,7 @@ private fun buildAttachmentSubtitle(mime: String?, sizeBytes: Long?): String? {
 @Composable
 private fun MessageEvent.toAttachmentUi(
     resolvedPreviewPath: String?,
+    previewBlocked: Boolean,
     resolvedAudioPath: String?,
     resolvedAudioWaveform: List<Float>,
 ): MessageAttachmentUi? {
@@ -49,6 +50,7 @@ private fun MessageEvent.toAttachmentUi(
             caption = caption,
             captionFormattedBody = captionFormattedBody,
             blurhash = info.blurhash,
+            previewBlocked = previewBlocked,
         )
         AttachmentKind.Video -> MessageAttachmentUi.Video(
             previewPath = resolvedPreviewPath,
@@ -58,6 +60,7 @@ private fun MessageEvent.toAttachmentUi(
             caption = caption,
             captionFormattedBody = captionFormattedBody,
             blurhash = info.blurhash,
+            previewBlocked = previewBlocked,
         )
         AttachmentKind.Audio -> MessageAttachmentUi.Audio(
             filePath = resolvedAudioPath,
@@ -141,6 +144,7 @@ internal fun TimelineContent.Bubble.toBubbleModel(
         redactionSendState = event.redactionSendState,
         attachment = event.toAttachmentUi(
             resolvedPreviewPath = ctx.resolvedPreviewPath,
+            previewBlocked = ctx.previewBlocked,
             resolvedAudioPath = ctx.resolvedAudioPath,
             resolvedAudioWaveform = ctx.resolvedAudioWaveform,
         ),

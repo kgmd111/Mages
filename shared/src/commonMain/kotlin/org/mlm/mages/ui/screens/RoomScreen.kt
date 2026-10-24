@@ -48,6 +48,7 @@ import org.mlm.mages.MessageEvent
 import org.mlm.mages.ReplyPreviewKind
 import org.mlm.mages.thumbKey
 import org.mlm.mages.matrix.SendState
+import org.mlm.mages.matrix.allowsMediaPreviews
 import org.mlm.mages.platform.*
 import org.mlm.mages.ui.components.AttachmentData
 import org.mlm.mages.ui.components.AttachmentSourceKind
@@ -891,6 +892,7 @@ fun RoomScreen(
                                                     val currentIndex = listState.firstVisibleItemIndex
                                                     returnPosition = eventId to currentIndex
                                                 },
+                                                previewBlocked = !settings.mediaPreviews.allowsMediaPreviews(state.isDm),
                                                 highlightedEventId = state.highlightedEventId,
                                                 viewModel = viewModel,
                                                 showMessageAvatars = listSettings.showMessageAvatars,
@@ -1844,6 +1846,7 @@ private fun MessageItem(
     onSaveReturnPosition: (String) -> Unit,
     onDateClick: () -> Unit = {},
     highlightedEventId: String? = null,
+    previewBlocked: Boolean = false,
     viewModel: RoomViewModel,
     showMessageAvatars: Boolean,
     showUsernameInDms: Boolean,
@@ -2119,6 +2122,7 @@ private fun MessageItem(
                             reactionShortcodes = viewModel.reactionShortcodes,
                             threadCount = state.threadCount[event.eventId],
                             variant = MessageBubbleVariant.Timeline,
+                            previewBlocked = previewBlocked,
                             resolvedPreviewPath = event.thumbKey?.let { state.thumbByEvent[it] },
                             resolvedReplyPreviewPath = event.replyToEventId?.let {
                                 state.replyThumbByEvent[it] ?: state.thumbByEvent[it]
@@ -2139,6 +2143,7 @@ private fun MessageItem(
                         onSecondaryClick = onRowSecondaryClick,
                         onReact = onReact,
                         onOpenAttachment = onOpenAttachment,
+                        onShowPreview = { viewModel.showMediaPreview(event) },
                         onVote = { optionId ->
                             event.pollData?.let { p -> viewModel.votePoll(event.eventId, p, optionId) }
                         },

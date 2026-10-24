@@ -853,8 +853,16 @@ class ThreadViewModel(
     private val thumbnailFetchInFlight = mutableSetOf<String>()
     private val linkPreviewFetchInFlight = mutableSetOf<String>()
 
+    fun showMediaPreview(event: MessageEvent) {
+        if (mediaPreviewsAllowed()) return
+        if (event.eventId.isNotBlank() && event.eventId !in currentState.revealedPreviewEventIds) {
+            updateState { copy(revealedPreviewEventIds = revealedPreviewEventIds + event.eventId) }
+        }
+        ensureThumbnail(event)
+    }
+
     fun ensureThumbnail(event: MessageEvent) {
-        if (!mediaPreviewsAllowed()) return
+        if (!mediaPreviewsAllowed() && event.eventId !in currentState.revealedPreviewEventIds) return
         val key = event.thumbKey ?: return
         if (currentState.thumbByEvent.containsKey(key)) return
         thumbToBridge(event, currentState.thumbByEvent)?.let {

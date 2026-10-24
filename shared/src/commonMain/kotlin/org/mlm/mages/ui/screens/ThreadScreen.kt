@@ -29,6 +29,7 @@ import org.mlm.mages.LinkPreview
 import org.mlm.mages.MatrixService
 import org.mlm.mages.MessageEvent
 import org.mlm.mages.matrix.SendState
+import org.mlm.mages.matrix.allowsMediaPreviews
 import org.mlm.mages.thumbKey
 import org.mlm.mages.matrix.MemberSummary
 import org.mlm.mages.matrix.ReactionSummary
@@ -149,6 +150,8 @@ fun ThreadRoute(
         menuOrder = parseMessageMenuOrder(settings.messageMenuOrder),
         reactionShortcodes = viewModel.reactionShortcodes,
         onReactionImages = { chips -> viewModel.ensureReactionImages(chips) },
+        previewBlocked = !settings.mediaPreviews.allowsMediaPreviews(null),
+        onShowPreview = { viewModel.showMediaPreview(it) },
     )
 
     val openedImage = openedImageKey
@@ -209,6 +212,8 @@ fun ThreadScreen(
     reactionShortcodes: Map<String, String> = emptyMap(),
     onReactionImages: (List<ReactionSummary>) -> Unit = {},
     menuOrder: List<MessageMenuAction> = MessageMenuAction.entries,
+    previewBlocked: Boolean = false,
+    onShowPreview: ((MessageEvent) -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     var sheetEvent by remember { mutableStateOf<MessageEvent?>(null) }
@@ -422,6 +427,8 @@ fun ThreadScreen(
                                         grouped = shouldGroup,
                                         groupedWithNext = groupedWithNext,
                                         highlighted = state.focusedEventId == bubbleItem.event.eventId,
+                                        previewBlocked = previewBlocked,
+                                        onShowPreview = { onShowPreview?.invoke(bubbleItem.event) },
                                     )
                                 },
                                 staticLocation = { locItem ->
@@ -807,6 +814,8 @@ private fun ThreadReplyMessage(
     grouped: Boolean = false,
     groupedWithNext: Boolean = false,
     highlighted: Boolean = false,
+    previewBlocked: Boolean = false,
+    onShowPreview: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -845,6 +854,7 @@ private fun ThreadReplyMessage(
                     reactions = reactionSummaries,
                     threadCount = null,
                     variant = MessageBubbleVariant.ThreadReply,
+                    previewBlocked = previewBlocked,
                     resolvedPreviewPath = event.thumbKey?.let { thumbByEvent[it] },
                     resolvedReplyPreviewPath = event.replyToEventId?.let { replyThumbByEvent[it] },
                     resolvedLinkPreview = linkPreviewByEvent[event.eventId],
@@ -866,6 +876,7 @@ private fun ThreadReplyMessage(
                 onLongPress = onLongPress,
                 onReact = onReact,
                 onOpenAttachment = onOpenAttachment,
+                onShowPreview = onShowPreview,
                 emotePaths = emotePaths
             )
             if (isMine) {

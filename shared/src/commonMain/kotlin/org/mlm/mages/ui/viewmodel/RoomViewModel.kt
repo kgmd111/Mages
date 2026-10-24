@@ -3157,10 +3157,18 @@ class RoomViewModel(
         copy(linkPreviewByEvent = linkPreviewByEvent + (eventId to preview))
     }
 
+    fun showMediaPreview(event: MessageEvent) {
+        if (mediaPreviewsAllowed()) return
+        if (event.eventId.isNotBlank() && event.eventId !in currentState.revealedPreviewEventIds) {
+            updateState { copy(revealedPreviewEventIds = revealedPreviewEventIds + event.eventId) }
+        }
+        ensureThumbnail(event)
+    }
+
     fun ensureThumbnail(event: MessageEvent) {
         ensureReplyThumbnail(event)
         ensureEmotes(event)
-        if (!mediaPreviewsAllowed()) return
+        if (!mediaPreviewsAllowed() && event.eventId !in currentState.revealedPreviewEventIds) return
         val key = event.thumbKey ?: return
         if (currentState.thumbByEvent.containsKey(key)) return
         thumbToBridge(event, currentState.thumbByEvent)?.let {
