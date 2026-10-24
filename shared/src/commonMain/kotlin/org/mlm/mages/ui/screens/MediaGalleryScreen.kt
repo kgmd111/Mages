@@ -43,6 +43,8 @@ import org.mlm.mages.platform.ShareContent
 import org.mlm.mages.platform.ShareOutcome
 import org.mlm.mages.platform.rememberFileOpener
 import org.mlm.mages.platform.rememberShareHandler
+import org.mlm.mages.ui.components.blurHashBackground
+import org.mlm.mages.ui.components.rememberBlurHashImage
 import org.mlm.mages.ui.components.viewer.ImageViewerOverlay
 import org.mlm.mages.ui.components.viewer.imageViewerItems
 import org.mlm.mages.ui.components.viewer.loadImageForViewing
@@ -500,6 +502,7 @@ private fun MediaGridItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
+    val blurhashImage = rememberBlurHashImage(event.attachment?.blurhash)
     Box(
         modifier = Modifier
             .aspectRatio(1f)
@@ -514,7 +517,9 @@ private fun MediaGridItem(
         Surface(color = MaterialTheme.colorScheme.surfaceContainerLow) {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .blurHashBackground(blurhashImage)
             ) {
                 if (thumbPath != null) {
                     AsyncImage(
@@ -526,7 +531,7 @@ private fun MediaGridItem(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
-                } else {
+                } else if (blurhashImage == null) {
                     Icon(
                         imageVector = if (event.attachment?.kind == AttachmentKind.Video)
                             Icons.Default.VideoFile else Icons.Default.Image,
