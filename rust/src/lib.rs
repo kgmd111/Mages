@@ -400,6 +400,49 @@ fn mages_client_metadata(redirect_uri: &Url) -> Raw<ClientMetadata> {
     Raw::new(&metadata).expect("Couldn't serialize client metadata")
 }
 
+pub(crate) fn with_uploaded_image_info(
+    config: matrix_sdk::attachment::AttachmentConfig,
+    data: &[u8],
+    mime_type: &Mime,
+) -> matrix_sdk::attachment::AttachmentConfig {
+    use matrix_sdk::attachment::{AttachmentInfo, BaseImageInfo};
+
+    if mime_type.type_() != mime::IMAGE {
+        return config;
+    }
+    let Some(image) = decode_upright_image(data) else {
+        return config;
+    };
+    let thumb = image.thumbnail(32, 32).to_rgba8();
+    let Ok(blurhash) = blurhash::encode_image(4, 3, &thumb) else {
+        return config;
+    };
+    config.info(AttachmentInfo::Image(BaseImageInfo {
+        width: matrix_sdk::ruma::UInt::new(u64::from(image.width())),
+        height: matrix_sdk::ruma::UInt::new(u64::from(image.height())),
+        size: matrix_sdk::ruma::UInt::new(data.len() as u64),
+        blurhash: Some(blurhash),
+        is_animated: (mime_type.essence_str() == "image/gif").then_some(true),
+    }))
+}
+
+fn decode_upright_image(data: &[u8]) -> Option<image::DynamicImage> {
+    use image::ImageDecoder;
+
+    let mut reader = image::ImageReader::new(std::io::Cursor::new(data))
+        .with_guessed_format()
+        .ok()?;
+    let mut limits = image::Limits::default();
+    limits.max_image_width = Some(16_384);
+    limits.max_image_height = Some(16_384);
+    reader.limits(limits);
+    let mut decoder = reader.into_decoder().ok()?;
+    let orientation = decoder.orientation().ok()?;
+    let mut image = image::DynamicImage::from_decoder(decoder).ok()?;
+    image.apply_orientation(orientation);
+    Some(image)
+}
+
 async fn queue_send_attachment(
     room: &Room,
     filename: String,
@@ -2679,6 +2722,7 @@ impl Client {
                     .unwrap_or("file".into())
             });
             let mut config = matrix_sdk::attachment::AttachmentConfig::new();
+            config = with_uploaded_image_info(config, &data, &mime_type);
             if mime_type.type_() == mime::AUDIO
                 && (is_voice == Some(true)
                     || voice_duration_ms.is_some()
