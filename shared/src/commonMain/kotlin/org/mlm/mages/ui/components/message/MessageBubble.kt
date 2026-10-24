@@ -798,7 +798,7 @@ private fun ImageAttachmentBubble(
                             .fillMaxWidth()
                             .heightIn(min = 120.dp, max = 268.dp)
                     )
-                } else {
+                } else if (!previewBlocked) {
                     MediaTilePlaceholder(
                         label = stringResource(Res.string.image),
                         icon = Icons.Default.Image,
@@ -980,7 +980,7 @@ private fun VideoAttachmentBubble(
                             .fillMaxWidth()
                             .heightIn(min = 120.dp, max = 268.dp)
                     )
-                } else {
+                } else if (!previewBlocked) {
                     MediaTilePlaceholder(
                         label = stringResource(Res.string.video),
                         icon = Icons.Default.Videocam,
