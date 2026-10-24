@@ -43,7 +43,7 @@ private fun MessageEvent.toAttachmentUi(
             captionFormattedBody = captionFormattedBody,
         )
         AttachmentKind.Image -> MessageAttachmentUi.Image(
-            previewPath = resolvedPreviewPath ?: info.thumbnailMxcUri,
+            previewPath = resolvedPreviewPath,
             width = info.width,
             height = info.height,
             caption = caption,
@@ -51,7 +51,7 @@ private fun MessageEvent.toAttachmentUi(
             blurhash = info.blurhash,
         )
         AttachmentKind.Video -> MessageAttachmentUi.Video(
-            previewPath = resolvedPreviewPath ?: info.thumbnailMxcUri,
+            previewPath = resolvedPreviewPath,
             width = info.width,
             height = info.height,
             durationMs = info.durationMs,

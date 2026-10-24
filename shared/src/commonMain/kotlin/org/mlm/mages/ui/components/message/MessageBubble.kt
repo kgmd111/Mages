@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -761,30 +762,18 @@ private fun ImageAttachmentBubble(
     val hasCaption = !attachment.caption.isNullOrBlank()
     val isShortCaption = hasCaption && (attachment.caption!!.length < 30)
     val blurhashImage = rememberBlurHashImage(attachment.blurhash)
+    val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
 
-    if (previewPath != null) {
-        val aspectRatio = if ((attachment.width ?: 0) > 0 && (attachment.height ?: 0) > 0) {
-            attachment.width!!.toFloat() / attachment.height!!.toFloat()
-        } else null
-        val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
-
-        Column(horizontalAlignment = horizontalAlignment) {
-            Box(
-                modifier = Modifier
-                    .widthIn(max = maxMediaWidth)
-                    .heightIn(min = 120.dp, max = 268.dp)
-                    .sizeIn(maxHeight = 268.dp)
-                    .then(
-                        if (aspectRatio != null) Modifier.aspectRatio(aspectRatio) else Modifier
-                    )
-                    .clip(RoundedCornerShape(8.dp))
-                    .blurHashBackground(blurhashImage)
-                    .combinedClickable(
-                        enabled = onOpen != null,
-                        onClick = { onOpen?.invoke() },
-                        onLongClick = onLongPress,
-                    )
-            ) {
+    Column(horizontalAlignment = horizontalAlignment) {
+        MediaTile(
+            width = attachment.width,
+            height = attachment.height,
+            maxWidth = maxMediaWidth,
+            blurhashImage = blurhashImage,
+            onOpen = onOpen,
+            onLongPress = onLongPress,
+        ) {
+            if (previewPath != null) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalPlatformContext.current)
                         .data(previewPath)
@@ -796,45 +785,112 @@ private fun ImageAttachmentBubble(
                         .fillMaxWidth()
                         .heightIn(min = 120.dp, max = 268.dp)
                 )
-                if (!hasCaption) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(4.dp)
-                            .background(
-                                MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
-                                RoundedCornerShape(8.dp)
-                            )
-                            .padding(horizontal = 4.dp, vertical = 2.dp)
-                    ) {
-                        timestamp()
-                    }
-                }
+            } else {
+                MediaTilePlaceholder(
+                    label = stringResource(Res.string.image),
+                    icon = Icons.Default.Image,
+                    contentColor = contentColor,
+                )
             }
-            if (hasCaption) {
-                TimestampLayout(
-                    position = TimestampPosition.Aligned,
-                    timestamp = timestamp,
-                ) {
-                    FormattedBodyText(
-                        formattedBody = attachment.captionFormattedBody,
-                        fallbackBody = attachment.caption!!,
-                        color = contentColor,
-                        containerColor = containerColor,
-                        emotePaths = emotePaths,
-                        mentionRefs = mentionRefs,
-                        mentionsRoom = mentionsRoom,
-                        onMentionClick = onMentionClick
-                    )
-                }
+            if (!hasCaption) {
+                TimestampBadge(timestamp)
             }
         }
-    } else {
-        MediaPlaceholderBubble(
-            label = stringResource(Res.string.image),
-            contentColor = contentColor,
-            blurhashImage = blurhashImage
-        )
+        if (hasCaption) {
+            TimestampLayout(
+                position = TimestampPosition.Aligned,
+                timestamp = timestamp,
+            ) {
+                FormattedBodyText(
+                    formattedBody = attachment.captionFormattedBody,
+                    fallbackBody = attachment.caption!!,
+                    color = contentColor,
+                    containerColor = containerColor,
+                    emotePaths = emotePaths,
+                    mentionRefs = mentionRefs,
+                    mentionsRoom = mentionsRoom,
+                    onMentionClick = onMentionClick
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MediaTile(
+    width: Int?,
+    height: Int?,
+    maxWidth: Dp,
+    blurhashImage: ImageBitmap?,
+    onOpen: (() -> Unit)?,
+    onLongPress: (() -> Unit)?,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    val aspectRatio = if ((width ?: 0) > 0 && (height ?: 0) > 0) {
+        width!!.toFloat() / height!!.toFloat()
+    } else null
+
+    Box(
+        modifier = Modifier
+            .widthIn(max = maxWidth)
+            .heightIn(min = 120.dp, max = 268.dp)
+            .sizeIn(maxHeight = 268.dp)
+            .then(
+                if (aspectRatio != null) Modifier.aspectRatio(aspectRatio) else Modifier.fillMaxWidth()
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .blurHashBackground(blurhashImage)
+            .combinedClickable(
+                enabled = onOpen != null,
+                onClick = { onOpen?.invoke() },
+                onLongClick = onLongPress,
+            ),
+        content = content,
+    )
+}
+
+@Composable
+private fun BoxScope.MediaTilePlaceholder(
+    label: String,
+    icon: ImageVector,
+    contentColor: Color,
+) {
+    Box(
+        modifier = Modifier
+            .matchParentSize()
+            .border(1.dp, contentColor.copy(alpha = 0.2f), RoundedCornerShape(8.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = contentColor.copy(alpha = 0.7f),
+                modifier = Modifier.size(24.dp),
+            )
+            Spacer(Modifier.height(6.dp))
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodySmall,
+                color = contentColor,
+            )
+        }
+    }
+}
+
+@Composable
+private fun BoxScope.TimestampBadge(timestamp: @Composable () -> Unit) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(4.dp)
+            .background(
+                MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
+                RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 4.dp, vertical = 2.dp)
+    ) {
+        timestamp()
     }
 }
 
@@ -859,30 +915,18 @@ private fun VideoAttachmentBubble(
     val hasCaption = !attachment.caption.isNullOrBlank()
     val isShortCaption = hasCaption && (attachment.caption!!.length < 30)
     val blurhashImage = rememberBlurHashImage(attachment.blurhash)
+    val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
 
-    if (previewPath != null) {
-        val aspectRatio = if ((attachment.width ?: 0) > 0 && (attachment.height ?: 0) > 0) {
-            attachment.width!!.toFloat() / attachment.height!!.toFloat()
-        } else null
-        val maxMediaWidth = if (isShortCaption) 240.dp else 320.dp
-
-        Column(horizontalAlignment = horizontalAlignment) {
-            Box(
-                modifier = Modifier
-                    .widthIn(max = maxMediaWidth)
-                    .heightIn(min = 120.dp, max = 268.dp)
-                    .sizeIn(maxHeight = 268.dp)
-                    .then(
-                        if (aspectRatio != null) Modifier.aspectRatio(aspectRatio) else Modifier
-                    )
-                    .clip(RoundedCornerShape(8.dp))
-                    .blurHashBackground(blurhashImage)
-                    .combinedClickable(
-                        enabled = onOpen != null,
-                        onClick = { onOpen?.invoke() },
-                        onLongClick = onLongPress,
-                    )
-            ) {
+    Column(horizontalAlignment = horizontalAlignment) {
+        MediaTile(
+            width = attachment.width,
+            height = attachment.height,
+            maxWidth = maxMediaWidth,
+            blurhashImage = blurhashImage,
+            onOpen = onOpen,
+            onLongPress = onLongPress,
+        ) {
+            if (previewPath != null) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalPlatformContext.current)
                         .data(previewPath)
@@ -894,58 +938,38 @@ private fun VideoAttachmentBubble(
                         .fillMaxWidth()
                         .heightIn(min = 120.dp, max = 268.dp)
                 )
-
-                attachment.durationMs?.let { duration ->
-                    DurationBadge(duration, Modifier.align(Alignment.BottomEnd).padding(6.dp))
-                }
-
-                if (!hasCaption) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(4.dp)
-                            .background(
-                                MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
-                                RoundedCornerShape(8.dp)
-                            )
-                            .padding(horizontal = 4.dp, vertical = 2.dp)
-                    ) {
-                        timestamp()
-                    }
-                }
+            } else {
+                MediaTilePlaceholder(
+                    label = stringResource(Res.string.video),
+                    icon = Icons.Default.Videocam,
+                    contentColor = contentColor,
+                )
             }
-            if (hasCaption) {
-                TimestampLayout(
-                    position = TimestampPosition.Aligned,
-                    timestamp = timestamp,
-                ) {
-                    FormattedBodyText(
-                        formattedBody = attachment.captionFormattedBody,
-                        fallbackBody = attachment.caption!!,
-                        color = contentColor,
-                        containerColor = containerColor,
-                        emotePaths = emotePaths,
-                        mentionRefs = mentionRefs,
-                        mentionsRoom = mentionsRoom,
-                        onMentionClick = onMentionClick
-                    )
-                }
+
+            attachment.durationMs?.let { duration ->
+                DurationBadge(duration, Modifier.align(Alignment.BottomEnd).padding(6.dp))
+            }
+
+            if (!hasCaption) {
+                TimestampBadge(timestamp)
             }
         }
-    } else {
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .blurHashBackground(blurhashImage)
-                .background(contentColor.copy(alpha = 0.08f))
-                .border(1.dp, contentColor.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
-        ) {
-            Text(
-                text = stringResource(Res.string.video),
-                modifier = Modifier.padding(12.dp),
-                style = MaterialTheme.typography.bodySmall,
-                color = contentColor
-            )
+        if (hasCaption) {
+            TimestampLayout(
+                position = TimestampPosition.Aligned,
+                timestamp = timestamp,
+            ) {
+                FormattedBodyText(
+                    formattedBody = attachment.captionFormattedBody,
+                    fallbackBody = attachment.caption!!,
+                    color = contentColor,
+                    containerColor = containerColor,
+                    emotePaths = emotePaths,
+                    mentionRefs = mentionRefs,
+                    mentionsRoom = mentionsRoom,
+                    onMentionClick = onMentionClick
+                )
+            }
         }
     }
 }
@@ -1229,29 +1253,6 @@ private fun RedactedBody(
             style = MaterialTheme.typography.bodyMedium,
             fontStyle = FontStyle.Italic,
             color = color
-        )
-    }
-}
-
-@Composable
-fun MediaPlaceholderBubble(
-    label: String,
-    contentColor: Color,
-    modifier: Modifier = Modifier,
-    blurhashImage: ImageBitmap? = null,
-) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .blurHashBackground(blurhashImage)
-            .background(contentColor.copy(alpha = 0.08f))
-            .border(1.dp, contentColor.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
-    ) {
-        Text(
-            text = label,
-            modifier = Modifier.padding(12.dp),
-            style = MaterialTheme.typography.bodySmall,
-            color = contentColor
         )
     }
 }
