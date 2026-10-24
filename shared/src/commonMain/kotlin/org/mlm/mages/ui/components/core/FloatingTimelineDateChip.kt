@@ -40,11 +40,12 @@ fun FloatingTimelineDateChip(
             tonalElevation = 3.dp,
             shadowElevation = 2.dp,
             color = MaterialTheme.colorScheme.surfaceContainerLow,
-            modifier = if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier,
         ) {
             Text(
                 text = text,
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                modifier = Modifier
+                    .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

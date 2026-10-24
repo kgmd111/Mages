@@ -211,13 +211,6 @@ fun MessageBubble(
                 color = bubbleContainerColor,
                 shape = bubbleShape(isMine, grouping.groupedWithPrev, grouping.groupedWithNext),
                 tonalElevation = if (isRedacted) 0.dp else if (isMine) 3.dp else 1.dp,
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = onLongPress,
-                        onDoubleClick = onDoubleClick
-                    )
-                    .secondaryClick(onSecondaryClick)
             ) {
                 val timestampContent = @Composable {
                     MessageTimeAndStatus(
@@ -230,7 +223,14 @@ fun MessageBubble(
                 }
 
                 Layout(
-                    modifier = Modifier.padding(Spacing.md),
+                    modifier = Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = onLongPress,
+                            onDoubleClick = onDoubleClick
+                        )
+                        .secondaryClick(onSecondaryClick)
+                        .padding(Spacing.md),
                     content = {
                         model.reply?.let { reply ->
                             if (!reply.body.isNullOrBlank() ||

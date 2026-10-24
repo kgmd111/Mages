@@ -162,18 +162,18 @@ private fun ReactionChip(
     val chipLongPress: () -> Unit = { onLongClick?.invoke(chip.key) }
 
     Surface(
-        modifier = Modifier
-            .combinedClickable(
-                onClick = { onClick?.invoke(chip.key) },
-                onLongClick = chipLongPress
-            )
-            .secondaryClick(chipLongPress),
         shape = RoundedCornerShape(percent = 50),
         color = backgroundColor,
         border = BorderStroke(1.dp, outlineColor)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            modifier = Modifier
+                .combinedClickable(
+                    onClick = { onClick?.invoke(chip.key) },
+                    onLongClick = chipLongPress
+                )
+                .secondaryClick(chipLongPress)
+                .padding(horizontal = 10.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {

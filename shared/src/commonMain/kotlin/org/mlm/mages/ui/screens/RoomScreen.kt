@@ -2244,17 +2244,17 @@ private fun DateHeader(date: String, onDateClick: (() -> Unit)? = null) {
         Surface(
             color = MaterialTheme.colorScheme.surfaceContainerLow,
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier
-                .padding(horizontal = Spacing.md)
-                .then(
-                    if (onDateClick != null) Modifier.clickable(onClick = onDateClick) else Modifier
-                )
+            modifier = Modifier.padding(horizontal = Spacing.md)
         ) {
             Text(
                 text = date,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = Spacing.md, vertical = 4.dp)
+                modifier = Modifier
+                    .then(
+                        if (onDateClick != null) Modifier.clickable(onClick = onDateClick) else Modifier
+                    )
+                    .padding(horizontal = Spacing.md, vertical = 4.dp)
             )
         }
         HorizontalDivider(

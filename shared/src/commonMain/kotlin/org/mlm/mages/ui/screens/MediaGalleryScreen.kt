@@ -735,15 +735,15 @@ private fun FileListItem(
                     MaterialTheme.shapes.medium
                 ) else Modifier
             )
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
-            )
-            .secondaryClick(onLongClick)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .combinedClickable(
+                    onClick = onClick,
+                    onLongClick = onLongClick
+                )
+                .secondaryClick(onLongClick)
                 .padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically

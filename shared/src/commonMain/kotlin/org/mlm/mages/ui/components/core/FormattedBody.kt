@@ -644,6 +644,7 @@ private fun MentionPill(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .clip(RoundedCornerShape(mentionCornerRadius))
             .background(background, RoundedCornerShape(mentionCornerRadius))
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(horizontal = mentionPaddingHorizontal, vertical = mentionPaddingVertical),
