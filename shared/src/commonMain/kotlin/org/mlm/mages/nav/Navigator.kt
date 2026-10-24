@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
+import org.mlm.mages.MatrixService
 import org.mlm.mages.calls.CallManager
 import org.mlm.mages.matrix.CallIntent
 
@@ -97,6 +98,7 @@ fun BindDeepLinks(
     backStack: NavBackStack<NavKey>,
     deepLinks: Flow<DeepLinkAction>?,
     callManager: CallManager,
+    service: MatrixService,
     widgetTheme: String,
     languageTag: String,
     elementCallUrl: String?,
@@ -156,11 +158,15 @@ fun BindDeepLinks(
             if (action.joinCall && !callManager.isInCall(action.roomId)) {
                 val joinCallAction: () -> Unit = {
                     coroutineScope.launch {
+                        val roomName = runCatching {
+                            service.portOrNull?.roomProfile(action.roomId)?.name
+                        }.getOrDefault(null) ?: action.roomId
+
                         repeat(10) { attempt ->
                             val ok = runCatching {
                                 callManager.startOrJoinCall(
                                     roomId = action.roomId,
-                                    roomName = action.roomId,
+                                    roomName = roomName,
                                     intent = callIntent,
                                     elementCallUrl = elementCallUrl,
                                     parentUrl = parentCallUrl,

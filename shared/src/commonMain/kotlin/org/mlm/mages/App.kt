@@ -234,6 +234,7 @@ private fun AppContent(
                 backStack,
                 allDeepLinks,
                 callManager,
+                service,
                 widgetTheme,
                 languageTag,
                 elementCallUrl,
