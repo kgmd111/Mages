@@ -1,3 +1,9 @@
+## v5.2.5
+
+- rounded focus borders
+- fix media clickables with downloaded previews being off (#177)
+
+
 ## v5.2.4
 
 - fix call audio routing and call type handling

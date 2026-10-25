@@ -1,0 +1,2 @@
+- rounded focus borders
+- fix media clickables with downloaded previews being off (#177)
