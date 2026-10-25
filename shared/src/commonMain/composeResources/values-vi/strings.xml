@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Giữ các phòng có hoạt động chưa đọc ở đầu mỗi mục</string>
     <string name="setting_show_silent_unread_count">Hiện số chưa đọc lặng</string>
     <string name="setting_show_silent_unread_count_description">Đếm mọi tin nhắn chưa đọc trong huy hiệu thay vì chỉ tin nổi bật</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Loại mức ưu tiên thấp khỏi huy hiệu chưa đọc</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Không tính phòng có mức ưu tiên thấp vào số chưa đọc cạnh Phòng</string>
     <string name="setting_open_at_unread">Mở phòng từ tin chưa đọc đầu tiên</string>
     <string name="setting_open_at_unread_description">Nhảy về tin nhắn chưa đọc đầu tiên khi mở phòng</string>
     <string name="setting_floating_date">Dải phân cách ngày nổi</string>

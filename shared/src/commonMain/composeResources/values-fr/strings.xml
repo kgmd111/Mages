@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Garder les salons avec une activité non lue en haut de chaque section</string>
     <string name="setting_show_silent_unread_count">Afficher le compteur silencieux</string>
     <string name="setting_show_silent_unread_count_description">Compter chaque message non lu dans le badge au lieu des seuls surlignés</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Exclure la faible priorité du badge non lus</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Ne pas compter les salles à faible priorité dans le nombre de non lus à côté de Salles</string>
     <string name="setting_open_at_unread">Ouvrir les salons au premier non lu</string>
     <string name="setting_open_at_unread_description">Revenir au premier message non lu en ouvrant un salon</string>
     <string name="setting_floating_date">Séparateur de date flottant</string>

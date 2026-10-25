@@ -1443,6 +1443,8 @@
     <string name="setting_sort_by_unread_description">Держать комнаты с непрочитанной активностью вверху каждого раздела</string>
     <string name="setting_show_silent_unread_count">Показывать тихий счётчик</string>
     <string name="setting_show_silent_unread_count_description">Считать каждое непрочитанное сообщение в бейдже, а не только выделенные</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Исключить низкий приоритет из бейджа непрочитанных</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Не учитывать комнаты с низким приоритетом в счётчике непрочитанных рядом с Комнаты</string>
     <string name="setting_open_at_unread">Открывать комнаты с первого непрочитанного</string>
     <string name="setting_open_at_unread_description">Переходить к первому непрочитанному при открытии комнаты</string>
     <string name="setting_floating_date">Плавающий разделитель даты</string>

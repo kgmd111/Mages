@@ -1443,6 +1443,8 @@
     <string name="setting_sort_by_unread_description">Ponechat místnosti s nepřečtenou aktivitou nahoře v každé sekci</string>
     <string name="setting_show_silent_unread_count">Zobrazit počet tichých nepřečtených</string>
     <string name="setting_show_silent_unread_count_description">Počítat každou nepřečtenou zprávu do odznaku místo jen zvýrazněných</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Vyloučit nízkou prioritu z odznaku nepřečtených</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Nezahrnovat pokoje s nízkou prioritou do počtu nepřečtených vedle Pokoje</string>
     <string name="setting_open_at_unread">Otevírat místnosti u první nepřečtené</string>
     <string name="setting_open_at_unread_description">Při otevření místnosti skočit na první nepřečtenou zprávu</string>
     <string name="setting_floating_date">Plovoucí oddělovač data</string>

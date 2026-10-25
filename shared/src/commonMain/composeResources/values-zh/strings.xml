@@ -1440,6 +1440,8 @@
     <string name="setting_sort_by_unread_description">将有未读活动的房间保持在各分区顶部</string>
     <string name="setting_show_silent_unread_count">显示静默未读数</string>
     <string name="setting_show_silent_unread_count_description">在角标中计入所有未读消息，而不仅是高亮消息</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">从角标中排除低优先级</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">不计入“聊天室”旁未读数中的低优先级聊天室</string>
     <string name="setting_open_at_unread">从首条未读处打开房间</string>
     <string name="setting_open_at_unread_description">打开房间时跳转到首条未读消息</string>
     <string name="setting_floating_date">悬浮日期分隔条</string>

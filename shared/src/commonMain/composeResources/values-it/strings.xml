@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Mantieni le stanze con attività non letta in cima a ogni sezione</string>
     <string name="setting_show_silent_unread_count">Mostra conteggio silenzioso</string>
     <string name="setting_show_silent_unread_count_description">Conta ogni messaggio non letto nel badge invece dei soli evidenziati</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Escludi priorità bassa dal badge non letti</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Non contare le stanze a priorità bassa nel numero di non letti accanto a Stanze</string>
     <string name="setting_open_at_unread">Apri stanze dal primo non letto</string>
     <string name="setting_open_at_unread_description">Torna al primo messaggio non letto aprendo una stanza</string>
     <string name="setting_floating_date">Separatore data mobile</string>

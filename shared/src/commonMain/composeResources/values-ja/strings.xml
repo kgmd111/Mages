@@ -1440,6 +1440,8 @@
     <string name="setting_sort_by_unread_description">各セクションの先頭に未読アクティビティのあるルームを保持</string>
     <string name="setting_show_silent_unread_count">サイレント未読数を表示</string>
     <string name="setting_show_silent_unread_count_description">ハイライトのみでなく全未読メッセージをバッジに数える</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">低優先度を未読バッジから除外</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">「ルーム」横の未読数に低優先度のルームを含めない</string>
     <string name="setting_open_at_unread">最初の未読から開く</string>
     <string name="setting_open_at_unread_description">ルームを開くときに最初の未読メッセージにジャンプ</string>
     <string name="setting_floating_date">フローティング日付区切り</string>

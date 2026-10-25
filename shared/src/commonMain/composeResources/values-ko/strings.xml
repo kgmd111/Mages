@@ -1440,6 +1440,8 @@
     <string name="setting_sort_by_unread_description">각 섹션 상단에 읽지 않은 활동이 있는 방 유지</string>
     <string name="setting_show_silent_unread_count">숨은 읽지 않음 수 표시</string>
     <string name="setting_show_silent_unread_count_description">강조된 항목만이 아닌 모든 읽지 않은 메시지를 배지에 표시</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">읽지 않음 배지에서 낮은 우선순위 제외</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">방 옆 읽지 않음 수에 낮은 우선순위 방을 포함하지 않음</string>
     <string name="setting_open_at_unread">첫 읽지 않음부터 방 열기</string>
     <string name="setting_open_at_unread_description">방을 열 때 첫 읽지 않은 메시지로 이동</string>
     <string name="setting_floating_date">플로팅 날짜 구분선</string>

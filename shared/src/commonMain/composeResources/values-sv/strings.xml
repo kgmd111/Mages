@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Behåll rum med oläst aktivitet överst i varje avsnitt</string>
     <string name="setting_show_silent_unread_count">Visa tyst olästräknare</string>
     <string name="setting_show_silent_unread_count_description">Räkna varje oläst meddelande i brickan istället för endast markerade</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Uteslut låg prioritet från olästa-brickan</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Räkna inte rum med låg prioritet i olästa-antalet bredvid Rum</string>
     <string name="setting_open_at_unread">Öppna rum vid första olästa</string>
     <string name="setting_open_at_unread_description">Hoppa till första olästa meddelandet när ett rum öppnas</string>
     <string name="setting_floating_date">Flytande datumavdelare</string>

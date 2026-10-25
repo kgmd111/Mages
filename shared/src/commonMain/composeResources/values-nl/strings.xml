@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Kamers met ongelezen activiteit bovenaan elke sectie houden</string>
     <string name="setting_show_silent_unread_count">Stille ongelezen-teller tonen</string>
     <string name="setting_show_silent_unread_count_description">Elk ongelezen bericht in de badge tellen in plaats van alleen gemarkeerde</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Lage prioriteit uitsluiten van ongelezen-badge</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Kamers met lage prioriteit niet meetellen in het ongelezen aantal naast Kamers</string>
     <string name="setting_open_at_unread">Kamers openen bij eerste ongelezene</string>
     <string name="setting_open_at_unread_description">Bij het openen naar het eerste ongelezen bericht springen</string>
     <string name="setting_floating_date">Zwevende datumscheider</string>

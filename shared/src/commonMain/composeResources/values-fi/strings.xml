@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Pidä lukematonta toimintaa sisältävät huoneet kunkin osion yläosassa</string>
     <string name="setting_show_silent_unread_count">Näytä hiljainen lukemattomien määrä</string>
     <string name="setting_show_silent_unread_count_description">Laske jokainen lukematon viesti merkkiin vain korostettujen sijaan</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Jätä matala prioriteetti pois lukemattomien merkistä</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Älä laske matalan prioriteetin huoneita Huoneet-kohdan lukemattomien määrään</string>
     <string name="setting_open_at_unread">Avaa huoneet ensimmäisestä lukemattomasta</string>
     <string name="setting_open_at_unread_description">Siirry ensimmäiseen lukemattomaan viestiin huonetta avattaessa</string>
     <string name="setting_floating_date">Kelluva päivämääräerotin</string>

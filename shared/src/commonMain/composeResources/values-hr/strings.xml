@@ -1442,6 +1442,8 @@
     <string name="setting_sort_by_unread_description">Zadrži sobe s nepročitanom aktivnošću na vrhu svake sekcije</string>
     <string name="setting_show_silent_unread_count">Prikaži tihi broj nepročitanih</string>
     <string name="setting_show_silent_unread_count_description">Broji svaku nepročitanu poruku u znački umjesto samo istaknutih</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Isključi nizak prioritet iz značke nepročitanih</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Ne uključuj sobe s niskim prioritetom u broj nepročitanih pokraj Sobe</string>
     <string name="setting_open_at_unread">Otvori sobe kod prve nepročitane</string>
     <string name="setting_open_at_unread_description">Skoči na prvu nepročitanu poruku pri otvaranju sobe</string>
     <string name="setting_floating_date">Plutajući razdjelnik datuma</string>

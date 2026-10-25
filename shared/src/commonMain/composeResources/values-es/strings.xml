@@ -1557,6 +1557,8 @@
     <string name="setting_sort_by_unread_description">Mantener las salas con actividad no leída al principio de cada sección</string>
     <string name="setting_show_silent_unread_count">Mostrar conteo silencioso</string>
     <string name="setting_show_silent_unread_count_description">Contar cada mensaje no leído en la insignia en lugar de solo los destacados</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Excluir baja prioridad de la insignia de no leídos</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">No contar las salas de baja prioridad en el número de no leídos junto a Salas</string>
     <string name="setting_open_at_unread">Abrir salas en el primer no leído</string>
     <string name="setting_open_at_unread_description">Volver al primer mensaje no leído al abrir una sala</string>
     <string name="setting_floating_date">Separador de fecha flotante</string>

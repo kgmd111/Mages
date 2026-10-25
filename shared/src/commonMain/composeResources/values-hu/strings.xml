@@ -1441,6 +1441,8 @@
     <string name="setting_sort_by_unread_description">Az olvasatlan aktivitású szobák maradjanak minden szakasz tetején</string>
     <string name="setting_show_silent_unread_count">Néma olvasatlan számláló</string>
     <string name="setting_show_silent_unread_count_description">Minden olvasatlan üzenet számolása a jelvényben, ne csak a kiemelteké</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Alacsony prioritás kizárása az olvasatlan jelvényből</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Az alacsony prioritású szobák ne számítsanak a Szobák melletti olvasatlan számba</string>
     <string name="setting_open_at_unread">Szobák megnyitása az első olvasatlannál</string>
     <string name="setting_open_at_unread_description">Ugrás az első olvasatlan üzenetre szoba megnyitásakor</string>
     <string name="setting_floating_date">Lebegő dátumelválasztó</string>
