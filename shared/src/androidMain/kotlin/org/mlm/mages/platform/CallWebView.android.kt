@@ -6,8 +6,10 @@ import android.content.pm.ApplicationInfo
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Outline
+import android.media.AudioAttributes
 import android.media.AudioDeviceCallback
 import android.media.AudioDeviceInfo
+import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Handler
@@ -43,6 +45,7 @@ import kotlinx.coroutines.sync.withLock
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import org.koin.compose.koinInject
+import org.mlm.mages.push.CallAudioRouteBridge
 import org.mlm.mages.ui.components.snackbar.SnackbarManager
 
 // Element-specific actions that the SDK doesn't handle
@@ -192,6 +195,8 @@ private class WebViewAudioManager(
     private val disableBluetoothAudioDevices = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
     private val isWebViewAudioEnabled = AtomicBoolean(true)
     private val isInCallMode = AtomicBoolean(false)
+    private var audioFocusRequest: AudioFocusRequest? = null
+    private var audioFocusListener: AudioManager.OnAudioFocusChangeListener? = null
 
     @Volatile
     private var ecRequestedDeviceId: String? = null
@@ -222,6 +227,7 @@ private class WebViewAudioManager(
     @get:RequiresApi(Build.VERSION_CODES.S)
     private val commsDeviceChangedListener: AudioManager.OnCommunicationDeviceChangedListener by lazy {
         AudioManager.OnCommunicationDeviceChangedListener { device ->
+            if (CallAudioRouteBridge.handler != null) return@OnCommunicationDeviceChangedListener
             val wantedDevice = ecRequestedDeviceId
             if (wantedDevice != null && wantedDevice != device?.id?.toString()) {
                 selectAudioDevice(wantedDevice)
@@ -252,6 +258,7 @@ private class WebViewAudioManager(
         } else {
             AudioManager.MODE_NORMAL
         }
+        requestCallAudioFocus()
         installBridgeCallbacks()
     }
 
@@ -259,6 +266,7 @@ private class WebViewAudioManager(
         if (!isInCallMode.compareAndSet(true, false)) return
         if (proximitySensorWakeLock?.isHeld == true) proximitySensorWakeLock?.release()
         audioManager.mode = AudioManager.MODE_NORMAL
+        releaseCallAudioFocus()
         ecRequestedDeviceId = null
         if (!hasRegisteredCallbacks) return
 
@@ -325,37 +333,45 @@ private class WebViewAudioManager(
 
     @Suppress("WakelockTimeout")
     private fun selectAudioDevice(device: AudioDeviceInfo?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (device != null) {
-                runCatching {
-                    Log.d("AudioBridge", "Setting communication device: ${device.id} - ${deviceName(device.type, device.productName?.toString() ?: "")}")
-                    if (!audioManager.setCommunicationDevice(device)) {
-                        Log.w("AudioBridge", "setCommunicationDevice returned false for id=${device.id}")
+        val telecomHandlesRoute = device != null && CallAudioRouteBridge.handler?.requestRoute(device) == true
+        if (!telecomHandlesRoute) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (device != null) {
+                    runCatching {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            audioManager.mode != AudioManager.MODE_IN_COMMUNICATION
+                        ) {
+                            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+                        }
+                        Log.d("AudioBridge", "Setting communication device: ${device.id} - ${deviceName(device.type, device.productName?.toString() ?: "")}")
+                        if (!audioManager.setCommunicationDevice(device)) {
+                            Log.w("AudioBridge", "setCommunicationDevice returned false for id=${device.id}")
+                        }
+                    }.onFailure {
+                        Log.e("AudioBridge", "Could not set communication device.", it)
                     }
-                }.onFailure {
-                    Log.e("AudioBridge", "Could not set communication device.", it)
+                } else {
+                    runCatching {
+                        audioManager.clearCommunicationDevice()
+                    }.onFailure {
+                        Log.e("AudioBridge", "Could not clear communication device.", it)
+                    }
                 }
             } else {
-                runCatching {
-                    audioManager.clearCommunicationDevice()
-                }.onFailure {
-                    Log.e("AudioBridge", "Could not clear communication device.", it)
+                if (device != null) {
+                    if (device.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO && disableBluetoothAudioDevices) {
+                        Log.w("AudioBridge", "Bluetooth audio devices are disabled on this Android version")
+                        setAudioEnabled(false)
+                        onInvalidAudioDeviceAdded()
+                        return
+                    }
+                    setAudioEnabled(true)
+                    audioManager.isSpeakerphoneOn = device.type == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER
+                    audioManager.isBluetoothScoOn = device.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
+                } else {
+                    audioManager.isSpeakerphoneOn = false
+                    audioManager.isBluetoothScoOn = false
                 }
-            }
-        } else {
-            if (device != null) {
-                if (device.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO && disableBluetoothAudioDevices) {
-                    Log.w("AudioBridge", "Bluetooth audio devices are disabled on this Android version")
-                    setAudioEnabled(false)
-                    onInvalidAudioDeviceAdded()
-                    return
-                }
-                setAudioEnabled(true)
-                audioManager.isSpeakerphoneOn = device.type == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER
-                audioManager.isBluetoothScoOn = device.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
-            } else {
-                audioManager.isSpeakerphoneOn = false
-                audioManager.isBluetoothScoOn = false
             }
         }
 
@@ -385,6 +401,43 @@ private class WebViewAudioManager(
                 )
                 Log.d("AudioBridge", "Setting audio enabled in Element Call: $enabled")
             }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun requestCallAudioFocus() {
+        if (audioFocusRequest != null) return
+        val attributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                .setAudioAttributes(attributes)
+                .build()
+            runCatching { audioManager.requestAudioFocus(request) }
+            audioFocusRequest = request
+        } else {
+            val listener = AudioManager.OnAudioFocusChangeListener { }
+            runCatching {
+                audioManager.requestAudioFocus(
+                    listener,
+                    AudioManager.STREAM_VOICE_CALL,
+                    AudioManager.AUDIOFOCUS_GAIN
+                )
+            }
+            audioFocusListener = listener
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun releaseCallAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioFocusRequest?.let { runCatching { audioManager.abandonAudioFocusRequest(it) } }
+            audioFocusRequest = null
+        } else {
+            audioFocusListener?.let { runCatching { audioManager.abandonAudioFocus(it) } }
+            audioFocusListener = null
         }
     }
 }
