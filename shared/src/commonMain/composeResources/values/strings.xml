@@ -707,6 +707,8 @@
     <string name="setting_sort_by_unread_description">Keep rooms with unread activity at the top of each section</string>
     <string name="setting_show_silent_unread_count">Show silent unread count</string>
     <string name="setting_show_silent_unread_count_description">Count every unread message in the badge instead of only highlighted ones</string>
+    <string name="setting_exclude_low_priority_from_unread_badge">Exclude low priority from unread badge</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Leave low priority rooms out of the unread count next to Rooms</string>
     <string name="setting_open_at_unread">Open rooms at first unread</string>
     <string name="setting_open_at_unread_description">Jump back to the first unread message when opening a room</string>
     <string name="setting_floating_date">Floating date separator</string>

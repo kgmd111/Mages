@@ -201,6 +201,8 @@ object MagesSettingsKeys {
     const val SORT_BY_UNREAD_DESCRIPTION = "mages.settings.sort_by_unread.description"
     const val SHOW_SILENT_UNREAD_COUNT = "mages.settings.show_silent_unread_count"
     const val SHOW_SILENT_UNREAD_COUNT_DESCRIPTION = "mages.settings.show_silent_unread_count.description"
+    const val EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE = "mages.settings.exclude_low_priority_from_unread_badge"
+    const val EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE_DESCRIPTION = "mages.settings.exclude_low_priority_from_unread_badge.description"
     const val OPEN_AT_UNREAD = "mages.settings.open_at_unread"
     const val OPEN_AT_UNREAD_DESCRIPTION = "mages.settings.open_at_unread.description"
     const val FLOATING_DATE = "mages.settings.floating_date"

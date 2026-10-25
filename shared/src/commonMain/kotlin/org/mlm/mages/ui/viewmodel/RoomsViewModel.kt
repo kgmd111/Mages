@@ -679,7 +679,11 @@ class RoomsViewModel(
                 item.hasUnread()
             }
         }
-        val totalUnreadCount = s.unread.values.sum()
+        val totalUnreadCount = if (settings.value.excludeLowPriorityFromUnreadBadge) {
+            s.allItems.filterNot { it.isLowPriority }.sumOf { s.unread[it.roomId] ?: 0 }
+        } else {
+            s.unread.values.sum()
+        }
 
         val favourites  = sortUnread(list.filter { it.isFavourite })
         val lowPriority = sortUnread(list.filter { it.isLowPriority })

@@ -635,6 +635,16 @@ data class AppSettings(
     val showSilentUnreadCount: Boolean = true,
 
     @Setting(
+        title = "Exclude low priority from unread badge",
+        titleKey = MagesSettingsKeys.EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE,
+        description = "Leave low priority rooms out of the unread count next to Rooms",
+        descriptionKey = MagesSettingsKeys.EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE_DESCRIPTION,
+        category = Timeline::class,
+        type = Toggle::class,
+    )
+    val excludeLowPriorityFromUnreadBadge: Boolean = false,
+
+    @Setting(
         title = "Open rooms at first unread",
         titleKey = MagesSettingsKeys.OPEN_AT_UNREAD,
         description = "Jump back to the first unread message when opening a room",
