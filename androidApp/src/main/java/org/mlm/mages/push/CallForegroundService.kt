@@ -54,28 +54,30 @@ class CallForegroundService : Service() {
         val roomName = intent?.getStringExtra(EXTRA_ROOM_NAME) ?: getString(R.string.notif_ongoing_call)
         val roomId = intent?.getStringExtra(EXTRA_ROOM_ID).orEmpty()
         val notification = buildNotification(roomName, roomId)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            var types = 0
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                types = types or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
-            }
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                types = types or ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
-            }
-            try {
-                ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, types)
-            } catch (e: SecurityException) {
-                ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, 0)
-            }
-        } else {
-            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, 0)
+        val type = callForegroundServiceType()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && type == 0) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
+        try {
+            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, type)
+        } catch (e: RuntimeException) {
+            Logger.w("Could not start call foreground service: ${e.message}")
+            stopSelf()
         }
 
         return START_NOT_STICKY
+    }
+
+    private fun callForegroundServiceType(): Int {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return 0
+        return if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+        } else {
+            0
+        }
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -127,6 +129,12 @@ class CallForegroundService : Service() {
         private const val EXTRA_ROOM_ID = "room_id"
 
         fun start(context: Context, roomName: String, roomId: String = "") {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                Logger.w("Cannot start call foreground service without microphone permission")
+                return
+            }
             val intent = Intent(context, CallForegroundService::class.java).apply {
                 putExtra(EXTRA_ROOM_NAME, roomName)
                 putExtra(EXTRA_ROOM_ID, roomId)
