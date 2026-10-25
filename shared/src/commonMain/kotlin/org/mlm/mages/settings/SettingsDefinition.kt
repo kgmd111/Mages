@@ -469,7 +469,7 @@ data class AppSettings(
         category = Timeline::class,
         type = Toggle::class,
     )
-    val includeSilentUnreadInFilter: Boolean = true,
+    val includeSilentUnreadInFilter: Boolean = false,
 
     @Setting(
         title = "Show space badge in room list",
