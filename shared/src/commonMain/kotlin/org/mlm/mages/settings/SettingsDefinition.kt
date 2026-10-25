@@ -642,7 +642,7 @@ data class AppSettings(
         category = Timeline::class,
         type = Toggle::class,
     )
-    val excludeLowPriorityFromUnreadBadge: Boolean = false,
+    val excludeLowPriorityFromUnreadBadge: Boolean = true,
 
     @Setting(
         title = "Open rooms at first unread",
