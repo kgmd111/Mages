@@ -46,6 +46,14 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.2.6" date="2026-10-25" type="stable">
+      <description>
+        <ul>
+          <li>actually fix call audio route switching (for prev. rel)</li>
+          <li>hide low. prio by default from unread counter(#178)</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.2.5" date="2026-10-25" type="stable">
       <description>
         <ul>

@@ -1,3 +1,9 @@
+## v5.2.6
+
+- actually fix call audio route switching (for prev. rel)
+- hide low. prio by default from unread counter(#178)
+
+
 ## v5.2.5
 
 - rounded focus borders
