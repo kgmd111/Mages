@@ -100,7 +100,6 @@ data class RoomsUiState(
     val unreadGroupsCount: Int = 0,
     val unreadDmsCount: Int = 0,
     val spacesUnreadCount: Int = 0,
-    val totalUnreadCount: Int = 0,
 )
 
 enum class RoomTypeFilter {

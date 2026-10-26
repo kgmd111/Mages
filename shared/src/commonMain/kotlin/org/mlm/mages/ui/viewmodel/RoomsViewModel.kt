@@ -668,10 +668,15 @@ class RoomsViewModel(
         }
 
         val allFiltered = visibleRooms.filter { !it.isInvited }
-        val unreadChatCount = allFiltered.count { it.hasUnread() }
-        val unreadFavouritesCount = allFiltered.count { it.isFavourite && it.hasUnread() }
-        val unreadGroupsCount = allFiltered.count { !it.isDm && it.hasUnread() }
-        val unreadDmsCount = allFiltered.count { it.isDm && it.hasUnread() }
+        val chipRooms = if (settings.value.excludeLowPriorityFromUnreadBadge) {
+            allFiltered.filterNot { it.isLowPriority }
+        } else {
+            allFiltered
+        }
+        val unreadChatCount = chipRooms.count { it.hasUnread() }
+        val unreadFavouritesCount = chipRooms.count { it.isFavourite && it.hasUnread() }
+        val unreadGroupsCount = chipRooms.count { !it.isDm && it.hasUnread() }
+        val unreadDmsCount = chipRooms.count { it.isDm && it.hasUnread() }
         val spacesUnreadCount = s.allItems.count { item ->
             if (item.isInvited || s.parentSpaces[item.roomId].isNullOrEmpty()) {
                 false
@@ -679,12 +684,6 @@ class RoomsViewModel(
                 item.hasUnread()
             }
         }
-        val totalUnreadCount = if (settings.value.excludeLowPriorityFromUnreadBadge) {
-            s.allItems.filterNot { it.isLowPriority }.sumOf { s.unread[it.roomId] ?: 0 }
-        } else {
-            s.unread.values.sum()
-        }
-
         val favourites  = sortUnread(list.filter { it.isFavourite })
         val lowPriority = sortUnread(list.filter { it.isLowPriority })
         val normal      = sortUnread(list.filter { !it.isFavourite && !it.isLowPriority && !it.isInvited })
@@ -701,7 +700,6 @@ class RoomsViewModel(
                 unreadGroupsCount = unreadGroupsCount,
                 unreadDmsCount = unreadDmsCount,
                 spacesUnreadCount = spacesUnreadCount,
-                totalUnreadCount = totalUnreadCount,
             )
         }
         loadParentSpaces()

@@ -1442,7 +1442,7 @@
     <string name="setting_show_silent_unread_count">Εμφάνιση σιωπηλού μετρητή</string>
     <string name="setting_show_silent_unread_count_description">Καταμέτρηση κάθε αδιάβαστου μηνύματος στο σήμα αντί μόνο των επισημασμένων</string>
     <string name="setting_exclude_low_priority_from_unread_badge">Εξαίρεση χαμηλής προτεραιότητας από το σήμα αδιάβαστων</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">Να μην μετρώνται τα δωμάτια χαμηλής προτεραιότητας στον αριθμό αδιάβαστων δίπλα στα Δωμάτια</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Να μην περιλαμβάνονται τα δωμάτια χαμηλής προτεραιότητας στις μετρήσεις των φίλτρων</string>
     <string name="setting_open_at_unread">Άνοιγμα δωματίων στο πρώτο αδιάβαστο</string>
     <string name="setting_open_at_unread_description">Μετάβαση στο πρώτο αδιάβαστο μήνυμα κατά το άνοιγμα δωματίου</string>
     <string name="setting_floating_date">Αιωρούμενος διαχωριστής ημερομηνίας</string>

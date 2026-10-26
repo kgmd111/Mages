@@ -1444,7 +1444,7 @@
     <string name="setting_show_silent_unread_count">הצגת מונה שקט</string>
     <string name="setting_show_silent_unread_count_description">ספירת כל הודעה לא נקראת בתג במקום רק מודגשות</string>
     <string name="setting_exclude_low_priority_from_unread_badge">החרגת עדיפות נמוכה מתג הלא נקרא</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">לא לספור חדרים בעדיפות נמוכה במספר הלא נקרא ליד חדרים</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">השאר חדרים בעדיפות נמוכה מחוץ לספירות המסננים</string>
     <string name="setting_open_at_unread">פתיחת חדרים בהודעה הלא נקראת הראשונה</string>
     <string name="setting_open_at_unread_description">קפיצה להודעה הלא נקראת הראשונה בפתיחת חדר</string>
     <string name="setting_floating_date">מפריד תאריך צף</string>

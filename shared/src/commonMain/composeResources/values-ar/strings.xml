@@ -1446,7 +1446,7 @@
     <string name="setting_show_silent_unread_count">إظهار عدد غير المقروء الصامت</string>
     <string name="setting_show_silent_unread_count_description">احتساب كل رسالة غير مقروءة في الشارة بدلاً من المميزة فقط</string>
     <string name="setting_exclude_low_priority_from_unread_badge">استبعاد الأولوية المنخفضة من شارة غير المقروء</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">عدم تضمين الغرف ذات الأولوية المنخفضة في عدد غير المقروء بجوار الغرف</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">استبعاد الغرف ذات الأولوية المنخفضة من أعداد شرائح التصفية</string>
     <string name="setting_open_at_unread">فتح الغرف عند أول غير مقروء</string>
     <string name="setting_open_at_unread_description">العودة إلى أول رسالة غير مقروءة عند فتح غرفة</string>
     <string name="setting_floating_date">فاصل التاريخ العائم</string>

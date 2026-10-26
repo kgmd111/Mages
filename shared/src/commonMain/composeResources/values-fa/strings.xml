@@ -1442,7 +1442,7 @@
     <string name="setting_show_silent_unread_count">نمایش شمار خوانده‌نشده‌های بی‌صدا</string>
     <string name="setting_show_silent_unread_count_description">شمارش هر پیام خوانده‌نشده در نشان به‌جای فقط برجسته‌ها</string>
     <string name="setting_exclude_low_priority_from_unread_badge">حذف اولویت پایین از نشان خوانده‌نشده</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">اتاق‌های با اولویت پایین از شمار خوانده‌نشده کنار اتاق‌ها کنار گذاشته شوند</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">اتاق‌های با اولویت پایین را از تعداد فیلترها حذف کن</string>
     <string name="setting_open_at_unread">باز کردن اتاق‌ها از اولین خوانده‌نشده</string>
     <string name="setting_open_at_unread_description">پرش به اولین پیام خوانده‌نشده هنگام باز کردن اتاق</string>
     <string name="setting_floating_date">جداکننده شناور تاریخ</string>

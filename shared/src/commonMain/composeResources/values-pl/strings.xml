@@ -1444,7 +1444,7 @@
     <string name="setting_show_silent_unread_count">Pokazuj cichy licznik</string>
     <string name="setting_show_silent_unread_count_description">Licz każdą nieprzeczytaną wiadomość w odznace zamiast tylko wyróżnionych</string>
     <string name="setting_exclude_low_priority_from_unread_badge">Wyklucz niski priorytet z odznaki nieprzeczytanych</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">Nie licz pokoi o niskim priorytecie w liczbie nieprzeczytanych obok Pokoje</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Pomiń pokoje o niskim priorytecie w liczbach filtrów</string>
     <string name="setting_open_at_unread">Otwieraj pokoje od pierwszej nieprzeczytanej</string>
     <string name="setting_open_at_unread_description">Przeskocz do pierwszej nieprzeczytanej wiadomości przy otwieraniu pokoju</string>
     <string name="setting_floating_date">Pływający separator daty</string>

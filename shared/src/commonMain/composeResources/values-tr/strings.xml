@@ -1442,7 +1442,7 @@
     <string name="setting_show_silent_unread_count">Sessiz okunmamış sayacı</string>
     <string name="setting_show_silent_unread_count_description">Rozette yalnızca vurgulananlar yerine her okunmamış iletiyi say</string>
     <string name="setting_exclude_low_priority_from_unread_badge">Düşük önceliği okunmamış rozetinden hariç tut</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">Düşük öncelikli odaları Odalar yanındaki okunmamış sayısına dahil etme</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Düşük öncelikli odaları filtre sayılarından hariç tut</string>
     <string name="setting_open_at_unread">Odaları ilk okunmamıştan aç</string>
     <string name="setting_open_at_unread_description">Oda açılırken ilk okunmamış iletiye atla</string>
     <string name="setting_floating_date">Yüzen tarih ayırıcı</string>

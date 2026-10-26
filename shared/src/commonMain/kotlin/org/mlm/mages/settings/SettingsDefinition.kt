@@ -637,7 +637,7 @@ data class AppSettings(
     @Setting(
         title = "Exclude low priority from unread badge",
         titleKey = MagesSettingsKeys.EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE,
-        description = "Leave low priority rooms out of the unread count next to Rooms",
+        description = "Leave low priority rooms out of the filter chip counts",
         descriptionKey = MagesSettingsKeys.EXCLUDE_LOW_PRIORITY_FROM_UNREAD_BADGE_DESCRIPTION,
         category = Timeline::class,
         type = Toggle::class,

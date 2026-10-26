@@ -170,8 +170,10 @@ object MagesTelecomCalls {
                 routeHandler = handler
                 CallAudioRouteBridge.handler = handler
                 scope.launch {
-                    val setActiveResult = runCatching { control.setActive() }
-                    Logger.i { "Telecom: setActive $roomId -> $setActiveResult" }
+                    val result = runCatching {
+                        if (isIncoming) control.answer(attrs.callType) else control.setActive()
+                    }
+                    Logger.i { "Telecom: ${if (isIncoming) "answer" else "setActive"} $roomId -> $result" }
                 }
             }
         } catch (e: CancellationException) {

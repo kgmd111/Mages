@@ -1442,7 +1442,7 @@
     <string name="setting_show_silent_unread_count">Stille ungelesene Anzahl anzeigen</string>
     <string name="setting_show_silent_unread_count_description">Jede ungelesene Nachricht im Badge zählen statt nur hervorgehobener</string>
     <string name="setting_exclude_low_priority_from_unread_badge">Niedrige Priorität vom Ungelesen-Badge ausschließen</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">Räume mit niedriger Priorität nicht in der ungelesenen Anzahl neben Räume zählen</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Räume mit niedriger Priorität nicht in den Filter-Chip-Zählern zählen</string>
     <string name="setting_open_at_unread">Räume bei erster ungelesener öffnen</string>
     <string name="setting_open_at_unread_description">Beim Öffnen eines Raums zur ersten ungelesenen Nachricht springen</string>
     <string name="setting_floating_date">Schwebender Datumstrenner</string>

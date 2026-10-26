@@ -1442,7 +1442,7 @@
     <string name="setting_show_silent_unread_count">Mostrar contagem silenciosa</string>
     <string name="setting_show_silent_unread_count_description">Contar cada mensagem não lida no selo em vez de só destacadas</string>
     <string name="setting_exclude_low_priority_from_unread_badge">Excluir baixa prioridade do selo de não lidos</string>
-    <string name="setting_exclude_low_priority_from_unread_badge_description">Não contar salas de baixa prioridade no número de não lidos ao lado de Salas</string>
+    <string name="setting_exclude_low_priority_from_unread_badge_description">Excluir salas de baixa prioridade das contagens dos filtros</string>
     <string name="setting_open_at_unread">Abrir salas na primeira não lida</string>
     <string name="setting_open_at_unread_description">Voltar à primeira mensagem não lida ao abrir uma sala</string>
     <string name="setting_floating_date">Separador de data flutuante</string>

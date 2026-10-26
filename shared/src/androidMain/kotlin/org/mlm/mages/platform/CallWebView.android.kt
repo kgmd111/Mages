@@ -6,10 +6,8 @@ import android.content.pm.ApplicationInfo
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Outline
-import android.media.AudioAttributes
 import android.media.AudioDeviceCallback
 import android.media.AudioDeviceInfo
-import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Handler
@@ -195,8 +193,6 @@ private class WebViewAudioManager(
     private val disableBluetoothAudioDevices = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
     private val isWebViewAudioEnabled = AtomicBoolean(true)
     private val isInCallMode = AtomicBoolean(false)
-    private var audioFocusRequest: AudioFocusRequest? = null
-    private var audioFocusListener: AudioManager.OnAudioFocusChangeListener? = null
 
     @Volatile
     private var ecRequestedDeviceId: String? = null
@@ -258,7 +254,6 @@ private class WebViewAudioManager(
         } else {
             AudioManager.MODE_NORMAL
         }
-        requestCallAudioFocus()
         installBridgeCallbacks()
     }
 
@@ -266,7 +261,6 @@ private class WebViewAudioManager(
         if (!isInCallMode.compareAndSet(true, false)) return
         if (proximitySensorWakeLock?.isHeld == true) proximitySensorWakeLock?.release()
         audioManager.mode = AudioManager.MODE_NORMAL
-        releaseCallAudioFocus()
         ecRequestedDeviceId = null
         if (!hasRegisteredCallbacks) return
 
@@ -401,43 +395,6 @@ private class WebViewAudioManager(
                 )
                 Log.d("AudioBridge", "Setting audio enabled in Element Call: $enabled")
             }
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun requestCallAudioFocus() {
-        if (audioFocusRequest != null) return
-        val attributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                .setAudioAttributes(attributes)
-                .build()
-            runCatching { audioManager.requestAudioFocus(request) }
-            audioFocusRequest = request
-        } else {
-            val listener = AudioManager.OnAudioFocusChangeListener { }
-            runCatching {
-                audioManager.requestAudioFocus(
-                    listener,
-                    AudioManager.STREAM_VOICE_CALL,
-                    AudioManager.AUDIOFOCUS_GAIN
-                )
-            }
-            audioFocusListener = listener
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun releaseCallAudioFocus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            audioFocusRequest?.let { runCatching { audioManager.abandonAudioFocusRequest(it) } }
-            audioFocusRequest = null
-        } else {
-            audioFocusListener?.let { runCatching { audioManager.abandonAudioFocus(it) } }
-            audioFocusListener = null
         }
     }
 }
