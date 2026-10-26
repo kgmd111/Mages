@@ -91,6 +91,7 @@ data class RoomsUiState(
     val isDecliningInvite: Boolean = false,
 
     val roomAvatarPath: Map<String, String> = emptyMap(),
+    val roomAvatarUrlByRoomId: Map<String, String> = emptyMap(),
     val parentSpaces: Map<String, List<SpaceParentInfo>> = emptyMap(),
     val parentSpaceAvatarPath: Map<String, String> = emptyMap(),
     val parentSpacesResolvedKey: String = "",
@@ -345,6 +346,7 @@ data class RoomUiState(
     val replyThumbByEvent: Map<String, String> = emptyMap(),
     val revealedPreviewEventIds: Set<String> = emptySet(),
     val avatarByUserId: Map<String, String> = emptyMap(),
+    val avatarUrlByUserId: Map<String, String> = emptyMap(),
     val roomMembers: List<MemberSummary> = emptyList(),
     val threadCount: Map<String, Int> = emptyMap(),
     val audioFileByEvent: Map<String, String> = emptyMap(),

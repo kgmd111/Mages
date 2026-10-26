@@ -1462,6 +1462,11 @@ class RoomViewModel(
                     OutgoingMediaMode.Attachment -> {
                         val txn = Uuid.random().toString()
                         uploadTxnId = txn
+                        if (data.mimeType.startsWith("image/")) {
+                            updateState {
+                                copy(thumbByEvent = thumbByEvent + ("pending:$txn" to data.path))
+                            }
+                        }
                         service.sendAttachmentFromPath(
                             roomId = currentState.roomId,
                             path = data.path,
@@ -2481,7 +2486,7 @@ class RoomViewModel(
             .asReversed()
             .mapNotNull { event ->
                 val avatarUrl = event.senderAvatarUrl ?: return@mapNotNull null
-                if (event.sender in currentState.avatarByUserId) return@mapNotNull null
+                if (currentState.avatarUrlByUserId[event.sender] == avatarUrl) return@mapNotNull null
                 event.sender to avatarUrl
             }
             .distinctBy { it.first }
@@ -2502,7 +2507,13 @@ class RoomViewModel(
             }.awaitAll().filterNotNull().toMap()
 
             if (resolved.isNotEmpty()) {
-                updateState { copy(avatarByUserId = avatarByUserId + resolved) }
+                val resolvedUrls = byUser.filter { it.first in resolved }.toMap()
+                updateState {
+                    copy(
+                        avatarByUserId = avatarByUserId + resolved,
+                        avatarUrlByUserId = avatarUrlByUserId + resolvedUrls,
+                    )
+                }
             }
         }
     }

@@ -33,12 +33,15 @@ class MatrixRemoteSettingsStore(
         if (fields.isEmpty()) return emptyMap()
         fields.forEach { requireSupported(it) }
 
+        val matrix = runCatching { port() }.getOrNull() ?: return emptyMap()
+        if (!matrix.isLoggedIn()) return emptyMap()
+
         val values = mutableMapOf<String, String>()
         if (MEDIA_PREVIEWS_FIELD in fields) {
-            port().mediaPreviewConfig()?.let { values[MEDIA_PREVIEWS_FIELD] = it.name }
+            matrix.mediaPreviewConfig()?.let { values[MEDIA_PREVIEWS_FIELD] = it.name }
         }
         if (BLOCK_INVITES_FIELD in fields) {
-            port().inviteBlocked()?.let { values[BLOCK_INVITES_FIELD] = it.toString() }
+            matrix.inviteBlocked()?.let { values[BLOCK_INVITES_FIELD] = it.toString() }
         }
         return values
     }

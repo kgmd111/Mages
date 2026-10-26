@@ -56,6 +56,7 @@ import org.mlm.mages.ui.components.blurHashBackground
 import org.mlm.mages.ui.components.core.Avatar
 import org.mlm.mages.ui.components.core.FormattedBodyText
 import org.mlm.mages.ui.components.core.MentionRef
+import org.mlm.mages.ui.components.core.formatDisplayName
 import org.mlm.mages.ui.components.rememberBlurHashImage
 import org.mlm.mages.ui.theme.Sizes
 import org.mlm.mages.ui.components.voice.VoiceMessageBubble
@@ -121,10 +122,13 @@ fun MessageBubble(
     val showMessageAvatars = model.showMessageAvatars
     val grouping = model.grouping
 
-    val showSenderInfo = !isMine && !model.sender?.displayName.isNullOrBlank() && (
+    val sender = model.sender
+    val senderName = sender?.displayName?.takeIf { it.isNotBlank() }
+        ?: sender?.id?.takeIf { it.isNotBlank() }?.let(::formatDisplayName)
+    val showSenderInfo = !isMine && senderName != null && (
             if (isDm) { model.showUsernameInDms && !grouping.groupedWithPrev } else { !grouping.groupedWithPrev }
             )
-    val showSenderAvatar = showSenderInfo && showMessageAvatars && !model.sender.id.isNullOrBlank()
+    val showSenderAvatar = showSenderInfo && showMessageAvatars && !sender?.id.isNullOrBlank()
 
     val isRedacted = model.isRedacted
     val threadCount = model.thread?.count?.takeIf { it > 0 }
@@ -161,13 +165,13 @@ fun MessageBubble(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TimelineSenderAvatar(
-                        senderDisplayName = model.sender.displayName,
-                        senderAvatarUrl = model.sender.avatarPath,
-                        senderId = model.sender.id
+                        senderDisplayName = senderName,
+                        senderAvatarUrl = sender?.avatarPath,
+                        senderId = sender?.id.orEmpty()
                     )
                     Spacer(Modifier.width(Spacing.sm))
                     Text(
-                        text = model.sender.displayName,
+                        text = senderName.orEmpty(),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Medium
@@ -175,7 +179,7 @@ fun MessageBubble(
                 }
             } else {
                 Text(
-                    text = model.sender.displayName,
+                    text = senderName.orEmpty(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium,
@@ -854,17 +858,15 @@ private fun MediaTile(
     content: @Composable BoxScope.() -> Unit,
 ) {
     val aspectRatio = if ((width ?: 0) > 0 && (height ?: 0) > 0) {
-        width!!.toFloat() / height!!.toFloat()
-    } else null
+        (width!!.toFloat() / height!!.toFloat()).coerceIn(0.001f, 10f)
+    } else 1.33f
 
     Box(
         modifier = Modifier
             .widthIn(max = maxWidth)
             .heightIn(min = 120.dp, max = 268.dp)
             .sizeIn(maxHeight = 268.dp)
-            .then(
-                if (aspectRatio != null) Modifier.aspectRatio(aspectRatio) else Modifier.fillMaxWidth()
-            )
+            .aspectRatio(aspectRatio, matchHeightConstraintsFirst = false)
             .clip(RoundedCornerShape(8.dp))
             .blurHashBackground(blurhashImage)
             .combinedClickable(

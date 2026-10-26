@@ -707,10 +707,15 @@ class RoomsViewModel(
 
     private fun maybePrefetchRoomAvatar(roomId: String, avatarMxc: String?) {
         if (avatarMxc.isNullOrBlank()) return
-        if (currentState.roomAvatarPath.containsKey(roomId)) return
+        if (currentState.roomAvatarUrlByRoomId[roomId] == avatarMxc &&
+            currentState.roomAvatarPath.containsKey(roomId)
+        ) return
 
         resolveAvatar(service, avatarMxc, 96) { path ->
-            copy(roomAvatarPath = roomAvatarPath + (roomId to path))
+            copy(
+                roomAvatarPath = roomAvatarPath + (roomId to path),
+                roomAvatarUrlByRoomId = roomAvatarUrlByRoomId + (roomId to avatarMxc),
+            )
         }
     }
 
