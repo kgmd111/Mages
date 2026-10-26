@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Poll
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -780,9 +781,6 @@ private fun ImageAttachmentBubble(
             maxWidth = maxMediaWidth,
             blurhashImage = blurhashImage,
             onOpen = onOpen,
-            onShowPreview = onShowPreview,
-            previewBlocked = previewBlocked,
-            previewPath = previewPath,
             onLongPress = onLongPress,
         ) {
             Box(modifier = Modifier.matchParentSize()) {
@@ -813,7 +811,10 @@ private fun ImageAttachmentBubble(
                         contentAlignment = Alignment.Center,
                     ) {
                         TextButton(onClick = { onShowPreview?.invoke() }) {
-                            Text(stringResource(Res.string.show))
+                            Icon(
+                                imageVector = Icons.Default.Visibility,
+                                contentDescription = stringResource(Res.string.show),
+                            )
                         }
                     }
                 }
@@ -849,9 +850,6 @@ private fun MediaTile(
     maxWidth: Dp,
     blurhashImage: ImageBitmap?,
     onOpen: (() -> Unit)?,
-    onShowPreview: (() -> Unit)?,
-    previewBlocked: Boolean,
-    previewPath: String?,
     onLongPress: (() -> Unit)?,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -859,7 +857,6 @@ private fun MediaTile(
         width!!.toFloat() / height!!.toFloat()
     } else null
 
-    val showPreview = previewBlocked && previewPath == null && onShowPreview != null
     Box(
         modifier = Modifier
             .widthIn(max = maxWidth)
@@ -871,13 +868,9 @@ private fun MediaTile(
             .clip(RoundedCornerShape(8.dp))
             .blurHashBackground(blurhashImage)
             .combinedClickable(
-                enabled = onOpen != null || showPreview,
+                enabled = onOpen != null || onLongPress != null,
                 onClick = {
-                    if (showPreview) {
-                        onShowPreview?.invoke()
-                    } else {
-                        onOpen?.invoke()
-                    }
+                    onOpen?.invoke()
                 },
                 onLongClick = onLongPress,
             ),
@@ -962,9 +955,6 @@ private fun VideoAttachmentBubble(
             maxWidth = maxMediaWidth,
             blurhashImage = blurhashImage,
             onOpen = onOpen,
-            onShowPreview = onShowPreview,
-            previewBlocked = previewBlocked,
-            previewPath = previewPath,
             onLongPress = onLongPress,
         ) {
             Box(modifier = Modifier.matchParentSize()) {
@@ -995,7 +985,10 @@ private fun VideoAttachmentBubble(
                         contentAlignment = Alignment.Center,
                     ) {
                         TextButton(onClick = { onShowPreview?.invoke() }) {
-                            Text(stringResource(Res.string.show))
+                            Icon(
+                                imageVector = Icons.Default.Visibility,
+                                contentDescription = stringResource(Res.string.show),
+                            )
                         }
                     }
                 }
