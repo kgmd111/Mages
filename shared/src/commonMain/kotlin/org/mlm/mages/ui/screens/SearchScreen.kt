@@ -170,7 +170,9 @@ private fun SearchTopBar(
     onBack: () -> Unit,
     focusRequester: FocusRequester
 ) {
-    Column {
+    Column(
+        modifier = if (scopedRoomName == null) Modifier.statusBarsPadding() else Modifier
+    ) {
         if (scopedRoomName != null) {
             TopAppBar(
                 title = {
