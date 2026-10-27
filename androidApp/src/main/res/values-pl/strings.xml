@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Magowie</string>
+    <string name="app_name">Mages</string>
     <string name="location_disclosure_title">Potrzebny dostęp do lokalizacji</string>
-    <string name="location_disclosure_message">Magowie udostępniają Twoją lokalizację tylko wtedy, gdy tak zdecydujesz.\n\nLokalizacja na żywo: Twoja dokładna lokalizacja jest wysyłana do tego pokoju i widoczna dla jego członków. Działa w tle i wyświetla powiadomienie do momentu zakończenia odliczania lub dotknięcia opcji Zatrzymaj udostępnianie.\n\nJednorazowa lokalizacja: Twoja bieżąca lokalizacja jest wysyłana jednorazowo w postaci wiadomości.\n\nTwoja lokalizacja jest wysyłana na Twój serwer domowy Matrix i nie jest używana gdzie indziej. W dowolnym momencie możesz przerwać udostępnianie lub wyłączyć uprawnienia w Ustawieniach.</string>
-    <string name="location_disclosure_continue">Kontynuować</string>
+    <string name="location_disclosure_message">Mages udostępniają Twoją lokalizację tylko wtedy, gdy tak zdecydujesz.\n\nLokalizacja na żywo: Twoja dokładna lokalizacja jest wysyłana do tego pokoju i widoczna dla jego członków. Działa w tle i wyświetla powiadomienie do momentu zakończenia odliczania lub dotknięcia opcji Zatrzymaj udostępnianie.\n\nJednorazowe udostępnienie: Twoja bieżąca lokalizacja jest wysyłana jednorazowo w postaci wiadomości.\n\nTwoja lokalizacja jest wysyłana na Twój serwer domowy Matrix i nie jest używana gdzie indziej. W dowolnym momencie możesz przerwać udostępnianie lub wyłączyć uprawnienia w Ustawieniach.</string>
+    <string name="location_disclosure_continue">Kontynuuj</string>
     <string name="location_disclosure_not_now">Nie teraz</string>
-    <string name="location_permission_required">Do udostępniania lokalizacji na żywo wymagane jest pozwolenie na lokalizację</string>
-    <string name="location_permission_denied">Odmowa pozwolenia na lokalizację</string>
+    <string name="location_permission_required">Do udostępniania lokalizacji na żywo wymagane jest pozwolenie na dostęp do lokalizacji</string>
+    <string name="location_permission_denied">Odmowa dostępu do lokalizacji</string>
     <string name="notif_live_location_title">Udostępnianie lokalizacji na żywo</string>
     <string name="notif_live_location_single">1 pokój</string>
     <string name="notif_live_location_plural">Pokoje %1$d</string>
@@ -19,7 +19,7 @@
     <string name="distributor_select_title">Wybierz usługę push</string>
     <string name="distributor_title">Usługa push</string>
     <string name="distributor_using">Używany dostawca: %1$s\n\nMożesz później zainstalować ntfy lub innego dostawcę, aby przełączyć.</string>
-    <string name="logged_out">Obecnie wylogowano.</string>
+    <string name="logged_out">Wylogowano.</string>
     <string name="mic_permission_required">Do połączeń wymagane jest pozwolenie na mikrofon</string>
     <string name="share_cancel">Anuluj</string>
     <string name="share_could_not_read">Nie udało się odczytać udostępnionej treści</string>
