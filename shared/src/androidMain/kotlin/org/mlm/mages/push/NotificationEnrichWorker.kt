@@ -22,6 +22,7 @@ import org.mlm.mages.matrix.NotificationKind
 import org.mlm.mages.settings.AppSettings
 import org.mlm.mages.matrix.RenderedNotification
 import org.mlm.mages.matrix.RoomNotificationMode
+import org.mlm.mages.platform.Notifier as PlatformNotifier
 import org.mlm.mages.platform.SettingsProvider
 import org.mlm.mages.shared.R
 import java.util.Calendar
@@ -190,6 +191,10 @@ class NotificationEnrichWorker(
 
             NotificationKind.Reaction,
             NotificationKind.Message -> {
+                val me = service.activeAccount.value?.userId
+                val senderIsMe = me != null && me == rendered.senderUserId
+                if (!PlatformNotifier.shouldNotify(roomId, senderIsMe)) return Result.success()
+
                 val inQuietHours = settings.quietHoursEnabled && isInQuietHours(settings)
 
                 val wantsAlert = settings.notificationSound || settings.notificationVibrate

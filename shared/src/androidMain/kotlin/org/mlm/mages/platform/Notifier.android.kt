@@ -41,7 +41,8 @@ private fun parseNotifiedRooms(json: String): Set<String> {
 
 actual object Notifier {
     private const val CHANNEL_ID = "messages"
-    private var currentRoomId: String? = null
+    @Volatile private var currentRoomId: String? = null
+    @Volatile private var windowFocused = false
 
     private fun appContextOrNull(): Context? =
         runCatching { GlobalContext.get().get<Context>() }.getOrNull()
@@ -78,7 +79,7 @@ actual object Notifier {
         currentRoomId = roomId
         if (roomId != null) {
             val ctx = appContextOrNull() ?: return
-            AndroidNotificationHelper.cancelRoomNotification(ctx, roomId, includeThreads = false)
+            AndroidNotificationHelper.cancelRoomNotification(ctx, roomId, force = true, includeThreads = false)
             CoroutineScope(Dispatchers.IO).launch {
                 val settingsRepo = SettingsProvider.get(ctx)
                 val settings = settingsRepo.flow.first()
@@ -92,12 +93,12 @@ actual object Notifier {
     }
 
     actual fun setWindowFocused(focused: Boolean) {
-        // Not needed on Android
+        windowFocused = focused
     }
 
     actual fun shouldNotify(roomId: String, senderIsMe: Boolean): Boolean {
         if (senderIsMe) return false
-        if (currentRoomId == roomId) return false
+        if (windowFocused && currentRoomId == roomId) return false
         return true
     }
 
@@ -116,6 +117,7 @@ actual fun BindLifecycle(service: MatrixService, resetSyncState: Boolean) {
         val obs = object : DefaultLifecycleObserver {
 
             override fun onStart(owner: LifecycleOwner) {
+                setWindowFocused(true)
                 scope.launch {
                     SessionBootstrapper.ensureSessionReady(service)
 
@@ -138,6 +140,7 @@ actual fun BindLifecycle(service: MatrixService, resetSyncState: Boolean) {
             }
 
             override fun onStop(owner: LifecycleOwner) {
+                setWindowFocused(false)
                 scope.launch {
                     val port = service.portOrNull ?: return@launch
                     runCatching { port.enterBackground() }
