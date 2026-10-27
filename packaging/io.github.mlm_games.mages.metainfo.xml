@@ -46,6 +46,15 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="5.2.7" date="2026-10-27" type="stable">
+      <description>
+        <ul>
+          <li>search room padding</li>
+          <li>let the non "Show" area of a image timeline item be clickable to view the image without having to download the img</li>
+          <li>remove the unread badge next to the rooms title</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.2.6" date="2026-10-25" type="stable">
       <description>
         <ul>

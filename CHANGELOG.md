@@ -1,3 +1,10 @@
+## v5.2.7
+
+- search room padding
+- let the non "Show" area of a image timeline item be clickable to view the image without having to download the img
+- remove the unread badge next to the rooms title
+
+
 ## v5.2.6
 
 - actually fix call audio route switching (for prev. rel)
