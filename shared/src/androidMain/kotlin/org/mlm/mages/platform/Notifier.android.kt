@@ -117,7 +117,7 @@ actual fun BindLifecycle(service: MatrixService, resetSyncState: Boolean) {
         val obs = object : DefaultLifecycleObserver {
 
             override fun onStart(owner: LifecycleOwner) {
-                setWindowFocused(true)
+                Notifier.setWindowFocused(true)
                 scope.launch {
                     SessionBootstrapper.ensureSessionReady(service)
 
@@ -140,7 +140,7 @@ actual fun BindLifecycle(service: MatrixService, resetSyncState: Boolean) {
             }
 
             override fun onStop(owner: LifecycleOwner) {
-                setWindowFocused(false)
+                Notifier.setWindowFocused(false)
                 scope.launch {
                     val port = service.portOrNull ?: return@launch
                     runCatching { port.enterBackground() }
