@@ -375,13 +375,14 @@ private fun insertNewlineInternal(value: TextFieldValue): TextFieldValue {
 private fun findMentionQueryInternal(value: TextFieldValue): MentionQueryInternal? {
     val text = value.text
     val cursor = value.selection.start
-    if (cursor < 0 || cursor > text.length) return null
+    if (cursor < 1 || cursor > text.length) return null
 
     var start = cursor
     while (start > 0 && !text[start - 1].isWhitespace()) {
         start--
     }
     if (start >= text.length || text[start] != '@') return null
+    if (start >= cursor) return null
 
     var end = cursor
     while (end < text.length && !text[end].isWhitespace()) {
