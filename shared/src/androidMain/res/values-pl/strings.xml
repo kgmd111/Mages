@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Magowie</string>
+    <string name="app_name">Mages</string>
     <string name="notif_new_message">Nowa wiadomość</string>
     <string name="action_answer">Odbierz</string>
     <string name="action_decline">Odrzuć</string>
@@ -9,7 +9,7 @@
     <string name="incoming_call_title">Połączenie przychodzące</string>
     <string name="incoming_voice_call">Przychodzące połączenie głosowe</string>
     <string name="location_timed_out_gps">Przekroczono limit czasu oczekiwania na sygnał GPS</string>
-    <string name="notif_accept">Przyjmij</string>
+    <string name="notif_accept">Potwierdź</string>
     <string name="notif_channel_calls">Połączenia</string>
     <string name="notif_channel_calls_desc">Połączenia przychodzące</string>
     <string name="notif_channel_calls_silent">Połączenia (ciche)</string>
